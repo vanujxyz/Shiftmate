@@ -147,6 +147,7 @@ class Feeds:
             "sync": ctx.sync.status_payload() if ctx.sync else None,
             "captions": ctx.player.captions,
             "waiting_for": ctx.player.waiting_for,
+            "risk": rt.risk_payload(step) if step else None,
         }
 
     def site_snapshot(self) -> dict[str, Any]:

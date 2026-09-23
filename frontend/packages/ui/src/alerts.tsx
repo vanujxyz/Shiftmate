@@ -46,24 +46,27 @@ export function AlertTakeoverP1({
       className={`sm-p1-fill sm-alert-frame sm-p1-flash z-(--sm-layer-p1) flex bg-surface text-ink ${inline ? "relative h-200 w-320" : "fixed inset-0"}`}
     >
       <div className="flex w-1/2 items-center justify-center p-6">{cause}</div>
-      <div className="flex w-1/2 flex-col gap-5 p-8">
-        <div aria-hidden className="sm-hatch h-8 w-full" />
-        <div className="flex items-center gap-5">
-          <PriorityGlyph priority="P1" size={104} />
-          <span className="text-cab-display">{command}</span>
+      <div className="flex w-1/2 min-w-0 flex-col gap-4 px-8 py-6">
+        <div aria-hidden className="sm-hatch h-8 w-full shrink-0" />
+        {/* the message may shrink or scroll; the acknowledge button below is always on screen */}
+        <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto">
+          <div className="flex items-center gap-5">
+            <PriorityGlyph priority="P1" size={104} />
+            <span className="sm-t-p1">{command}</span>
+          </div>
+          <p className="sm-t-p1">{situation}</p>
+          <p className="sm-t-p1-do">{instruction}</p>
+          {where && <p className="sm-num sm-t-p1-do text-ink-2">{where}</p>}
         </div>
-        <p className="text-cab-display">{situation}</p>
-        <p className="text-cab-heading">{instruction}</p>
-        {where && <p className="sm-num text-cab-heading text-ink-2">{where}</p>}
         <button
           type="button"
           onClick={onAck}
-          className="sm-focus sm-press mt-auto min-h-33 w-full rounded-control border-(length:--sm-border-rule) border-action-border bg-action text-cab-title text-on-action active:bg-action-pressed"
+          className="sm-focus sm-press min-h-33 w-full shrink-0 rounded-control border-(length:--sm-border-rule) border-action-border bg-action text-cab-title text-on-action active:bg-action-pressed"
         >
           {ackLabel}
         </button>
         {queueLine && (
-          <p className="flex items-center gap-3 text-cab-meta">
+          <p className="flex shrink-0 items-center gap-3 text-cab-meta">
             {queuePriority && <PriorityGlyph priority={queuePriority} size={32} />}
             {queueLine}
           </p>

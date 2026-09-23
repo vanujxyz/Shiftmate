@@ -131,6 +131,10 @@ def test_cab_socket_snapshot_then_ordered_messages(client, app) -> None:
         t = msgs[-1]
         assert t["machine_id"] == "EXC001" and t["site_id"] == "CHN-HWY-01"
         assert t["payload"]["machine_id"] == "EXC001" and "risk_band" in t["payload"]
+    # a reconnect after the world has run carries the risk breakdown for the Safety screen
+    with client.websocket_connect("/ws/cab/EXC001") as ws:
+        risk = ws.receive_json()["payload"]["risk"]
+        assert risk["band"] in ("green", "amber", "red") and "caution_m" in risk["thresholds"]
 
 
 def test_unknown_machine_or_site_closes_4404(client) -> None:

@@ -3,6 +3,8 @@
  * without overflow. Checked in a real browser (jsdom has no layout): inside each 1280 px cab frame
  * no element may stick out of the frame or have content wider than its own box, and the page
  * itself must not scroll sideways. The push-to-talk listening ring grows on purpose and is skipped.
+ * A P1 takeover must also fit vertically: the whole message in view (no scrolling) and the
+ * acknowledge button inside the takeover, in every language.
  */
 import { expect, test } from "@playwright/test";
 
@@ -34,6 +36,15 @@ test("kitchen sink: no overflow in any theme or language", async ({ page }) => {
             const text = (el.textContent ?? "").slice(0, 30);
             if (r.right > fr.right + 1 || r.left < fr.left - 1) out.push(`outside frame: ${text}`);
             else if (el.scrollWidth > el.clientWidth + 2 && el.clientWidth > 0) out.push(`overflow: ${text}`);
+          }
+        }
+        for (const dialog of document.querySelectorAll('[role="alertdialog"]')) {
+          const d = dialog.getBoundingClientRect();
+          const ack = dialog.querySelector("button")?.getBoundingClientRect();
+          const text = (dialog.getAttribute("aria-label") ?? "").slice(0, 30);
+          if (!ack || ack.bottom > d.bottom + 1) out.push(`P1 button off screen: ${text}`);
+          for (const box of dialog.querySelectorAll(".overflow-y-auto")) {
+            if (box.scrollHeight > box.clientHeight + 2) out.push(`P1 message cut: ${text}`);
           }
         }
         if (document.documentElement.scrollWidth > window.innerWidth + 1) out.push("page scrolls sideways");

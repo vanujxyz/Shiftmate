@@ -54,11 +54,16 @@ export function StackLight({
   );
 }
 
-export function StaleMark({ text }: { text: string }) {
+/**
+ * "No update 40 s" with the dashed stale mark. In the status rail only the mark and `short`
+ * ("40 s") are drawn, in every language (D-071); the full sentence stays the accessible name.
+ */
+export function StaleMark({ text, short }: { text: string; short?: string }) {
   return (
-    <span className="sm-num text-cab-meta">
+    <span className="sm-num text-cab-meta" aria-label={text} role="img">
       <span aria-hidden className="mr-2 inline-block h-4 w-4 border-2 border-dashed border-current" />
-      {text}
+      <span aria-hidden className={short ? "sm-stale-long" : undefined}>{text}</span>
+      {short && <span aria-hidden className="sm-stale-short">{short}</span>}
     </span>
   );
 }
@@ -81,12 +86,14 @@ export type StatusRailProps = {
     label: string;
     noSensing?: boolean;
     stale?: string;
+    staleShort?: string;
   };
   risk: { band: RiskBand; word: string; reason?: string; label: string };
   belt: { fastened: boolean; word: string } | null;
   machine?: { id: string; state: MachineState; word: string };
   queue?: { priority: Priority; count: number; label: string } | null;
-  sync: { state: NetState; words?: string; label: string };
+  /** `short` ("48") stands in for `words` where the rail has no room for them. */
+  sync: { state: NetState; words?: string; short?: string; label: string };
   clock: string;
 };
 
@@ -125,7 +132,7 @@ export function StatusRail(p: StatusRailProps) {
           label={p.proximity.label}
           noSensing={p.proximity.noSensing}
         />
-        <span className={`sm-rail-word flex flex-col ${text}`}>
+        <span className={`sm-rail-word sm-rail-prox flex flex-col ${text}`}>
           <span className="flex items-center gap-2">
             {p.proximity.tier === "clear" && !p.proximity.noSensing ? (
               <PriorityGlyph priority="safe" size={working ? 44 : 32} />
@@ -134,7 +141,7 @@ export function StatusRail(p: StatusRailProps) {
             ) : null}
             {p.proximity.word}
           </span>
-          {p.proximity.stale && <StaleMark text={p.proximity.stale} />}
+          {p.proximity.stale && <StaleMark text={p.proximity.stale} short={p.proximity.staleShort} />}
         </span>
       </Segment>
       <Segment>
@@ -165,10 +172,15 @@ export function StatusRail(p: StatusRailProps) {
       )}
       <div className="sm-rail-seg flex shrink-0 items-center gap-2 px-3">
         <NetGlyph state={p.sync.state} size={working ? 48 : 40} label={p.sync.label} />
-        {p.sync.words && <span className="sm-rail-word text-cab-meta">{p.sync.words}</span>}
+        {p.sync.words && (
+          <span className="sm-rail-word text-cab-meta">
+            <span className={p.sync.short ? "sm-rail-long" : undefined}>{p.sync.words}</span>
+            {p.sync.short && <span className="sm-rail-short sm-num">{p.sync.short}</span>}
+          </span>
+        )}
       </div>
       <div
-        className={`sm-num flex items-center px-5 font-semibold ${working ? "text-[56px]" : "text-[40px]"}`}
+        className={`sm-num flex items-center px-4 font-semibold ${working ? "text-[56px]" : "text-[40px]"}`}
       >
         {p.clock}
       </div>

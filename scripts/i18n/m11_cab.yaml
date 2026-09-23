@@ -1,0 +1,115 @@
+# Milestone 11 strings: the cab app frame, alert layer, Start, My Shift and Safety screens.
+task.truck_loading: {en: "Truck loading", hi: "ट्रक लोडिंग", ta: "லாரி ஏற்றுதல்"}
+task.trenching: {en: "Trenching", hi: "खाई खुदाई", ta: "அகழி தோண்டுதல்"}
+task.backfilling: {en: "Backfilling", hi: "गड्ढा भराई", ta: "குழி நிரப்புதல்"}
+task.grading: {en: "Grading", hi: "ज़मीन समतल करना", ta: "தரை சமன் செய்தல்"}
+task.site_clearing: {en: "Site clearing", hi: "साइट सफ़ाई", ta: "தளம் சுத்தம் செய்தல்"}
+task.stockpile_moving: {en: "Moving stockpile", hi: "ढेर हटाना", ta: "குவியல் நகர்த்துதல்"}
+
+unit.loads: {en: "{{count}} loads", hi: "{{count}} लोड", ta: "{{count}} லோடு"}
+unit.m: {en: "{{count}} m", hi: "{{count}} मीटर", ta: "{{count}} மீட்டர்"}
+unit.m2: {en: "{{count}} m²", hi: "{{count}} वर्ग मीटर", ta: "{{count}} சதுர மீட்டர்"}
+unit.m3: {en: "{{count}} m³", hi: "{{count}} घन मीटर", ta: "{{count}} கன மீட்டர்"}
+
+ground.dry: {en: "Dry", hi: "सूखी", ta: "உலர்ந்தது"}
+ground.wet: {en: "Wet", hi: "गीली", ta: "ஈரம்"}
+ground.muddy: {en: "Muddy", hi: "कीचड़", ta: "சேறு"}
+ground.rocky: {en: "Rocky", hi: "पथरीली", ta: "பாறை"}
+ground.frozen: {en: "Frozen", hi: "जमी हुई", ta: "உறைந்தது"}
+
+ui.risk.heat: {en: "Heat", hi: "गर्मी", ta: "வெப்பம்"}
+ui.risk.rain: {en: "Rain", hi: "बारिश", ta: "மழை"}
+ui.risk.ground: {en: "Ground", hi: "ज़मीन", ta: "தரை"}
+ui.risk.night: {en: "Darkness", hi: "अँधेरा", ta: "இருட்டு"}
+ui.risk.visibility: {en: "Poor visibility", hi: "कम दिखना", ta: "பார்வை குறைவு"}
+ui.risk.fatigue: {en: "Tiredness", hi: "थकान", ta: "களைப்பு"}
+ui.risk.proximity: {en: "People nearby", hi: "पास में लोग", ta: "அருகில் ஆட்கள்"}
+ui.risk.seatbelt: {en: "Seatbelt", hi: "सीट बेल्ट", ta: "சீட் பெல்ட்"}
+ui.risk.near_miss: {en: "Recent near miss", hi: "हाल में बाल-बाल बचे", ta: "சமீபத்திய நூலிழை தப்புதல்"}
+ui.risk.mainly: {en: "Mainly {{factor}}", hi: "मुख्य कारण {{factor}}", ta: "முக்கியமாக {{factor}}"}
+ui.risk.sentence: {en: "{{word}}, mainly {{factor}}.", hi: "{{word}}, मुख्य कारण {{factor}}।", ta: "{{word}}, முக்கியமாக {{factor}}."}
+
+ui.prox.caution: {en: "Person near", hi: "कोई पास में", ta: "அருகில் ஆள்"}
+ui.prox.danger: {en: "Too close", hi: "बहुत पास", ta: "மிக அருகில்"}
+ui.prox.critical: {en: "Stop", hi: "रुकिए", ta: "நிறுத்துங்கள்"}
+ui.prox.sr: {en: "{{word}}: person {{distance}} away, {{side}}", hi: "{{word}}: व्यक्ति {{distance}} दूर, {{side}}", ta: "{{word}}: ஆள் {{distance}} தொலைவில், {{side}}"}
+ui.side.front: {en: "in front", hi: "सामने", ta: "முன்னால்"}
+ui.side.right: {en: "on your right", hi: "दाईं ओर", ta: "வலது பக்கம்"}
+ui.side.rear: {en: "behind you", hi: "पीछे", ta: "பின்னால்"}
+ui.side.left: {en: "on your left", hi: "बाईं ओर", ta: "இடது பக்கம்"}
+
+ui.sync.synced: {en: "Synced", hi: "सिंक हो गया", ta: "ஒத்திசைந்தது"}
+ui.conn.lost: {en: "No contact with the machine", hi: "मशीन से संपर्क नहीं", ta: "இயந்திரத்துடன் தொடர்பு இல்லை"}
+ui.conn.lost_text: {en: "Reconnecting. The last values are shown.", hi: "फिर से जोड़ रहा है। आख़िरी जानकारी दिख रही है।", ta: "மீண்டும் இணைக்கிறது. கடைசி மதிப்புகள் காட்டப்படுகின்றன."}
+
+ui.queue.sr: {en: "{{count}} more alerts waiting", hi: "{{count}} और चेतावनियाँ इंतज़ार में", ta: "இன்னும் {{count}} எச்சரிக்கைகள் காத்திருக்கின்றன"}
+ui.p1.command: {en: "Stop.", hi: "रुकिए।", ta: "நிறுத்துங்கள்."}
+ui.p1.queue_many: {en: "{{count}} more alerts after this", hi: "इसके बाद {{count}} और चेतावनियाँ", ta: "இதற்குப் பிறகு இன்னும் {{count}} எச்சரிக்கைகள்"}
+ui.p1.where: {en: "{{side}} · {{distance}}", hi: "{{side}} · {{distance}}", ta: "{{side}} · {{distance}}"}
+
+ui.start.title: {en: "Start your shift", hi: "अपनी शिफ़्ट शुरू करें", ta: "உங்கள் பணியைத் தொடங்குங்கள்"}
+ui.start.language: {en: "Choose your language", hi: "अपनी भाषा चुनें", ta: "உங்கள் மொழியைத் தேர்வு செய்யுங்கள்"}
+ui.start.machine: {en: "Machine {{id}}", hi: "मशीन {{id}}", ta: "இயந்திரம் {{id}}"}
+ui.start.pin_title: {en: "Enter your PIN", hi: "अपना पिन डालें", ta: "உங்கள் பின்னை உள்ளிடுங்கள்"}
+ui.start.use_pin: {en: "Use PIN instead", hi: "पिन से करें", ta: "பின் மூலம் செய்யுங்கள்"}
+ui.start.use_badge: {en: "Scan badge instead", hi: "बैज स्कैन करें", ta: "பேட்ஜை ஸ்கேன் செய்யுங்கள்"}
+ui.start.camera_off: {en: "The camera is not available. Use your PIN.", hi: "कैमरा उपलब्ध नहीं है। पिन इस्तेमाल करें।", ta: "கேமரா கிடைக்கவில்லை. பின்னைப் பயன்படுத்துங்கள்."}
+ui.start.badge_unknown: {en: "That badge is not for this site. Use your PIN.", hi: "यह बैज इस साइट का नहीं है। पिन इस्तेमाल करें।", ta: "இந்த பேட்ஜ் இந்தத் தளத்துக்கானது அல்ல. பின்னைப் பயன்படுத்துங்கள்."}
+ui.start.signing_in: {en: "Signing in…", hi: "साइन इन हो रहा है…", ta: "உள்நுழைகிறது…"}
+ui.start.welcome: {en: "Welcome, {{name}}", hi: "स्वागत है, {{name}}", ta: "வருக, {{name}}"}
+ui.start.checklist_title: {en: "Walkaround check", hi: "मशीन के चारों ओर जाँच", ta: "சுற்றிப் பார்த்துச் சரிபார்த்தல்"}
+ui.start.checklist_hint: {en: "Answer every item. A problem becomes a report for your supervisor.", hi: "हर बात का जवाब दें। कोई समस्या आपके सुपरवाइज़र को रिपोर्ट बनकर जाएगी।", ta: "ஒவ்வொன்றுக்கும் பதில் சொல்லுங்கள். பிரச்சினை இருந்தால் மேற்பார்வையாளருக்குப் புகாராகச் செல்லும்."}
+ui.start.checklist_left: {en: "{{count}} left to answer", hi: "{{count}} का जवाब बाकी", ta: "இன்னும் {{count}} பதில் தர வேண்டும்"}
+ui.start.all_ok: {en: "All OK", hi: "सब ठीक", ta: "எல்லாம் சரி"}
+ui.start.begin: {en: "Start work", hi: "काम शुरू करें", ta: "வேலையைத் தொடங்கு"}
+ui.start.problems_saved: {en: "{{count}} problem reported to your supervisor.", hi: "{{count}} समस्या सुपरवाइज़र को भेजी गई।", ta: "{{count}} பிரச்சினை மேற்பார்வையாளருக்குப் புகார் செய்யப்பட்டது."}
+ui.start.not_ready_title: {en: "The machine is not ready", hi: "मशीन अभी तैयार नहीं है", ta: "இயந்திரம் இன்னும் தயாராக இல்லை"}
+ui.start.not_ready_text: {en: "No shift is loaded on this machine yet. Start the demo from the console.", hi: "इस मशीन पर अभी कोई शिफ़्ट लोड नहीं है। कंसोल से डेमो शुरू करें।", ta: "இந்த இயந்திரத்தில் இன்னும் பணி ஏற்றப்படவில்லை. கன்சோலில் டெமோவைத் தொடங்குங்கள்."}
+ui.start.retry: {en: "Try again", hi: "फिर कोशिश करें", ta: "மீண்டும் முயலுங்கள்"}
+ui.start.failed: {en: "Sign-in did not work. Try again.", hi: "साइन इन नहीं हुआ। फिर कोशिश करें।", ta: "உள்நுழைவு நடக்கவில்லை. மீண்டும் முயலுங்கள்."}
+ui.start.back: {en: "Back", hi: "वापस", ta: "பின்செல்"}
+
+ui.shift.title: {en: "Today's tasks", hi: "आज के काम", ta: "இன்றைய வேலைகள்"}
+ui.shift.header: {en: "Machine {{id}} · {{name}}", hi: "मशीन {{id}} · {{name}}", ta: "இயந்திரம் {{id}} · {{name}}"}
+ui.shift.progress: {en: "{{done}} of {{total}}", hi: "{{total}} में से {{done}}", ta: "{{total}}-ல் {{done}}"}
+ui.shift.starts: {en: "Starts {{time}}", hi: "{{time}} बजे शुरू", ta: "{{time}}-க்குத் தொடக்கம்"}
+ui.shift.left: {en: "About {{time}} left", hi: "लगभग {{time}} बाकी", ta: "சுமார் {{time}} மீதம்"}
+ui.shift.no_active: {en: "No task running", hi: "कोई काम चालू नहीं", ta: "எந்த வேலையும் நடக்கவில்லை"}
+ui.shift.estimate_sr: {en: "Likely {{likely}}, between {{low}} and {{high}}.", hi: "संभावित {{likely}}, {{low}} से {{high}} के बीच।", ta: "பெரும்பாலும் {{likely}}, {{low}} முதல் {{high}} வரை."}
+ui.shift.finish_note: {en: "What could move it: {{reason}}", hi: "इसे बदल सकता है: {{reason}}", ta: "இதை மாற்றக்கூடியது: {{reason}}"}
+ui.shift.breaks: {en: "Suggested breaks", hi: "सुझाए गए ब्रेक", ta: "பரிந்துரைக்கப்பட்ட இடைவேளைகள்"}
+ui.shift.break_at: {en: "{{time}} · {{minutes}} min", hi: "{{time}} · {{minutes}} मिनट", ta: "{{time}} · {{minutes}} நிமிடம்"}
+ui.shift.updates: {en: "Updates", hi: "अपडेट", ta: "புதியவை"}
+ui.shift.no_updates: {en: "Nothing new.", hi: "कुछ नया नहीं।", ta: "புதிதாக எதுவும் இல்லை."}
+ui.shift.loading: {en: "Loading your shift…", hi: "आपकी शिफ़्ट लोड हो रही है…", ta: "உங்கள் பணி ஏற்றப்படுகிறது…"}
+ui.cond.none: {en: "None", hi: "नहीं", ta: "இல்லை"}
+ui.cond.night_value: {en: "Night", hi: "रात", ta: "இரவு"}
+ui.cond.day_value: {en: "Daylight", hi: "दिन का उजाला", ta: "பகல் வெளிச்சம்"}
+ui.cond.light: {en: "Light", hi: "रोशनी", ta: "வெளிச்சம்"}
+
+ui.safety.title: {en: "Safety guard", hi: "सुरक्षा", ta: "பாதுகாப்பு"}
+ui.safety.proximity: {en: "People near the machine", hi: "मशीन के पास लोग", ta: "இயந்திரம் அருகில் ஆட்கள்"}
+ui.safety.prox_clear: {en: "Nobody near the machine.", hi: "मशीन के पास कोई नहीं।", ta: "இயந்திரம் அருகில் யாரும் இல்லை."}
+ui.safety.prox_person: {en: "One person {{distance}} away, {{side}}.", hi: "एक व्यक्ति {{distance}} दूर, {{side}}।", ta: "ஒருவர் {{distance}} தொலைவில், {{side}}."}
+ui.safety.prox_basic: {en: "This machine has no people sensing. Look around before you swing.", hi: "इस मशीन में लोगों का सेंसर नहीं है। घुमाने से पहले चारों ओर देखें।", ta: "இந்த இயந்திரத்தில் ஆட்களைக் கண்டறியும் சென்சார் இல்லை. சுழற்றும் முன் சுற்றிப் பாருங்கள்."}
+ui.safety.distances: {en: "Warning distances", hi: "चेतावनी की दूरी", ta: "எச்சரிக்கை தூரங்கள்"}
+ui.safety.dist_caution: {en: "Caution", hi: "सावधानी", ta: "கவனம்"}
+ui.safety.dist_danger: {en: "Slow down", hi: "धीमे चलें", ta: "மெதுவாக"}
+ui.safety.dist_critical: {en: "Stop", hi: "रुकें", ta: "நிறுத்து"}
+ui.safety.wider: {en: "Distances are wider now because risk is raised.", hi: "जोखिम बढ़ा है, इसलिए दूरी अभी ज़्यादा रखी गई है।", ta: "ஆபத்து கூடியதால் இப்போது தூரங்கள் அதிகம்."}
+ui.safety.risk: {en: "Risk now", hi: "अभी का जोखिम", ta: "இப்போதைய ஆபத்து"}
+ui.safety.risk_why: {en: "What raises it", hi: "किस वजह से बढ़ा", ta: "எதனால் கூடுகிறது"}
+ui.safety.risk_none: {en: "Nothing is raising the risk now.", hi: "अभी कोई चीज़ जोखिम नहीं बढ़ा रही।", ta: "இப்போது எதுவும் ஆபத்தைக் கூட்டவில்லை."}
+ui.safety.break_after: {en: "Break reminder after {{minutes}} min of work", hi: "{{minutes}} मिनट काम के बाद ब्रेक की याद", ta: "{{minutes}} நிமிட வேலைக்குப் பிறகு இடைவேளை நினைவூட்டல்"}
+ui.safety.working_for: {en: "Working without a break: {{minutes}} min", hi: "बिना ब्रेक के काम: {{minutes}} मिनट", ta: "இடைவேளை இல்லாமல் வேலை: {{minutes}} நிமிடம்"}
+ui.safety.recent: {en: "Recent alerts", hi: "हाल की चेतावनियाँ", ta: "சமீபத்திய எச்சரிக்கைகள்"}
+ui.safety.no_recent: {en: "No alerts yet this shift.", hi: "इस शिफ़्ट में अभी कोई चेतावनी नहीं।", ta: "இந்தப் பணியில் இதுவரை எச்சரிக்கை இல்லை."}
+ui.safety.settings: {en: "Settings", hi: "सेटिंग", ta: "அமைப்புகள்"}
+ui.safety.locked: {en: "Can't be switched off while working.", hi: "काम के दौरान बंद नहीं हो सकता।", ta: "வேலை செய்யும்போது அணைக்க முடியாது."}
+ui.safety.sign_out: {en: "Sign out", hi: "साइन आउट", ta: "வெளியேறு"}
+
+ui.soon.title: {en: "Not ready yet", hi: "अभी तैयार नहीं", ta: "இன்னும் தயாராகவில்லை"}
+ui.soon.text: {en: "This section arrives in the next update. Your work is still being recorded.", hi: "यह हिस्सा अगले अपडेट में आएगा। आपका काम रिकॉर्ड हो रहा है।", ta: "இந்தப் பகுதி அடுத்த புதுப்பிப்பில் வரும். உங்கள் வேலை பதிவாகிக்கொண்டிருக்கிறது."}
+ui.start.next: {en: "Next", hi: "आगे", ta: "அடுத்து"}
+ui.start.edge_down_text: {en: "Check that the machine gateway is running, then try again.", hi: "देखें कि मशीन गेटवे चल रहा है, फिर कोशिश करें।", ta: "இயந்திர நுழைவாயில் இயங்குகிறதா எனப் பார்த்து மீண்டும் முயலுங்கள்."}
+ui.stale_min: {en: "No update {{minutes}} min", hi: "{{minutes}} मिनट से अपडेट नहीं", ta: "{{minutes}} நிமிடமாகப் புதுப்பிப்பு இல்லை"}

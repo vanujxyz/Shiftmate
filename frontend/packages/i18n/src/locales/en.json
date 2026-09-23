@@ -49,7 +49,8 @@
     "sync": {
       "synced_at": "Synced at {{time}}",
       "waiting": "{{count}} waiting",
-      "offline": "Offline"
+      "offline": "Offline",
+      "synced": "Synced"
     },
     "stale": "No update {{seconds}} s",
     "nav": {
@@ -96,7 +97,10 @@
     "p1": {
       "queue_one": "1 more alert after this",
       "person_command": "Stop.",
-      "person_where": "Behind you, left side · 2 m"
+      "person_where": "Behind you, left side · 2 m",
+      "command": "Stop.",
+      "queue_many": "{{count}} more alerts after this",
+      "where": "{{side}} · {{distance}}"
     },
     "p2": {
       "person": "Person close on your left. Slow down."
@@ -188,7 +192,11 @@
       "dark": "Dark",
       "fatigue": "Time without a break",
       "clock": "Shift time",
-      "risk_sentence": "Risk raised, mainly heat."
+      "risk_sentence": "Risk raised, mainly heat.",
+      "none": "None",
+      "night_value": "Night",
+      "day_value": "Daylight",
+      "light": "Light"
     },
     "legend": {
       "title": "Legend",
@@ -230,7 +238,106 @@
       "where_backfill": "120 m³",
       "reason_wet": "Wet ground adds 20–40 min.",
       "checklist_item": "Tracks and tyres"
-    }
+    },
+    "risk": {
+      "heat": "Heat",
+      "rain": "Rain",
+      "ground": "Ground",
+      "night": "Darkness",
+      "visibility": "Poor visibility",
+      "fatigue": "Tiredness",
+      "proximity": "People nearby",
+      "seatbelt": "Seatbelt",
+      "near_miss": "Recent near miss",
+      "mainly": "Mainly {{factor}}",
+      "sentence": "{{word}}, mainly {{factor}}."
+    },
+    "prox": {
+      "caution": "Person near",
+      "danger": "Too close",
+      "critical": "Stop",
+      "sr": "{{word}}: person {{distance}} away, {{side}}"
+    },
+    "side": {
+      "front": "in front",
+      "right": "on your right",
+      "rear": "behind you",
+      "left": "on your left"
+    },
+    "conn": {
+      "lost": "No contact with the machine",
+      "lost_text": "Reconnecting. The last values are shown."
+    },
+    "queue": {
+      "sr": "{{count}} more alerts waiting"
+    },
+    "start": {
+      "title": "Start your shift",
+      "language": "Choose your language",
+      "machine": "Machine {{id}}",
+      "pin_title": "Enter your PIN",
+      "use_pin": "Use PIN instead",
+      "use_badge": "Scan badge instead",
+      "camera_off": "The camera is not available. Use your PIN.",
+      "badge_unknown": "That badge is not for this site. Use your PIN.",
+      "signing_in": "Signing in…",
+      "welcome": "Welcome, {{name}}",
+      "checklist_title": "Walkaround check",
+      "checklist_hint": "Answer every item. A problem becomes a report for your supervisor.",
+      "checklist_left": "{{count}} left to answer",
+      "all_ok": "All OK",
+      "begin": "Start work",
+      "problems_saved": "{{count}} problem reported to your supervisor.",
+      "not_ready_title": "The machine is not ready",
+      "not_ready_text": "No shift is loaded on this machine yet. Start the demo from the console.",
+      "retry": "Try again",
+      "failed": "Sign-in did not work. Try again.",
+      "back": "Back",
+      "next": "Next",
+      "edge_down_text": "Check that the machine gateway is running, then try again."
+    },
+    "shift": {
+      "title": "Today's tasks",
+      "header": "Machine {{id}} · {{name}}",
+      "progress": "{{done}} of {{total}}",
+      "starts": "Starts {{time}}",
+      "left": "About {{time}} left",
+      "no_active": "No task running",
+      "estimate_sr": "Likely {{likely}}, between {{low}} and {{high}}.",
+      "finish_note": "What could move it: {{reason}}",
+      "breaks": "Suggested breaks",
+      "break_at": "{{time}} · {{minutes}} min",
+      "updates": "Updates",
+      "no_updates": "Nothing new.",
+      "loading": "Loading your shift…"
+    },
+    "safety": {
+      "title": "Safety guard",
+      "proximity": "People near the machine",
+      "prox_clear": "Nobody near the machine.",
+      "prox_person": "One person {{distance}} away, {{side}}.",
+      "prox_basic": "This machine has no people sensing. Look around before you swing.",
+      "distances": "Warning distances",
+      "dist_caution": "Caution",
+      "dist_danger": "Slow down",
+      "dist_critical": "Stop",
+      "wider": "Distances are wider now because risk is raised.",
+      "risk": "Risk now",
+      "risk_why": "What raises it",
+      "risk_none": "Nothing is raising the risk now.",
+      "break_after": "Break reminder after {{minutes}} min of work",
+      "working_for": "Working without a break: {{minutes}} min",
+      "recent": "Recent alerts",
+      "no_recent": "No alerts yet this shift.",
+      "settings": "Settings",
+      "locked": "Can't be switched off while working.",
+      "sign_out": "Sign out"
+    },
+    "soon": {
+      "title": "Not ready yet",
+      "text": "This section arrives in the next update. Your work is still being recorded."
+    },
+    "stale_min": "No update {{minutes}} min"
   },
   "alert": {
     "seatbelt_moving": {
@@ -345,5 +452,26 @@
   },
   "ask": {
     "not_indexed": "The manual is not loaded on this machine yet."
+  },
+  "task": {
+    "truck_loading": "Truck loading",
+    "trenching": "Trenching",
+    "backfilling": "Backfilling",
+    "grading": "Grading",
+    "site_clearing": "Site clearing",
+    "stockpile_moving": "Moving stockpile"
+  },
+  "unit": {
+    "loads": "{{count}} loads",
+    "m": "{{count}} m",
+    "m2": "{{count}} m²",
+    "m3": "{{count}} m³"
+  },
+  "ground": {
+    "dry": "Dry",
+    "wet": "Wet",
+    "muddy": "Muddy",
+    "rocky": "Rocky",
+    "frozen": "Frozen"
   }
 }

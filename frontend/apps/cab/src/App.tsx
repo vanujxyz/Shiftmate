@@ -1,46 +1,41 @@
-/** Milestone 1 placeholder: shows that the app builds, translates and reaches its backend. */
-import { LANGUAGES, type Language } from "@shiftmate/i18n";
-import { useQuery } from "@tanstack/react-query";
+/**
+ * The cab app (TRD §10.1): /start signs in; everything else lives inside the cab frame.
+ * The operator's language and theme are applied to the document so every screen follows them.
+ */
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { Route, Routes } from "react-router";
 
-import { fetchHealth } from "./health";
+import { MyShift } from "./screens/MyShift";
+import { Safety } from "./screens/Safety";
+import { Start } from "./screens/Start";
+import { useSession } from "./session";
+import { CabShell, NotYet } from "./shell/CabShell";
 
 export function App() {
-  const { t, i18n } = useTranslation();
-  const health = useQuery({
-    queryKey: ["health"],
-    queryFn: fetchHealth,
-    retry: false,
-    refetchInterval: 5000,
-  });
+  const { i18n } = useTranslation();
+  const language = useSession((s) => s.language);
+  const theme = useSession((s) => s.theme);
 
-  const statusKey = health.isPending
-    ? "ui.health.checking"
-    : health.isSuccess
-      ? "ui.health.edge_ok"
-      : "ui.health.edge_down";
+  useEffect(() => {
+    if (i18n.language !== language) void i18n.changeLanguage(language);
+    document.documentElement.lang = language;
+  }, [i18n, language]);
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+  }, [theme]);
 
   return (
-    <main lang={i18n.language} className="min-h-screen bg-ground p-12 font-sans text-ink">
-      <h1 className="text-cab-title">{t("ui.app_name")}</h1>
-      <p className="mt-6 text-cab-body">{t("ui.scaffold.cab")}</p>
-      <p role="status" className="mt-6 text-cab-label">
-        {t(statusKey)}
-      </p>
-      <div role="group" aria-label={t("ui.lang.label")} className="mt-8 flex gap-4">
-        {LANGUAGES.map((lang: Language) => (
-          <button
-            key={lang}
-            type="button"
-            lang={lang}
-            aria-pressed={i18n.language === lang}
-            onClick={() => void i18n.changeLanguage(lang)}
-            className="min-h-(--sm-size-target-min) rounded-control border-2 border-action-border px-6 text-cab-label aria-pressed:bg-selected aria-pressed:text-on-selected"
-          >
-            {t(`ui.lang.${lang}`)}
-          </button>
-        ))}
-      </div>
-    </main>
+    <Routes>
+      <Route path="/start" element={<Start />} />
+      <Route element={<CabShell />}>
+        <Route index element={<MyShift />} />
+        <Route path="safety" element={<Safety />} />
+        <Route path="report" element={<NotYet />} />
+        <Route path="day" element={<NotYet />} />
+        <Route path="learn" element={<NotYet />} />
+        <Route path="*" element={<MyShift />} />
+      </Route>
+    </Routes>
   );
 }

@@ -35,13 +35,16 @@ from shiftmate.engines.safety import SafetyEngine
 from shiftmate.schema import HealthResponse
 from shiftmate.schema.api import (
     AckRequest,
+    AlertTimings,
     AskRequest,
     AskResponse,
     BeatView,
     BookingRequest,
+    CabConfig,
     CameraReading,
     Capability,
     CaptionsRequest,
+    ChecklistItemView,
     ChecklistResult,
     ChecklistSubmit,
     DemoState,
@@ -339,6 +342,25 @@ def _routes(app: FastAPI, ctx: EdgeContext) -> None:
                     raise HTTPException(404, "This task has no estimate (done, or no model yet).")
                 return t.estimate
         raise HTTPException(404, f"Unknown task {task_id}.")
+
+    @app.get("/cab/config", response_model=CabConfig)
+    async def cab_config() -> CabConfig:
+        """What the cab needs from config: alert sound/speech timing and the checklist."""
+        ap = cfg.alert_policy
+        return CabConfig(
+            alerts=AlertTimings(
+                p1_speech_repeat_s=ap.p1_speech_repeat_s,
+                p2_tone_repeat_s=ap.p2_tone_repeat_s,
+                reduced_p1_repeat_s=ap.reduced_p1_repeat_s,
+                p3_snooze_min=ap.p3_snooze_min,
+                paused_idle_seconds=ap.paused_definition.idle_seconds,
+            ),
+            checklist=[
+                ChecklistItemView(id=i.id, text=i.text.model_dump(), illustration=i.illustration)
+                for i in cfg.checklist.items
+            ],
+            languages=list(Language),
+        )
 
     @app.post("/checklist", response_model=ChecklistResult)
     async def checklist(body: ChecklistSubmit) -> ChecklistResult:

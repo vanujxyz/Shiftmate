@@ -1,6 +1,6 @@
 # ShiftMate — Build progress
 
-**Next step:** Milestone 11 (Cab app A) in progress.
+**Next step:** Milestone 12 (Cab app B) in progress.
 
 **Autonomy note (2026-09-23):** the user authorised continuing through all milestones without waiting for approval, and approved all needed downloads. Each milestone is still tested, committed, and reported in `docs/reports/milestone-N.md`.
 
@@ -142,12 +142,12 @@ Goal: all DESIGN.md components built once in `packages/ui`, visible in a kitchen
 Requirements: F-CAB-02, F-CAB-05 (rendering), PRD §10 experience.
 You will see: http://localhost:5174/_kitchen-sink with theme and language switches.
 
-### Milestone 11 — Cab app A: frame, alerts, sign-in, My Shift, Safety (Phase 8, first half) · Status: not started
+### Milestone 11 — Cab app A: frame, alerts, sign-in, My Shift, Safety (Phase 8, first half) · Status: done
 Goal: the operator tablet app connected live to the edge, with Working/Paused modes and correct alert behaviour.
-- [ ] 1. App shell: status rail, bottom nav, push-to-talk placeholder, mode transition, WS client with reconnect and stale state
-- [ ] 2. Alert layer exactly per `alert_policy.yaml` (vitest)
-- [ ] 3. `/start` (PIN, language, checklist), `/` My Shift, `/safety`
-- [ ] 4. i18n for every string (en/hi/ta)
+- [x] 1. App shell: status rail, bottom nav, push-to-talk placeholder, mode transition, WS client with reconnect and stale state
+- [x] 2. Alert layer exactly per `alert_policy.yaml` (vitest)
+- [x] 3. `/start` (PIN, language, checklist), `/` My Shift, `/safety`
+- [x] 4. i18n for every string (en/hi/ta)
 Requirements: F-START-01…04, F-SHIFT-01…06, F-SAFE-01, 02, 04…09 (UI), F-CAB-01, 02, 03, 05.
 You will see: the cab at http://localhost:5173 following the live scenario.
 
