@@ -1,0 +1,30 @@
+# Fleet Service settings (TRD §9.2, §7.6). Privacy rules live in privacy.yaml.
+ingest:
+  max_batch: 500                 # records per request (TRD §9.2)
+  seed_from_history: true        # an empty fleet store starts with the history the edges uploaded
+summary:                         # site day summary: on-track / behind (F-SUP-02, D-063)
+  baseline_days: 14              # minutes per unit: fleet median of the same task type over these days
+  min_baseline_tasks: 5          # fewer done tasks than this → no baseline, status "unknown"
+  behind_tolerance: 0.15         # behind if elapsed > expected-for-progress × (1 + tolerance) + slack
+  behind_slack_min: 10
+idle_causes:                     # where time is lost (F-SUP-03, D-064)
+  lost_time_reasons: [WAITING_FOR_TRUCK, HABIT, UNATTENDED_RUNNING]   # explained lost time; breaks and warm-up are needed, "not sure" stays in the table
+  site_reasons: [WAITING_FOR_TRUCK]   # attributed to the site, never the operator (privacy.yaml, P-04)
+  window_h: 2                    # a suggestion names one zone and a window this long
+  min_window_wait_min: 20        # suggest only if today's waits in that window reach this
+  similar_days: 14               # look back this many days for similar waits (the suggestion's basis)
+  min_similar_days: 2            # need at least this many similar days to give a range
+  range_quantiles: [0.25, 0.75]  # the "would likely save" range across similar days
+  habit_min_per_machine: 15      # suggest a toolbox talk when short stops average this per machine
+  unattended_min: 5              # … and a shutdown briefing when unattended running reaches this
+trends:
+  default_days: 14
+  max_days: 60
+  experience_bands: [[0, 3], [3, 6], [6, 10], [10, 60]]   # years; groups below the privacy minimum are hidden
+feeds:
+  counters_hz: 2                 # /ws/fleet ingest counters, at most this often
+scale:                           # TRD §7.6
+  batch_size: 500
+  interval_minutes: 15           # summary interval of the synthetic machines (same as the edge)
+  projection_machines: 1600000   # Caterpillar's connected fleet (PRD §1)
+  hours_per_day: 24              # projection assumes machines report around the clock (upper bound)

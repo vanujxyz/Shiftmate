@@ -89,8 +89,13 @@ async def run_headless(
     history_dir: Path | None = None,
     models_dir: Path | None = None,
     on_beat: Callable[[dict[str, Any]], None] | None = None,
+    fleet_transport: httpx.AsyncBaseTransport | None = None,
 ) -> HeadlessResult:
-    """Play `scenario` start to end at `speed`× on a fake clock. See the module docstring."""
+    """Play `scenario` start to end at `speed`× on a fake clock. See the module docstring.
+
+    `fleet_transport` sends uploads to a real Fleet Service app (e.g. `httpx.ASGITransport`)
+    instead of the fake one; `fleet_received` is then empty and the fleet holds the records.
+    """
     from shiftmate.edge.app import create_app  # imported here: app imports this package
 
     cfg = cfg or load_config()
@@ -107,7 +112,7 @@ async def run_headless(
             scenario=scenario,
             autorun=False,
             cache_dir=work / "cache",
-            fleet_transport=fleet.transport(),
+            fleet_transport=fleet_transport or fleet.transport(),
         )
         ctx = app.state.ctx
         player, feeds, sync = ctx.player, ctx.feeds, ctx.sync

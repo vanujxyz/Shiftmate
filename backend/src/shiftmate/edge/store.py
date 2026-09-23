@@ -262,14 +262,19 @@ class EdgeStore:
             )
 
     def add_task_summary(self, summary: dict[str, Any]) -> None:
-        """A finished task, queued for the fleet (privacy.yaml → task_summaries)."""
+        """A task that started or finished, queued for the fleet (privacy.yaml → task_summaries)."""
+        when = (
+            summary.get("actual_end") or summary.get("actual_start") or summary["scheduled_start"]
+        )
+        if isinstance(when, str):
+            when = datetime.fromisoformat(when)
         with self.engine.begin() as c:
             c.execute(
                 insert(outbox),
                 {
                     "kind": "task",
                     "record_id": summary["task_id"],
-                    "ts": iso(summary["actual_end"]),
+                    "ts": iso(when),
                     "payload": json.dumps(summary, default=str),
                 },
             )
@@ -419,6 +424,15 @@ class EdgeStore:
             q = q.where(outbox.c.kind.in_(kinds))
         with self.engine.connect() as c:
             return int(c.execute(q).scalar() or 0)
+
+    def outbox_bytes(self, kinds: list[str] | None = None) -> tuple[int, int]:
+        """(records, payload bytes) ever queued for upload — the benchmark's upload footprint."""
+        q = select(func.count(), func.coalesce(func.sum(func.length(outbox.c.payload)), 0))
+        if kinds is not None:
+            q = q.where(outbox.c.kind.in_(kinds))
+        with self.engine.connect() as c:
+            n, size = c.execute(q).one()
+        return int(n), int(size)
 
     def mark_synced(self, ids: list[int], when: datetime) -> None:
         if not ids:

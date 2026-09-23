@@ -183,6 +183,21 @@ export interface BeatView {
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "BenchResult".
+ */
+export interface BenchResult {
+  machines: number;
+  sim_minutes: number;
+  ticks: number;
+  cpu_ms_per_tick_mean: number;
+  cpu_ms_per_tick_p95: number;
+  memory_mb_per_machine: number;
+  upload_bytes_per_machine_per_hour: number;
+  records_per_machine_per_hour: number;
+  finished_at: string;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "Booking".
  */
 export interface Booking {
@@ -487,6 +502,63 @@ export interface FleetMix {
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "FleetOverview".
+ */
+export interface FleetOverview {
+  sites: FleetSite[];
+  machines_total: number;
+  by_type: {
+    [k: string]: number;
+  };
+  by_tier: {
+    [k: string]: number;
+  };
+  records: {
+    [k: string]: number;
+  };
+  scale_machines: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "FleetSite".
+ */
+export interface FleetSite {
+  site_id: string;
+  name: string;
+  country: string;
+  timezone: string;
+  latest_date: string | null;
+  machines_total: number;
+  machines_active: number;
+  by_type: {
+    [k: string]: number;
+  };
+  by_tier: {
+    [k: string]: number;
+  };
+  risk_bands: {
+    [k: string]: number;
+  };
+  ground_condition: string | null;
+  heat_index_c: number | null;
+  last_ingest: string | null;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "FleetPattern".
+ */
+export interface FleetPattern {
+  dimension: string;
+  task_type: string;
+  condition: string;
+  multiplier: number;
+  change_pct: number;
+  tasks: number;
+  machines: number;
+  reference: string;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "FuelMetrics".
  */
 export interface FuelMetrics {
@@ -530,6 +602,57 @@ export interface HealthResponse {
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "HourMinutes".
+ */
+export interface HourMinutes {
+  hour: number;
+  minutes: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "IdleCause".
+ */
+export interface IdleCause {
+  reason: string;
+  minutes: number;
+  share: number;
+  site_issue: boolean;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "IdleCausesResponse".
+ */
+export interface IdleCausesResponse {
+  site_id: string;
+  date: string;
+  machines: number;
+  total_idle_min: number;
+  lead: IdleCause | null;
+  causes: IdleCause[];
+  truck_wait_by_hour: HourMinutes[];
+  suggestion: Suggestion | null;
+  suggestions: Suggestion[];
+}
+/**
+ * One plain-language suggestion; the console turns `key` + values into text.
+ *
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "Suggestion".
+ */
+export interface Suggestion {
+  key: string;
+  reason: string;
+  minutes: number;
+  zone_id?: string | null;
+  window_start?: string | null;
+  window_end?: string | null;
+  save_min_low?: number | null;
+  save_min_high?: number | null;
+  basis_days?: number | null;
+  lesson_id?: string | null;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "IdleSegmentPayload".
  */
 export interface IdleSegmentPayload {
@@ -564,6 +687,31 @@ export interface IdleThresholds {
   segment_min_seconds: number;
   habit_threshold_minutes: number;
   unattended_seat_empty_seconds: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "IngestRequest".
+ */
+export interface IngestRequest {
+  /**
+   * Sending machine or process (e.g. EXC001).
+   */
+  source?: string | null;
+  records: {
+    [k: string]: unknown;
+  }[];
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "IngestResponse".
+ */
+export interface IngestResponse {
+  kind: "intervals" | "events" | "reports" | "tasks";
+  received: number;
+  inserted: number;
+  updated?: number;
+  duplicates: number;
+  rejected?: number;
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
@@ -784,6 +932,14 @@ export interface LessonSummary {
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "LiveIngest".
+ */
+export interface LiveIngest {
+  records_last_60s: number;
+  records_per_s: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "Machine".
  */
 export interface Machine {
@@ -794,6 +950,41 @@ export interface Machine {
   sensor_tier: SensorTier;
   site_id: string;
   engine_hours_start: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "MachineDaySummary".
+ */
+export interface MachineDaySummary {
+  machine_id: string;
+  machine_type: string | null;
+  model: string | null;
+  sensor_tier: string | null;
+  operator_id: string | null;
+  operator_name: string | null;
+  tasks: TaskProgressView[];
+  engine_on_min: number;
+  working_min: number;
+  idle_min: number;
+  last_seen: string | null;
+  track: "done" | "on_track" | "behind" | "not_started" | "unknown";
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "TaskProgressView".
+ */
+export interface TaskProgressView {
+  task_id: string;
+  task_type: string;
+  zone_id: string | null;
+  planned_quantity: number | null;
+  done_quantity: number;
+  unit: string | null;
+  status: string;
+  progress_pct: number | null;
+  expected_min: number | null;
+  elapsed_min: number | null;
+  track: "done" | "on_track" | "behind" | "not_started" | "unknown";
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
@@ -903,6 +1094,28 @@ export interface TaskProfile {
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "MachineRisk".
+ */
+export interface MachineRisk {
+  machine_id: string;
+  band: string | null;
+  score: number | null;
+  amber_min: number;
+  red_min: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "ModelRef".
+ */
+export interface ModelRef {
+  version: string;
+  files: string[];
+  manifest: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "NetworkRequest".
  */
 export interface NetworkRequest {
@@ -933,6 +1146,23 @@ export interface OperatorProfile {
   lessons_completed: number;
   drills_done: number;
   recent_lessons: string[];
+}
+/**
+ * Linear projection to the whole connected fleet. A projection, not a measurement.
+ *
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "Projection".
+ */
+export interface Projection {
+  label?: "projection";
+  machines: number;
+  basis: string;
+  hours_per_day: number;
+  uplink_bytes_per_day: number;
+  uplink_gb_per_day: number;
+  records_per_day: number;
+  records_per_s: number;
+  ingest_nodes_at_measured_rate: number | null;
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
@@ -1006,6 +1236,55 @@ export interface ReportSaveRequest {
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "ReportView".
+ */
+export interface ReportView {
+  report_id: string;
+  ts: string;
+  type: string;
+  severity: string | null;
+  summary_en: string | null;
+  machine_id: string;
+  operator_id: string | null;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "SafetyEventView".
+ */
+export interface SafetyEventView {
+  event_id: string;
+  ts: string;
+  type: string;
+  priority: string | null;
+  code: string | null;
+  machine_id: string;
+  operator_id: string | null;
+  operator_name: string | null;
+  detail?: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "SafetyResponse".
+ */
+export interface SafetyResponse {
+  site_id: string;
+  date: string;
+  p1: SafetyEventView[];
+  p2: SafetyEventView[];
+  p2_counts: {
+    [k: string]: number;
+  };
+  incidents: SafetyEventView[];
+  near_misses: SafetyEventView[];
+  unattended: SafetyEventView[];
+  site_issues: SafetyEventView[];
+  reports: ReportView[];
+  risk: MachineRisk[];
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "SavedReport".
  */
 export interface SavedReport {
@@ -1014,6 +1293,40 @@ export interface SavedReport {
   draft: ReportDraft;
   context: ReportContextModel;
   synced: boolean;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "ScaleRun".
+ */
+export interface ScaleRun {
+  machines: number;
+  sim_minutes: number;
+  records: number;
+  intervals: number;
+  events: number;
+  requests: number;
+  seconds: number;
+  records_per_s: number;
+  request_ms_p50: number;
+  request_ms_p95: number;
+  bytes_sent: number;
+  bytes_per_machine_per_hour: number;
+  records_per_machine_per_hour: number;
+  finished_at: string;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "ScaleStats".
+ */
+export interface ScaleStats {
+  totals: {
+    [k: string]: number;
+  };
+  scale_machines: number;
+  live: LiveIngest;
+  run: ScaleRun | null;
+  bench: BenchResult | null;
+  projection: Projection | null;
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
@@ -1246,6 +1559,33 @@ export interface SiteEntities {
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "SiteInfo".
+ */
+export interface SiteInfo {
+  site_id: string;
+  name: string;
+  country: string;
+  timezone: string;
+  machines: number;
+  first_date: string | null;
+  last_date: string | null;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "SiteSummary".
+ */
+export interface SiteSummary {
+  site_id: string;
+  date: string;
+  timezone: string;
+  machines: MachineDaySummary[];
+  tasks_total: number;
+  tasks_done: number;
+  tasks_behind: number;
+  tasks_on_track: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "SpeedRequest".
  */
 export interface SpeedRequest {
@@ -1327,6 +1667,49 @@ export interface TrainingSlot {
   start: string;
   topic: string;
   seats_left: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "TrendDay".
+ */
+export interface TrendDay {
+  day: string;
+  operators: number;
+  suppressed: boolean;
+  idle_min_by_reason?: {
+    [k: string]: number;
+  } | null;
+  truck_wait_min?: number | null;
+  p1?: number | null;
+  p2?: number | null;
+  near_misses?: number | null;
+  incidents?: number | null;
+  fuel_per_load_cycle_l?: number | null;
+  seatbelt_unfastened_s_per_h?: number | null;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "TrendGroup".
+ */
+export interface TrendGroup {
+  group: string;
+  operators: number;
+  suppressed: boolean;
+  habit_idle_min_per_h?: number | null;
+  seatbelt_unfastened_s_per_h?: number | null;
+  fuel_per_load_cycle_l?: number | null;
+  p1_per_100h?: number | null;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "TrendsResponse".
+ */
+export interface TrendsResponse {
+  site_id: string;
+  days: number;
+  min_group_size: number;
+  daily: TrendDay[];
+  by_experience: TrendGroup[];
 }
 /**
  * Every WebSocket message (TRD §9): `seq` increases by one per channel.

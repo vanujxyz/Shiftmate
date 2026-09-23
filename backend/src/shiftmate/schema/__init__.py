@@ -9,6 +9,7 @@ import inspect
 from pydantic import BaseModel
 
 from shiftmate.schema import api as _api
+from shiftmate.schema import fleet as _fleet
 from shiftmate.schema.common import ErrorBody, ErrorResponse, HealthResponse
 from shiftmate.schema.config import ChecklistItem, Lesson, LocalizedText, MachineProfile, Site
 from shiftmate.schema.events import Event, IdleSegmentPayload, ReportDraft
@@ -48,11 +49,13 @@ EXPORTED_MODELS: list[type[BaseModel]] = [
     MachineProfile,
     Site,
 ]
-# Every Edge Gateway request/response and WebSocket model (schema/api.py), by name.
+# Every Edge Gateway request/response and WebSocket model (schema/api.py) and every
+# Fleet Service request/response model (schema/fleet.py), by name.
 EXPORTED_MODELS += [
     obj
-    for _, obj in inspect.getmembers(_api, inspect.isclass)
-    if issubclass(obj, BaseModel) and obj.__module__ == _api.__name__
+    for module in (_api, _fleet)
+    for _, obj in inspect.getmembers(module, inspect.isclass)
+    if issubclass(obj, BaseModel) and obj.__module__ == module.__name__
 ]
 
 __all__ = [

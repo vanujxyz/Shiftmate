@@ -428,3 +428,45 @@ Context: The model downloader wrote the cache's `LATEST` pointer before loading 
 Decision: The edge loads the downloaded version first and writes `LATEST` only on success; at start, any error loading the cache (or the bundled model) falls through to the next source, and without any model estimates are simply off (the cab says so). Report uploads now also carry `report_id`, `operator_id` and `machine_id`, which the fleet needs for idempotent ingest.
 Why: Estimates must never depend on the network or on a bad download (TRD §9.3); the edge must always start.
 Alternatives: Verify checksums in the manifest (useful later, but still needs the load check).
+
+## D-062 — The fleet store is seeded with the history the edges uploaded
+Date: 2026-09-23 · Phase: 6 · Requirement(s): TRD §9.2, F-SUP-02…05
+Context: The Fleet Service starts empty, but the supervisor views need weeks of site data (trends, similar days, baselines), and in the real product the fleet would have received those summaries over time.
+Decision: A new, empty fleet store (`data/fleet/fleet.duckdb`) loads the simulated history exactly as the edges would have uploaded it: the edge-replay intervals, the events the edge shares (shared, or incident / near miss), and task summaries — tagged `source = history`. Ground-truth files are never read. Live uploads (Ravi's day) are added on top through the normal ingest endpoints. `fleet.yaml → ingest.seed_from_history` turns this off; tests start empty.
+Why: Honest (only what edges send), simple, and the demo's supervisor views have real depth.
+Alternatives: Replay the history through HTTP ingest at start (slow, same result); leave the fleet empty (no trends or suggestions).
+
+## D-063 — On-track and behind: the fleet's usual pace for that task on that machine type
+Date: 2026-09-23 · Phase: 6 · Requirement(s): F-SUP-02
+Context: The PRD asks for on-track/behind indicators but does not define them. A first version used one pace per task type, which flagged nearly every excavator as behind, because dozers clear ground far faster.
+Decision: Expected duration = planned quantity × the fleet median minutes per unit of finished tasks of the same task type on the same machine type over the previous 14 days (task type alone if fewer than 5 such tasks). An active task is *behind* if the time since it started exceeds the time its progress should have taken × 1.15 + 10 min (fleet.yaml), otherwise *on track*; finished tasks are *done*, unstarted ones *not started*, and without a baseline *unknown*. A machine shows its worst task. For a finished day this is an end-of-day view: tasks still open at the end of the shift are mostly the slow ones and show as behind.
+Why: Simple, explainable ("slower than the fleet usually is at this"), comparable like with like; thresholds in config.
+Alternatives: The estimation model's p90 per task (needs operator features the fleet should not use for a supervisor view); planned finish times (the simulator has none).
+
+## D-064 — Where time is lost: lead reason and the add-a-truck suggestion
+Date: 2026-09-23 · Phase: 6 · Requirement(s): F-SUP-03, PRD P-04, DESIGN IdleCausesBreakdown
+Context: DESIGN shows one suggestion with a range and its basis ("Add one truck to LOAD-A, 10:00–12:00 · would likely save 1 h 30 m – 2 h 10 m · based on 3 similar days") without saying how it is computed.
+Decision: The lead is the largest *explained* lost-time reason (truck waits, short-stop habit, unattended running); breaks and warm-up are needed time and "not sure" stays in the table. The truck suggestion picks the zone (from the task being worked) and the 2-hour window with the most truck waiting today (≥ 20 min). Its range is the 25th–75th percentile of the truck waiting in that zone and window on today plus the similar days of the last 14 (days with ≥ 20 min there) — the most one more truck could have recovered; "based on N similar days" is that count, and with fewer than 2 days there is no range. Other suggestions: a toolbox talk on idling (≥ 15 min of short stops per active machine, lesson L-IDLE-FUEL) and a shutdown briefing (≥ 5 min unattended running, L-SHUTDOWN). The API returns keys and numbers; the console (milestone 13) words them in three languages. The view never names operators (P-04).
+Why: Every number traces to uploaded waits; nothing is invented; the wording stays honest ("likely save" up to the waiting observed).
+Alternatives: A queueing model of trucks (not supported by the data the fleet has).
+
+## D-065 — Task summaries are sent when a task starts and when it ends
+Date: 2026-09-23 · Phase: 5–6 · Requirement(s): F-SUP-02, privacy.yaml task_summaries
+Context: The edge queued a task summary only when a task finished, so the fleet could not show today's active task (its plan, zone and progress).
+Decision: The edge also queues the summary when a task becomes active. The fleet upserts tasks by `task_id`, keeping the most advanced status (scheduled → active → done, never backwards), and computes progress from the interval summaries' `task_progress_qty`.
+Why: The supervisor sees today's work while it happens; still only task summaries leave the machine.
+Alternatives: A separate "plan" upload (a second path for the same data).
+
+## D-066 — Scale mode resamples real summaries; the projection uses the runtime footprint
+Date: 2026-09-23 · Phase: 6 · Requirement(s): F-FLT-07, TRD §7.6
+Context: TRD §7.6 asks for a lightweight statistical generator for 10,000 machines but gives no distributions, and the projection formula needs per-machine bytes and records.
+Decision: `sim scale` gives each synthetic machine a stretch of real interval summaries (and the shared events in it) from a random history machine, re-labelled (`SX00001…`, sites `SCALE-<country>`, `source = scale`) and moved to now, posted in time order in batches of 500 through the real ingest endpoints. Synthetic machines never appear in real site views. Ingest throughput is records ÷ time spent inside requests (one sequential client), so generating records does not count. The projection uses the runtime benchmark's upload per machine-hour when available (real `MachineRuntime` output), else the scale run's, × 24 h × 1.6 M, and is always labelled "projection" with its basis. `bench runtime` feeds several runtimes the ticks of the same simulated machine to reach 200. Both write `data/fleet/scale.json` and the EVAL.md scale section.
+Why: No invented numbers; realistic payload sizes and event rates; clearly separated measurement and projection (golden rule 11).
+Alternatives: A parametric generator (needs made-up distributions); counting generation time in throughput (understates ingest).
+
+## D-067 — Today's site views show the machines that upload today
+Date: 2026-09-23 · Phase: 6 · Requirement(s): F-SUP-02…04, D-052
+Context: In the live demo only the focus machine runs a MachineRuntime (D-052), so for the demo day the fleet receives data from EXC001 only; the other 23 Chennai machines appear in the day summary without tasks.
+Decision: Accept this: the summary lists every machine on the site roster, and those with no uploads today show as not started with no hours. Site views default to the latest day with data; the console can pick earlier days, which have all machines (history).
+Why: Honest — the fleet only shows what machines sent (golden rule 6: never fake data). Running runtimes for every background machine would slow the live demo.
+Alternatives: Fill today from the history generator (fake data for the live day).

@@ -1,6 +1,6 @@
 # ShiftMate — Build progress
 
-**Next step:** Milestone 9 (Fleet Service) in progress.
+**Next step:** Milestone 10 (Design system in code) in progress.
 
 **Autonomy note (2026-09-23):** the user authorised continuing through all milestones without waiting for approval, and approved all needed downloads. Each milestone is still tested, committed, and reported in `docs/reports/milestone-N.md`.
 
@@ -122,13 +122,13 @@ Goal: live WebSocket feeds, offline outbox with sync, camera proximity input, an
 Requirements: F-REP-04, F-CAB-04, F-SAFE-03 (backend), F-FLT-03.
 You will see: a test printing the beat-by-beat event sequence.
 
-### Milestone 9 — Fleet Service (Phase 6) · Status: not started
+### Milestone 9 — Fleet Service (Phase 6) · Status: done
 Goal: the cloud side — ingest, supervisor aggregates with privacy, fleet patterns, model registry and the 10,000-machine scale run.
-- [ ] 1. FastAPI on DuckDB; idempotent ingest
-- [ ] 2. Site summary, idle causes + suggestions, safety, privacy-respecting trends
-- [ ] 3. Fleet overview, patterns, model registry, `/ws/fleet`
-- [ ] 4. `shiftmate sim scale` and `shiftmate bench runtime` → `/scale/stats` + EVAL.md scale section (projection labelled)
-- [ ] 5. API tests, privacy tests
+- [x] 1. FastAPI on DuckDB; idempotent ingest
+- [x] 2. Site summary, idle causes + suggestions, safety, privacy-respecting trends
+- [x] 3. Fleet overview, patterns, model registry, `/ws/fleet`
+- [x] 4. `shiftmate sim scale` and `shiftmate bench runtime` → `/scale/stats` + EVAL.md scale section (projection labelled)
+- [x] 5. API tests, privacy tests
 Requirements: F-SUP-02, 03, 04, 05, F-FLT-05, 07, 08, P-01…P-06.
 You will see: http://localhost:8200/docs; a 10,000-machine run with ingest rate and 1.6 M projection.
 

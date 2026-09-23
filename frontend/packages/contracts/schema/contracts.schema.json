@@ -156,6 +156,60 @@
       "title": "BeatView",
       "type": "object"
     },
+    "BenchResult": {
+      "properties": {
+        "machines": {
+          "title": "Machines",
+          "type": "integer"
+        },
+        "sim_minutes": {
+          "title": "Sim Minutes",
+          "type": "integer"
+        },
+        "ticks": {
+          "title": "Ticks",
+          "type": "integer"
+        },
+        "cpu_ms_per_tick_mean": {
+          "title": "Cpu Ms Per Tick Mean",
+          "type": "number"
+        },
+        "cpu_ms_per_tick_p95": {
+          "title": "Cpu Ms Per Tick P95",
+          "type": "number"
+        },
+        "memory_mb_per_machine": {
+          "title": "Memory Mb Per Machine",
+          "type": "number"
+        },
+        "upload_bytes_per_machine_per_hour": {
+          "title": "Upload Bytes Per Machine Per Hour",
+          "type": "number"
+        },
+        "records_per_machine_per_hour": {
+          "title": "Records Per Machine Per Hour",
+          "type": "number"
+        },
+        "finished_at": {
+          "format": "date-time",
+          "title": "Finished At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "machines",
+        "sim_minutes",
+        "ticks",
+        "cpu_ms_per_tick_mean",
+        "cpu_ms_per_tick_p95",
+        "memory_mb_per_machine",
+        "upload_bytes_per_machine_per_hour",
+        "records_per_machine_per_hour",
+        "finished_at"
+      ],
+      "title": "BenchResult",
+      "type": "object"
+    },
     "Booking": {
       "properties": {
         "booking_id": {
@@ -998,6 +1052,216 @@
       "title": "FleetMix",
       "type": "object"
     },
+    "FleetOverview": {
+      "properties": {
+        "sites": {
+          "items": {
+            "$ref": "#/$defs/FleetSite"
+          },
+          "title": "Sites",
+          "type": "array"
+        },
+        "machines_total": {
+          "title": "Machines Total",
+          "type": "integer"
+        },
+        "by_type": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "By Type",
+          "type": "object"
+        },
+        "by_tier": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "By Tier",
+          "type": "object"
+        },
+        "records": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Records",
+          "type": "object"
+        },
+        "scale_machines": {
+          "title": "Scale Machines",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "sites",
+        "machines_total",
+        "by_type",
+        "by_tier",
+        "records",
+        "scale_machines"
+      ],
+      "title": "FleetOverview",
+      "type": "object"
+    },
+    "FleetPattern": {
+      "properties": {
+        "dimension": {
+          "title": "Dimension",
+          "type": "string"
+        },
+        "task_type": {
+          "title": "Task Type",
+          "type": "string"
+        },
+        "condition": {
+          "title": "Condition",
+          "type": "string"
+        },
+        "multiplier": {
+          "title": "Multiplier",
+          "type": "number"
+        },
+        "change_pct": {
+          "title": "Change Pct",
+          "type": "number"
+        },
+        "tasks": {
+          "title": "Tasks",
+          "type": "integer"
+        },
+        "machines": {
+          "title": "Machines",
+          "type": "integer"
+        },
+        "reference": {
+          "title": "Reference",
+          "type": "string"
+        }
+      },
+      "required": [
+        "dimension",
+        "task_type",
+        "condition",
+        "multiplier",
+        "change_pct",
+        "tasks",
+        "machines",
+        "reference"
+      ],
+      "title": "FleetPattern",
+      "type": "object"
+    },
+    "FleetSite": {
+      "properties": {
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "country": {
+          "title": "Country",
+          "type": "string"
+        },
+        "timezone": {
+          "title": "Timezone",
+          "type": "string"
+        },
+        "latest_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Latest Date"
+        },
+        "machines_total": {
+          "title": "Machines Total",
+          "type": "integer"
+        },
+        "machines_active": {
+          "title": "Machines Active",
+          "type": "integer"
+        },
+        "by_type": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "By Type",
+          "type": "object"
+        },
+        "by_tier": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "By Tier",
+          "type": "object"
+        },
+        "risk_bands": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Risk Bands",
+          "type": "object"
+        },
+        "ground_condition": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Ground Condition"
+        },
+        "heat_index_c": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Heat Index C"
+        },
+        "last_ingest": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Last Ingest"
+        }
+      },
+      "required": [
+        "site_id",
+        "name",
+        "country",
+        "timezone",
+        "latest_date",
+        "machines_total",
+        "machines_active",
+        "by_type",
+        "by_tier",
+        "risk_bands",
+        "ground_condition",
+        "heat_index_c",
+        "last_ingest"
+      ],
+      "title": "FleetSite",
+      "type": "object"
+    },
     "FuelMetrics": {
       "properties": {
         "fuel_l": {
@@ -1216,6 +1480,127 @@
       "title": "HealthResponse",
       "type": "object"
     },
+    "HourMinutes": {
+      "properties": {
+        "hour": {
+          "title": "Hour",
+          "type": "integer"
+        },
+        "minutes": {
+          "title": "Minutes",
+          "type": "number"
+        }
+      },
+      "required": [
+        "hour",
+        "minutes"
+      ],
+      "title": "HourMinutes",
+      "type": "object"
+    },
+    "IdleCause": {
+      "properties": {
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "minutes": {
+          "title": "Minutes",
+          "type": "number"
+        },
+        "share": {
+          "title": "Share",
+          "type": "number"
+        },
+        "site_issue": {
+          "title": "Site Issue",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "reason",
+        "minutes",
+        "share",
+        "site_issue"
+      ],
+      "title": "IdleCause",
+      "type": "object"
+    },
+    "IdleCausesResponse": {
+      "properties": {
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        },
+        "date": {
+          "format": "date",
+          "title": "Date",
+          "type": "string"
+        },
+        "machines": {
+          "title": "Machines",
+          "type": "integer"
+        },
+        "total_idle_min": {
+          "title": "Total Idle Min",
+          "type": "number"
+        },
+        "lead": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IdleCause"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "causes": {
+          "items": {
+            "$ref": "#/$defs/IdleCause"
+          },
+          "title": "Causes",
+          "type": "array"
+        },
+        "truck_wait_by_hour": {
+          "items": {
+            "$ref": "#/$defs/HourMinutes"
+          },
+          "title": "Truck Wait By Hour",
+          "type": "array"
+        },
+        "suggestion": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Suggestion"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "suggestions": {
+          "items": {
+            "$ref": "#/$defs/Suggestion"
+          },
+          "title": "Suggestions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "site_id",
+        "date",
+        "machines",
+        "total_idle_min",
+        "lead",
+        "causes",
+        "truck_wait_by_hour",
+        "suggestion",
+        "suggestions"
+      ],
+      "title": "IdleCausesResponse",
+      "type": "object"
+    },
     "IdleReason": {
       "enum": [
         "SCHEDULED_BREAK",
@@ -1361,6 +1746,80 @@
         "unattended_seat_empty_seconds"
       ],
       "title": "IdleThresholds",
+      "type": "object"
+    },
+    "IngestRequest": {
+      "properties": {
+        "source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Sending machine or process (e.g. EXC001).",
+          "title": "Source"
+        },
+        "records": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Records",
+          "type": "array"
+        }
+      },
+      "required": [
+        "records"
+      ],
+      "title": "IngestRequest",
+      "type": "object"
+    },
+    "IngestResponse": {
+      "properties": {
+        "kind": {
+          "enum": [
+            "intervals",
+            "events",
+            "reports",
+            "tasks"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "received": {
+          "title": "Received",
+          "type": "integer"
+        },
+        "inserted": {
+          "title": "Inserted",
+          "type": "integer"
+        },
+        "updated": {
+          "default": 0,
+          "title": "Updated",
+          "type": "integer"
+        },
+        "duplicates": {
+          "title": "Duplicates",
+          "type": "integer"
+        },
+        "rejected": {
+          "default": 0,
+          "title": "Rejected",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "received",
+        "inserted",
+        "duplicates"
+      ],
+      "title": "IngestResponse",
       "type": "object"
     },
     "InsightNote": {
@@ -2331,6 +2790,24 @@
       "title": "LessonSummary",
       "type": "object"
     },
+    "LiveIngest": {
+      "properties": {
+        "records_last_60s": {
+          "title": "Records Last 60S",
+          "type": "integer"
+        },
+        "records_per_s": {
+          "title": "Records Per S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "records_last_60s",
+        "records_per_s"
+      ],
+      "title": "LiveIngest",
+      "type": "object"
+    },
     "LocalizedText": {
       "additionalProperties": false,
       "description": "A user-facing string in all three languages (golden rule 10).",
@@ -2405,6 +2882,127 @@
         "engine_hours_start"
       ],
       "title": "Machine",
+      "type": "object"
+    },
+    "MachineDaySummary": {
+      "properties": {
+        "machine_id": {
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "machine_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Machine Type"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Model"
+        },
+        "sensor_tier": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Sensor Tier"
+        },
+        "operator_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Operator Id"
+        },
+        "operator_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Operator Name"
+        },
+        "tasks": {
+          "items": {
+            "$ref": "#/$defs/TaskProgressView"
+          },
+          "title": "Tasks",
+          "type": "array"
+        },
+        "engine_on_min": {
+          "title": "Engine On Min",
+          "type": "number"
+        },
+        "working_min": {
+          "title": "Working Min",
+          "type": "number"
+        },
+        "idle_min": {
+          "title": "Idle Min",
+          "type": "number"
+        },
+        "last_seen": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Last Seen"
+        },
+        "track": {
+          "enum": [
+            "done",
+            "on_track",
+            "behind",
+            "not_started",
+            "unknown"
+          ],
+          "title": "Track",
+          "type": "string"
+        }
+      },
+      "required": [
+        "machine_id",
+        "machine_type",
+        "model",
+        "sensor_tier",
+        "operator_id",
+        "operator_name",
+        "tasks",
+        "engine_on_min",
+        "working_min",
+        "idle_min",
+        "last_seen",
+        "track"
+      ],
+      "title": "MachineDaySummary",
       "type": "object"
     },
     "MachineInfo": {
@@ -2537,6 +3135,53 @@
       "title": "MachineProfile",
       "type": "object"
     },
+    "MachineRisk": {
+      "properties": {
+        "machine_id": {
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "band": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Band"
+        },
+        "score": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Score"
+        },
+        "amber_min": {
+          "title": "Amber Min",
+          "type": "number"
+        },
+        "red_min": {
+          "title": "Red Min",
+          "type": "number"
+        }
+      },
+      "required": [
+        "machine_id",
+        "band",
+        "score",
+        "amber_min",
+        "red_min"
+      ],
+      "title": "MachineRisk",
+      "type": "object"
+    },
     "MachineState": {
       "enum": [
         "ENGINE_OFF",
@@ -2594,6 +3239,33 @@
         "max"
       ],
       "title": "MinMax",
+      "type": "object"
+    },
+    "ModelRef": {
+      "properties": {
+        "version": {
+          "title": "Version",
+          "type": "string"
+        },
+        "files": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Files",
+          "type": "array"
+        },
+        "manifest": {
+          "additionalProperties": true,
+          "title": "Manifest",
+          "type": "object"
+        }
+      },
+      "required": [
+        "version",
+        "files",
+        "manifest"
+      ],
+      "title": "ModelRef",
       "type": "object"
     },
     "MonthProfile": {
@@ -2765,6 +3437,68 @@
       ],
       "title": "Priority",
       "type": "string"
+    },
+    "Projection": {
+      "description": "Linear projection to the whole connected fleet. A projection, not a measurement.",
+      "properties": {
+        "label": {
+          "const": "projection",
+          "default": "projection",
+          "title": "Label",
+          "type": "string"
+        },
+        "machines": {
+          "title": "Machines",
+          "type": "integer"
+        },
+        "basis": {
+          "title": "Basis",
+          "type": "string"
+        },
+        "hours_per_day": {
+          "title": "Hours Per Day",
+          "type": "number"
+        },
+        "uplink_bytes_per_day": {
+          "title": "Uplink Bytes Per Day",
+          "type": "number"
+        },
+        "uplink_gb_per_day": {
+          "title": "Uplink Gb Per Day",
+          "type": "number"
+        },
+        "records_per_day": {
+          "title": "Records Per Day",
+          "type": "number"
+        },
+        "records_per_s": {
+          "title": "Records Per S",
+          "type": "number"
+        },
+        "ingest_nodes_at_measured_rate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Ingest Nodes At Measured Rate"
+        }
+      },
+      "required": [
+        "machines",
+        "basis",
+        "hours_per_day",
+        "uplink_bytes_per_day",
+        "uplink_gb_per_day",
+        "records_per_day",
+        "records_per_s",
+        "ingest_nodes_at_measured_rate"
+      ],
+      "title": "Projection",
+      "type": "object"
     },
     "ProximityDistances": {
       "additionalProperties": false,
@@ -3084,6 +3818,71 @@
       "title": "ReportType",
       "type": "string"
     },
+    "ReportView": {
+      "properties": {
+        "report_id": {
+          "title": "Report Id",
+          "type": "string"
+        },
+        "ts": {
+          "format": "date-time",
+          "title": "Ts",
+          "type": "string"
+        },
+        "type": {
+          "title": "Type",
+          "type": "string"
+        },
+        "severity": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Severity"
+        },
+        "summary_en": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Summary En"
+        },
+        "machine_id": {
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "operator_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Operator Id"
+        }
+      },
+      "required": [
+        "report_id",
+        "ts",
+        "type",
+        "severity",
+        "summary_en",
+        "machine_id",
+        "operator_id"
+      ],
+      "title": "ReportView",
+      "type": "object"
+    },
     "RiskBand": {
       "enum": [
         "green",
@@ -3112,6 +3911,180 @@
         "working"
       ],
       "title": "RpmLevels",
+      "type": "object"
+    },
+    "SafetyEventView": {
+      "properties": {
+        "event_id": {
+          "title": "Event Id",
+          "type": "string"
+        },
+        "ts": {
+          "format": "date-time",
+          "title": "Ts",
+          "type": "string"
+        },
+        "type": {
+          "title": "Type",
+          "type": "string"
+        },
+        "priority": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Priority"
+        },
+        "code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Code"
+        },
+        "machine_id": {
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "operator_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Operator Id"
+        },
+        "operator_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Operator Name"
+        },
+        "detail": {
+          "additionalProperties": true,
+          "default": {},
+          "title": "Detail",
+          "type": "object"
+        }
+      },
+      "required": [
+        "event_id",
+        "ts",
+        "type",
+        "priority",
+        "code",
+        "machine_id",
+        "operator_id",
+        "operator_name"
+      ],
+      "title": "SafetyEventView",
+      "type": "object"
+    },
+    "SafetyResponse": {
+      "properties": {
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        },
+        "date": {
+          "format": "date",
+          "title": "Date",
+          "type": "string"
+        },
+        "p1": {
+          "items": {
+            "$ref": "#/$defs/SafetyEventView"
+          },
+          "title": "P1",
+          "type": "array"
+        },
+        "p2": {
+          "items": {
+            "$ref": "#/$defs/SafetyEventView"
+          },
+          "title": "P2",
+          "type": "array"
+        },
+        "p2_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "P2 Counts",
+          "type": "object"
+        },
+        "incidents": {
+          "items": {
+            "$ref": "#/$defs/SafetyEventView"
+          },
+          "title": "Incidents",
+          "type": "array"
+        },
+        "near_misses": {
+          "items": {
+            "$ref": "#/$defs/SafetyEventView"
+          },
+          "title": "Near Misses",
+          "type": "array"
+        },
+        "unattended": {
+          "items": {
+            "$ref": "#/$defs/SafetyEventView"
+          },
+          "title": "Unattended",
+          "type": "array"
+        },
+        "site_issues": {
+          "items": {
+            "$ref": "#/$defs/SafetyEventView"
+          },
+          "title": "Site Issues",
+          "type": "array"
+        },
+        "reports": {
+          "items": {
+            "$ref": "#/$defs/ReportView"
+          },
+          "title": "Reports",
+          "type": "array"
+        },
+        "risk": {
+          "items": {
+            "$ref": "#/$defs/MachineRisk"
+          },
+          "title": "Risk",
+          "type": "array"
+        }
+      },
+      "required": [
+        "site_id",
+        "date",
+        "p1",
+        "p2",
+        "p2_counts",
+        "incidents",
+        "near_misses",
+        "unattended",
+        "site_issues",
+        "reports",
+        "risk"
+      ],
+      "title": "SafetyResponse",
       "type": "object"
     },
     "SavedReport": {
@@ -3144,6 +4117,143 @@
         "synced"
       ],
       "title": "SavedReport",
+      "type": "object"
+    },
+    "ScaleRun": {
+      "properties": {
+        "machines": {
+          "title": "Machines",
+          "type": "integer"
+        },
+        "sim_minutes": {
+          "title": "Sim Minutes",
+          "type": "integer"
+        },
+        "records": {
+          "title": "Records",
+          "type": "integer"
+        },
+        "intervals": {
+          "title": "Intervals",
+          "type": "integer"
+        },
+        "events": {
+          "title": "Events",
+          "type": "integer"
+        },
+        "requests": {
+          "title": "Requests",
+          "type": "integer"
+        },
+        "seconds": {
+          "title": "Seconds",
+          "type": "number"
+        },
+        "records_per_s": {
+          "title": "Records Per S",
+          "type": "number"
+        },
+        "request_ms_p50": {
+          "title": "Request Ms P50",
+          "type": "number"
+        },
+        "request_ms_p95": {
+          "title": "Request Ms P95",
+          "type": "number"
+        },
+        "bytes_sent": {
+          "title": "Bytes Sent",
+          "type": "integer"
+        },
+        "bytes_per_machine_per_hour": {
+          "title": "Bytes Per Machine Per Hour",
+          "type": "number"
+        },
+        "records_per_machine_per_hour": {
+          "title": "Records Per Machine Per Hour",
+          "type": "number"
+        },
+        "finished_at": {
+          "format": "date-time",
+          "title": "Finished At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "machines",
+        "sim_minutes",
+        "records",
+        "intervals",
+        "events",
+        "requests",
+        "seconds",
+        "records_per_s",
+        "request_ms_p50",
+        "request_ms_p95",
+        "bytes_sent",
+        "bytes_per_machine_per_hour",
+        "records_per_machine_per_hour",
+        "finished_at"
+      ],
+      "title": "ScaleRun",
+      "type": "object"
+    },
+    "ScaleStats": {
+      "properties": {
+        "totals": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Totals",
+          "type": "object"
+        },
+        "scale_machines": {
+          "title": "Scale Machines",
+          "type": "integer"
+        },
+        "live": {
+          "$ref": "#/$defs/LiveIngest"
+        },
+        "run": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ScaleRun"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "bench": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BenchResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "projection": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Projection"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "totals",
+        "scale_machines",
+        "live",
+        "run",
+        "bench",
+        "projection"
+      ],
+      "title": "ScaleStats",
       "type": "object"
     },
     "ScenarioLoadRequest": {
@@ -3826,6 +4936,117 @@
       "title": "SiteEntities",
       "type": "object"
     },
+    "SiteInfo": {
+      "properties": {
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "country": {
+          "title": "Country",
+          "type": "string"
+        },
+        "timezone": {
+          "title": "Timezone",
+          "type": "string"
+        },
+        "machines": {
+          "title": "Machines",
+          "type": "integer"
+        },
+        "first_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "First Date"
+        },
+        "last_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Last Date"
+        }
+      },
+      "required": [
+        "site_id",
+        "name",
+        "country",
+        "timezone",
+        "machines",
+        "first_date",
+        "last_date"
+      ],
+      "title": "SiteInfo",
+      "type": "object"
+    },
+    "SiteSummary": {
+      "properties": {
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        },
+        "date": {
+          "format": "date",
+          "title": "Date",
+          "type": "string"
+        },
+        "timezone": {
+          "title": "Timezone",
+          "type": "string"
+        },
+        "machines": {
+          "items": {
+            "$ref": "#/$defs/MachineDaySummary"
+          },
+          "title": "Machines",
+          "type": "array"
+        },
+        "tasks_total": {
+          "title": "Tasks Total",
+          "type": "integer"
+        },
+        "tasks_done": {
+          "title": "Tasks Done",
+          "type": "integer"
+        },
+        "tasks_behind": {
+          "title": "Tasks Behind",
+          "type": "integer"
+        },
+        "tasks_on_track": {
+          "title": "Tasks On Track",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "site_id",
+        "date",
+        "timezone",
+        "machines",
+        "tasks_total",
+        "tasks_done",
+        "tasks_behind",
+        "tasks_on_track"
+      ],
+      "title": "SiteSummary",
+      "type": "object"
+    },
     "Size": {
       "additionalProperties": false,
       "properties": {
@@ -3883,6 +5104,114 @@
         "reason_key"
       ],
       "title": "SuggestedBreak",
+      "type": "object"
+    },
+    "Suggestion": {
+      "description": "One plain-language suggestion; the console turns `key` + values into text.",
+      "properties": {
+        "key": {
+          "title": "Key",
+          "type": "string"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "minutes": {
+          "title": "Minutes",
+          "type": "number"
+        },
+        "zone_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Zone Id"
+        },
+        "window_start": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Window Start"
+        },
+        "window_end": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Window End"
+        },
+        "save_min_low": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Save Min Low"
+        },
+        "save_min_high": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Save Min High"
+        },
+        "basis_days": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Basis Days"
+        },
+        "lesson_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lesson Id"
+        }
+      },
+      "required": [
+        "key",
+        "reason",
+        "minutes"
+      ],
+      "title": "Suggestion",
       "type": "object"
     },
     "SyncStatus": {
@@ -4240,6 +5569,118 @@
       "title": "TaskProgress",
       "type": "object"
     },
+    "TaskProgressView": {
+      "properties": {
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        },
+        "task_type": {
+          "title": "Task Type",
+          "type": "string"
+        },
+        "zone_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Zone Id"
+        },
+        "planned_quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Planned Quantity"
+        },
+        "done_quantity": {
+          "title": "Done Quantity",
+          "type": "number"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Unit"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        },
+        "progress_pct": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Progress Pct"
+        },
+        "expected_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Expected Min"
+        },
+        "elapsed_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Elapsed Min"
+        },
+        "track": {
+          "enum": [
+            "done",
+            "on_track",
+            "behind",
+            "not_started",
+            "unknown"
+          ],
+          "title": "Track",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id",
+        "task_type",
+        "zone_id",
+        "planned_quantity",
+        "done_quantity",
+        "unit",
+        "status",
+        "progress_pct",
+        "expected_min",
+        "elapsed_min",
+        "track"
+      ],
+      "title": "TaskProgressView",
+      "type": "object"
+    },
     "TaskStatus": {
       "enum": [
         "scheduled",
@@ -4502,6 +5943,239 @@
         "seats_left"
       ],
       "title": "TrainingSlot",
+      "type": "object"
+    },
+    "TrendDay": {
+      "properties": {
+        "day": {
+          "format": "date",
+          "title": "Day",
+          "type": "string"
+        },
+        "operators": {
+          "title": "Operators",
+          "type": "integer"
+        },
+        "suppressed": {
+          "title": "Suppressed",
+          "type": "boolean"
+        },
+        "idle_min_by_reason": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "number"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Idle Min By Reason"
+        },
+        "truck_wait_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Truck Wait Min"
+        },
+        "p1": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "P1"
+        },
+        "p2": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "P2"
+        },
+        "near_misses": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Near Misses"
+        },
+        "incidents": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Incidents"
+        },
+        "fuel_per_load_cycle_l": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fuel Per Load Cycle L"
+        },
+        "seatbelt_unfastened_s_per_h": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seatbelt Unfastened S Per H"
+        }
+      },
+      "required": [
+        "day",
+        "operators",
+        "suppressed"
+      ],
+      "title": "TrendDay",
+      "type": "object"
+    },
+    "TrendGroup": {
+      "properties": {
+        "group": {
+          "title": "Group",
+          "type": "string"
+        },
+        "operators": {
+          "title": "Operators",
+          "type": "integer"
+        },
+        "suppressed": {
+          "title": "Suppressed",
+          "type": "boolean"
+        },
+        "habit_idle_min_per_h": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Habit Idle Min Per H"
+        },
+        "seatbelt_unfastened_s_per_h": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seatbelt Unfastened S Per H"
+        },
+        "fuel_per_load_cycle_l": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fuel Per Load Cycle L"
+        },
+        "p1_per_100h": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "P1 Per 100H"
+        }
+      },
+      "required": [
+        "group",
+        "operators",
+        "suppressed"
+      ],
+      "title": "TrendGroup",
+      "type": "object"
+    },
+    "TrendsResponse": {
+      "properties": {
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        },
+        "days": {
+          "title": "Days",
+          "type": "integer"
+        },
+        "min_group_size": {
+          "title": "Min Group Size",
+          "type": "integer"
+        },
+        "daily": {
+          "items": {
+            "$ref": "#/$defs/TrendDay"
+          },
+          "title": "Daily",
+          "type": "array"
+        },
+        "by_experience": {
+          "items": {
+            "$ref": "#/$defs/TrendGroup"
+          },
+          "title": "By Experience",
+          "type": "array"
+        }
+      },
+      "required": [
+        "site_id",
+        "days",
+        "min_group_size",
+        "daily",
+        "by_experience"
+      ],
+      "title": "TrendsResponse",
       "type": "object"
     },
     "Trucks": {
