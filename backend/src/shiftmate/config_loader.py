@@ -38,6 +38,7 @@ from shiftmate.schema.enums import (
     SensorTier,
 )
 from shiftmate.settings import REPO_ROOT
+from shiftmate.sim.params import SimulatorConfig
 
 REQUIRED_LESSONS = {
     "L-SHUTDOWN",
@@ -77,6 +78,7 @@ class ShiftMateConfig:
     lessons: LessonsConfig
     checklist: ChecklistConfig
     intents: IntentsConfig
+    simulator: SimulatorConfig  # read only by shiftmate.sim
 
     def lesson_trigger_vocabulary(self) -> set[str]:
         return (
@@ -212,6 +214,7 @@ def load_config(config_dir: Path | None = None) -> ShiftMateConfig:
         lessons=_parse(root / "lessons.yaml", LessonsConfig),
         checklist=_parse(root / "checklist.yaml", ChecklistConfig),
         intents=_parse(INTENTS_FILE, IntentsConfig),
+        simulator=_parse(root / "simulator.yaml", SimulatorConfig),
     )
     _cross_check(cfg)
     return cfg

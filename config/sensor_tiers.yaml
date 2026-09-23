@@ -1,7 +1,7 @@
 # Sensor tiers (TRD §4.2). Features check the machine's tier and degrade gracefully (golden rule 6).
 tiers:
-  basic:      # exactly the brief's sample columns + GPS
-    signals: [engine_on, engine_hours, fuel_rate, hydraulic_active, travel_speed_kmh, seatbelt_fastened, gps]
+  basic:      # exactly the brief's sample columns + GPS (load_cycles: the machine's cycle counter, D-035)
+    signals: [engine_on, engine_hours, fuel_rate, hydraulic_active, travel_speed_kmh, seatbelt_fastened, gps, load_cycles]
   standard:
     inherits: basic
     signals: [seat_occupied, engine_rpm, coolant_temp_c]

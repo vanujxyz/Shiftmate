@@ -1,6 +1,6 @@
 # ShiftMate — Build progress
 
-**Next step:** Milestone 3 (simulator and history data) in progress.
+**Next step:** Milestone 4 (engines A: safety core) in progress.
 
 **Autonomy note (2026-09-23):** the user authorised continuing through all milestones without waiting for approval, and approved all needed downloads. Each milestone is still tested, committed, and reported in `docs/reports/milestone-N.md`.
 
@@ -59,15 +59,15 @@ Goal: every rule, threshold, site, machine and lesson lives in validated config,
 Requirements: F-FLT-01, F-FLT-02, F-FLT-06, F-START-04 (content), F-LRN-01 (content), P-06.
 You will see: `shiftmate config validate` printing a pass summary; generated TS types.
 
-### Milestone 3 — Simulator and history data (Phase 2) · Status: not started
+### Milestone 3 — Simulator and history data (Phase 2) · Status: done
 Goal: a realistic, deterministic simulated world that generates 42 days of fleet history with ground truth.
-- [ ] 1. World model: weather (daily cycle, rain Markov chain, Rothfusz heat index), ground, night, visibility
-- [ ] 2. Trucks + dispatcher + dispatch log + shortage windows; workers
-- [ ] 3. Machine state machines per task (warm-up, cycles, breaks, travel), fuel, engine hours
-- [ ] 4. 80 operators with personalities (sim-only), 60 machines, tiers by model year; OP1001/EXC001 and WHL014 fixed
-- [ ] 5. Tasks and productivity (emergent durations); ground-truth labels
-- [ ] 6. History generator: chunked, 30 s ticks → Parquet + DuckDB; `shiftmate sim generate --days 42 --seed 7`
-- [ ] 7. Invariant tests (tick-level ones now; interval-level ones in milestone 5), determinism test, `data/history/SUMMARY.md`
+- [x] 1. World model: weather (daily cycle, rain Markov chain, Rothfusz heat index), ground, night, visibility
+- [x] 2. Trucks + dispatcher + dispatch log + shortage windows; workers
+- [x] 3. Machine state machines per task (warm-up, cycles, breaks, travel), fuel, engine hours
+- [x] 4. 80 operators with personalities (sim-only), 60 machines, tiers by model year; OP1001/EXC001 and WHL014 fixed
+- [x] 5. Tasks and productivity (emergent durations); ground-truth labels
+- [x] 6. History generator: chunked, 30 s ticks → Parquet + DuckDB; `shiftmate sim generate --days 42 --seed 7`
+- [x] 7. Invariant tests (tick-level ones now; interval-level ones in milestone 5), determinism test, `data/history/SUMMARY.md`
 Requirements: supports F-INS-*, F-SHIFT-02, F-FLT-04/05/07 (data).
 You will see: the generate command's runtime and the `SUMMARY.md` with row counts and label distributions.
 

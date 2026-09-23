@@ -1,0 +1,125 @@
+# Simulator parameters (TRD §7). The simulator stands in for machine sensors and the site world.
+# Every number here drives the world, not the engines; engines never read this file.
+history:
+  days: 42
+  end_date: "2026-09-23"          # the day before the demo date (TRD §7.1)
+  tick_seconds: 30                # stored history resolution (TRD §2)
+  pre_shift_min: 20               # ticks start this long before shift start
+  post_shift_min: 20              # ticks end this long after shift end
+
+fleet:
+  site_order: [CHN-HWY-01, PNQ-MET-01, PIL-MIN-01, TRO-RD-01]   # machine numbering order (WHL014 → Pilbara)
+  basic_before_year: 2016         # model year < 2016 → basic
+  advanced_from_year: 2022        # model year ≥ 2022 → advanced; between → standard
+  tier_downgrade_prob: 0.10       # missing retrofits
+  model_year: {min: 2010, max: 2026}
+  engine_hours_start: {min: 800, max: 14000}
+  fixed_machines:
+    - {machine_id: EXC001, model: "Cat 320", model_year: 2023, sensor_tier: advanced, site_id: CHN-HWY-01, engine_hours_start: 1520.0}
+    - {machine_id: WHL014, model: "Cat 950 GC", model_year: 2013, sensor_tier: basic, site_id: PIL-MIN-01, engine_hours_start: 11840.0}
+
+operators:
+  first_id: 1001
+  experience_years: {min: 1, max: 24}
+  elevated_trait_share: 0.15      # about 15 % of operators have one elevated trait (TRD §7.3)
+  elevated_trait: {min: 0.6, max: 0.95}
+  normal_trait: {min: 0.0, max: 0.2}
+  skill_per_experience_year: 0.012   # skill = 1 + (years − 8) × this + noise, clipped to [0.8, 1.2]
+  skill_noise_sd: 0.05
+  same_machine_prob: 0.8          # chance an operator drives their usual machine on a given day
+  fixed:
+    - operator_id: OP1001
+      name: "Ravi Kumar"
+      preferred_language: ta
+      experience_years: 9.0
+      home_site_id: CHN-HWY-01
+      machine_id: EXC001
+      personality: {idle_habit: 0.08, seatbelt_skipper: 0.05, steps_out_engine_on: 0.1, speeds_near_people: 0.03, skips_breaks: 0.15, skill: 1.06}
+
+behaviour:                        # rates are per engine-on hour for a trait value of 1.0 (scaled by the trait)
+  arrival_before_shift_min: {min: 4, max: 14}
+  walkaround_min: {min: 3, max: 6}
+  habit_per_h: 0.9
+  habit_min: {min: 5, max: 20}
+  habit_floor_per_h: 0.03         # everyone occasionally has an unexplained stop
+  step_out_per_h: 0.35
+  step_out_min: {min: 2, max: 10}
+  seatbelt_off_per_h: 0.5
+  seatbelt_off_min: {min: 3, max: 15}
+  speeding_prob: 0.9              # chance (× trait) that an operator keeps speed near people that day
+  skip_break_prob: 0.8
+  short_pause_per_h: 0.8          # seated pauses with no recorded cause (truth UNKNOWN)
+  short_pause_s: {min: 60, max: 240}
+  break_engine_off_prob: 0.6
+  break_seat_occupied_prob: 0.8   # when the engine stays on during a break
+  slow_near_person_kmh: 1.5
+
+warm_up:
+  coolant_rise_c_per_min: 8.0
+  coolant_rise_below_0c_c_per_min: 4.5
+  coolant_working_c: 88
+  coolant_cooling_c_per_min: 1.5
+  extra_idle_min: {min: 0.0, max: 1.0}
+
+travel:
+  speed_kmh: {excavator: 3.5, wheel_loader: 18, dozer: 6}
+
+productivity:                     # TRD §7.2 multipliers
+  ground: {dry: 1.0, wet: 0.85, muddy: 0.7, frozen: 0.8, rocky: 0.9}
+  heat_over_46: 0.8
+  heat_over_40: 0.9
+  night: 0.9
+  noise_sigma: 0.08               # lognormal task-level noise
+  pass_time_noise: 0.10
+  non_truck_load_share: 0.25      # excavator/loader tasks without trucks: share of passes that fill a truck elsewhere (≈ 6–7 loads/h, like the brief's sample)
+
+tasks:
+  first_start_offset_min: 15
+  per_day: {min: 2, max: 4}
+  fill_fraction: 0.7              # plan about this share of the shift as expected work time
+
+trucks:
+  speed_kmh: 25
+  offsite_minutes: {min: 8, max: 14}      # haul to the dump and back beyond the site map
+  dump_minutes: {min: 2, max: 4}
+  dispatch_log_delay_s: {min: 0, max: 150}   # manual logging delay (dispatch log is imperfect)
+  dispatch_log_missing_prob: 0.03
+
+workers:
+  walk_speed_mps: 1.2
+  caution_approach_multiplier: 3.0        # all approaches per critical entry
+  approach_s: {min: 30, max: 90}
+  start_distance_m: 18
+  sensor_range_m: 30
+
+anomalies:
+  fuel_abnormal_per_h: 0.012      # ≈ 0.5 % of 15-min intervals get a fuel episode
+  fuel_multiplier: {min: 1.6, max: 2.2}
+  fuel_min: {min: 15, max: 30}
+  low_productivity_per_h: 0.01
+  low_productivity_factor: {min: 0.35, max: 0.55}
+  low_productivity_min: {min: 30, max: 60}
+
+signals:
+  fuel_rate_noise_sd: 0.02
+  rpm_noise_sd: 25
+  work_heading_step_deg: 35
+
+weather:
+  temp_ar1_phi: 0.8               # hourly AR(1)
+  temp_noise_sd: 0.8
+  rh_per_c_above_mean: -3.0
+  rh_noise_sd: 4
+  rain_stop_prob: 0.35            # per hour while raining
+  wet_mm_in_2h: 2
+  muddy_mm_in_6h: 10
+  dry_after_h: 6
+  dry_after_h_cold: 14            # below 15 °C drying takes longer
+  clear_visibility_m: 10000
+  rain_visibility_factor: 0.25    # visibility = clear / (1 + factor × mm/h)
+  dust_visibility_m: {min: 150, max: 800}
+  dust_hours: {min: 1, max: 3}
+  fog_visibility_m: {min: 100, max: 600}
+  fog_hours: {min: 1, max: 3}
+  wind_sd_kmh: 4
+  solar_noon: "12:15"

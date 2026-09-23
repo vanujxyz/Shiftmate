@@ -9,9 +9,9 @@ languages: [ta, hi, en]
 units: metric
 climate:                      # used by the weather generator
   month_profiles:
-    5:  {temp_mean_c: 36, temp_amp_c: 6, rh_mean: 62, rain_prob: 0.08, rain_mean_mm_h: 4.0, wind_mean_kmh: 14}
-    9:  {temp_mean_c: 31, temp_amp_c: 5, rh_mean: 72, rain_prob: 0.25, rain_mean_mm_h: 5.0, wind_mean_kmh: 12}
-    10: {temp_mean_c: 30, temp_amp_c: 4, rh_mean: 80, rain_prob: 0.45, rain_mean_mm_h: 6.0, wind_mean_kmh: 12}
+    5:  {temp_mean_c: 34, temp_amp_c: 5, rh_mean: 58, rain_prob: 0.05, rain_mean_mm_h: 4.0, wind_mean_kmh: 14}
+    9:  {temp_mean_c: 30, temp_amp_c: 4, rh_mean: 70, rain_prob: 0.12, rain_mean_mm_h: 5.0, wind_mean_kmh: 12}
+    10: {temp_mean_c: 29, temp_amp_c: 4, rh_mean: 76, rain_prob: 0.18, rain_mean_mm_h: 6.0, wind_mean_kmh: 12}
   history_seasons:            # D-016: May (hot) for days 1–21, October (monsoon) for days 22–42
     - {days: [1, 21], month: 5}
     - {days: [22, 42], month: 10}

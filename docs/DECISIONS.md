@@ -232,3 +232,38 @@ Context: DESIGN's P1/P2 layout has a situation line, an instruction and a spoken
 Decision: Each rule's `message_key` points to `{title, action, speak}` in every locale. Reason chips are plain phrases; the minutes effect is added by the UI as a separate value.
 Why: One structure serves takeover, banner, strip and speech; no sentence concatenation (TRD §11.4).
 Alternatives: One string per alert.
+
+## D-034 — Task duration excludes breaks
+Date: 2026-09-23 · Phase: 2 · Requirement(s): TRD §5.1, §6.7, F-SHIFT-02
+Context: A task that spans lunch would otherwise count the break as task time, adding up to 30 minutes of pure noise to the estimation label.
+Decision: `actual_duration_min` = time from the task's start to its end, excluding scheduled breaks actually taken and engine-off time. Truck waits, pauses and habit idle stay in (they are part of how long the work took). Tasks unfinished at shift end stay `active` with no duration and are not used for training.
+Why: Honest labels; the live remaining-time estimate uses the same definition.
+Alternatives: Wall-clock start to end.
+
+## D-035 — Load cycle counter signal
+Date: 2026-09-23 · Phase: 2 · Requirement(s): D-001, TRD §4.2, §5.2
+Context: The brief's "Load Cycles" column exists for every machine, but TRD §5.2 has no tick signal from which to count it.
+Decision: Ticks carry `load_cycles_total`, the machine's own cycle counter, added to the basic tier's signal list. Truck loading counts one per truck loaded; dozers count every push; excavators and loaders on tasks without trucks count 25 % of the equivalent passes (`non_truck_load_share`), which gives about 6–7 loads per hour, in line with the brief's sample (12 in two hours).
+Why: Keeps the brief's column meaningful on basic machines.
+Alternatives: Derive cycles from hydraulic activity in the engine (not how real machines report it).
+
+## D-036 — Ground truth stored per tick
+Date: 2026-09-23 · Phase: 2 · Requirement(s): TRD §7.4, golden rule 5
+Context: TRD §7.4 labels idle segments and intervals, but intervals are built by the engines later (D-015).
+Decision: The simulator writes a truth row per tick under `data/history/truth/` (activity, true idle reason, and one flag per anomaly type), plus operator personalities. Evaluation derives segment and interval labels from these (idle segment: majority true reason over its ticks; interval: anomalous if it contains an anomaly tick of that type).
+Why: One ground truth, reusable for any segmentation; nothing label-like is next to the ticks engines read.
+Alternatives: Pre-computed interval labels (would bake in one interval boundary scheme).
+
+## D-037 — Simulator scope choices
+Date: 2026-09-23 · Phase: 2 · Requirement(s): TRD §7.1–7.3
+Context: The TRD leaves many world details open.
+Decision: All 42 history days are working days with one day shift per site (no night shifts); darkness appears through Tromsø's polar night. Activity durations are whole ticks (so tick-level invariants hold exactly). Each machine-day draws Poisson episodes (habit idle, short unexplained pauses, stepping out, unbelted work, fuel and productivity anomalies, people approaching), scaled by the operator's traits. Speeding near people is a per-day behaviour of operators with that trait, in travel and in work. The dispatch log is delayed by 0–150 s and misses 3 % of entries (so dispatch-log-based classification is less certain than a sensor). Each site-day has its own seed (`[seed, site, day]`), so sites run in parallel with identical results. Parameters are in `config/simulator.yaml`.
+Why: Simplest world that still produces every behaviour the engines must tell apart.
+Alternatives: Continuous-time event simulation (harder to explain and test).
+
+## D-038 — Climate tuning
+Date: 2026-09-23 · Phase: 2 · Requirement(s): TRD §4.3, §7.2
+Context: The first run gave Chennai October afternoons a heat index around 53 °C and rain in over half the hours, which is far wetter and hotter than reality.
+Decision: Chennai month profiles set to May 34 ± 5 °C / 58 % RH, September 30 ± 4 °C / 70 %, October 29 ± 4 °C / 76 % with lower hourly rain-start probabilities; humidity falls 3 % per °C above the daily mean. Tuned for plausibility before any model was trained, not against any evaluation result.
+Why: Realistic conditions; honest numbers.
+Alternatives: Keep the first values.

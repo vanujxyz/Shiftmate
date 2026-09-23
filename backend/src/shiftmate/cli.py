@@ -97,9 +97,28 @@ def config_validate() -> None:
 
 
 @sim_app.command("generate")
-def sim_generate(days: int = 42, seed: int = 7) -> None:
-    """Generate fleet history (Parquet + DuckDB)."""
-    _not_yet("sim generate", 3)
+def sim_generate(
+    days: int = 42,
+    seed: int = 7,
+    out: Path | None = None,
+    workers: int = 4,
+) -> None:
+    """Generate fleet history (Parquet + DuckDB) into data/history."""
+    import logging
+    import time
+
+    from shiftmate.sim.history import generate_history
+
+    logging.basicConfig(level=logging.WARNING)
+    settings = get_settings()
+    out_dir = out or settings.resolve(settings.data_dir) / "history"
+    started = time.perf_counter()
+    manifest = generate_history(days=days, seed=seed, out_dir=out_dir, workers=workers)
+    typer.echo(
+        f"Generated {manifest['tick_rows']:,} ticks, {manifest['tasks']} tasks "
+        f"({manifest['tasks_done']} done) for {manifest['machines']} machines over {days} days "
+        f"in {time.perf_counter() - started:.0f} s → {out_dir}"
+    )
 
 
 @sim_app.command("scale")
