@@ -4220,7 +4220,15 @@
           "$ref": "#/$defs/ReportDraft"
         },
         "context": {
-          "$ref": "#/$defs/ReportContextModel"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReportContextModel"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
         },
         "transcript": {
           "anyOf": [
@@ -4236,8 +4244,7 @@
         }
       },
       "required": [
-        "draft",
-        "context"
+        "draft"
       ],
       "title": "ReportSaveRequest",
       "type": "object"

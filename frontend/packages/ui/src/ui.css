@@ -173,7 +173,7 @@
 /* ---- Status rail in Tamil and Hindi (DESIGN §10 StatusRail, review row 11): labels step down to
  * 24 px and wrap to two lines; the risk reason is dropped from the rail (the risk line carries it). */
 :lang(ta) .sm-rail-word, :lang(hi) .sm-rail-word { font-size: 24px; line-height: 30px; max-width: 7em; }
-:lang(ta) .sm-rail-reason { display: none; }
+:lang(ta) .sm-rail-reason, :lang(hi) .sm-rail-reason { display: none; }
 /* the proximity word carries its tier glyph on the same line: it takes the room it needs */
 .sm-rail .sm-rail-word.sm-rail-prox { max-width: none; white-space: nowrap; }
 /* the machine's state word repeats its glyph (which carries it as its label): dropped in ta/hi */
@@ -189,7 +189,10 @@
 /* where the rail has no room for words (Tamil and Hindi; any language at 1024 px), the sync
  * segment keeps the count ("48"); the full words stay the mast glyph's label */
 .sm-rail-short { display: none; }
+/* BottomNav: the push-to-talk cell is 300 px, 220 px on the 1024 × 768 grid (DESIGN §4) */
+.sm-nav { --sm-nav-ptt-cell: 300px; }
 @media (max-width: 1279px) {
+  .sm-nav { --sm-nav-ptt-cell: 220px; }
   /* DESIGN §4 Cab grid 1024 × 768: no machine segment (its ID is in the Paused content header) */
   .sm-rail-machine { display: none; }
   .sm-rail .sm-rail-long { display: none; }
@@ -200,6 +203,5 @@
 /* at 1024 px the Tamil and Hindi rail words wrap sooner (two short lines, never cut) */
 @media (max-width: 1279px) {
   :lang(ta) .sm-rail-word, :lang(hi) .sm-rail-word { max-width: 5.5em; }
-  :lang(hi) .sm-rail-reason { display: none; }
   .sm-rail-seg { padding-inline: 10px; }
 }

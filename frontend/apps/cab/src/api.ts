@@ -9,8 +9,12 @@ import type {
   ChecklistSubmit,
   DemoState,
   HealthResponse,
+  InsightsResponse,
   Language,
   MachineInfo,
+  ReportParseResponse,
+  ReportSaveRequest,
+  SavedReport,
   SessionResponse,
   ShiftResponse,
 } from "@shiftmate/contracts";
@@ -65,6 +69,13 @@ export const api = {
   checklist: (body: ChecklistSubmit) => post<ChecklistResult>("/checklist", body),
   ack: (alertId: string, action: "ack" | "later" | "done" = "ack") =>
     post<{ ok: boolean }>(`/alerts/${encodeURIComponent(alertId)}/ack`, { action }),
+  parseReport: (transcript: string, language: Language) =>
+    post<ReportParseResponse>("/reports/parse", { transcript, language }),
+  saveReport: (body: ReportSaveRequest) => post<SavedReport>("/reports", body),
+  reports: (operatorId: string) =>
+    call<SavedReport[]>(`/reports?operator_id=${encodeURIComponent(operatorId)}`),
+  insights: (operatorId: string, range: "shift" | "week") =>
+    call<InsightsResponse>(`/insights/${encodeURIComponent(operatorId)}?range=${range}`),
 };
 
 /** ws://…/ws/cab/{machine} on the same host as the REST API. */

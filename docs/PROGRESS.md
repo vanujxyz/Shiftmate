@@ -1,6 +1,6 @@
 # ShiftMate — Build progress
 
-**Next step:** Milestone 12 (Cab app B) in progress.
+**Next step:** Milestone 13 (Console app) in progress.
 
 **Autonomy note (2026-09-23):** the user authorised continuing through all milestones without waiting for approval, and approved all needed downloads. Each milestone is still tested, committed, and reported in `docs/reports/milestone-N.md`.
 
@@ -151,12 +151,12 @@ Goal: the operator tablet app connected live to the edge, with Working/Paused mo
 Requirements: F-START-01…04, F-SHIFT-01…06, F-SAFE-01, 02, 04…09 (UI), F-CAB-01, 02, 03, 05.
 You will see: the cab at http://localhost:5173 following the live scenario.
 
-### Milestone 12 — Cab app B: Report, My Day, offline PWA (Phase 8, second half) · Status: not started
+### Milestone 12 — Cab app B: Report, My Day, offline PWA (Phase 8, second half) · Status: done
 Goal: reporting, private insights and full offline behaviour.
-- [ ] 1. `/report` (typed/tap flow now; voice in milestone 15), recent reports
-- [ ] 2. `/insights` My Day + week view
-- [ ] 3. PWA pre-caching, Dexie storage, sync-state display
-- [ ] 4. Manual checks at 1280×800 and 1024×768; offline check
+- [x] 1. `/report` (typed/tap flow now; voice in milestone 15), recent reports
+- [x] 2. `/insights` My Day + week view
+- [x] 3. PWA pre-caching, Dexie storage, sync-state display
+- [x] 4. Manual checks at 1280×800 and 1024×768; offline check
 Requirements: F-REP-02…05, F-INS-06, 07, 08, F-CAB-04, P-01.
 You will see: My Day screen; the app still working with the network toggled off.
 

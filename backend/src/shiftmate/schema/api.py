@@ -164,7 +164,9 @@ class ReportParseResponse(BaseModel):
 
 class ReportSaveRequest(BaseModel):
     draft: ReportDraft
-    context: ReportContextModel
+    # None: the edge fills it in when the report arrives (a cab that wrote it while the gateway was
+    # unreachable has no context to send, D-077)
+    context: ReportContextModel | None = None
     transcript: str | None = None
 
 

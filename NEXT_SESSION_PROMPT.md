@@ -10,7 +10,7 @@ You are continuing to build **ShiftMate**, an operator-first in-cab companion fo
 1. `HANDOFF.md` (repo root): the exact state, what milestone 8 already contains, and what remains.
 2. `CLAUDE.md`: process rules, golden rules and things you must never do. Its "phases" map to the milestones in PROGRESS.md.
 3. `docs/PROGRESS.md`: all 18 milestones with checkboxes, goals and requirement IDs.
-4. `docs/DECISIONS.md`: decisions D-001…D-076. Entries marked **(user)** are the owner's decisions; never reverse them. Add new entries in the same format, starting at **D-077**.
+4. `docs/DECISIONS.md`: decisions D-001…D-080. Entries marked **(user)** are the owner's decisions; never reverse them. Add new entries in the same format, starting at **D-081**.
 5. `docs/TRD.md`: implementation spec. Read §8 (scenarios) and §9 (APIs, WebSockets, sync) now; read other sections as each milestone needs them.
 6. `docs/PRD.md`: behaviour and requirement IDs (F-…); §9 is the demo story (Ravi's shift).
 7. `docs/DESIGN.md` and `frontend/packages/ui/src/tokens.css`: the visual system (from milestone 10 on).
@@ -95,9 +95,9 @@ pnpm i18n:review
 ```
 
 ## 5. Current state and your first tasks
-- Milestones 1–11 are done. The last commit is `milestone 11: …`.
+- Milestones 1–12 are done. The last commit is `milestone 12: …`.
 - **Step 1:** run the full backend suite, `pnpm test:all` and `pnpm lint:all`, and check they are green before changing anything (the backend suite takes about 3 minutes).
-- **Step 2:** carry on with milestones 12 → 18 from `docs/PROGRESS.md`. The cab app (`frontend/apps/cab`) has its frame, alert layer, Start, My Shift and Safety; `/report`, `/day` and `/learn` are placeholders (`NotYet` in `shell/CabShell.tsx`). Build screens from the components in `frontend/packages/ui` (see `/_kitchen-sink` in the console); never style app code with raw values (a test enforces this).
+- **Step 2:** carry on with milestones 13 → 18 from `docs/PROGRESS.md`. The cab app (`frontend/apps/cab`) has its frame, alert layer, Start, My Shift, Safety, Report, My Day (`/insights`) and offline PWA; `/learn` is a placeholder (`NotYet` in `shell/CabShell.tsx`). `pnpm e2e` also builds the cab PWA on :4173 for the offline test; stop any `shiftmate fleet` process before the backend suite (test_smoke opens its DuckDB file). Build screens from the components in `frontend/packages/ui` (see `/_kitchen-sink` in the console); never style app code with raw values (a test enforces this).
 - `uv run --directory backend shiftmate edge headless` prints Ravi's shift beat by beat; the Fleet Service runs with `shiftmate fleet` on :8200.
 
 ## 6. Golden rules to remember (full list in CLAUDE.md)

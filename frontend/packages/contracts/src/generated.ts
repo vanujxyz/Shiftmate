@@ -1394,7 +1394,7 @@ export interface ReportParseResponse {
  */
 export interface ReportSaveRequest {
   draft: ReportDraft;
-  context: ReportContextModel;
+  context?: ReportContextModel | null;
   transcript?: string | null;
 }
 /**

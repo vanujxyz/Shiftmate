@@ -70,3 +70,17 @@ export function alertWords(t: TFunction, a: AlertView): AlertWords {
 export function newestFirst(alerts: AlertView[]): AlertView[] {
   return [...alerts].sort((a, b) => b.raised_at.localeCompare(a.raised_at));
 }
+
+/**
+ * An insight note in the operator's words: numbers keep at most one decimal, and a unit code
+ * ("loads") becomes the unit's word in the language, never English inside Tamil.
+ */
+export function noteText(t: TFunction, note: { key: string; values?: Record<string, unknown> }): string {
+  const values: Record<string, unknown> = {};
+  for (const [k, v] of Object.entries(note.values ?? {})) {
+    if (typeof v === "number") values[k] = formatQty(Math.round(v * 10) / 10);
+    else if (k === "unit" && typeof v === "string") values[k] = t(`unitname.${v}`);
+    else values[k] = v;
+  }
+  return t(note.key, values);
+}

@@ -87,7 +87,9 @@
       "again": "Again",
       "play": "Play",
       "pause": "Pause",
-      "read_again": "Read it again"
+      "read_again": "Read it again",
+      "yes": "Yes",
+      "no": "No"
     },
     "toggle": {
       "on": "ON",
@@ -144,7 +146,30 @@
       "check": "Check this",
       "near_miss": "Near miss",
       "sample_what": "A worker walked behind the bucket",
-      "people_one": "One person, not named"
+      "people_one": "One person, not named",
+      "title": "Report",
+      "new": "What do you want to report?",
+      "what_prompt": "What happened? A few words are enough.",
+      "people_q": "Were people involved?",
+      "injury_q": "Was anyone hurt?",
+      "severity": "How serious",
+      "people_yes": "Yes, people were involved",
+      "people_no": "No people involved",
+      "injury_yes": "Someone was hurt",
+      "where_value": "{{zone}} · {{time}}",
+      "where_later": "Filled in when it reaches the machine",
+      "what_empty": "No words added",
+      "auto": "Time, machine, place, task and weather are filled in for you.",
+      "sent": "Report saved. Your supervisor will see it.",
+      "queued": "Saved on this tablet. It goes to the machine as soon as it reconnects.",
+      "recent": "Your recent reports",
+      "none": "No reports yet.",
+      "synced": "Sent to the office",
+      "waiting": "Waiting for internet",
+      "on_tablet": "On this tablet, not at the machine yet",
+      "failed": "The report could not be checked. Try again.",
+      "another": "New report",
+      "text_label": "Report text"
     },
     "coach": {
       "went_well": "Went well",
@@ -337,7 +362,41 @@
       "title": "Not ready yet",
       "text": "This section arrives in the next update. Your work is still being recorded."
     },
-    "stale_min": "No update {{minutes}} min"
+    "stale_min": "No update {{minutes}} min",
+    "day": {
+      "title": "My day",
+      "private": "Only you can see this page.",
+      "range": "Show",
+      "today": "Today",
+      "week": "This week",
+      "split": "How the time went",
+      "kind": {
+        "working": "Working",
+        "travel": "Moving",
+        "engine_off": "Engine off"
+      },
+      "split_summary": "Working {{working}}, stopped {{stopped}}, engine off {{off}}",
+      "stops": "Stops and why",
+      "stop_meta": "{{count}} stops · {{fuel}} L",
+      "no_stops": "No stops yet.",
+      "fuel": "Fuel",
+      "fuel_per_load": "Fuel per load",
+      "fuel_usual": "your usual {{value}} L",
+      "fuel_idle": "Used while stopped",
+      "fuel_total": "Used today",
+      "litres": "{{value}} L",
+      "no_loads": "No loads counted yet",
+      "nothing_yet": "Not much of the shift yet. Check back after your first task.",
+      "week_title": "Your last days",
+      "col_day": "Day",
+      "col_working": "Working",
+      "col_trucks": "Waiting for trucks",
+      "col_stops": "Short stops",
+      "col_loads": "Loads",
+      "col_fuel": "Fuel per load",
+      "no_week": "No earlier days on record.",
+      "truck_note": "Waiting for trucks is a site delay, not your idle time."
+    }
   },
   "alert": {
     "seatbelt_moving": {
@@ -473,5 +532,41 @@
     "muddy": "Muddy",
     "rocky": "Rocky",
     "frozen": "Frozen"
+  },
+  "report": {
+    "type": {
+      "incident": "Incident",
+      "near_miss": "Near miss",
+      "equipment_problem": "Machine problem"
+    },
+    "hint": {
+      "incident": "Someone was hurt or something was damaged",
+      "near_miss": "Something almost happened",
+      "equipment_problem": "Something on the machine is wrong"
+    },
+    "severity": {
+      "low": "Minor",
+      "medium": "Serious",
+      "high": "Very serious"
+    }
+  },
+  "unitname": {
+    "loads": "loads",
+    "m": "m",
+    "m2": "m²",
+    "m3": "m³"
+  },
+  "evidence": {
+    "in_break_window": "During the scheduled break",
+    "after_engine_start": "Right after the engine started",
+    "coolant_cold": "coolant still cold",
+    "time_based": "normal warm-up time",
+    "seat_empty": "The seat sensor showed nobody in the seat",
+    "no_truck_sensor": "No truck at the loading point",
+    "no_truck_dispatch_log": "No truck in the dispatch log",
+    "seated_idle": "Machine still with the operator seated",
+    "long_idle": "stops of a few minutes with the engine on",
+    "seat_not_sensed": "this machine has no seat sensor",
+    "no_clear_cause": "The sensors could not tell why"
   }
 }

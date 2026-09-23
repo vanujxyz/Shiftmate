@@ -444,7 +444,8 @@ def _routes(app: FastAPI, ctx: EdgeContext) -> None:
 
     @app.post("/reports", response_model=SavedReport)
     async def reports_save(body: ReportSaveRequest) -> SavedReport:
-        report_id = _save_report(ctx, body.draft, body.context, body.transcript)
+        context = body.context or report_context(ctx.site.runtime.language)
+        report_id = _save_report(ctx, body.draft, context, body.transcript)
         saved = ctx.store.list_reports(limit=50)
         row = next(r for r in saved if r["report_id"] == report_id)
         return SavedReport(

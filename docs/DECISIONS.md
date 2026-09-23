@@ -495,7 +495,7 @@ Alternatives: A custom ESLint rule (more code for the same result); screenshots 
 ## D-071 — Status rail short forms: stale age, sync count, 1024 × 768 drops
 Date: 2026-09-24 · Phase: 8 · Requirement(s): DESIGN §4 Cab grid 1024 × 768, §10 StatusRail; F-CAB-03
 Context: In the live cab, with stale data, raised risk and reports waiting, the rail was wider than the screen: by 4 px in English at 1280 px, and by up to 90 px in Tamil at 1024 px. The clock was pushed off the screen.
-Decision: The rail always draws the stale mark as the dashed square plus the age ("40 s"; in minutes, "4 min", from 2 minutes on). The full sentence ("No update 40 s") is its accessible name and is written out on the Safety screen. In Tamil and Hindi, and in any language below 1280 px, the sync segment shows only the count beside the mast glyph, which keeps the full words as its label. Below 1280 px the machine segment is dropped in every language (DESIGN §4), Tamil/Hindi rail words wrap at 5.5 em, and the Hindi risk reason is dropped (Tamil already drops it, D-068). The proximity word keeps its tier glyph on one line.
+Decision: The rail always draws the stale mark as the dashed square plus the age ("40 s"; in minutes, "4 min", from 2 minutes on). The full sentence ("No update 40 s") is its accessible name and is written out on the Safety screen. In Tamil and Hindi, and in any language below 1280 px, the sync segment shows only the count beside the mast glyph, which keeps the full words as its label. Below 1280 px the machine segment is dropped in every language (DESIGN §4) and Tamil/Hindi rail words wrap at 5.5 em. The Hindi risk reason is dropped at every width, as the Tamil one already is (D-068); the Safety screen names it. The proximity word keeps its tier glyph on one line. The bottom nav's push-to-talk cell is 220 px below 1280 px (DESIGN §4), so Tamil tab labels fit.
 Why: Nothing in the rail may be cut or pushed off the screen. The dashed mark carries "stale" on its own, and the full words stay available.
 Alternatives: Shrinking text below 24 px (forbidden); an ellipsis (forbidden on safety strings); dropping the stale mark (hides stale data).
 
@@ -533,3 +533,31 @@ Context: A reload should keep the operator signed in, but the edge decides who i
 Decision: The cab keeps `{operator, machine, name}`, language, theme and "read alerts aloud" in localStorage (every access guarded). When a snapshot says a different operator, or that nothing is loaded, the cab signs out locally and returns to /start. Going to Working mode is immediate unless a finger is already down, and then it waits for the press to end (DESIGN ModeTransition).
 Why: A reload doesn't cost a sign-in, but stale sessions can't survive a replaced world.
 Alternatives: sessionStorage only (a reload of the tablet loses the session); no edge check (a demo reload keeps showing the previous operator).
+
+## D-077 — What the tablet keeps, and reports that can't reach the gateway
+Date: 2026-09-24 · Phase: 8 · Requirement(s): F-CAB-04, F-REP-04, P-01; TRD §11.2 Offline
+Context: The edge already queues everything for the fleet while the site has no internet. The cab also has to work when the gateway itself is unreachable (a Wi-Fi drop in the cab, or a restart), and TRD asks Dexie to keep the profile, shift, pending reports and last insights.
+Decision: `offline/db.ts` holds three tables: `cache` (the last good copy of the shift, config, insights and reports), `drafts` (the report being written, restored on reload) and `pending` (confirmed reports the gateway did not receive). If IndexedDB is missing or fails, the same calls work in memory. Queries fall back to the kept copy only on a network failure. An answer the gateway did send, even an error such as the 403 for someone else's My Day, is never replaced. Pending reports are sent oldest first whenever the socket reconnects. They carry no context, so `ReportSaveRequest.context` is now optional and the edge fills time, place, task and weather when the report arrives. Signing out deletes that operator's cached My Day from the tablet.
+Why: Nothing the operator confirmed is lost, screens never go blank, and private insights don't outlive the session on a shared tablet.
+Alternatives: Keep everything in react-query memory (lost on reload); stamp the tablet's own place and time (the tablet has no position; the gateway is the source of truth).
+
+## D-078 — Typed and tapped report flow
+Date: 2026-09-24 · Phase: 8 · Requirement(s): F-REP-02, F-REP-03, F-REP-05
+Context: Voice reports arrive in milestone 15. The typed/tap flow must end in the same draft and must work with gloves.
+Decision: Three big type buttons (near miss, incident, machine problem), then a few typed words, then "people involved" and "anyone hurt" as Yes/No. "Check this" sends the words to `/reports/parse` for context and severity. Explicit taps always win over parser keywords, and with no words typed the English summary stays empty (the parser saw only the type's name). Where and when is shown but not editable, since the gateway fills it. Type, severity, people and the words can be changed with big buttons. Send and Delete sit at opposite ends. The recent-reports list shows each report's state: on this tablet, waiting for internet, or sent to the office.
+Why: Honest, correctable drafts; the operator's own answers are authoritative (golden rule: never fake data).
+Alternatives: Trust parser keywords over taps (a "no" tap could be overridden by a word like "worker").
+
+## D-079 — My Day presentation
+Date: 2026-09-24 · Phase: 8 · Requirement(s): F-INS-06, F-INS-07, F-INS-08; TRD §11.2 /insights
+Context: The edge's time split has `working`, `travel`, `engine_off` and idle-reason pieces (27 on the demo day), plus one row per idle segment with evidence codes.
+Decision: The route is `/insights`, as in the TRD; the tab is still called "My day". Moving counts as working in the time-split bar, and neighbouring pieces of one kind are drawn as one. Stops are grouped by cause, longest total first, with the evidence of that cause's longest stop in plain words (the cause, never the person; e.g. "No truck at the loading point"), the number of stops and the fuel used. Truck waits carry the line "a site delay, not your idle time". The page shows fuel per load against the operator's usual, fuel used while stopped and fuel used today, up to two "went well" notes and up to two ideas. Unit codes inside notes ("loads") become words in the operator's language. The week view is a table of earlier days. The page says it is private.
+Why: Readable at a glance; fair to the operator; nothing appears in English inside Hindi or Tamil.
+Alternatives: One row per idle segment (27 rows); a separate `/day` route (differs from the TRD).
+
+## D-080 — The cab is an installable PWA; offline is tested in Chrome
+Date: 2026-09-24 · Phase: 8 · Requirement(s): F-CAB-04, TRD §11.2 Offline
+Context: The cab must open with no network. The preview browser used for manual checks does not allow service workers.
+Decision: vite-plugin-pwa (`generateSW`, auto-update) pre-caches the app shell, CSS, JS (with the bundled locale strings) and every Anek font subset (15 files, about 2 MB). Every route falls back to the shell. The manifest and icon are static files in `public/`, so their colour values stay outside app code (the tokens-only rule). `e2e/offline.spec.ts` builds and serves the PWA, lets the worker take control, turns the network off in Chrome, reloads, and checks that the app opens, switches to Tamil and has the Tamil font loaded.
+Why: A real, repeatable offline check instead of a manual one.
+Alternatives: Run the service worker in dev mode (differs from production).

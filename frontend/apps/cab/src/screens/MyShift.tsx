@@ -23,7 +23,7 @@ import { useTranslation } from "react-i18next";
 import { type LiveState, useLive } from "../live/store";
 import { useShift } from "../queries";
 import { useSession } from "../session";
-import { addClock, clockOf, factorWord, formatQty, newestFirst, quantity, RISK_WORD } from "../text";
+import { addClock, clockOf, factorWord, formatQty, newestFirst, noteText, quantity, RISK_WORD } from "../text";
 
 type Row = {
   pt: ShiftTask;
@@ -126,7 +126,7 @@ export function MyShift() {
     })),
     ...[...live.notes].reverse().map((n, i) => ({
       id: `note-${live.notes.length - i}`,
-      title: t(n.key, { ...(n.values ?? {}) }),
+      title: noteText(t, n),
       meta: "",
     })),
   ].slice(0, 6);
