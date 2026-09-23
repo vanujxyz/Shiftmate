@@ -1,10 +1,11 @@
 """Data the Edge Gateway loads once: roster, models, baselines and recent history.
 
 On a real machine these arrive from the fleet service and are cached on the tablet; here they
-are read from `data/history` and `models/` (milestone 8 adds downloading the estimation model
-from the fleet with this cache as the offline fallback). Everything is optional: if history or
-models have not been generated yet, the features that need them say so instead of failing
-(golden rule 6).
+are read from `data/history` and `models/`. The estimation model is the one piece the edge keeps
+up to date on its own: `edge/sync.py` downloads newer versions from the fleet into the edge
+cache (`data/edge/models`); at start the cache is used first, then the bundled `models/`.
+Everything is optional: if history or models have not been generated yet, the features that
+need them say so instead of failing (golden rule 6).
 """
 
 from __future__ import annotations
@@ -38,10 +39,17 @@ class EdgeResources:
     anomaly_models: dict[str, dict[str, Any]] = field(default_factory=dict)
     estimation: EstimationModels | None = None
     estimation_manifest: dict[str, Any] | None = None
+    estimation_source: str | None = None  # "fleet" (downloaded), "cache" or "bundled"
     manifest: dict[str, Any] = field(default_factory=dict)
 
     @classmethod
-    def load(cls, cfg: ShiftMateConfig, history_dir: Path, models_dir: Path) -> EdgeResources:
+    def load(
+        cls,
+        cfg: ShiftMateConfig,
+        history_dir: Path,
+        models_dir: Path,
+        cache_dir: Path | None = None,
+    ) -> EdgeResources:
         r = cls(cfg, history_dir, models_dir)
         h = history_dir
         if (h / "manifest.json").exists():
@@ -74,13 +82,24 @@ class EdgeResources:
             r.baselines = pd.read_parquet(a / "baselines_latest.parquet")
         for path in sorted(a.glob("*.joblib")) if a.exists() else []:
             r.anomaly_models[path.stem] = joblib.load(path)
-        try:
-            from shiftmate.fleet.training import load_estimation_models
-
-            r.estimation, r.estimation_manifest = load_estimation_models(models_dir)
-        except (FileNotFoundError, OSError) as exc:
-            log.warning("no estimation model yet: %s", exc)
+        for directory, source in ((cache_dir, "cache"), (models_dir, "bundled")):
+            if directory is None:
+                continue
+            try:
+                r.use_estimation_from(directory, source)
+                break
+            except (FileNotFoundError, OSError) as exc:
+                log.info("no estimation model in %s: %s", directory, exc)
+        if r.estimation is None:
+            log.warning("no estimation model yet: estimates are off until one is trained")
         return r
+
+    def use_estimation_from(self, directory: Path, source: str) -> None:
+        """Load the LATEST estimation model under `directory/estimation` and use it."""
+        from shiftmate.fleet.training import load_estimation_models
+
+        self.estimation, self.estimation_manifest = load_estimation_models(directory)
+        self.estimation_source = source
 
     # --- helpers used by the runtime -------------------------------------------------------------
     @property

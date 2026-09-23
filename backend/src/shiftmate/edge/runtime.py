@@ -7,7 +7,9 @@ Each second it takes the machine's signal tick and:
 3. stores events and interval records locally (and queues what the fleet needs in the outbox);
 4. scores closed intervals for unusual behaviour against the operator's own baseline;
 5. offers a lesson when a long pause begins;
-6. queues messages for the cab (telemetry, mode, risk, alerts, idle segments, insights, …).
+6. queues messages for the cab (telemetry, mode, risk, alerts, idle segments, insights, …) and
+   for the site map (`site_event`: events shared with the supervisor, and live site issues such as
+   a truck shortage, which are attributed to the site and carry no operator — PRD P-04).
 
 It also holds the operator session. Everything here is deterministic given the ticks, except
 camera readings, which by nature arrive in real time.
@@ -44,8 +46,6 @@ from shiftmate.util.ids import uuid7_from
 
 log = logging.getLogger(__name__)
 
-CAMERA_FRESH_S = 1.0  # camera overrides the sensor while its reading is this fresh (TRD §5)
-CAMERA_ACTIVE_S = 5.0  # a camera that has reported recently counts as a proximity source
 MESSAGE_BUFFER = 2000
 
 
@@ -72,6 +72,8 @@ class MachineRuntime:
         self.language: Language = Language.EN
         self.signed_in_at: datetime | None = None
         self.messages: deque[dict[str, Any]] = deque(maxlen=MESSAGE_BUFFER)
+        self.site_messages: deque[dict[str, Any]] = deque(maxlen=MESSAGE_BUFFER)
+        self.open_site_issue: str | None = None  # start of the truck wait being shown on the map
         self.last_step: PipelineStep | None = None
         self.last_tick: dict[str, Any] | None = None
         self.last_mode: CabMode | None = None
@@ -107,6 +109,11 @@ class MachineRuntime:
         self.messages.clear()
         return out
 
+    def drain_site(self) -> list[dict[str, Any]]:
+        out = list(self.site_messages)
+        self.site_messages.clear()
+        return out
+
     # --- camera ---------------------------------------------------------------------------------
     def camera_reading(
         self, distance_m: float, confidence: float, bearing: float | None, wall: float
@@ -119,7 +126,9 @@ class MachineRuntime:
         }
 
     def camera_active(self, wall: float) -> bool:
-        return self.camera is not None and wall - self.camera["wall"] <= CAMERA_ACTIVE_S
+        return (
+            self.camera is not None and wall - self.camera["wall"] <= self.cfg.edge.camera.active_s
+        )
 
     # --- the tick -------------------------------------------------------------------------------
     def step(self, tick: dict[str, Any], dt: float, wall: float) -> PipelineStep:
@@ -131,9 +140,9 @@ class MachineRuntime:
         # never during fast-forward or seek, where many world seconds pass per real second.
         if self.camera is not None and wall > 0:
             cam_age = wall - self.camera["wall"]
-            if cam_age <= CAMERA_ACTIVE_S:
+            if cam_age <= self.cfg.edge.camera.active_s:
                 extra.add("proximity_m")
-            if cam_age <= CAMERA_FRESH_S:
+            if cam_age <= self.cfg.edge.camera.fresh_s:
                 tick["proximity_m"] = self.camera["distance_m"]
                 tick["proximity_bearing_deg"] = self.camera["bearing"]
                 tick["proximity_source"] = "camera"
@@ -164,6 +173,7 @@ class MachineRuntime:
             )
         if step.idle.provisional is not None:
             self.push("idle_segment", step.idle.provisional.payload())
+        self._truck_shortage_notice(step)
         if step.idle.closed is not None:
             self._idle_closed(step.idle.closed, ts)
         for record in step.intervals:
@@ -221,15 +231,19 @@ class MachineRuntime:
         }
 
     # --- helpers ----------------------------------------------------------------------------------
-    def _record_event(self, ev: dict[str, Any], tick: dict[str, Any]) -> dict[str, Any]:
+    def _record_event(
+        self, ev: dict[str, Any], tick: dict[str, Any], anonymous: bool = False
+    ) -> dict[str, Any]:
         row = {
             **ev,
             "event_id": uuid7_from(ev["ts"], self.rng),
             "machine_id": self.machine.machine_id,
-            "operator_id": self.operator_id or tick.get("operator_id"),
+            "operator_id": None if anonymous else (self.operator_id or tick.get("operator_id")),
             "site_id": self.site.site_id,
         }
         self.store.add_event(row)
+        if row.get("shared_with_supervisor"):
+            self.site_messages.append({"type": "site_event", "payload": _site_view(row)})
         return row
 
     def record(
@@ -240,6 +254,7 @@ class MachineRuntime:
         payload: dict[str, Any],
         shared: bool = False,
         priority: str | None = None,
+        anonymous: bool = False,
     ) -> dict[str, Any]:
         return self._record_event(
             {
@@ -251,7 +266,48 @@ class MachineRuntime:
                 "shared_with_supervisor": shared,
             },
             self.last_tick or {},
+            anonymous=anonymous,
         )
+
+    def _current_zone(self) -> str | None:
+        task = self.pipeline.tasks.get(str((self.last_tick or {}).get("task_id")))
+        return task.zone_id if task else None
+
+    def _truck_shortage_notice(self, step: PipelineStep) -> None:
+        """Show a truck wait on the supervisor's map while it happens (PRD §9 beat 4, F-INS-03)."""
+        p = step.idle.provisional
+        waiting = p is not None and p.reason == IdleReason.WAITING_FOR_TRUCK
+        if waiting and self.open_site_issue is None:
+            assert p is not None
+            self.open_site_issue = p.start.isoformat()
+            self.site_messages.append(
+                {
+                    "type": "site_event",
+                    "payload": {
+                        "type": EventType.SITE_ISSUE.value,
+                        "code": IdleReason.WAITING_FOR_TRUCK.value,
+                        "status": "open",
+                        "machine_id": self.machine.machine_id,
+                        "zone_id": self._current_zone(),
+                        "since": self.open_site_issue,
+                    },
+                }
+            )
+        elif not waiting and self.open_site_issue is not None and step.idle.closed is None:
+            # the segment ended without being classified as a truck wait (e.g. truck arrived early)
+            self.site_messages.append(
+                {
+                    "type": "site_event",
+                    "payload": {
+                        "type": EventType.SITE_ISSUE.value,
+                        "code": IdleReason.WAITING_FOR_TRUCK.value,
+                        "status": "cleared",
+                        "machine_id": self.machine.machine_id,
+                        "since": self.open_site_issue,
+                    },
+                }
+            )
+            self.open_site_issue = None
 
     def _idle_closed(self, result: IdleResult, ts: datetime) -> None:
         self.idle_today.append(result)
@@ -281,6 +337,22 @@ class MachineRuntime:
                 },
             )
         elif result.reason == IdleReason.WAITING_FOR_TRUCK:
+            # a site issue for the supervisor: attributed to the site, never to the operator (P-04)
+            self.record(
+                EventType.SITE_ISSUE,
+                result.end,
+                IdleReason.WAITING_FOR_TRUCK.value,
+                {
+                    "status": "closed",
+                    "start": result.start.isoformat(),
+                    "end": result.end.isoformat(),
+                    "minutes": round(result.duration_s / 60, 1),
+                    "zone_id": self._current_zone(),
+                },
+                shared=True,
+                anonymous=True,
+            )
+            self.open_site_issue = None
             self.push(
                 "insight",
                 {
@@ -424,3 +496,18 @@ class MachineRuntime:
             }
             self.record(EventType.LESSON_OFFERED, ts, offer.lesson_id, payload, priority="P4")
             self.push("lesson_offer", payload)
+
+
+def _site_view(row: dict[str, Any]) -> dict[str, Any]:
+    """What the site map shows for a shared event (ids, type, code, priority, payload)."""
+    ts = row["ts"]
+    return {
+        "event_id": row["event_id"],
+        "ts": ts.isoformat() if isinstance(ts, datetime) else ts,
+        "type": row["type"],
+        "priority": row.get("priority"),
+        "code": row.get("code"),
+        "machine_id": row["machine_id"],
+        "operator_id": row.get("operator_id"),
+        "payload": row.get("payload", {}),
+    }

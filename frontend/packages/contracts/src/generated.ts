@@ -3,9 +3,24 @@
 
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "Language".
+ */
+export type Language = "en" | "hi" | "ta";
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "BookingStatus".
  */
 export type BookingStatus = "booked" | "cancelled";
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "CabMode".
+ */
+export type CabMode = "working" | "paused";
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "GroundCondition".
+ */
+export type GroundCondition = "dry" | "wet" | "muddy" | "rocky" | "frozen";
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "EventType".
@@ -18,23 +33,20 @@ export type EventType =
   | "anomaly"
   | "incident"
   | "near_miss"
+  | "equipment_problem"
   | "lesson_offered"
   | "lesson_completed"
   | "drill_result"
   | "booking"
   | "checklist"
   | "risk_band_change"
-  | "connectivity";
+  | "connectivity"
+  | "site_issue";
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "Priority".
  */
 export type Priority = "P1" | "P2" | "P3" | "P4";
-/**
- * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
- * via the `definition` "GroundCondition".
- */
-export type GroundCondition = "dry" | "wet" | "muddy" | "rocky" | "frozen";
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "IdleReason".
@@ -67,11 +79,6 @@ export type MachineType = "excavator" | "wheel_loader" | "dozer";
 export type SensorTier = "basic" | "standard" | "advanced";
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
- * via the `definition` "Language".
- */
-export type Language = "en" | "hi" | "ta";
-/**
- * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "ZoneType".
  */
 export type ZoneType = "dig" | "loading" | "haul_road" | "stockpile" | "break_area";
@@ -87,9 +94,19 @@ export type LessonFormat = "narrated_cards" | "quiz" | "drill";
 export type QuantityUnit = "loads" | "m" | "m2" | "m3";
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "MachineState".
+ */
+export type MachineState = "ENGINE_OFF" | "IDLE" | "WORKING" | "TRAVELLING";
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "ProximitySource".
  */
 export type ProximitySource = "sensor" | "camera";
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "ProximityTier".
+ */
+export type ProximityTier = "clear" | "caution" | "danger" | "critical";
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "ReportType".
@@ -100,8 +117,13 @@ export type ReportType = "incident" | "near_miss" | "equipment_problem";
  * via the `definition` "Severity".
  */
 export type Severity = "low" | "medium" | "high";
-export type GroundCondition1 = "dry" | "wet" | "muddy" | "rocky" | "frozen";
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "RiskBand".
+ */
+export type RiskBand = "green" | "amber" | "red";
 export type TaskStatus = "scheduled" | "active" | "done";
+export type GroundCondition1 = "dry" | "wet" | "muddy" | "rocky" | "frozen";
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "TaskStatus".
@@ -109,6 +131,56 @@ export type TaskStatus = "scheduled" | "active" | "done";
 export type TaskStatus1 = "scheduled" | "active" | "done";
 
 export interface ShiftMateContracts {}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "AckRequest".
+ */
+export interface AckRequest {
+  action?: "ack" | "later" | "done";
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "AskRequest".
+ */
+export interface AskRequest {
+  question: string;
+  language: Language;
+  machine_id?: string | null;
+  operator_id?: string | null;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "AskResponse".
+ */
+export interface AskResponse {
+  answer: string;
+  citations: Citation[];
+  answerable: boolean;
+  mode: "online" | "offline";
+  language: Language;
+  notice_key?: string | null;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "Citation".
+ */
+export interface Citation {
+  chunk_id: string;
+  section: string;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "BeatView".
+ */
+export interface BeatView {
+  id: string;
+  at: string;
+  action: string;
+  caption: {
+    [k: string]: string;
+  } | null;
+  done: boolean;
+}
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "Booking".
@@ -121,11 +193,55 @@ export interface Booking {
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "BookingRequest".
+ */
+export interface BookingRequest {
+  operator_id: string;
+  slot_id: string;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "BreakWindow".
  */
 export interface BreakWindow {
   start: string;
   minutes: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "CameraReading".
+ */
+export interface CameraReading {
+  machine_id: string;
+  distance_m: number;
+  confidence: number;
+  bearing_deg?: number | null;
+  ts?: string | null;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "Capability".
+ */
+export interface Capability {
+  id: string;
+  enabled: boolean;
+  reason?: string | null;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "CaptionsRequest".
+ */
+export interface CaptionsRequest {
+  on: boolean;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "ChecklistAnswer".
+ */
+export interface ChecklistAnswer {
+  item_id: string;
+  ok: boolean;
+  note?: string | null;
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
@@ -146,6 +262,24 @@ export interface LocalizedText {
   en: string;
   hi: string;
   ta: string;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "ChecklistResult".
+ */
+export interface ChecklistResult {
+  saved: boolean;
+  problems: number;
+  report_ids: string[];
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "ChecklistSubmit".
+ */
+export interface ChecklistSubmit {
+  operator_id: string;
+  machine_id: string;
+  answers: ChecklistAnswer[];
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
@@ -190,6 +324,46 @@ export interface SeasonSpan {
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "Conditions".
+ */
+export interface Conditions {
+  ambient_temp_c: number;
+  relative_humidity_pct: number;
+  heat_index_c: number;
+  precipitation_mm_h: number;
+  wind_kmh: number;
+  visibility_m: number;
+  is_night: boolean;
+  ground_condition: GroundCondition;
+  sunrise?: string | null;
+  sunset?: string | null;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "Connectivity".
+ */
+export interface Connectivity {
+  online: boolean;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "DemoState".
+ */
+export interface DemoState {
+  scenario: string | null;
+  site_id: string | null;
+  focus_machine: string | null;
+  sim_time: string | null;
+  playing: boolean;
+  speed: number;
+  waiting_for: string | null;
+  online: boolean;
+  captions: boolean;
+  beats: BeatView[];
+  signed_in: string | null;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "DrillHazard".
  */
 export interface DrillHazard {
@@ -220,6 +394,24 @@ export interface HazardResult {
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "DrillResultRequest".
+ */
+export interface DrillResultRequest {
+  operator_id: string;
+  drill_id: string;
+  hazards: HazardAnswer[];
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "HazardAnswer".
+ */
+export interface HazardAnswer {
+  hazard_id: string;
+  reaction_ms?: number | null;
+  correct: boolean;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "ErrorBody".
  */
 export interface ErrorBody {
@@ -234,6 +426,36 @@ export interface ErrorBody {
  */
 export interface ErrorResponse {
   error: ErrorBody;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "EstimateReason".
+ */
+export interface EstimateReason {
+  key: string;
+  feature: string;
+  minutes: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "EstimateUpdate".
+ */
+export interface EstimateUpdate {
+  task_id: string | null;
+  estimate: TaskEstimate | null;
+  likely_finish: TaskEstimate | null;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "TaskEstimate".
+ */
+export interface TaskEstimate {
+  p10: number;
+  p50: number;
+  p90: number;
+  reasons: EstimateReason[];
+  low_confidence?: boolean;
+  remaining?: boolean;
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
@@ -262,6 +484,17 @@ export interface FleetMix {
   excavator: number;
   wheel_loader: number;
   dozer: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "FuelMetrics".
+ */
+export interface FuelMetrics {
+  fuel_l: number;
+  idle_fuel_l: number;
+  fuel_per_load_l: number | null;
+  usual_fuel_per_load_l: number | null;
+  loads: number;
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
@@ -312,12 +545,87 @@ export interface IdleSegmentPayload {
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "IdleSegmentView".
+ */
+export interface IdleSegmentView {
+  start: string;
+  end: string;
+  minutes: number;
+  reason: IdleReason;
+  confidence: number;
+  evidence: string[];
+  fuel_l: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "IdleThresholds".
  */
 export interface IdleThresholds {
   segment_min_seconds: number;
   habit_threshold_minutes: number;
   unattended_seat_empty_seconds: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "InsightNote".
+ */
+export interface InsightNote {
+  key: string;
+  values?: {
+    [k: string]: unknown;
+  };
+  lesson_id?: string | null;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "InsightsResponse".
+ */
+export interface InsightsResponse {
+  operator_id: string;
+  range: "shift" | "week";
+  totals_min: {
+    [k: string]: number;
+  };
+  time_split: TimeSplitSegment[];
+  idle_segments: IdleSegmentView[];
+  fuel: FuelMetrics;
+  anomalies: {
+    [k: string]: unknown;
+  }[];
+  coaching: InsightNote[];
+  positives: InsightNote[];
+  days?: {
+    [k: string]: unknown;
+  }[];
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "TimeSplitSegment".
+ */
+export interface TimeSplitSegment {
+  kind: string;
+  start: string;
+  end: string;
+  minutes: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "IntentRequest".
+ */
+export interface IntentRequest {
+  utterance: string;
+  language: Language;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "IntentResponse".
+ */
+export interface IntentResponse {
+  intent: string;
+  slots?: {
+    [k: string]: unknown;
+  };
+  matched?: string | null;
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
@@ -443,6 +751,16 @@ export interface QuizQuestion {
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "LessonCompleteRequest".
+ */
+export interface LessonCompleteRequest {
+  operator_id: string;
+  score: number;
+  duration_s: number;
+  language: Language;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "LessonCompletion".
  */
 export interface LessonCompletion {
@@ -452,6 +770,17 @@ export interface LessonCompletion {
   score: number;
   duration_s: number;
   language: Language;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "LessonSummary".
+ */
+export interface LessonSummary {
+  id: string;
+  format: string;
+  duration_s: number;
+  triggers: string[];
+  completed?: boolean;
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
@@ -465,6 +794,19 @@ export interface Machine {
   sensor_tier: SensorTier;
   site_id: string;
   engine_hours_start: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "MachineInfo".
+ */
+export interface MachineInfo {
+  machine: Machine;
+  focus: boolean;
+  capabilities: Capability[];
+  features: {
+    [k: string]: boolean;
+  };
+  low_confidence: boolean;
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
@@ -561,6 +903,13 @@ export interface TaskProfile {
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "NetworkRequest".
+ */
+export interface NetworkRequest {
+  online: boolean;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "Operator".
  */
 export interface Operator {
@@ -570,6 +919,46 @@ export interface Operator {
   experience_years: number;
   home_site_id: string;
   certifications: MachineType[];
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "OperatorProfile".
+ */
+export interface OperatorProfile {
+  operator: Operator;
+  language: Language;
+  skill_index: {
+    [k: string]: number;
+  };
+  lessons_completed: number;
+  drills_done: number;
+  recent_lessons: string[];
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "Recommendation".
+ */
+export interface Recommendation {
+  lesson: LessonSummary;
+  score: number;
+  because: string[];
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "ReportContextModel".
+ */
+export interface ReportContextModel {
+  ts: string;
+  machine_id: string;
+  operator_id: string | null;
+  site_id: string;
+  zone_id: string | null;
+  task_id: string | null;
+  weather: {
+    [k: string]: unknown;
+  };
+  risk_score: number | null;
+  language: Language;
 }
 /**
  * Structured incident / near-miss report (TRD §6.10).
@@ -591,6 +980,128 @@ export interface ReportDraft {
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "ReportParseRequest".
+ */
+export interface ReportParseRequest {
+  transcript: string;
+  language: Language;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "ReportParseResponse".
+ */
+export interface ReportParseResponse {
+  draft: ReportDraft;
+  context: ReportContextModel;
+  mode: "online" | "offline";
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "ReportSaveRequest".
+ */
+export interface ReportSaveRequest {
+  draft: ReportDraft;
+  context: ReportContextModel;
+  transcript?: string | null;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "SavedReport".
+ */
+export interface SavedReport {
+  report_id: string;
+  ts: string;
+  draft: ReportDraft;
+  context: ReportContextModel;
+  synced: boolean;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "ScenarioLoadRequest".
+ */
+export interface ScenarioLoadRequest {
+  name: string;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "SeekRequest".
+ */
+export interface SeekRequest {
+  beat_id: string;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "SessionResponse".
+ */
+export interface SessionResponse {
+  profile: OperatorProfile;
+  machine: MachineInfo;
+  shift: ShiftResponse;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "ShiftResponse".
+ */
+export interface ShiftResponse {
+  date: string;
+  operator_id: string;
+  machine_id: string;
+  conditions: Conditions;
+  tasks: ShiftTask[];
+  likely_finish: TaskEstimate | null;
+  breaks: SuggestedBreak[];
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "ShiftTask".
+ */
+export interface ShiftTask {
+  task: Task;
+  estimate: TaskEstimate | null;
+  progress_qty?: number;
+  zone_decal: string;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "Task".
+ */
+export interface Task {
+  task_id: string;
+  site_id: string;
+  machine_id: string;
+  operator_id: string;
+  task_type: string;
+  zone_id: string;
+  planned_quantity: number;
+  quantity_unit: QuantityUnit;
+  scheduled_start: string;
+  actual_start?: string | null;
+  actual_end?: string | null;
+  actual_duration_min?: number | null;
+  status?: TaskStatus;
+  conditions_at_start?: TaskConditions | null;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "TaskConditions".
+ */
+export interface TaskConditions {
+  ground_condition: GroundCondition;
+  heat_index_c: number;
+  precipitation_mm_h: number;
+  is_night: boolean;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "SuggestedBreak".
+ */
+export interface SuggestedBreak {
+  at: string;
+  minutes: number;
+  reason_key: string;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "Shift".
  */
 export interface Shift {
@@ -606,6 +1117,17 @@ export interface ShortageWindow {
   day: number;
   start: string;
   minutes: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "SignInRequest".
+ */
+export interface SignInRequest {
+  operator_id: string;
+  machine_id: string;
+  pin?: string | null;
+  badge?: string | null;
+  language: Language;
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
@@ -704,34 +1226,95 @@ export interface Workers {
   swing_entry_prob_per_h?: number;
 }
 /**
+ * `entities` on /ws/site: everything on the map (5 Hz).
+ *
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
- * via the `definition` "Task".
+ * via the `definition` "SiteEntities".
  */
-export interface Task {
-  task_id: string;
+export interface SiteEntities {
+  ts: string;
   site_id: string;
-  machine_id: string;
-  operator_id: string;
-  task_type: string;
-  zone_id: string;
-  planned_quantity: number;
-  quantity_unit: QuantityUnit;
-  scheduled_start: string;
-  actual_start?: string | null;
-  actual_end?: string | null;
-  actual_duration_min?: number | null;
-  status?: TaskStatus;
-  conditions_at_start?: TaskConditions | null;
+  machines: {
+    [k: string]: unknown;
+  }[];
+  trucks: {
+    [k: string]: unknown;
+  }[];
+  workers: {
+    [k: string]: unknown;
+  }[];
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
- * via the `definition` "TaskConditions".
+ * via the `definition` "SpeedRequest".
  */
-export interface TaskConditions {
-  ground_condition: GroundCondition;
+export interface SpeedRequest {
+  x: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "SyncStatus".
+ */
+export interface SyncStatus {
+  online: boolean;
+  outbox_size: number;
+  last_sync: string | null;
+  last_error?: string | null;
+  estimation_model?: string | null;
+  estimation_source?: string | null;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "SyncUpdate".
+ */
+export interface SyncUpdate {
+  online: boolean;
+  outbox_size: number;
+  last_sync: string | null;
+  last_error?: string | null;
+  synced_now?: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "TaskProgress".
+ */
+export interface TaskProgress {
+  task_id: string;
+  status: TaskStatus1;
+  done_qty: number;
+  planned_qty: number;
+  unit: string;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "Telemetry".
+ */
+export interface Telemetry {
+  ts: string;
+  machine_id: string;
+  state: MachineState;
+  mode: CabMode;
+  engine_on: boolean;
+  travel_speed_kmh: number;
+  seatbelt_fastened: boolean;
+  seat_occupied: boolean | null;
+  proximity_m: number | null;
+  proximity_bearing_deg: number | null;
+  proximity_source: string | null;
+  proximity_tier: ProximityTier | null;
   heat_index_c: number;
-  precipitation_mm_h: number;
-  is_night: boolean;
+  risk_score: number;
+  risk_band: RiskBand;
+  task_id: string | null;
+  task_progress_qty: number;
+  continuous_operation_min: number;
+  sensor_tier: SensorTier;
+  thresholds: {
+    [k: string]: number;
+  };
+  x_m?: number | null;
+  y_m?: number | null;
+  heading_deg?: number | null;
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
@@ -744,4 +1327,20 @@ export interface TrainingSlot {
   start: string;
   topic: string;
   seats_left: number;
+}
+/**
+ * Every WebSocket message (TRD §9): `seq` increases by one per channel.
+ *
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "WsEnvelope".
+ */
+export interface WsEnvelope {
+  type: string;
+  seq: number;
+  ts: string | null;
+  machine_id: string | null;
+  site_id: string | null;
+  payload: {
+    [k: string]: unknown;
+  };
 }

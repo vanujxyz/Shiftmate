@@ -74,6 +74,7 @@ class EventType(StrEnum):
     ANOMALY = "anomaly"
     INCIDENT = "incident"
     NEAR_MISS = "near_miss"
+    EQUIPMENT_PROBLEM = "equipment_problem"
     LESSON_OFFERED = "lesson_offered"
     LESSON_COMPLETED = "lesson_completed"
     DRILL_RESULT = "drill_result"
@@ -81,6 +82,7 @@ class EventType(StrEnum):
     CHECKLIST = "checklist"
     RISK_BAND_CHANGE = "risk_band_change"
     CONNECTIVITY = "connectivity"
+    SITE_ISSUE = "site_issue"  # e.g. truck shortage: attributed to the site, no operator (P-04)
 
 
 class IdleReason(StrEnum):

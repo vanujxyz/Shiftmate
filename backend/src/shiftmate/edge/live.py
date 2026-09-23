@@ -11,6 +11,8 @@ from __future__ import annotations
 
 import copy
 import math
+import time as _time
+from collections import deque
 from datetime import date, datetime, time, timedelta
 from pathlib import Path
 from typing import Any
@@ -146,6 +148,7 @@ class LiveSite:
             scenario.seed,
         )
         self.last_ticks: dict[str, dict[str, Any]] = {}
+        self._task_seen: dict[str, tuple[str, int]] = {}  # task_id → (status, whole units done)
 
     def _scenario_tasks(self, agent) -> list[PlannedTask]:
         s = self.scenario
@@ -183,17 +186,56 @@ class LiveSite:
         results = self.world.step()
         log = self.state.dispatcher.log
         if self._log_cursor < len(log):
+            new = log[self._log_cursor :]
             self.dispatch_view.add(
-                [
-                    DispatchLogEntry(e.ts, e.zone_id, e.truck_id, e.event)
-                    for e in log[self._log_cursor :]
-                ]
+                [DispatchLogEntry(e.ts, e.zone_id, e.truck_id, e.event) for e in new]
             )
+            for e in new:  # the supervisor's map shows the dispatch log as it happens
+                self.runtime.site_messages.append(
+                    {
+                        "type": "dispatch",
+                        "payload": {
+                            "ts": e.ts.isoformat(),
+                            "zone_id": e.zone_id,
+                            "truck_id": e.truck_id,
+                            "event": e.event,
+                        },
+                    }
+                )
             self._log_cursor = len(log)
         for tick, _truth in results:  # truth is never passed to the edge (golden rule 5)
             self.last_ticks[str(tick["machine_id"])] = tick
             if tick["machine_id"] == self.focus_id:
                 self.runtime.step(tick, 1.0, wall)
+        self._watch_tasks()
+
+    def _watch_tasks(self) -> None:
+        """Push `task_progress` when a task starts, gains a whole unit or ends; queue summaries."""
+        agent = self.world.agents[self.focus_id]
+        for pt in agent.plan.tasks if agent.plan else []:
+            t = pt.task
+            seen = (t.status.value, int(pt.progress))
+            if self._task_seen.get(t.task_id) == seen or t.status == TaskStatus.SCHEDULED:
+                continue
+            self._task_seen[t.task_id] = seen
+            self.runtime.push(
+                "task_progress",
+                {
+                    "task_id": t.task_id,
+                    "status": t.status.value,
+                    "done_qty": round(min(pt.progress, t.planned_quantity), 2),
+                    "planned_qty": t.planned_quantity,
+                    "unit": t.quantity_unit.value,
+                },
+            )
+            if t.status == TaskStatus.DONE and t.actual_end is not None:
+                self.runtime.store.add_task_summary(
+                    {
+                        **t.model_dump(mode="json", exclude={"conditions_at_start"}),
+                        "actual_end": t.actual_end,
+                        "done_qty": round(min(pt.progress, t.planned_quantity), 2),
+                    }
+                )
 
     def entities(self) -> dict[str, Any]:
         """Everything on the site map (`/ws/site`): machines, trucks, workers."""
@@ -289,7 +331,8 @@ class ScenarioPlayer:
         self.waiting_for: str | None = None
         self.fired: set[str] = set()
         self.snapshots: dict[str, tuple[Any, ...]] = {}
-        self.events: list[dict[str, Any]] = []  # player-level messages (captions, network, …)
+        self.events: deque[dict[str, Any]] = deque(maxlen=500)  # captions, network, waits, …
+        self.camera_fallback: tuple[float, list[list[float]], float] | None = None
         self._carry = 0.0
         self.wait_started_reports = 0
 
@@ -322,7 +365,11 @@ class ScenarioPlayer:
 
     def emit(self, kind: str, payload: dict[str, Any]) -> None:
         self.events.append({"type": kind, "payload": payload})
-        del self.events[:-500]
+
+    def drain_events(self) -> list[dict[str, Any]]:
+        out = list(self.events)
+        self.events.clear()
+        return out
 
     # --- advancing --------------------------------------------------------------------------------
     def advance(self, seconds: int, wall: float = 0.0, auto: bool = False) -> int:
@@ -344,6 +391,7 @@ class ScenarioPlayer:
         """Called by the clock task: advance `speed × wall_dt` world seconds when playing."""
         if not self.playing or self.site is None:
             return 0
+        self._check_camera_fallback(wall)
         self._carry += self.speed * wall_dt
         n = int(self._carry)
         self._carry -= n
@@ -413,8 +461,13 @@ class ScenarioPlayer:
                 p["zone"], now + timedelta(minutes=float(p["minutes"]))
             )
         elif beat.action == "camera_or_sim_person":
-            if not site.runtime.camera_active(self._wall()):
-                self._script_person(p["path"], float(p.get("seconds_per_step", 4)))
+            path, step_s = p["path"], float(p.get("seconds_per_step", 4))
+            wall = self._wall()
+            if auto or not site.runtime.camera_active(wall):
+                self._script_person(path, step_s)
+            else:  # a live camera is on: a real person walks up; scripted only if it goes quiet
+                self.camera_fallback = (wall + self.cfg.edge.camera.wait_s, path, step_s)
+                self.emit("camera_beat", {"beat": beat.id, "wait_s": self.cfg.edge.camera.wait_s})
         elif beat.action == "set_signal":
             if p.get("seatbelt_fastened") is False:
                 seconds = float(p.get("seconds", 20))
@@ -443,9 +496,18 @@ class ScenarioPlayer:
             self.emit("scale_demo", dict(p))
 
     def _wall(self) -> float:
-        import time as _time
-
         return _time.monotonic()
+
+    def _check_camera_fallback(self, wall: float) -> None:
+        """TRD §8: if the camera stops reporting during the worker_near beat, script the person."""
+        if self.camera_fallback is None or self.site is None:
+            return
+        deadline, path, step_s = self.camera_fallback
+        if not self.site.runtime.camera_active(wall):
+            self.camera_fallback = None
+            self._script_person(path, step_s)
+        elif wall >= deadline:
+            self.camera_fallback = None  # the camera carried the beat
 
     def _script_person(self, path: list[list[float]], seconds_per_step: float) -> None:
         """Place a person along `path` = [[forward_m, left_m], …] in front of the focus machine."""

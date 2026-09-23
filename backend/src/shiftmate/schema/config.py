@@ -521,6 +521,35 @@ class PrivacyConfig(Strict):
     fleet_upload: list[Literal["interval_summaries", "task_summaries", "events_shared"]]
 
 
+# --- edge gateway (§9.1, §9.3) --------------------------------------------------------------
+
+
+class FeedsConfig(Strict):
+    telemetry_hz: float = Field(gt=0)
+    site_entities_hz: float = Field(gt=0)
+    estimate_update_sim_s: int = Field(gt=0)
+
+
+class CameraConfig(Strict):
+    fresh_s: float = Field(gt=0)
+    active_s: float = Field(gt=0)
+    wait_s: float = Field(ge=0)
+
+
+class SyncConfig(Strict):
+    interval_s: float = Field(gt=0)
+    batch_size: int = Field(ge=1, le=500)
+    timeout_s: float = Field(gt=0)
+    backoff_max_s: float = Field(gt=0)
+    model_check_s: float = Field(gt=0)
+
+
+class EdgeConfig(Strict):
+    feeds: FeedsConfig
+    camera: CameraConfig
+    sync: SyncConfig
+
+
 # --- anomaly and estimation (§6.6, §6.7) ---------------------------------------------------
 
 
