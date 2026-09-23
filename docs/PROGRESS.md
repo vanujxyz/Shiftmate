@@ -1,6 +1,6 @@
 # ShiftMate — Build progress
 
-**Next step:** Milestone 13 (Console app) in progress.
+**Next step:** Milestone 14 (Assistant Ask Cat) in progress.
 
 **Autonomy note (2026-09-23):** the user authorised continuing through all milestones without waiting for approval, and approved all needed downloads. Each milestone is still tested, committed, and reported in `docs/reports/milestone-N.md`.
 
@@ -160,10 +160,10 @@ Goal: reporting, private insights and full offline behaviour.
 Requirements: F-REP-02…05, F-INS-06, 07, 08, F-CAB-04, P-01.
 You will see: My Day screen; the app still working with the network toggled off.
 
-### Milestone 13 — Console app (Phase 9) · Status: not started
+### Milestone 13 — Console app (Phase 9) · Status: done
 Goal: supervisor console — live site map, day summary, fleet view, demo control and evaluation page.
-- [ ] 1. `/site/:siteId` SVG live map ≥ 30 fps
-- [ ] 2. `/supervisor/:siteId`, `/fleet`, `/demo` (load, play, pause, speed, seek, network, captions), `/eval`
+- [x] 1. `/site/:siteId` SVG live map ≥ 30 fps
+- [x] 2. `/supervisor/:siteId`, `/fleet`, `/demo` (load, play, pause, speed, seek, network, captions), `/eval`
 Requirements: F-SUP-01…05, F-FLT-07, 08.
 You will see: http://localhost:5174 driving the demo side by side with the cab.
 

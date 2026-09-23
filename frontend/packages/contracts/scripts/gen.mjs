@@ -27,6 +27,9 @@ function stripFieldTitles(node, isDefinition = false) {
   for (const [key, value] of Object.entries(node)) {
     if (key === "$defs") {
       for (const def of Object.values(value)) stripFieldTitles(def, true);
+    } else if (key === "properties" && value && typeof value === "object") {
+      // `properties` maps field names to schemas: a field may itself be called `title`
+      for (const field of Object.values(value)) stripFieldTitles(field);
     } else {
       stripFieldTitles(value);
     }

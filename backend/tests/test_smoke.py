@@ -18,8 +18,10 @@ def test_edge_health() -> None:
     assert body["status"] == "ok"
 
 
-def test_fleet_health() -> None:
-    body = TestClient(create_fleet()).get("/health").json()
+def test_fleet_health(tmp_path) -> None:
+    # a temporary store: the real data/fleet/fleet.duckdb may be open in a running fleet service
+    app = create_fleet(db_path=tmp_path / "fleet.duckdb", seed=False)
+    body = TestClient(app).get("/health").json()
     assert body["service"] == "fleet"
     assert body["status"] == "ok"
 
