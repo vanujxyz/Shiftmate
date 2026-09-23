@@ -6,7 +6,9 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router";
 
+import { MyDay } from "./screens/MyDay";
 import { MyShift } from "./screens/MyShift";
+import { Report } from "./screens/Report";
 import { Safety } from "./screens/Safety";
 import { Start } from "./screens/Start";
 import { useSession } from "./session";
@@ -31,8 +33,8 @@ export function App() {
       <Route element={<CabShell />}>
         <Route index element={<MyShift />} />
         <Route path="safety" element={<Safety />} />
-        <Route path="report" element={<NotYet />} />
-        <Route path="day" element={<NotYet />} />
+        <Route path="report" element={<Report />} />
+        <Route path="insights" element={<MyDay />} />
         <Route path="learn" element={<NotYet />} />
         <Route path="*" element={<MyShift />} />
       </Route>

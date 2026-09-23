@@ -9,7 +9,7 @@ To approve a string, add it to `docs/translations-reviewed.json` under `hi` or `
 exact approved text, then run `pnpm i18n:review` again. If the text changes later, it returns
 to the review list.
 
-## Hindi (हिन्दी): 0 of 502 reviewed
+## Hindi (हिन्दी): 0 of 581 reviewed
 
 | Reviewed | Key | English | Hindi (हिन्दी) |
 |---|---|---|---|
@@ -82,6 +82,8 @@ to the review list.
 | **no** | `ui:ui.btn.play` | Play | चलाएँ |
 | **no** | `ui:ui.btn.pause` | Pause | रोकें |
 | **no** | `ui:ui.btn.read_again` | Read it again | फिर से पढ़ें |
+| **no** | `ui:ui.btn.yes` | Yes | हाँ |
+| **no** | `ui:ui.btn.no` | No | नहीं |
 | **no** | `ui:ui.toggle.on` | ON | चालू |
 | **no** | `ui:ui.toggle.off` | OFF | बंद |
 | **no** | `ui:ui.toggle.read_aloud` | Read alerts aloud | चेतावनी बोलकर सुनाएँ |
@@ -121,6 +123,29 @@ to the review list.
 | **no** | `ui:ui.report.near_miss` | Near miss | बाल-बाल बचे |
 | **no** | `ui:ui.report.sample_what` | A worker walked behind the bucket | एक मज़दूर बकेट के पीछे से गुज़रा |
 | **no** | `ui:ui.report.people_one` | One person, not named | एक व्यक्ति, नाम नहीं |
+| **no** | `ui:ui.report.title` | Report | रिपोर्ट |
+| **no** | `ui:ui.report.new` | What do you want to report? | आप क्या रिपोर्ट करना चाहते हैं? |
+| **no** | `ui:ui.report.what_prompt` | What happened? A few words are enough. | क्या हुआ? कुछ शब्द काफ़ी हैं। |
+| **no** | `ui:ui.report.people_q` | Were people involved? | क्या लोग शामिल थे? |
+| **no** | `ui:ui.report.injury_q` | Was anyone hurt? | क्या किसी को चोट लगी? |
+| **no** | `ui:ui.report.severity` | How serious | कितना गंभीर |
+| **no** | `ui:ui.report.people_yes` | Yes, people were involved | हाँ, लोग शामिल थे |
+| **no** | `ui:ui.report.people_no` | No people involved | कोई व्यक्ति शामिल नहीं |
+| **no** | `ui:ui.report.injury_yes` | Someone was hurt | किसी को चोट लगी |
+| **no** | `ui:ui.report.where_value` | {{zone}} · {{time}} | {{zone}} · {{time}} |
+| **no** | `ui:ui.report.where_later` | Filled in when it reaches the machine | मशीन तक पहुँचने पर भरा जाएगा |
+| **no** | `ui:ui.report.what_empty` | No words added | कोई शब्द नहीं जोड़े |
+| **no** | `ui:ui.report.auto` | Time, machine, place, task and weather are filled in for you. | समय, मशीन, जगह, काम और मौसम अपने-आप भर जाते हैं। |
+| **no** | `ui:ui.report.sent` | Report saved. Your supervisor will see it. | रिपोर्ट सहेजी गई। आपके सुपरवाइज़र इसे देखेंगे। |
+| **no** | `ui:ui.report.queued` | Saved on this tablet. It goes to the machine as soon as it reconnects. | इस टैबलेट पर सहेजी गई। मशीन से जुड़ते ही भेजी जाएगी। |
+| **no** | `ui:ui.report.recent` | Your recent reports | आपकी हाल की रिपोर्ट |
+| **no** | `ui:ui.report.none` | No reports yet. | अभी कोई रिपोर्ट नहीं। |
+| **no** | `ui:ui.report.synced` | Sent to the office | दफ़्तर भेजी गई |
+| **no** | `ui:ui.report.waiting` | Waiting for internet | इंटरनेट का इंतज़ार |
+| **no** | `ui:ui.report.on_tablet` | On this tablet, not at the machine yet | इस टैबलेट पर, अभी मशीन तक नहीं |
+| **no** | `ui:ui.report.failed` | The report could not be checked. Try again. | रिपोर्ट जाँची नहीं जा सकी। फिर कोशिश करें। |
+| **no** | `ui:ui.report.another` | New report | नई रिपोर्ट |
+| **no** | `ui:ui.report.text_label` | Report text | रिपोर्ट का लेख |
 | **no** | `ui:ui.coach.went_well` | Went well | अच्छा रहा |
 | **no** | `ui:ui.coach.idea` | One idea for tomorrow | कल के लिए एक सुझाव |
 | **no** | `ui:ui.coach.went_well_text` | 18 of 18 loads. Loading cycle 21 s, 2 s faster than last week. | 18 में से 18 लोड। लोडिंग साइकिल 21 सेकंड, पिछले हफ़्ते से 2 सेकंड तेज़। |
@@ -279,6 +304,36 @@ to the review list.
 | **no** | `ui:ui.soon.title` | Not ready yet | अभी तैयार नहीं |
 | **no** | `ui:ui.soon.text` | This section arrives in the next update. Your work is still being recorded. | यह हिस्सा अगले अपडेट में आएगा। आपका काम रिकॉर्ड हो रहा है। |
 | **no** | `ui:ui.stale_min` | No update {{minutes}} min | {{minutes}} मिनट से अपडेट नहीं |
+| **no** | `ui:ui.day.title` | My day | मेरा दिन |
+| **no** | `ui:ui.day.private` | Only you can see this page. | यह पेज सिर्फ़ आप देख सकते हैं। |
+| **no** | `ui:ui.day.range` | Show | दिखाएँ |
+| **no** | `ui:ui.day.today` | Today | आज |
+| **no** | `ui:ui.day.week` | This week | यह हफ़्ता |
+| **no** | `ui:ui.day.split` | How the time went | समय कैसे बीता |
+| **no** | `ui:ui.day.kind.working` | Working | काम |
+| **no** | `ui:ui.day.kind.travel` | Moving | चलना |
+| **no** | `ui:ui.day.kind.engine_off` | Engine off | इंजन बंद |
+| **no** | `ui:ui.day.split_summary` | Working {{working}}, stopped {{stopped}}, engine off {{off}} | काम {{working}}, रुकी {{stopped}}, इंजन बंद {{off}} |
+| **no** | `ui:ui.day.stops` | Stops and why | ठहराव और वजह |
+| **no** | `ui:ui.day.stop_meta` | {{count}} stops · {{fuel}} L | {{count}} ठहराव · {{fuel}} लीटर |
+| **no** | `ui:ui.day.no_stops` | No stops yet. | अभी कोई ठहराव नहीं। |
+| **no** | `ui:ui.day.fuel` | Fuel | ईंधन |
+| **no** | `ui:ui.day.fuel_per_load` | Fuel per load | हर लोड पर ईंधन |
+| **no** | `ui:ui.day.fuel_usual` | your usual {{value}} L | आपका आम {{value}} लीटर |
+| **no** | `ui:ui.day.fuel_idle` | Used while stopped | रुकने पर लगा |
+| **no** | `ui:ui.day.fuel_total` | Used today | आज लगा |
+| **no** | `ui:ui.day.litres` | {{value}} L | {{value}} लीटर |
+| **no** | `ui:ui.day.no_loads` | No loads counted yet | अभी कोई लोड नहीं गिना |
+| **no** | `ui:ui.day.nothing_yet` | Not much of the shift yet. Check back after your first task. | शिफ़्ट अभी शुरू हुई है। पहले काम के बाद देखें। |
+| **no** | `ui:ui.day.week_title` | Your last days | आपके पिछले दिन |
+| **no** | `ui:ui.day.col_day` | Day | दिन |
+| **no** | `ui:ui.day.col_working` | Working | काम |
+| **no** | `ui:ui.day.col_trucks` | Waiting for trucks | ट्रक का इंतज़ार |
+| **no** | `ui:ui.day.col_stops` | Short stops | छोटे ठहराव |
+| **no** | `ui:ui.day.col_loads` | Loads | लोड |
+| **no** | `ui:ui.day.col_fuel` | Fuel per load | हर लोड पर ईंधन |
+| **no** | `ui:ui.day.no_week` | No earlier days on record. | पहले के दिनों का रिकॉर्ड नहीं। |
+| **no** | `ui:ui.day.truck_note` | Waiting for trucks is a site delay, not your idle time. | ट्रक का इंतज़ार साइट की देरी है, आपका खाली समय नहीं। |
 | **no** | `ui:alert.seatbelt_moving.title` | Seatbelt off while working | काम के दौरान बेल्ट खुली है |
 | **no** | `ui:alert.seatbelt_moving.action` | Stop the machine. Buckle up. | मशीन रोकिए। बेल्ट लगाइए। |
 | **no** | `ui:alert.seatbelt_moving.speak` | Stop. Seatbelt off. | रुकिए। बेल्ट खुली है। |
@@ -372,6 +427,30 @@ to the review list.
 | **no** | `ui:ground.muddy` | Muddy | कीचड़ |
 | **no** | `ui:ground.rocky` | Rocky | पथरीली |
 | **no** | `ui:ground.frozen` | Frozen | जमी हुई |
+| **no** | `ui:report.type.incident` | Incident | घटना |
+| **no** | `ui:report.type.near_miss` | Near miss | बाल-बाल बचे |
+| **no** | `ui:report.type.equipment_problem` | Machine problem | मशीन में ख़राबी |
+| **no** | `ui:report.hint.incident` | Someone was hurt or something was damaged | किसी को चोट लगी या कुछ टूटा |
+| **no** | `ui:report.hint.near_miss` | Something almost happened | कुछ होते-होते बचा |
+| **no** | `ui:report.hint.equipment_problem` | Something on the machine is wrong | मशीन में कुछ ठीक नहीं है |
+| **no** | `ui:report.severity.low` | Minor | मामूली |
+| **no** | `ui:report.severity.medium` | Serious | गंभीर |
+| **no** | `ui:report.severity.high` | Very serious | बहुत गंभीर |
+| **no** | `ui:unitname.loads` | loads | लोड |
+| **no** | `ui:unitname.m` | m | मीटर |
+| **no** | `ui:unitname.m2` | m² | वर्ग मीटर |
+| **no** | `ui:unitname.m3` | m³ | घन मीटर |
+| **no** | `ui:evidence.in_break_window` | During the scheduled break | तय ब्रेक के समय |
+| **no** | `ui:evidence.after_engine_start` | Right after the engine started | इंजन चालू होते ही |
+| **no** | `ui:evidence.coolant_cold` | coolant still cold | कूलेंट अभी ठंडा |
+| **no** | `ui:evidence.time_based` | normal warm-up time | सामान्य वार्म-अप समय |
+| **no** | `ui:evidence.seat_empty` | The seat sensor showed nobody in the seat | सीट सेंसर के अनुसार सीट पर कोई नहीं था |
+| **no** | `ui:evidence.no_truck_sensor` | No truck at the loading point | लोडिंग की जगह पर कोई ट्रक नहीं था |
+| **no** | `ui:evidence.no_truck_dispatch_log` | No truck in the dispatch log | डिस्पैच रिकॉर्ड में कोई ट्रक नहीं |
+| **no** | `ui:evidence.seated_idle` | Machine still with the operator seated | ऑपरेटर बैठे थे, मशीन रुकी थी |
+| **no** | `ui:evidence.long_idle` | stops of a few minutes with the engine on | इंजन चालू रखकर कुछ मिनट के ठहराव |
+| **no** | `ui:evidence.seat_not_sensed` | this machine has no seat sensor | इस मशीन में सीट सेंसर नहीं है |
+| **no** | `ui:evidence.no_clear_cause` | The sensors could not tell why | सेंसर वजह नहीं बता सके |
 | **no** | `checklist.yaml:items[tracks_tyres].text` | Tracks or tyres: no damage, no loose parts | ट्रैक या टायर: कोई टूट-फूट या ढीला पुर्ज़ा नहीं |
 | **no** | `checklist.yaml:items[leaks].text` | No oil, fuel or coolant leaks under the machine | मशीन के नीचे तेल, ईंधन या कूलेंट का रिसाव नहीं |
 | **no** | `checklist.yaml:items[lights_horn].text` | Lights, beacon and horn work | लाइटें, बीकन और हॉर्न काम कर रहे हैं |
@@ -516,7 +595,7 @@ to the review list.
 | **no** | `machine_profiles/excavator.yaml:display_name` | Excavator | एक्सकेवेटर |
 | **no** | `machine_profiles/wheel_loader.yaml:display_name` | Wheel loader | व्हील लोडर |
 
-## Tamil (தமிழ்): 0 of 502 reviewed
+## Tamil (தமிழ்): 0 of 581 reviewed
 
 | Reviewed | Key | English | Tamil (தமிழ்) |
 |---|---|---|---|
@@ -589,6 +668,8 @@ to the review list.
 | **no** | `ui:ui.btn.play` | Play | இயக்கு |
 | **no** | `ui:ui.btn.pause` | Pause | இடைநிறுத்து |
 | **no** | `ui:ui.btn.read_again` | Read it again | மீண்டும் படி |
+| **no** | `ui:ui.btn.yes` | Yes | ஆம் |
+| **no** | `ui:ui.btn.no` | No | இல்லை |
 | **no** | `ui:ui.toggle.on` | ON | ஆன் |
 | **no** | `ui:ui.toggle.off` | OFF | ஆஃப் |
 | **no** | `ui:ui.toggle.read_aloud` | Read alerts aloud | எச்சரிக்கைகளை உரக்கப் படி |
@@ -628,6 +709,29 @@ to the review list.
 | **no** | `ui:ui.report.near_miss` | Near miss | நூலிழையில் தப்பியது |
 | **no** | `ui:ui.report.sample_what` | A worker walked behind the bucket | ஒரு தொழிலாளி பக்கெட்டுக்குப் பின்னால் நடந்தார் |
 | **no** | `ui:ui.report.people_one` | One person, not named | ஒருவர், பெயர் இல்லை |
+| **no** | `ui:ui.report.title` | Report | புகார் |
+| **no** | `ui:ui.report.new` | What do you want to report? | எதைப் புகார் செய்ய விரும்புகிறீர்கள்? |
+| **no** | `ui:ui.report.what_prompt` | What happened? A few words are enough. | என்ன நடந்தது? சில வார்த்தைகள் போதும். |
+| **no** | `ui:ui.report.people_q` | Were people involved? | ஆட்கள் சம்பந்தப்பட்டார்களா? |
+| **no** | `ui:ui.report.injury_q` | Was anyone hurt? | யாருக்காவது காயம் பட்டதா? |
+| **no** | `ui:ui.report.severity` | How serious | எவ்வளவு கடுமை |
+| **no** | `ui:ui.report.people_yes` | Yes, people were involved | ஆம், ஆட்கள் சம்பந்தப்பட்டனர் |
+| **no** | `ui:ui.report.people_no` | No people involved | ஆட்கள் யாரும் இல்லை |
+| **no** | `ui:ui.report.injury_yes` | Someone was hurt | ஒருவருக்குக் காயம் |
+| **no** | `ui:ui.report.where_value` | {{zone}} · {{time}} | {{zone}} · {{time}} |
+| **no** | `ui:ui.report.where_later` | Filled in when it reaches the machine | இயந்திரத்தை அடைந்ததும் நிரப்பப்படும் |
+| **no** | `ui:ui.report.what_empty` | No words added | வார்த்தைகள் சேர்க்கப்படவில்லை |
+| **no** | `ui:ui.report.auto` | Time, machine, place, task and weather are filled in for you. | நேரம், இயந்திரம், இடம், வேலை, வானிலை தானாக நிரப்பப்படும். |
+| **no** | `ui:ui.report.sent` | Report saved. Your supervisor will see it. | புகார் சேமிக்கப்பட்டது. உங்கள் மேற்பார்வையாளர் பார்ப்பார். |
+| **no** | `ui:ui.report.queued` | Saved on this tablet. It goes to the machine as soon as it reconnects. | இந்த டேப்லெட்டில் சேமிக்கப்பட்டது. இயந்திரத்துடன் இணைந்ததும் அனுப்பப்படும். |
+| **no** | `ui:ui.report.recent` | Your recent reports | உங்கள் சமீபத்திய புகார்கள் |
+| **no** | `ui:ui.report.none` | No reports yet. | இதுவரை புகார் இல்லை. |
+| **no** | `ui:ui.report.synced` | Sent to the office | அலுவலகத்துக்கு அனுப்பப்பட்டது |
+| **no** | `ui:ui.report.waiting` | Waiting for internet | இணையத்துக்காகக் காத்திருக்கிறது |
+| **no** | `ui:ui.report.on_tablet` | On this tablet, not at the machine yet | இந்த டேப்லெட்டில், இன்னும் இயந்திரத்தை அடையவில்லை |
+| **no** | `ui:ui.report.failed` | The report could not be checked. Try again. | புகாரைச் சரிபார்க்க முடியவில்லை. மீண்டும் முயலுங்கள். |
+| **no** | `ui:ui.report.another` | New report | புதிய புகார் |
+| **no** | `ui:ui.report.text_label` | Report text | புகார் உரை |
 | **no** | `ui:ui.coach.went_well` | Went well | நன்றாக நடந்தது |
 | **no** | `ui:ui.coach.idea` | One idea for tomorrow | நாளைக்கு ஒரு யோசனை |
 | **no** | `ui:ui.coach.went_well_text` | 18 of 18 loads. Loading cycle 21 s, 2 s faster than last week. | 18-க்கு 18 லோடு. ஏற்றும் சுழற்சி 21 வினாடி — கடந்த வாரத்தைவிட 2 வினாடி வேகம். |
@@ -786,6 +890,36 @@ to the review list.
 | **no** | `ui:ui.soon.title` | Not ready yet | இன்னும் தயாராகவில்லை |
 | **no** | `ui:ui.soon.text` | This section arrives in the next update. Your work is still being recorded. | இந்தப் பகுதி அடுத்த புதுப்பிப்பில் வரும். உங்கள் வேலை பதிவாகிக்கொண்டிருக்கிறது. |
 | **no** | `ui:ui.stale_min` | No update {{minutes}} min | {{minutes}} நிமிடமாகப் புதுப்பிப்பு இல்லை |
+| **no** | `ui:ui.day.title` | My day | என் நாள் |
+| **no** | `ui:ui.day.private` | Only you can see this page. | இந்தப் பக்கத்தை நீங்கள் மட்டுமே பார்க்க முடியும். |
+| **no** | `ui:ui.day.range` | Show | காட்டு |
+| **no** | `ui:ui.day.today` | Today | இன்று |
+| **no** | `ui:ui.day.week` | This week | இந்த வாரம் |
+| **no** | `ui:ui.day.split` | How the time went | நேரம் எப்படிப் போனது |
+| **no** | `ui:ui.day.kind.working` | Working | வேலை |
+| **no** | `ui:ui.day.kind.travel` | Moving | நகர்தல் |
+| **no** | `ui:ui.day.kind.engine_off` | Engine off | இன்ஜின் அணைப்பு |
+| **no** | `ui:ui.day.split_summary` | Working {{working}}, stopped {{stopped}}, engine off {{off}} | வேலை {{working}}, நின்றது {{stopped}}, இன்ஜின் அணைப்பு {{off}} |
+| **no** | `ui:ui.day.stops` | Stops and why | நிறுத்தங்களும் காரணமும் |
+| **no** | `ui:ui.day.stop_meta` | {{count}} stops · {{fuel}} L | {{count}} நிறுத்தங்கள் · {{fuel}} லிட்டர் |
+| **no** | `ui:ui.day.no_stops` | No stops yet. | இதுவரை நிறுத்தம் இல்லை. |
+| **no** | `ui:ui.day.fuel` | Fuel | எரிபொருள் |
+| **no** | `ui:ui.day.fuel_per_load` | Fuel per load | ஒவ்வொரு லோடுக்கும் எரிபொருள் |
+| **no** | `ui:ui.day.fuel_usual` | your usual {{value}} L | உங்கள் வழக்கம் {{value}} லிட்டர் |
+| **no** | `ui:ui.day.fuel_idle` | Used while stopped | நின்றபோது செலவு |
+| **no** | `ui:ui.day.fuel_total` | Used today | இன்று செலவு |
+| **no** | `ui:ui.day.litres` | {{value}} L | {{value}} லிட்டர் |
+| **no** | `ui:ui.day.no_loads` | No loads counted yet | இதுவரை லோடு எண்ணப்படவில்லை |
+| **no** | `ui:ui.day.nothing_yet` | Not much of the shift yet. Check back after your first task. | பணி இப்போதுதான் தொடங்கியது. முதல் வேலைக்குப் பிறகு பாருங்கள். |
+| **no** | `ui:ui.day.week_title` | Your last days | உங்கள் கடந்த நாட்கள் |
+| **no** | `ui:ui.day.col_day` | Day | நாள் |
+| **no** | `ui:ui.day.col_working` | Working | வேலை |
+| **no** | `ui:ui.day.col_trucks` | Waiting for trucks | லாரிக்காகக் காத்திருப்பு |
+| **no** | `ui:ui.day.col_stops` | Short stops | சிறு நிறுத்தங்கள் |
+| **no** | `ui:ui.day.col_loads` | Loads | லோடு |
+| **no** | `ui:ui.day.col_fuel` | Fuel per load | லோடுக்கு எரிபொருள் |
+| **no** | `ui:ui.day.no_week` | No earlier days on record. | முந்தைய நாட்களின் பதிவு இல்லை. |
+| **no** | `ui:ui.day.truck_note` | Waiting for trucks is a site delay, not your idle time. | லாரிக்காகக் காத்திருப்பது தளத் தாமதம், உங்கள் சும்மா நேரம் அல்ல. |
 | **no** | `ui:alert.seatbelt_moving.title` | Seatbelt off while working | வேலை செய்யும்போது பெல்ட் போடவில்லை |
 | **no** | `ui:alert.seatbelt_moving.action` | Stop the machine. Buckle up. | இயந்திரத்தை நிறுத்துங்கள். பெல்ட் போடுங்கள். |
 | **no** | `ui:alert.seatbelt_moving.speak` | Stop. Seatbelt off. | நிறுத்துங்கள். பெல்ட் போடவில்லை. |
@@ -879,6 +1013,30 @@ to the review list.
 | **no** | `ui:ground.muddy` | Muddy | சேறு |
 | **no** | `ui:ground.rocky` | Rocky | பாறை |
 | **no** | `ui:ground.frozen` | Frozen | உறைந்தது |
+| **no** | `ui:report.type.incident` | Incident | விபத்து |
+| **no** | `ui:report.type.near_miss` | Near miss | நூலிழையில் தப்பியது |
+| **no** | `ui:report.type.equipment_problem` | Machine problem | இயந்திரக் கோளாறு |
+| **no** | `ui:report.hint.incident` | Someone was hurt or something was damaged | யாருக்காவது காயம் அல்லது ஏதாவது சேதம் |
+| **no** | `ui:report.hint.near_miss` | Something almost happened | ஏதோ நடக்க இருந்தது |
+| **no** | `ui:report.hint.equipment_problem` | Something on the machine is wrong | இயந்திரத்தில் ஏதோ சரியில்லை |
+| **no** | `ui:report.severity.low` | Minor | சிறியது |
+| **no** | `ui:report.severity.medium` | Serious | கடுமையானது |
+| **no** | `ui:report.severity.high` | Very serious | மிகக் கடுமையானது |
+| **no** | `ui:unitname.loads` | loads | லோடு |
+| **no** | `ui:unitname.m` | m | மீட்டர் |
+| **no** | `ui:unitname.m2` | m² | சதுர மீட்டர் |
+| **no** | `ui:unitname.m3` | m³ | கன மீட்டர் |
+| **no** | `ui:evidence.in_break_window` | During the scheduled break | திட்டமிட்ட இடைவேளையின்போது |
+| **no** | `ui:evidence.after_engine_start` | Right after the engine started | இன்ஜின் தொடங்கிய உடனே |
+| **no** | `ui:evidence.coolant_cold` | coolant still cold | கூலன்ட் இன்னும் குளிர்ச்சி |
+| **no** | `ui:evidence.time_based` | normal warm-up time | வழக்கமான சூடேற்ற நேரம் |
+| **no** | `ui:evidence.seat_empty` | The seat sensor showed nobody in the seat | இருக்கை சென்சார்: இருக்கையில் யாரும் இல்லை |
+| **no** | `ui:evidence.no_truck_sensor` | No truck at the loading point | ஏற்றும் இடத்தில் லாரி இல்லை |
+| **no** | `ui:evidence.no_truck_dispatch_log` | No truck in the dispatch log | அனுப்புதல் பதிவில் லாரி இல்லை |
+| **no** | `ui:evidence.seated_idle` | Machine still with the operator seated | ஆபரேட்டர் அமர்ந்திருக்க இயந்திரம் நின்றது |
+| **no** | `ui:evidence.long_idle` | stops of a few minutes with the engine on | இன்ஜின் ஓடியபடி சில நிமிட நிறுத்தங்கள் |
+| **no** | `ui:evidence.seat_not_sensed` | this machine has no seat sensor | இந்த இயந்திரத்தில் இருக்கை சென்சார் இல்லை |
+| **no** | `ui:evidence.no_clear_cause` | The sensors could not tell why | காரணத்தை சென்சார்களால் சொல்ல முடியவில்லை |
 | **no** | `checklist.yaml:items[tracks_tyres].text` | Tracks or tyres: no damage, no loose parts | டிராக் அல்லது டயர்: சேதம் இல்லை, தளர்ந்த பாகம் இல்லை |
 | **no** | `checklist.yaml:items[leaks].text` | No oil, fuel or coolant leaks under the machine | இயந்திரத்தின் கீழே எண்ணெய், எரிபொருள், கூலன்ட் கசிவு இல்லை |
 | **no** | `checklist.yaml:items[lights_horn].text` | Lights, beacon and horn work | விளக்குகள், சுழல் விளக்கு, ஹாரன் வேலை செய்கின்றன |

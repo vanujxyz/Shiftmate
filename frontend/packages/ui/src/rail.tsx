@@ -206,8 +206,8 @@ export function BottomNav({
   return (
     <nav
       aria-label={label}
-      className="sm-rule-t grid h-(--sm-size-nav) w-full bg-surface"
-      style={{ gridTemplateColumns: `repeat(${tabs.length}, minmax(0, 1fr)) 300px` }}
+      className="sm-nav sm-rule-t grid h-(--sm-size-nav) w-full bg-surface"
+      style={{ gridTemplateColumns: `repeat(${tabs.length}, minmax(0, 1fr)) var(--sm-nav-ptt-cell)` }}
     >
       {tabs.map((t) => (
         <button

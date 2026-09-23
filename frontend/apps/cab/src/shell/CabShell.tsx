@@ -18,12 +18,14 @@ import {
   StatusRail,
   SystemState,
 } from "@shiftmate/ui";
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, Outlet, useLocation, useNavigate } from "react-router";
 
 import { useCabSocket } from "../live/socket";
 import { type LiveState, useLive } from "../live/store";
+import { flushPending } from "../offline/reports";
 import { useCabConfig } from "../queries";
 import { useSession } from "../session";
 import { WorkingLine } from "../screens/MyShift";
@@ -31,19 +33,19 @@ import { AlertBottom, AlertTop } from "./AlertLayer";
 import { railProps } from "./railProps";
 import { useNow } from "./useNow";
 
-export const TABS = ["/", "/safety", "/report", "/day", "/learn"] as const;
+export const TABS = ["/", "/safety", "/report", "/insights", "/learn"] as const;
 const TAB_KEY: Record<(typeof TABS)[number], string> = {
   "/": "ui.nav.shift",
   "/safety": "ui.nav.safety",
   "/report": "ui.nav.report",
-  "/day": "ui.nav.day",
+  "/insights": "ui.nav.day",
   "/learn": "ui.nav.learn",
 };
 const TAB_GLYPH = {
   "/": <ConditionGlyph condition="clock" size={44} />,
   "/safety": <PriorityGlyph priority="safe" size={44} />,
   "/report": <PriorityGlyph priority="P4" size={44} />,
-  "/day": <IdleGlyph reason="HABIT" size={44} />,
+  "/insights": <IdleGlyph reason="HABIT" size={44} />,
   "/learn": <SensorGlyph tier="standard" size={44} />,
 };
 const LOST_AFTER_MS = 3000;
@@ -84,6 +86,17 @@ export function CabShell() {
   const mode = useDisplayedMode(live.mode);
 
   useCabSocket(signedIn?.machineId ?? null);
+
+  // reports written while the gateway was unreachable go as soon as it answers again
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (!live.connected) return;
+    void flushPending().then((sent) => {
+      if (sent === 0) return;
+      void queryClient.invalidateQueries({ queryKey: ["reports"] });
+      void queryClient.invalidateQueries({ queryKey: ["pending-reports"] });
+    });
+  }, [live.connected, queryClient]);
 
   const replaced = live.seq !== null && live.loaded && live.operatorId !== signedIn?.operatorId;
   const unloaded = live.seq !== null && !live.loaded;
@@ -134,7 +147,7 @@ export function CabShell() {
   );
 }
 
-/** Report, My day and Learn arrive in milestones 12 and 16. */
+/** Learn arrives in milestone 16. */
 export function NotYet() {
   const { t } = useTranslation();
   return (

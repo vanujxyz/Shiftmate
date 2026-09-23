@@ -18,5 +18,12 @@ export default defineConfig({
       reuseExistingServer: true,
       timeout: 60_000,
     },
+    {
+      // the built cab PWA (service worker included) for the offline test
+      command: "pnpm --filter cab build && pnpm --filter cab preview --port 4173 --strictPort",
+      url: "http://localhost:4173",
+      reuseExistingServer: true,
+      timeout: 180_000,
+    },
   ],
 });

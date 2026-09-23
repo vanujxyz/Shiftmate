@@ -22,6 +22,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 
 import { api } from "../api";
+import { forget } from "../offline/db";
 import { useLive } from "../live/store";
 import { useSession } from "../session";
 import { staleSeconds, staleWords } from "../shell/railProps";
@@ -66,6 +67,8 @@ export function Safety() {
   };
   const signOut = async () => {
     await api.signOut().catch(() => undefined);
+    // My Day stays private (P-01): nothing of it is left on the tablet for the next operator
+    if (session.signedIn) await forget(`insights:${session.signedIn.operatorId}`);
     session.signOut();
     live.reset();
     queryClient.removeQueries({ queryKey: ["shift"] });

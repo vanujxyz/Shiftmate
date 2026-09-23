@@ -155,6 +155,24 @@ def test_reports_parse_save_list(client) -> None:
     assert saved["report_id"] in [r["report_id"] for r in listed]
 
 
+def test_report_without_context_is_filled_on_arrival(client) -> None:
+    """A report the cab queued while the gateway was unreachable carries no context (D-077)."""
+    sign_in(client)
+    draft = {
+        "type": "equipment_problem",
+        "severity": "low",
+        "summary_en": "Left mirror cracked",
+        "summary_local": "Left mirror cracked",
+        "people_involved": False,
+        "injury": False,
+        "parser": "tap",
+    }
+    saved = client.post("/reports", json={"draft": draft}).json()
+    assert saved["context"]["machine_id"] == "EXC001"
+    assert saved["context"]["operator_id"] == "OP1001"
+    assert saved["draft"]["type"] == "equipment_problem"
+
+
 def test_insights_are_private(client, app) -> None:
     sign_in(client)
     ctx(app).player.advance(20 * 60, auto=True)
