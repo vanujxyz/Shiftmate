@@ -46,7 +46,11 @@ src = ["src", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP", "N", "SIM", "S307"]  # S307 bans eval()
-ignore = ["B008"]  # FastAPI/typer default-argument idiom
+ignore = [
+    "B008",  # FastAPI/typer default-argument idiom
+    "N803",  # X / W for feature matrices (ML convention)
+    "N806",
+]
 
 [dependency-groups]
 dev = [

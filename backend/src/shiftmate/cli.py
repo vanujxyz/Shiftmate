@@ -144,10 +144,32 @@ def bench_runtime(machines: int = 200, sim_minutes: int = 30) -> None:
     _not_yet("bench runtime", 9)
 
 
+def _dirs() -> tuple[Path, Path]:
+    settings = get_settings()
+    return settings.resolve(settings.data_dir) / "history", settings.resolve(settings.models_dir)
+
+
 @ml_app.command("train")
-def ml_train() -> None:
-    """Train anomaly and estimation models."""
-    _not_yet("ml train", 6)
+def ml_train(seed: int = 7) -> None:
+    """Train estimation (LightGBM quantiles) and anomaly (IsolationForest) models."""
+    import json
+
+    from shiftmate.config_loader import load_config
+    from shiftmate.fleet.patterns import fleet_patterns
+    from shiftmate.fleet.training import estimation_dataset, train_anomaly, train_estimation
+
+    cfg = load_config()
+    history_dir, models_dir = _dirs()
+    est = train_estimation(cfg, history_dir, models_dir, seed)
+    typer.echo(
+        f"Estimation {est['version']}: {est['n_train']} training tasks, "
+        f"best iterations {est['best_iterations']}"
+    )
+    anomaly = train_anomaly(cfg, history_dir, models_dir)
+    typer.echo(f"Anomaly: {len(anomaly['groups'])} IsolationForests (machine type × tier)")
+    patterns = fleet_patterns(cfg, estimation_dataset(cfg, history_dir))
+    (models_dir / "fleet_patterns.json").write_text(json.dumps(patterns, indent=2), "utf-8")
+    typer.echo(f"Fleet patterns: {len(patterns)} condition multipliers → {models_dir}")
 
 
 @assistant_app.command("index")
@@ -156,25 +178,80 @@ def assistant_index() -> None:
     _not_yet("assistant index", 14)
 
 
+def _data_section(cfg, history_dir: Path) -> str:
+    import json
+
+    m = json.loads((history_dir / "manifest.json").read_text(encoding="utf-8"))
+    s = cfg.estimation.split_days
+    return "\n".join(
+        [
+            "## Data",
+            "",
+            f"Simulated history, seed {m['seed']}: {m['days']} days ({m['first_day']} to "
+            f"{m['last_day']}), {m['machines']} machines, {m['operators']} operators, "
+            f"{m['tick_rows']:,} ticks at {m['tick_seconds']:.0f} s, {m['tasks_done']:,} completed "
+            f"tasks. Split by day: train {s.train[0]}–{s.train[1]}, validation "
+            f"{s.validation[0]}–{s.validation[1]}, test {s.test[0]}–{s.test[1]}.",
+        ]
+    )
+
+
+def _run_eval(which: list[str]) -> None:
+    from shiftmate.config_loader import load_config
+    from shiftmate.eval.report import EVAL_PATH, write_section
+
+    cfg = load_config()
+    history_dir, models_dir = _dirs()
+    write_section("data", _data_section(cfg, history_dir))
+    for name in which:
+        if name == "idle":
+            from shiftmate.eval.idle import evaluate_idle
+
+            metrics, md = evaluate_idle(cfg, history_dir)
+            typer.echo(f"idle: accuracy {metrics['accuracy']:.3f}, by tier {metrics['by_tier']}")
+        elif name == "anomaly":
+            from shiftmate.eval.anomaly import evaluate_anomaly
+
+            metrics, md = evaluate_anomaly(cfg, history_dir, models_dir)
+            typer.echo(
+                f"anomaly: precision {metrics['precision']:.3f}, recall {metrics['recall']:.3f}"
+            )
+        elif name == "estimation":
+            from shiftmate.eval.estimation import evaluate_estimation
+
+            metrics, md = evaluate_estimation(cfg, history_dir, models_dir)
+            t = metrics["test"]
+            typer.echo(
+                f"estimation: median error {t['median_ape']:.3f}, coverage {t['coverage']:.3f}"
+            )
+        else:
+            continue
+        write_section(name, md)
+    typer.echo(f"Wrote {EVAL_PATH}")
+
+
 @eval_app.command("all")
 def eval_all() -> None:
     """Run every evaluation and rewrite docs/EVAL.md."""
-    _not_yet("eval all", 6)
+    _run_eval(["idle", "anomaly", "estimation"])
 
 
 @eval_app.command("idle")
 def eval_idle() -> None:
-    _not_yet("eval idle", 6)
+    """Idle-reason accuracy by tier, confusion matrix."""
+    _run_eval(["idle"])
 
 
 @eval_app.command("anomaly")
 def eval_anomaly() -> None:
-    _not_yet("eval anomaly", 6)
+    """Unusual-behaviour precision and recall."""
+    _run_eval(["anomaly"])
 
 
 @eval_app.command("estimation")
 def eval_estimation() -> None:
-    _not_yet("eval estimation", 6)
+    """Task time estimation error and range coverage."""
+    _run_eval(["estimation"])
 
 
 @eval_app.command("assistant")

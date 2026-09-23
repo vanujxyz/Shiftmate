@@ -245,3 +245,28 @@ def test_generator_is_deterministic_and_writes_outputs(tmp_path) -> None:
     assert (tmp_path / "a" / "SUMMARY.md").read_text(encoding="utf-8").startswith("# Simulated")
     ticks = pd.read_parquet(tmp_path / "a" / "ticks_30s")
     assert "label" not in " ".join(ticks.columns)  # ground truth lives only under truth/
+
+
+def test_warm_up_only_when_the_engine_is_cold(cfg, chennai) -> None:
+    # D-050: a true warm-up always starts below the coolant ready temperature
+    _, ticks, truth, _ = chennai
+    m = ticks.merge(truth, on=["ts", "machine_id"]).sort_values(["machine_id", "ts"])
+    m = m[m["coolant_temp_c"].notna()]
+    starts = m[
+        (m["idle_reason"] == "WARM_UP")
+        & (m.groupby("machine_id")["idle_reason"].shift() != "WARM_UP")
+    ]
+    assert len(starts) > 0
+    assert (starts["coolant_temp_c"] < 60).all()
+
+
+def test_engine_is_cold_every_morning(cfg, chennai) -> None:
+    # D-050: coolant cools to air temperature overnight
+    _, ticks, _, _ = chennai
+    first = (
+        ticks[ticks["coolant_temp_c"].notna()]
+        .sort_values("ts")
+        .groupby(["machine_id", ticks["ts"].dt.date])
+        .head(1)
+    )
+    assert (first["coolant_temp_c"] - first["ambient_temp_c"]).abs().max() < 1.0

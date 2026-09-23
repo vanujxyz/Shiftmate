@@ -84,6 +84,7 @@ class IntervalRecord(BaseModel):
     fuel_per_load_cycle_l: float | None = None  # null if load_cycles = 0
     task_progress_qty: float | None = None  # quantity done during the interval
     risk_score_max: int | None = None
+    p1_alert_count: int | None = None  # P1 rules raised in the interval (anomaly hard rule, §6.6)
 
 
 def read_brief_csv(path: Path, timezone: str = "Asia/Kolkata") -> list[IntervalRecord]:

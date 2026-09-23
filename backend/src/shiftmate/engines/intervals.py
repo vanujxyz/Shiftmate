@@ -221,6 +221,8 @@ class IntervalBuilder:
                 a.counts[PROXIMITY_RULES[rule_id]] += 1
             if priority in ("P1", "P2"):
                 a.alert = True
+            if priority == "P1":
+                a.counts["p1_alert_count"] += 1
         a.fuel_l += t.fuel_rate_lph * dt / 3600
         if a.cycles_start is None:
             a.cycles_start = t.load_cycles_total
@@ -327,6 +329,7 @@ class IntervalBuilder:
             fuel_per_load_cycle_l=round(a.fuel_l / cycles, 2) if cycles else None,
             task_progress_qty=round(max(0.0, a.progress_end - (a.progress_start or 0.0)), 3),
             risk_score_max=a.risk_max,
+            p1_alert_count=a.counts["p1_alert_count"],
         )
         self.incidents = 0
         self.near_misses = 0
