@@ -8,7 +8,7 @@ import pytest
 import yaml
 
 from shiftmate.config_loader import REQUIRED_LESSONS, ConfigError, get_config, load_config
-from shiftmate.schema.enums import MachineType, SensorTier
+from shiftmate.schema.enums import GroundCondition, MachineType, SensorTier
 from shiftmate.settings import REPO_ROOT
 
 LOCALES = REPO_ROOT / "frontend" / "packages" / "i18n" / "src" / "locales"
@@ -85,7 +85,8 @@ def test_every_message_key_is_translated(cfg) -> None:
         for feature in cfg.anomaly.features:
             assert feature.message_key in flat, (lang, feature.code)
         for keys in cfg.estimation.reason_keys.values():
-            assert keys.slower in flat and keys.faster in flat, (lang, keys)
+            for key in keys.expanded([g.value for g in GroundCondition]):
+                assert key in flat, (lang, key)
         for reason in cfg.idle_rules.order:
             assert f"idle.{reason}" in flat, (lang, reason)
 

@@ -1,18 +1,666 @@
-"""Edge Gateway FastAPI app (TRD §9.1). Milestone 1: health check only."""
+"""Edge Gateway FastAPI app (TRD §9.1): the machine-side server the cab talks to.
 
-from fastapi import FastAPI
+One process hosts the live simulated site and the focus machine's runtime. A clock task advances
+the world `speed` seconds per real second while the scenario plays. Endpoints are `async`, so
+they run on the same event loop as the clock and never see the world half-updated.
+WebSockets, the outbox sync and fleet model download arrive in milestone 8.
+"""
+
+from __future__ import annotations
+
+import asyncio
+import contextlib
+import logging
+import time as _time
+from collections.abc import AsyncIterator
+from dataclasses import dataclass, field
+from datetime import datetime
+from pathlib import Path
+from typing import Any
+
+from fastapi import FastAPI, HTTPException, Query
 
 from shiftmate import __version__
+from shiftmate.config_loader import ShiftMateConfig, load_config
+from shiftmate.edge.live import ScenarioPlayer
+from shiftmate.edge.resources import EdgeResources
+from shiftmate.edge.services import build_insights, build_profile, build_shift, training_slots
+from shiftmate.edge.store import EdgeStore
+from shiftmate.engines.intents import match_intent
+from shiftmate.engines.reports import auto_fill, parse_offline
+from shiftmate.engines.safety import SafetyEngine
 from shiftmate.schema import HealthResponse
+from shiftmate.schema.api import (
+    AckRequest,
+    AskRequest,
+    AskResponse,
+    BeatView,
+    BookingRequest,
+    CameraReading,
+    Capability,
+    ChecklistResult,
+    ChecklistSubmit,
+    DemoState,
+    DrillResultRequest,
+    InsightsResponse,
+    IntentRequest,
+    IntentResponse,
+    LessonCompleteRequest,
+    LessonSummary,
+    MachineInfo,
+    NetworkRequest,
+    OperatorProfile,
+    Recommendation,
+    ReportContextModel,
+    ReportParseRequest,
+    ReportParseResponse,
+    ReportSaveRequest,
+    SavedReport,
+    ScenarioLoadRequest,
+    SeekRequest,
+    SessionResponse,
+    ShiftResponse,
+    SignInRequest,
+    SpeedRequest,
+    SyncStatus,
+    TaskEstimate,
+)
+from shiftmate.schema.config import Lesson
+from shiftmate.schema.enums import EventType, Language, ReportType, SensorTier
+from shiftmate.schema.events import ReportDraft
+from shiftmate.schema.reference import Machine
+from shiftmate.schema.training import TrainingSlot
+from shiftmate.settings import get_settings
 from shiftmate.util.api import install_common
+from shiftmate.util.ids import uuid7_from
+
+log = logging.getLogger(__name__)
+CLOCK_PERIOD_S = 0.1
 
 
-def create_app() -> FastAPI:
-    app = FastAPI(title="ShiftMate Edge Gateway", version=__version__)
+@dataclass
+class EdgeContext:
+    cfg: ShiftMateConfig
+    resources: EdgeResources
+    store: EdgeStore
+    player: ScenarioPlayer
+    last_sync: datetime | None = None
+    last_sync_error: str | None = None
+    extra: dict[str, Any] = field(default_factory=dict)
+
+    @property
+    def site(self):
+        if self.player.site is None:
+            raise HTTPException(409, "No scenario is loaded.")
+        return self.player.site
+
+    def wall(self) -> float:
+        return _time.monotonic()
+
+
+def pin_for(operator_id: str) -> str:
+    """Demo PINs: the operator number (OP1001 → 1001). Not a security measure (PRD §3 non-goals)."""
+    return operator_id.removeprefix("OP")
+
+
+def create_app(
+    cfg: ShiftMateConfig | None = None,
+    history_dir: Path | None = None,
+    models_dir: Path | None = None,
+    db_path: Path | None = None,
+    scenario: str | None = "ravi_shift",
+    autorun: bool = True,
+) -> FastAPI:
+    settings = get_settings()
+    cfg = cfg or load_config()
+    data_dir = settings.resolve(settings.data_dir)
+    history_dir = history_dir or data_dir / "history"
+    models_dir = models_dir or settings.resolve(settings.models_dir)
+    resources = EdgeResources.load(cfg, history_dir, models_dir)
+    store = EdgeStore(db_path if db_path is not None else data_dir / "edge" / "edge.db")
+    player = ScenarioPlayer(cfg, resources, store)
+    ctx = EdgeContext(cfg, resources, store, player)
+    if scenario:
+        player.load(scenario)
+
+    @contextlib.asynccontextmanager
+    async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+        task = asyncio.create_task(_clock(ctx)) if autorun else None
+        yield
+        if task:
+            task.cancel()
+
+    app = FastAPI(title="ShiftMate Edge Gateway", version=__version__, lifespan=lifespan)
+    app.state.ctx = ctx
     install_common(app)
+    _routes(app, ctx)
+    return app
+
+
+async def _clock(ctx: EdgeContext) -> None:
+    """Advance the world while the scenario plays (speed × real time)."""
+    last = _time.monotonic()
+    while True:
+        await asyncio.sleep(CLOCK_PERIOD_S)
+        now = _time.monotonic()
+        try:
+            ctx.player.tick_wall(now - last, now)
+        except Exception:  # keep the clock alive; the error is logged for the demo operator
+            log.exception("clock step failed")
+        last = now
+
+
+# --- helpers ------------------------------------------------------------------------------------
+
+
+def machine_info(ctx: EdgeContext, machine: Machine, focus: bool) -> MachineInfo:
+    signals = ctx.cfg.sensor_tiers.signals_for(machine.sensor_tier)
+    engine = SafetyEngine(ctx.cfg.safety_rules, signals, ctx.cfg.alert_policy.default_cooldown_s)
+    extra = set()
+    if focus and ctx.player.site and ctx.player.site.runtime.camera_active(ctx.wall()):
+        extra.add("proximity_m")
+    caps = []
+    for rule in ctx.cfg.safety_rules.rules:
+        enabled = engine.enabled(rule, extra)
+        missing = [s for s in rule.requires_signals if s not in signals | extra]
+        caps.append(
+            Capability(
+                id=rule.id,
+                enabled=enabled,
+                reason=f"needs {', '.join(missing)}" if missing else None,
+            )
+        )
+    features = {
+        name: ctx.cfg.sensor_tiers.feature_enabled(name, machine.sensor_tier)
+        for name in ctx.cfg.sensor_tiers.feature_availability
+    }
+    return MachineInfo(
+        machine=machine,
+        focus=focus,
+        capabilities=caps,
+        features=features,
+        low_confidence=machine.sensor_tier == SensorTier.BASIC,
+    )
+
+
+def lesson_summary(
+    ctx: EdgeContext, lesson: Lesson, operator_id: str | None = None
+) -> LessonSummary:
+    done = False
+    if operator_id:
+        done = any(c["lesson_id"] == lesson.id for c in ctx.store.list_completions(operator_id))
+    return LessonSummary(
+        id=lesson.id,
+        title=lesson.title.model_dump(),
+        format=lesson.format.value,
+        duration_s=lesson.duration_s,
+        triggers=lesson.triggers,
+        completed=done,
+    )
+
+
+def require_operator(ctx: EdgeContext, operator_id: str) -> None:
+    if ctx.resources.operator_row(operator_id) is None:
+        raise HTTPException(404, f"Unknown operator {operator_id}.")
+
+
+def _routes(app: FastAPI, ctx: EdgeContext) -> None:
+    cfg = ctx.cfg
 
     @app.get("/health", response_model=HealthResponse)
-    def health() -> HealthResponse:
-        return HealthResponse(service="edge", status="ok", version=__version__, network_online=True)
+    async def health() -> HealthResponse:
+        site = ctx.player.site
+        return HealthResponse(
+            service="edge",
+            status="ok",
+            version=__version__,
+            sim_clock=site.now.isoformat() if site else None,
+            network_online=ctx.player.online,
+        )
 
-    return app
+    # --- machines and session ---------------------------------------------------------------
+    @app.get("/machines", response_model=list[MachineInfo])
+    async def machines() -> list[MachineInfo]:
+        site = ctx.site
+        return [
+            machine_info(ctx, a.machine, a.machine.machine_id == site.focus_id)
+            for a in site.world.agents.values()
+        ]
+
+    @app.get("/machines/{machine_id}", response_model=MachineInfo)
+    async def machine(machine_id: str) -> MachineInfo:
+        agent = ctx.site.world.agents.get(machine_id)
+        if agent is None:
+            raise HTTPException(404, f"Unknown machine {machine_id}.")
+        return machine_info(ctx, agent.machine, machine_id == ctx.site.focus_id)
+
+    @app.post("/session/sign-in", response_model=SessionResponse)
+    async def sign_in(body: SignInRequest) -> SessionResponse:
+        site = ctx.site
+        require_operator(ctx, body.operator_id)
+        if body.machine_id != site.focus_id:
+            raise HTTPException(409, f"This tablet is on {site.focus_id}.")
+        badge_ok = body.badge == f"SHIFTMATE:{body.operator_id}"
+        if not badge_ok and body.pin != pin_for(body.operator_id):
+            raise HTTPException(401, "That PIN didn't match.")
+        site.runtime.sign_in(body.operator_id, body.language, site.now)
+        site.runtime.note_shift_conditions(site.world.conditions(site.now))
+        profile = build_profile(cfg, ctx.resources, ctx.store, body.operator_id, body.language)
+        assert profile is not None
+        return SessionResponse(
+            profile=profile,
+            machine=machine_info(ctx, site.world.agents[site.focus_id].machine, True),
+            shift=build_shift(cfg, ctx.resources, site),
+        )
+
+    @app.post("/session/sign-out")
+    async def sign_out() -> dict[str, bool]:
+        ctx.site.runtime.sign_out()
+        return {"ok": True}
+
+    @app.get("/operators/{operator_id}/profile", response_model=OperatorProfile)
+    async def profile(operator_id: str) -> OperatorProfile:
+        p = build_profile(cfg, ctx.resources, ctx.store, operator_id)
+        if p is None:
+            raise HTTPException(404, f"Unknown operator {operator_id}.")
+        return p
+
+    @app.get("/operators/{operator_id}/shift", response_model=ShiftResponse)
+    async def shift(operator_id: str, date: str | None = None) -> ShiftResponse:
+        site = ctx.site
+        require_operator(ctx, operator_id)
+        plan = site.world.agents[site.focus_id].plan
+        on_machine = {
+            site.runtime.operator_id,
+            plan.operator_id if plan else None,
+            site.scenario.operator,
+        }
+        if operator_id not in on_machine:
+            raise HTTPException(404, f"{operator_id} has no shift on {site.focus_id} today.")
+        if date and date != site.scenario.date.isoformat():
+            raise HTTPException(404, "Only today's shift is planned on this machine.")
+        return build_shift(cfg, ctx.resources, site)
+
+    @app.get("/tasks/{task_id}/estimate", response_model=TaskEstimate)
+    async def task_estimate(task_id: str) -> TaskEstimate:
+        for t in build_shift(cfg, ctx.resources, ctx.site).tasks:
+            if t.task.task_id == task_id:
+                if t.estimate is None:
+                    raise HTTPException(404, "This task has no estimate (done, or no model yet).")
+                return t.estimate
+        raise HTTPException(404, f"Unknown task {task_id}.")
+
+    @app.post("/checklist", response_model=ChecklistResult)
+    async def checklist(body: ChecklistSubmit) -> ChecklistResult:
+        site = ctx.site
+        items = {i.id: i for i in cfg.checklist.items}
+        unknown = [a.item_id for a in body.answers if a.item_id not in items]
+        if unknown:
+            raise HTTPException(422, f"Unknown checklist items: {unknown}")
+        rt = site.runtime
+        rt.record(
+            EventType.CHECKLIST,
+            site.now,
+            "walkaround",
+            {"answers": [a.model_dump() for a in body.answers]},
+        )
+        report_ids = []
+        for a in body.answers:
+            if a.ok:
+                continue
+            text = items[a.item_id].text.get(rt.language)
+            draft = ReportDraft(
+                type=ReportType.EQUIPMENT_PROBLEM,
+                severity="medium",
+                summary_en=items[a.item_id].text.en,
+                summary_local=a.note or text,
+                people_involved=False,
+                injury=False,
+                parser="checklist",
+            )
+            report_ids.append(_save_report(ctx, draft, None, transcript=a.note))
+        return ChecklistResult(saved=True, problems=len(report_ids), report_ids=report_ids)
+
+    @app.post("/alerts/{alert_id}/ack")
+    async def ack(alert_id: str, body: AckRequest | None = None) -> dict[str, Any]:
+        rt = ctx.site.runtime
+        if rt.pipeline.alerts is None:
+            raise HTTPException(409, "No alert policy on this machine.")
+        out = rt.pipeline.alerts.acknowledge(alert_id, ctx.site.now, (body or AckRequest()).action)
+        if not out.messages and not out.events:
+            raise HTTPException(404, f"No active alert {alert_id}.")
+        for ev in out.events:
+            rt._record_event(ev, rt.last_tick or {})
+        rt.messages.extend(out.messages)
+        return {"ok": True, "messages": out.messages}
+
+    # --- reports ------------------------------------------------------------------------------
+    def report_context(language: Language) -> ReportContextModel:
+        site = ctx.site
+        rt = site.runtime
+        tick = rt.last_tick or {}
+        c = auto_fill(
+            ts=site.now,
+            machine_id=site.focus_id,
+            operator_id=rt.operator_id,
+            site_id=site.site.site_id,
+            layout=site.site.layout,
+            x_m=float(tick.get("x_m", 0.0)),
+            y_m=float(tick.get("y_m", 0.0)),
+            task_id=tick.get("task_id"),
+            weather={
+                k: tick.get(k)
+                for k in (
+                    "heat_index_c",
+                    "ambient_temp_c",
+                    "precipitation_mm_h",
+                    "ground_condition",
+                    "is_night",
+                )
+            },
+            risk_score=rt.last_step.risk.score if rt.last_step else None,
+            language=language,
+        )
+        return ReportContextModel(**c.model_dump())
+
+    @app.post("/reports/parse", response_model=ReportParseResponse)
+    async def reports_parse(body: ReportParseRequest) -> ReportParseResponse:
+        draft = parse_offline(body.transcript, body.language, cfg.report_keywords)
+        return ReportParseResponse(
+            draft=draft, context=report_context(body.language), mode="offline"
+        )
+
+    @app.post("/reports", response_model=SavedReport)
+    async def reports_save(body: ReportSaveRequest) -> SavedReport:
+        report_id = _save_report(ctx, body.draft, body.context, body.transcript)
+        saved = ctx.store.list_reports(limit=50)
+        row = next(r for r in saved if r["report_id"] == report_id)
+        return SavedReport(
+            report_id=report_id,
+            ts=row["ts"],
+            draft=body.draft,
+            context=ReportContextModel(**row["context"]),
+            synced=row["synced"],
+        )
+
+    @app.get("/reports", response_model=list[SavedReport])
+    async def reports_list(operator_id: str | None = None) -> list[SavedReport]:
+        return [
+            SavedReport(
+                report_id=r["report_id"],
+                ts=r["ts"],
+                draft=ReportDraft(**r["draft"]),
+                context=ReportContextModel(**r["context"]),
+                synced=r["synced"],
+            )
+            for r in ctx.store.list_reports(operator_id)
+        ]
+
+    # --- insights -----------------------------------------------------------------------------
+    @app.get("/insights/{operator_id}", response_model=InsightsResponse)
+    async def insights(
+        operator_id: str, range: str = Query("shift", pattern="^(shift|week)$")
+    ) -> InsightsResponse:  # noqa: A002
+        site = ctx.site
+        if operator_id != site.runtime.operator_id:
+            raise HTTPException(403, "My Day is private to the signed-in operator (P-01).")
+        return build_insights(cfg, ctx.resources, site, ctx.store, operator_id, range)
+
+    # --- learning ------------------------------------------------------------------------------
+    @app.get("/lessons", response_model=list[LessonSummary])
+    async def lessons(operator_id: str | None = None) -> list[LessonSummary]:
+        return [lesson_summary(ctx, lesson, operator_id) for lesson in cfg.lessons.lessons]
+
+    @app.get("/lessons/recommended", response_model=list[Recommendation])
+    async def lessons_recommended(operator_id: str) -> list[Recommendation]:
+        site = ctx.site
+        rt = site.runtime
+        if operator_id != rt.operator_id:
+            raise HTTPException(403, "Recommendations are private to the signed-in operator.")
+        recs = rt.recommendations(site.now)
+        return [
+            Recommendation(
+                lesson=lesson_summary(ctx, cfg.lessons.lesson(r.lesson_id), operator_id),
+                score=r.score,
+                because=r.triggers,
+            )
+            for r in recs
+        ]
+
+    @app.get("/lessons/{lesson_id}", response_model=Lesson)
+    async def lesson(lesson_id: str, lang: Language | None = None) -> Lesson:
+        try:
+            return cfg.lessons.lesson(lesson_id)
+        except KeyError as exc:
+            raise HTTPException(404, f"Unknown lesson {lesson_id}.") from exc
+
+    @app.post("/lessons/{lesson_id}/complete")
+    async def lesson_complete(lesson_id: str, body: LessonCompleteRequest) -> dict[str, Any]:
+        try:
+            cfg.lessons.lesson(lesson_id)
+        except KeyError as exc:
+            raise HTTPException(404, f"Unknown lesson {lesson_id}.") from exc
+        site = ctx.site
+        ctx.store.add_completion(
+            body.operator_id, lesson_id, site.now, body.score, body.duration_s, body.language.value
+        )
+        site.runtime.record(
+            EventType.LESSON_COMPLETED,
+            site.now,
+            lesson_id,
+            {"score": body.score, "duration_s": body.duration_s, "language": body.language.value},
+        )
+        return {"ok": True}
+
+    @app.post("/drills/results")
+    async def drill_results(body: DrillResultRequest) -> dict[str, Any]:
+        site = ctx.site
+        lesson = next(
+            (x for x in cfg.lessons.lessons if x.id == body.drill_id and x.format.value == "drill"),
+            None,
+        )
+        if lesson is None:
+            raise HTTPException(404, f"Unknown drill {body.drill_id}.")
+        correct = sum(1 for h in body.hazards if h.correct)
+        score = correct / len(body.hazards) if body.hazards else 0.0
+        reactions = [h.reaction_ms for h in body.hazards if h.reaction_ms is not None and h.correct]
+        data = {
+            "hazards": [h.model_dump() for h in body.hazards],
+            "correct": correct,
+            "total": len(body.hazards),
+            "mean_reaction_ms": round(sum(reactions) / len(reactions)) if reactions else None,
+        }
+        ctx.store.add_drill(body.operator_id, body.drill_id, site.now, score, data)
+        site.runtime.record(
+            EventType.DRILL_RESULT, site.now, body.drill_id, {**data, "score": score}
+        )
+        return {"ok": True, "score": score, **data}
+
+    @app.get("/training/slots", response_model=list[TrainingSlot])
+    async def slots(site_id: str | None = None) -> list[TrainingSlot]:
+        site = ctx.site
+        sid = site_id or site.site.site_id
+        if sid not in cfg.sites:
+            raise HTTPException(404, f"Unknown site {sid}.")
+        start = site.local(cfg.sites[sid].shift.start)
+        ctx.store.upsert_slots(sid, training_slots(cfg, sid, start))
+        return [
+            TrainingSlot(
+                slot_id=s["slot_id"],
+                dealer_centre=s["dealer_centre"],
+                site_id=s["site_id"],
+                start=s["start"],
+                topic=s["topic"],
+                seats_left=s["seats_left"],
+            )
+            for s in ctx.store.list_slots(sid)
+        ]
+
+    @app.post("/training/bookings")
+    async def bookings(body: BookingRequest) -> dict[str, Any]:
+        site = ctx.site
+        booking_id = uuid7_from(site.now, site.runtime.rng)
+        if not ctx.store.book(booking_id, body.operator_id, body.slot_id, site.now):
+            raise HTTPException(409, "That session is full or does not exist.")
+        site.runtime.record(EventType.BOOKING, site.now, body.slot_id, {"booking_id": booking_id})
+        return {"ok": True, "booking_id": booking_id}
+
+    # --- assistant (the full assistant arrives in milestone 14) --------------------------------
+    @app.post("/assistant/ask", response_model=AskResponse)
+    async def ask(body: AskRequest) -> AskResponse:
+        answer = ctx.extra.get("assistant")
+        if answer is not None:
+            return await answer(body)
+        return AskResponse(
+            answer="",
+            citations=[],
+            answerable=False,
+            mode="offline",
+            language=body.language,
+            notice_key="ask.not_indexed",
+        )
+
+    @app.post("/assistant/intent", response_model=IntentResponse)
+    async def intent(body: IntentRequest) -> IntentResponse:
+        m = match_intent(body.utterance, cfg.intents)
+        return IntentResponse(intent=m.intent, matched=m.matched)
+
+    # --- camera and sync ------------------------------------------------------------------------
+    @app.post("/proximity/camera")
+    async def camera(body: CameraReading) -> dict[str, Any]:
+        site = ctx.site
+        if body.machine_id != site.focus_id:
+            raise HTTPException(404, f"No camera runtime for {body.machine_id}.")
+        site.runtime.camera_reading(body.distance_m, body.confidence, body.bearing_deg, ctx.wall())
+        return {"ok": True}
+
+    @app.get("/sync/status", response_model=SyncStatus)
+    async def sync_status() -> SyncStatus:
+        return SyncStatus(
+            online=ctx.player.online,
+            outbox_size=ctx.store.outbox_size(),
+            last_sync=ctx.last_sync,
+            last_error=ctx.last_sync_error,
+        )
+
+    # --- demo control ---------------------------------------------------------------------------
+    def demo_state() -> DemoState:
+        p = ctx.player
+        s = p.scenario
+        return DemoState(
+            scenario=s.name if s else None,
+            site_id=s.site_id if s else None,
+            focus_machine=s.focus_machine if s else None,
+            sim_time=p.site.now if p.site else None,
+            playing=p.playing,
+            speed=p.speed,
+            waiting_for=p.waiting_for,
+            online=p.online,
+            captions=p.captions,
+            beats=[
+                BeatView(
+                    id=b.id,
+                    at=b.at.strftime("%H:%M"),
+                    action=b.action,
+                    caption=b.caption,
+                    done=b.id in p.fired,
+                )
+                for b in (s.beats if s else [])
+            ],
+            signed_in=p.site.runtime.operator_id if p.site else None,
+        )
+
+    @app.get("/demo/state", response_model=DemoState)
+    async def demo_get() -> DemoState:
+        return demo_state()
+
+    @app.post("/demo/scenario/load", response_model=DemoState)
+    async def demo_load(body: ScenarioLoadRequest) -> DemoState:
+        try:
+            ctx.player.load(body.name)
+        except FileNotFoundError as exc:
+            raise HTTPException(404, str(exc)) from exc
+        return demo_state()
+
+    @app.post("/demo/play", response_model=DemoState)
+    async def demo_play() -> DemoState:
+        ctx.site  # noqa: B018 (raises 409 when nothing is loaded)
+        ctx.player.continue_()
+        ctx.player.playing = True
+        return demo_state()
+
+    @app.post("/demo/pause", response_model=DemoState)
+    async def demo_pause() -> DemoState:
+        ctx.player.playing = False
+        return demo_state()
+
+    @app.post("/demo/speed", response_model=DemoState)
+    async def demo_speed(body: SpeedRequest) -> DemoState:
+        ctx.player.speed = body.x
+        return demo_state()
+
+    @app.post("/demo/seek", response_model=DemoState)
+    async def demo_seek(body: SeekRequest) -> DemoState:
+        ctx.site  # noqa: B018
+        try:
+            ctx.player.seek(body.beat_id)
+        except KeyError as exc:
+            raise HTTPException(404, f"Unknown beat {body.beat_id}.") from exc
+        return demo_state()
+
+    @app.post("/demo/network", response_model=DemoState)
+    async def demo_network(body: NetworkRequest) -> DemoState:
+        ctx.site  # noqa: B018
+        ctx.player.set_network(body.online)
+        return demo_state()
+
+    @app.post("/demo/captions", response_model=DemoState)
+    async def demo_captions(body: NetworkRequest) -> DemoState:
+        ctx.player.captions = body.online  # reuses {online: bool} as {on: bool}
+        return demo_state()
+
+
+def _save_report(
+    ctx: EdgeContext, draft: ReportDraft, context: ReportContextModel | None, transcript: str | None
+) -> str:
+    site = ctx.site
+    rt = site.runtime
+    if context is None:
+        tick = rt.last_tick or {}
+        c = auto_fill(
+            ts=site.now,
+            machine_id=site.focus_id,
+            operator_id=rt.operator_id,
+            site_id=site.site.site_id,
+            layout=site.site.layout,
+            x_m=float(tick.get("x_m", 0.0)),
+            y_m=float(tick.get("y_m", 0.0)),
+            task_id=tick.get("task_id"),
+            weather={},
+            risk_score=None,
+            language=rt.language,
+        )
+        context = ReportContextModel(**c.model_dump())
+    report_id = uuid7_from(site.now, rt.rng)
+    data = {
+        "draft": draft.model_dump(mode="json"),
+        "context": context.model_dump(mode="json"),
+        "transcript": transcript,
+        "ts": site.now.isoformat(),
+    }
+    ctx.store.add_report(report_id, site.now, rt.operator_id, site.focus_id, data)
+    kind = {ReportType.INCIDENT: EventType.INCIDENT, ReportType.NEAR_MISS: EventType.NEAR_MISS}.get(
+        draft.type, EventType.INCIDENT
+    )
+    rt.record(
+        kind,
+        site.now,
+        draft.type.value,
+        {"report_id": report_id, "severity": draft.severity.value},
+        shared=draft.type in (ReportType.INCIDENT, ReportType.NEAR_MISS),
+    )
+    if draft.type == ReportType.NEAR_MISS:
+        rt.pipeline.near_misses_24h += 1
+    rt.pipeline.intervals.record_report(draft.type.value)
+    rt.reports_saved += 1
+    return report_id

@@ -566,8 +566,19 @@ class DaySplit(Strict):
 
 
 class ReasonKeys(Strict):
-    slower: str = Field(pattern=r"^reason\.[a-z0-9_]+$")
-    faster: str = Field(pattern=r"^reason\.[a-z0-9_]+$")
+    """Message key when a feature makes the task slower / faster (None = not shown as a reason)."""
+
+    slower: str | None = Field(default=None, pattern=r"^reason\.[a-z0-9_{}]+$")  # {value} allowed
+    faster: str | None = Field(default=None, pattern=r"^reason\.[a-z0-9_{}]+$")
+
+    def expanded(self, values: list[str]) -> list[str]:
+        """All concrete keys (a `{value}` key expands for every possible feature value)."""
+        out = []
+        for key in (self.slower, self.faster):
+            if key is None:
+                continue
+            out.extend([key.replace("{value}", v) for v in values] if "{value}" in key else [key])
+        return out
 
 
 class EstimationConfig(Strict):
@@ -580,6 +591,7 @@ class EstimationConfig(Strict):
     blend_max_weight: float = Field(gt=0, le=1)
     top_reasons: int = Field(ge=1)
     reason_keys: dict[str, ReasonKeys]  # source feature → message keys by direction
+    reference_values: dict[str, str | float] = {}  # what-if baseline per reason feature (D-054)
     min_similar_days_for_confidence: int = Field(ge=1)
 
 

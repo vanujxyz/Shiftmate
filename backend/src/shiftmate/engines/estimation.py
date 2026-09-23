@@ -3,11 +3,14 @@
 Three LightGBM models trained on the fleet (quantiles 0.1, 0.5, 0.9 of log task minutes) give a
 range and a most-likely value. After prediction the three are sorted so p10 ≤ p50 ≤ p90.
 
-Reasons: LightGBM's `pred_contrib` splits the p50 prediction (in log minutes) into one
-contribution per feature. The three largest are turned into plain-language keys with a
-direction ("reason.wet_ground_slower", "reason.experience_faster") and an effect in minutes:
+Reasons (D-054): only conditions an operator recognises are reasons (config `reason_keys`).
+For a condition with a natural reference (dry ground, no rain, daytime, 30 °C, an average
+operator) the effect is a what-if: the p50 now minus the p50 of the same task with that one
+condition at its reference value. Conditions without a reference (quantity, truck supply) use
+LightGBM's `pred_contrib`, which splits the p50 (in log minutes) into per-feature parts:
     effect = p50 − p50 · exp(−contribution)
-i.e. how many minutes that factor adds (or saves) compared with an average task.
+The largest effects of at least a minute become keys with a direction and minutes, e.g.
+"reason.ground_wet_slower" +15 min.
 
 Live remaining time for the active task:
     observed_rate = done / elapsed,  model_rate = planned / p50,
@@ -89,18 +92,34 @@ def predict(
     preds = np.column_stack([models.boosters[a].predict(X) for a in q])
     preds = np.exp(np.sort(preds, axis=1))  # enforce p10 ≤ p50 ≤ p90, back to minutes
     contrib = models.boosters[0.5].predict(X, pred_contrib=True)
+    # What-if effects (D-054): the same task with one condition at its reference value.
+    refs = {f: v for f, v in cfg.reference_values.items() if f in models.features}
+    what_if: dict[str, np.ndarray] = {}
+    for feature, value in refs.items():
+        alt = models.frame([{**r, feature: value} for r in rows])
+        what_if[feature] = np.exp(models.boosters[0.5].predict(alt))
     out = []
     for i in range(len(rows)):
         p10, p50, p90 = (float(v) for v in preds[i])
-        reasons = []
-        for j in np.argsort(-np.abs(contrib[i, :-1]))[: cfg.top_reasons]:
-            c = float(contrib[i, j])
-            feature = models.features[j]
-            keys = cfg.reason_keys.get(feature)
-            if keys is None or abs(c) < 1e-6:
+        effects: list[tuple[str, float]] = []
+        for j, feature in enumerate(models.features):
+            if feature not in cfg.reason_keys:
                 continue
-            minutes = p50 - p50 * math.exp(-c)
-            reasons.append(Reason(keys.slower if c > 0 else keys.faster, feature, minutes))
+            if feature in what_if:
+                minutes = p50 - float(what_if[feature][i])  # vs the reference
+            else:
+                c = float(contrib[i, j])  # no natural reference (quantity, truck supply)
+                minutes = p50 - p50 * math.exp(-c)
+            effects.append((feature, minutes))
+        reasons = []
+        for feature, minutes in sorted(effects, key=lambda fm: -abs(fm[1])):
+            if len(reasons) >= cfg.top_reasons or abs(minutes) < 1.0:  # under a minute: no chip
+                break
+            keys = cfg.reason_keys[feature]
+            key = keys.slower if minutes > 0 else keys.faster
+            if key is not None:
+                key = key.replace("{value}", str(rows[i].get(feature)))
+                reasons.append(Reason(key, feature, minutes))
         lc = bool(low_confidence[i]) if low_confidence else False
         out.append(Estimate(p10, p50, p90, reasons, lc))
     return out

@@ -22,18 +22,21 @@ skill_window_days: 30         # operator_skill_index: trailing median of actual/
 blend_max_weight: 0.8         # live remaining time: w = min(0.8, progress fraction)
 top_reasons: 3
 min_similar_days_for_confidence: 3   # fewer → "Estimated from limited data" (DESIGN RangeBar)
-reason_keys:                  # pred_contrib source feature → message key by direction
-  ground_condition:            {slower: reason.wet_ground_slower,   faster: reason.dry_ground_faster}
-  precipitation_mm_h:          {slower: reason.rain_slower,         faster: reason.rain_slower}
+reference_values:             # D-054: a condition's effect = estimate now − estimate at this value
+  ground_condition: dry
+  precipitation_mm_h: 0.0
+  heat_index_c: 30.0
+  is_night: 0.0
+  operator_skill_index: 1.0
+  operator_experience_years: 8.0
+reason_keys:                  # source feature → message key by direction (TRD §6.7)
+  # Only features an operator can recognise as a reason are shown; structural ones (task type,
+  # site, machine model, hour) shape the estimate but are not reasons (D-054).
+  ground_condition:            {slower: "reason.ground_{value}_slower"}   # names today's ground
+  precipitation_mm_h:          {slower: reason.rain_slower}
   operator_experience_years:   {slower: reason.experience_slower,   faster: reason.experience_faster}
   operator_skill_index:        {slower: reason.experience_slower,   faster: reason.experience_faster}
   expected_truck_interval_min: {slower: reason.truck_supply_slower, faster: reason.truck_supply_faster}
   heat_index_c:                {slower: reason.heat_slower,         faster: reason.cool_faster}
-  is_night:                    {slower: reason.night_slower,        faster: reason.daylight_faster}
-  planned_quantity:            {slower: reason.quantity_large,      faster: reason.quantity_small}
-  task_type:                   {slower: reason.task_type_slower,    faster: reason.task_type_faster}
-  model:                       {slower: reason.machine_slower,      faster: reason.machine_faster}
-  machine_type:                {slower: reason.machine_slower,      faster: reason.machine_faster}
-  site_id:                     {slower: reason.site_slower,         faster: reason.site_faster}
-  hour_of_day:                 {slower: reason.time_of_day_slower,  faster: reason.time_of_day_faster}
-  quantity_unit:               {slower: reason.quantity_large,      faster: reason.quantity_small}
+  is_night:                    {slower: reason.night_slower}
+  planned_quantity:            {slower: reason.quantity_large}   # a small task is not a "reason"

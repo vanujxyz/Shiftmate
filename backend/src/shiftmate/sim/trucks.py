@@ -133,6 +133,29 @@ class Dispatcher:
         self.shortages: list[ShortageWindow] = []
         self.log: list[DispatchEntry] = []
         self.interval_multiplier_override: dict[str, float] = {}  # scenario hook
+        self.blocked: dict[str, datetime] = {}  # scenario hook: zone → no dispatch until
+
+    def block_zone(self, zone_id: str, until: datetime) -> None:
+        self.blocked[zone_id] = until
+
+    def positions(self, now: datetime) -> list[dict[str, object]]:
+        """Trucks on the site map: id, position, heading, state."""
+        out = []
+        for t in self.trucks:
+            pos = t.position(now)
+            if pos is not None:
+                (x, y), heading = pos
+                out.append(
+                    {
+                        "id": t.truck_id,
+                        "x_m": round(x, 1),
+                        "y_m": round(y, 1),
+                        "heading_deg": round(heading, 0),
+                        "state": "waiting" if t.state == "in_zone" else "moving",
+                        "zone_id": t.zone_id,
+                    }
+                )
+        return out
 
     # --- configuration per day -------------------------------------------------------------
     def set_shortages(self, windows: list[ShortageWindow]) -> None:
@@ -192,6 +215,9 @@ class Dispatcher:
             due = self.next_dispatch.get(zone_id)
             if due is None or now < due:
                 continue
+            blocked_until = self.blocked.get(zone_id)
+            if blocked_until is not None and now < blocked_until:
+                continue  # scenario: no trucks for this zone (TRD §8 truck_shortage)
             truck = next((t for t in self.trucks if t.state == "depot"), None)
             if truck is None:
                 continue  # no truck free: try again next step (natural shortage)

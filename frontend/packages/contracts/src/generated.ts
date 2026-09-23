@@ -375,6 +375,7 @@ export interface IntervalRecord {
   fuel_per_load_cycle_l?: number | null;
   task_progress_qty?: number | null;
   risk_score_max?: number | null;
+  p1_alert_count?: number | null;
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema

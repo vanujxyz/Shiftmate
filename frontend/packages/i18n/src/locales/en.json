@@ -99,11 +99,18 @@
     "close_calls_high": "People came close {{value}} times, your usual is {{usual}}.",
     "short_stops_high": "Short stops added up to {{value}}, your usual is {{usual}}.",
     "cab_empty_engine_on": "Engine ran {{value}} with the cab empty.",
-    "rpm_high": "Engine speed averaged {{value}}, your usual is {{usual}}."
+    "rpm_high": "Engine speed averaged {{value}}, your usual is {{usual}}.",
+    "coach_short_stop": "A {{minutes}} min stop with the engine on used {{fuel_l}} L. Switching off saves fuel.",
+    "reminder_cab_empty": "The engine ran {{minutes}} min with the cab empty. Switch off before you step out.",
+    "truck_wait_not_you": "Waited {{minutes}} min for a truck. Logged as a site delay, not your idle time.",
+    "unusual_interval": "Something was different from your usual in the last 15 minutes.",
+    "idea_shutdown": "The engine ran {{minutes}} min with the cab empty today. Switching off before stepping out saves fuel and keeps the machine still.",
+    "idea_short_stops": "Short stops added up to {{minutes}} min today. For stops over 5 minutes, switching off saves fuel.",
+    "good_task_done": "{{done}} of {{planned}} {{unit}} done.",
+    "good_fuel_per_load": "Fuel per load {{value}} L, better than your usual {{usual}} L.",
+    "good_seatbelt": "Seatbelt on the whole time you worked."
   },
   "reason": {
-    "wet_ground_slower": "Wet ground adds time",
-    "dry_ground_faster": "Firm ground saves time",
     "rain_slower": "Rain adds time",
     "experience_slower": "Less practice on this task, allow more time",
     "experience_faster": "Your experience saves time",
@@ -112,16 +119,18 @@
     "heat_slower": "Heat adds time",
     "cool_faster": "Cool weather saves time",
     "night_slower": "Working in the dark adds time",
-    "daylight_faster": "Daylight saves time",
     "quantity_large": "Large quantity",
-    "quantity_small": "Small quantity",
-    "task_type_slower": "This kind of task takes longer",
-    "task_type_faster": "This kind of task is quicker",
-    "machine_slower": "This machine is slower for this task",
-    "machine_faster": "This machine suits the task",
-    "site_slower": "Site conditions add time",
-    "site_faster": "Site conditions save time",
-    "time_of_day_slower": "Time of day adds time",
-    "time_of_day_faster": "Good time of day for this task"
+    "ground_dry_slower": "Ground conditions add time",
+    "ground_wet_slower": "Wet ground adds time",
+    "ground_muddy_slower": "Muddy ground adds time",
+    "ground_rocky_slower": "Rocky ground adds time",
+    "ground_frozen_slower": "Frozen ground adds time"
+  },
+  "shift": {
+    "break_scheduled": "Scheduled break",
+    "break_heat": "Hot today: a water break now helps you finish strong"
+  },
+  "ask": {
+    "not_indexed": "The manual is not loaded on this machine yet."
   }
 }

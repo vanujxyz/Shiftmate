@@ -1118,6 +1118,18 @@
           ],
           "default": null,
           "title": "Risk Score Max"
+        },
+        "p1_alert_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "P1 Alert Count"
         }
       },
       "required": [

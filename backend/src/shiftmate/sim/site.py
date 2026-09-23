@@ -1,8 +1,9 @@
-"""One site's world for one day: weather, dispatcher, workers and all machines (TRD §7).
+"""One site's world: weather, dispatcher, workers and machines on one clock (TRD §7).
 
-`SiteWorld` keeps what carries over between days (engine hours, machine positions, coolant,
-weather state) and runs a day by stepping everything together on one clock. The same class
-serves the history generator (30 s steps) and live mode (1 s steps, milestone 7).
+`SiteWorld` keeps what carries over between days (engine hours, machine positions, weather
+state). A day is `begin_day(...)` followed by `step()` calls, one per tick period; `run_day`
+does both for the history generator (30 s steps). Live mode (the Edge Gateway) calls `step()`
+itself at 1 s and uses the scenario hooks (`weather_override`, `block_trucks`, …).
 
 Randomness: every site-day gets its own seed sequence `[seed, site_index, day_index]`, split into
 independent streams for weather, trucks, workers, planning and each machine. Same seed ⇒ same
@@ -11,7 +12,8 @@ world, and sites can be generated in parallel without changing the result.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from collections.abc import Iterable
+from dataclasses import dataclass, field
 from datetime import date, datetime, time, timedelta
 from zoneinfo import ZoneInfo
 
@@ -19,14 +21,15 @@ import numpy as np
 
 from shiftmate.config_loader import ShiftMateConfig
 from shiftmate.schema.config import MonthProfile, Site
-from shiftmate.schema.enums import ZoneType
+from shiftmate.schema.enums import GroundCondition, ZoneType
 from shiftmate.schema.reference import Task
 from shiftmate.sim.fleet import Fleet
 from shiftmate.sim.machine import BreakPlan, DayPlan, MachineAgent
-from shiftmate.sim.tasks import plan_day
+from shiftmate.sim.tasks import PlannedTask, plan_day
 from shiftmate.sim.trucks import DispatchEntry, Dispatcher, ShortageWindow
 from shiftmate.sim.weather import DayWeather, WeatherModel
 from shiftmate.sim.workers import WorkerCrowd
+from shiftmate.util.heat_index import heat_index_c
 
 
 @dataclass
@@ -40,6 +43,25 @@ class DayResult:
     day: date
 
 
+@dataclass
+class DayState:
+    day: date
+    day_index: int
+    dt: float
+    weather: DayWeather
+    dispatcher: Dispatcher
+    crowd: WorkerCrowd
+    shortages: list[ShortageWindow]
+    zone_of: dict[str, str]
+    shift_start: datetime
+    shift_end: datetime
+    t0: datetime
+    t1: datetime
+    midnight: datetime
+    now: datetime
+    weather_override: dict[str, float | str] = field(default_factory=dict)
+
+
 def season_month(site: Site, day_index: int) -> int:
     for span in site.climate.history_seasons:
         if span.days[0] <= day_index <= span.days[1]:
@@ -48,7 +70,19 @@ def season_month(site: Site, day_index: int) -> int:
 
 
 class SiteWorld:
-    def __init__(self, cfg: ShiftMateConfig, site: Site, fleet: Fleet, site_index: int, seed: int):
+    def task_noise(self, rng: np.random.Generator) -> float:
+        """Task-level productivity noise, drawn the same way as in history mode."""
+        return float(rng.lognormal(0.0, self.sim.productivity.noise_sigma))
+
+    def __init__(
+        self,
+        cfg: ShiftMateConfig,
+        site: Site,
+        fleet: Fleet,
+        site_index: int,
+        seed: int,
+        machine_ids: Iterable[str] | None = None,
+    ):
         self.cfg = cfg
         self.site = site
         self.fleet = fleet
@@ -58,8 +92,11 @@ class SiteWorld:
         self.tz = ZoneInfo(site.timezone)
         self.weather_model = WeatherModel(site, self.sim.weather)
         rest = site.layout.zones_of(ZoneType.BREAK_AREA)[0].centroid()
+        wanted = set(machine_ids) if machine_ids is not None else None
         self.agents: dict[str, MachineAgent] = {}
         for i, machine in enumerate(fleet.machines_at(site.site_id)):
+            if wanted is not None and machine.machine_id not in wanted:
+                continue
             park = (rest[0] + (i % 6) * 4.0, rest[1] - (i // 6) * 4.0)
             park = (min(max(park[0], 1.0), site.layout.size.w - 1), max(park[1], 1.0))
             self.agents[machine.machine_id] = MachineAgent(
@@ -67,6 +104,7 @@ class SiteWorld:
             )
         self.operators = fleet.operators_at(site.site_id)
         self.fixed_pairs = {f.operator_id: f.machine_id for f in self.sim.operators.fixed}
+        self.state: DayState | None = None
 
     # ------------------------------------------------------------------------------------------
     def _local(self, day: date, t: time) -> datetime:
@@ -141,19 +179,22 @@ class SiteWorld:
         return events
 
     # ------------------------------------------------------------------------------------------
-    def run_day(
+    def begin_day(
         self,
         day_index: int,
         day: date,
         dt: float,
         month_override: MonthProfile | None = None,
-    ) -> DayResult:
+        month_number: int | None = None,
+        task_overrides: dict[str, list[PlannedTask]] | None = None,
+    ) -> DayState:
+        """Set up weather, trucks, workers, operators and task plans for a day."""
         seq = np.random.SeedSequence([self.seed, self.site_index, day_index])
         s_weather, s_trucks, s_workers, s_assign, s_plan, s_machines = seq.spawn(6)
         rng_weather = np.random.default_rng(s_weather)
         rng_plan = np.random.default_rng(s_plan)
 
-        month_no = season_month(self.site, day_index)
+        month_no = month_number or season_month(self.site, day_index)
         month = month_override or self.site.climate.month_profiles[month_no]
         daylight_doy = date(day.year, month_no, 15).timetuple().tm_yday
         weather = self.weather_model.generate_day(day, month, daylight_doy, rng_weather)
@@ -200,10 +241,20 @@ class SiteWorld:
         ]
         rng_plan.shuffle(loaders)
         zone_of = dict(zip(loaders, loading_zones, strict=False))
+        overrides = task_overrides or {}
+        for machine_id, planned in overrides.items():
+            # a scripted task list pins the machine to the zone of its truck-loading task
+            for pt in planned:
+                if pt.task.task_type == "truck_loading":
+                    for other, zone in list(zone_of.items()):
+                        if zone == pt.task.zone_id and other != machine_id:
+                            zone_of.pop(other)
+                    zone_of[machine_id] = pt.task.zone_id
 
         machine_seqs = s_machines.spawn(len(self.agents))
         counter = 0
-        minute0 = weather.at((t0 - self._local(day, time(0, 0))).total_seconds() / 60)
+        midnight = self._local(day, time(0, 0))
+        minute0 = weather.at((t0 - midnight).total_seconds() / 60)
         for (machine_id, agent), mseq in zip(self.agents.items(), machine_seqs, strict=True):
             rng_m = np.random.default_rng(mseq)
             op_id = assignment.get(machine_id)
@@ -223,6 +274,8 @@ class SiteWorld:
                     counter_start=counter,
                 )
                 counter += len(tasks)
+            if machine_id in overrides:
+                tasks = overrides[machine_id]
             arrival = shift_start - timedelta(
                 minutes=float(
                     rng_m.uniform(
@@ -247,33 +300,92 @@ class SiteWorld:
             )
             agent.start_day(plan, rng_m, float(minute0["ambient_temp_c"]))  # type: ignore[arg-type]
 
-        ticks: list[dict[str, object]] = []
-        truth: list[dict[str, object]] = []
-        midnight = self._local(day, time(0, 0))
-        now = t0
-        while now < t1:
-            w = weather.at((now - midnight).total_seconds() / 60)
-            active = {
-                zone_of[m_id]
-                for m_id, a in self.agents.items()
-                if m_id in zone_of
-                and a.engine_on
-                and a.current_task is not None
-                and a.current_task.task.task_type == "truck_loading"
-            }
-            dispatcher.set_active_zones(active, now)
-            dispatcher.step(now)
-            crowd.step(dt, {m_id: (a.x, a.y) for m_id, a in self.agents.items() if a.engine_on})
-            for agent in self.agents.values():
-                tick, tr = agent.step(now, dt, w, dispatcher, crowd)
-                tick["site_id"] = self.site.site_id
-                ticks.append(tick)
-                truth.append(tr)
-            now += timedelta(seconds=dt)
+        self.state = DayState(
+            day=day,
+            day_index=day_index,
+            dt=dt,
+            weather=weather,
+            dispatcher=dispatcher,
+            crowd=crowd,
+            shortages=shortages,
+            zone_of=zone_of,
+            shift_start=shift_start,
+            shift_end=shift_end,
+            t0=t0,
+            t1=t1,
+            midnight=midnight,
+            now=t0,
+        )
+        return self.state
 
+    def conditions(self, now: datetime | None = None) -> dict[str, object]:
+        """Site conditions at a time (scripted overrides applied, heat index recomputed)."""
+        s = self.state
+        assert s is not None
+        when = now or s.now
+        w = dict(s.weather.at((when - s.midnight).total_seconds() / 60))
+        o = s.weather_override
+        if o:
+            if "temp_c" in o:
+                w["ambient_temp_c"] = float(o["temp_c"])
+            if "rh" in o:
+                w["relative_humidity_pct"] = float(o["rh"])
+            if "precip_mm_h" in o:
+                w["precipitation_mm_h"] = float(o["precip_mm_h"])
+            if "ground" in o:
+                w["ground_condition"] = GroundCondition(str(o["ground"]))
+            w["heat_index_c"] = heat_index_c(
+                float(w["ambient_temp_c"]),  # type: ignore[arg-type]
+                float(w["relative_humidity_pct"]),  # type: ignore[arg-type]
+            )
+        return w
+
+    def step(self) -> list[tuple[dict[str, object], dict[str, object]]]:
+        """Advance the world by one tick period. Returns (tick, truth) for every machine."""
+        s = self.state
+        assert s is not None
+        now, dt = s.now, s.dt
+        w = self.conditions(now)
+        active = {
+            s.zone_of[m_id]
+            for m_id, a in self.agents.items()
+            if m_id in s.zone_of
+            and a.engine_on
+            and a.current_task is not None
+            and a.current_task.task.task_type == "truck_loading"
+        }
+        s.dispatcher.set_active_zones(active, now)
+        s.dispatcher.step(now)
+        s.crowd.step(dt, {m_id: (a.x, a.y) for m_id, a in self.agents.items() if a.engine_on})
+        out = []
+        for agent in self.agents.values():
+            tick, tr = agent.step(now, dt, w, s.dispatcher, s.crowd)
+            tick["site_id"] = self.site.site_id
+            out.append((tick, tr))
+        s.now = now + timedelta(seconds=dt)
+        return out
+
+    def end_day(self) -> list[Task]:
         tasks_out: list[Task] = []
         for agent in self.agents.values():
             if agent.plan:
                 tasks_out.extend(pt.task for pt in agent.plan.tasks)
             agent.end_day()
-        return DayResult(ticks, truth, tasks_out, dispatcher.log, weather, shortages, day)
+        return tasks_out
+
+    def run_day(
+        self,
+        day_index: int,
+        day: date,
+        dt: float,
+        month_override: MonthProfile | None = None,
+    ) -> DayResult:
+        s = self.begin_day(day_index, day, dt, month_override)
+        ticks: list[dict[str, object]] = []
+        truth: list[dict[str, object]] = []
+        while s.now < s.t1:
+            for tick, tr in self.step():
+                ticks.append(tick)
+                truth.append(tr)
+        tasks_out = self.end_day()
+        return DayResult(ticks, truth, tasks_out, s.dispatcher.log, s.weather, s.shortages, day)
