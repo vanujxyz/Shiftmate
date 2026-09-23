@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ShiftMateContracts",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "ErrorBody": {
+      "properties": {
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "ErrorBody",
+      "type": "object"
+    },
+    "ErrorResponse": {
+      "description": "Every API error uses this envelope: `{\"error\": {\"code\", \"message\"}}`.",
+      "properties": {
+        "error": {
+          "$ref": "#/$defs/ErrorBody"
+        }
+      },
+      "required": [
+        "error"
+      ],
+      "title": "ErrorResponse",
+      "type": "object"
+    },
+    "HealthResponse": {
+      "description": "Answer of `GET /health` on the edge gateway and the fleet service.",
+      "properties": {
+        "service": {
+          "enum": [
+            "edge",
+            "fleet"
+          ],
+          "title": "Service",
+          "type": "string"
+        },
+        "status": {
+          "const": "ok",
+          "title": "Status",
+          "type": "string"
+        },
+        "version": {
+          "title": "Version",
+          "type": "string"
+        },
+        "sim_clock": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sim Clock"
+        },
+        "network_online": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Network Online"
+        }
+      },
+      "required": [
+        "service",
+        "status",
+        "version"
+      ],
+      "title": "HealthResponse",
+      "type": "object"
+    }
+  }
+}

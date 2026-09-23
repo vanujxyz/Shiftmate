@@ -1,0 +1,5 @@
+# Store text with LF in the repo on every OS (keeps generated contracts and lockfiles stable).
+* text=auto eol=lf
+*.woff2 binary
+*.png binary
+*.tflite binary

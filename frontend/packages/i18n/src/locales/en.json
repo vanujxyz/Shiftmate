@@ -1,0 +1,22 @@
+{
+  "ui": {
+    "app_name": "ShiftMate",
+    "lang": {
+      "label": "Language",
+      "en": "English",
+      "hi": "हिन्दी",
+      "ta": "தமிழ்"
+    },
+    "scaffold": {
+      "cab": "The cab app is being built. Nothing to do here yet.",
+      "console": "The supervisor console is being built."
+    },
+    "health": {
+      "checking": "Checking the connection…",
+      "edge_ok": "Connected to the machine gateway",
+      "edge_down": "Machine gateway not reachable yet",
+      "fleet_ok": "Connected to the fleet service",
+      "fleet_down": "Fleet service not reachable yet"
+    }
+  }
+}
