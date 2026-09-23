@@ -5,7 +5,7 @@ Last updated: 2026-09-23 (after milestone 8).
 ## Read first
 1. `CLAUDE.md` (process rules, golden rules). The repo uses **milestones** (see `docs/PROGRESS.md`), not the "phases" named in CLAUDE.md; PROGRESS.md maps each milestone to its phase.
 2. `docs/PROGRESS.md` — milestone list with checkboxes and status.
-3. `docs/DECISIONS.md` — D-001…D-061. Log new decisions in the same format (next number: **D-062**).
+3. `docs/DECISIONS.md` — D-001…D-067. Log new decisions in the same format (next number: **D-068**).
 4. `docs/reports/milestone-N.md` — one report per finished milestone (same format for new ones).
 5. `docs/TRD.md` §8 (scenarios), §9 (APIs, sync) for the current milestone.
 
@@ -27,12 +27,13 @@ Last updated: 2026-09-23 (after milestone 8).
 - New UI strings: add a YAML batch to `scripts/i18n/` (en/hi/ta; `null` removes a key), then run `uv run --directory backend python ../scripts/i18n_merge.py ../scripts/i18n/<file>.yaml` and `pnpm i18n:review`.
 
 ## Status
-- Milestones 1–8: **done and committed** (the last is `milestone 8: live channels, outbox sync, model download, headless ravi_shift`). Report: `docs/reports/milestone-8.md`.
-- Next: **milestone 9 (Fleet Service)**. Decisions continue at **D-062**.
-- `shiftmate edge headless` plays Ravi's shift at 60× on a fake clock and prints it beat by beat; `tests/test_headless.py` asserts every beat and determinism. Keep it green: it is the backend's end-to-end check.
+- Milestones 1–9: **done and committed** (the last is `milestone 9: fleet service …`). Reports: `docs/reports/milestone-N.md`.
+- Next: **milestone 10 (design system in code)**. Decisions continue at **D-068**.
+- `shiftmate edge headless` plays Ravi's shift at 60× and prints it beat by beat; `tests/test_headless.py` asserts every beat and determinism, and `tests/test_fleet_scale.py` uploads the same shift into a real Fleet Service. Keep both green.
+- Fleet Service: `shiftmate fleet` (:8200). Its DuckDB file `data/fleet/fleet.duckdb` is seeded from history on first start (delete `data/fleet/` to reset). Only one process can open it at a time.
 
-### Then milestones 9–18
-Follow `docs/PROGRESS.md`. Milestone 9 (Fleet Service) must implement the ingest endpoints the edge already calls: `/ingest/intervals`, `/ingest/events`, `/ingest/reports`, `/ingest/tasks`, with body `{source, records: [...]}` and idempotence by record id (interval `record_id`, event `event_id`, report `report_id`, task `task_id`). `edge/headless.py`'s `FakeFleet` and `tests/test_edge_live.py`'s `FakeFleet` show exactly what the edge sends and expects. It must also serve `/models/estimation/latest` → `{version, files: [...]}` and `/models/estimation/{version}/files/{name}`.
+### Then milestones 10–18
+Follow `docs/PROGRESS.md`. Open items the console milestone (13) should pick up: translations for the fleet suggestion keys (`suggest.add_truck`, `suggest.toolbox_idle`, `suggest.shutdown_briefing`), and which day the supervisor view opens on (see `docs/reports/milestone-9.md`, Observations).
 
 ## Known open items (reported, awaiting the owner)
 D-051 lists evaluation targets still missed: anomaly precision 67 % and recall 42 % (target 80 %), and estimation p10–p90 coverage 64.5 % (target 75–85 %). The fix options each change TRD-specified behaviour and need the owner's decision. Don't tune on test data.

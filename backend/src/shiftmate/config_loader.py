@@ -21,6 +21,7 @@ from shiftmate.schema.config import (
     ChecklistConfig,
     EdgeConfig,
     EstimationConfig,
+    FleetConfig,
     IdleRulesConfig,
     IntentsConfig,
     LessonsConfig,
@@ -82,6 +83,7 @@ class ShiftMateConfig:
     intents: IntentsConfig
     report_keywords: ReportKeywords
     edge: EdgeConfig
+    fleet: FleetConfig
     simulator: SimulatorConfig  # read only by shiftmate.sim
 
     def lesson_trigger_vocabulary(self) -> set[str]:
@@ -230,6 +232,7 @@ def load_config(config_dir: Path | None = None) -> ShiftMateConfig:
         intents=_parse(INTENTS_FILE, IntentsConfig),
         report_keywords=_parse(REPORTS_FILE, ReportKeywords),
         edge=_parse(root / "edge.yaml", EdgeConfig),
+        fleet=_parse(root / "fleet.yaml", FleetConfig),
         simulator=_parse(root / "simulator.yaml", SimulatorConfig),
     )
     _cross_check(cfg)

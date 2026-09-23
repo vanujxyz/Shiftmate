@@ -210,14 +210,20 @@ class LiveSite:
         self._watch_tasks()
 
     def _watch_tasks(self) -> None:
-        """Push `task_progress` when a task starts, gains a whole unit or ends; queue summaries."""
+        """Push `task_progress` when a task starts, gains a whole unit or ends.
+
+        A task summary is queued for the fleet when the task starts (so the supervisor sees
+        today's plan and progress) and again when it ends; the fleet keeps the latest (D-065).
+        """
         agent = self.world.agents[self.focus_id]
         for pt in agent.plan.tasks if agent.plan else []:
             t = pt.task
             seen = (t.status.value, int(pt.progress))
-            if self._task_seen.get(t.task_id) == seen or t.status == TaskStatus.SCHEDULED:
+            before = self._task_seen.get(t.task_id)
+            if before == seen or t.status == TaskStatus.SCHEDULED:
                 continue
             self._task_seen[t.task_id] = seen
+            started = t.status == TaskStatus.ACTIVE and (before is None or before[0] != "active")
             self.runtime.push(
                 "task_progress",
                 {
@@ -228,7 +234,7 @@ class LiveSite:
                     "unit": t.quantity_unit.value,
                 },
             )
-            if t.status == TaskStatus.DONE and t.actual_end is not None:
+            if started or (t.status == TaskStatus.DONE and t.actual_end is not None):
                 self.runtime.store.add_task_summary(
                     {
                         **t.model_dump(mode="json", exclude={"conditions_at_start"}),

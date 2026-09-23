@@ -4,6 +4,7 @@ Commands that belong to later milestones are registered now so the command tree 
 they exit with code 2 and say which milestone builds them.
 """
 
+import time
 from pathlib import Path
 
 import typer
@@ -155,15 +156,100 @@ def sim_generate(
 
 
 @sim_app.command("scale")
-def sim_scale(machines: int = 10000, sim_minutes: int = 60, speed: str = "max") -> None:
-    """Stream synthetic summaries from many machines to the Fleet Service."""
-    _not_yet("sim scale", 9)
+def sim_scale(
+    machines: int = 10000,
+    sim_minutes: int = 60,
+    speed: str = "max",
+    fleet_url: str | None = None,
+    in_process: bool = typer.Option(
+        False, help="Run the Fleet Service inside this command instead of posting to one."
+    ),
+) -> None:
+    """Stream synthetic summaries from many machines to the Fleet Service (TRD §7.6)."""
+    import contextlib
+
+    import httpx
+
+    from shiftmate.config_loader import load_config
+    from shiftmate.sim.scale import Pool, run_scale
+
+    if speed != "max":
+        try:
+            float(speed)
+        except ValueError as exc:
+            raise typer.BadParameter("speed is 'max' or a number (e.g. 60)") from exc
+    cfg = load_config()
+    history_dir, _ = _dirs()
+    pool = Pool.from_history(history_dir)
+
+    with contextlib.ExitStack() as stack:
+        if in_process:
+            from fastapi.testclient import TestClient
+
+            from shiftmate.fleet.app import create_app
+
+            client = stack.enter_context(TestClient(create_app(cfg)))
+        else:
+            url = fleet_url or get_settings().fleet_url
+            client = stack.enter_context(httpx.Client(base_url=url, timeout=60))
+            try:
+                client.get("/health").raise_for_status()
+            except httpx.HTTPError as exc:
+                typer.echo(
+                    f"The Fleet Service is not reachable at {url} ({type(exc).__name__}). Start it "
+                    "with `shiftmate fleet`, or add --in-process.",
+                    err=True,
+                )
+                raise typer.Exit(code=1) from exc
+
+        def progress(step: int, end, records: int) -> None:
+            typer.echo(f"  {end:%H:%M} UTC · {records:,} records sent", err=True)
+
+        typer.echo(f"Streaming {machines:,} machines × {sim_minutes} min (speed {speed}) …")
+        run = run_scale(cfg, client, pool, machines, sim_minutes, speed, progress=progress)
+    typer.echo(
+        f"{run.records:,} records ({run.intervals:,} intervals, {run.events:,} events) in "
+        f"{run.requests:,} requests · {run.records_per_s:,.0f} records/s ingest · p95 "
+        f"{run.request_ms_p95:.0f} ms · {run.bytes_per_machine_per_hour / 1000:.1f} kB per "
+        f"machine per hour · {run.seconds:.1f} s"
+    )
+    _save_scale(cfg, run=run)
 
 
 @bench_app.command("runtime")
 def bench_runtime(machines: int = 200, sim_minutes: int = 30) -> None:
-    """Benchmark full MachineRuntimes."""
-    _not_yet("bench runtime", 9)
+    """Benchmark full MachineRuntimes on live 1 s ticks (TRD §7.6)."""
+    from shiftmate.config_loader import load_config
+    from shiftmate.sim.bench import bench_runtime as run_bench
+
+    cfg = load_config()
+    history_dir, models_dir = _dirs()
+
+    def progress(done: int, total: int) -> None:
+        typer.echo(f"  {done // 60}/{total // 60} simulated minutes", err=True)
+
+    started = time.perf_counter()
+    result = run_bench(cfg, history_dir, models_dir, machines, sim_minutes, progress=progress)
+    typer.echo(
+        f"{machines} runtimes × {sim_minutes} min: CPU {result.cpu_ms_per_tick_mean:.3f} ms per "
+        f"machine per tick (p95 {result.cpu_ms_per_tick_p95:.3f}) · "
+        f"{result.memory_mb_per_machine:.2f} MB per runtime · "
+        f"{result.upload_bytes_per_machine_per_hour / 1000:.1f} kB upload per machine per hour · "
+        f"{time.perf_counter() - started:.0f} s"
+    )
+    _save_scale(cfg, bench=result)
+
+
+def _save_scale(cfg, run=None, bench=None) -> None:
+    """Keep the result for /scale/stats and refresh the EVAL.md scale section."""
+    from shiftmate.eval.report import write_section
+    from shiftmate.fleet.scale import eval_section, read_scale_file, write_scale_file
+
+    settings = get_settings()
+    path = settings.resolve(settings.data_dir) / "fleet" / "scale.json"
+    write_scale_file(path, run=run, bench=bench)
+    write_section("scale", eval_section(cfg, *read_scale_file(path)))
+    typer.echo(f"Saved to {path} and docs/EVAL.md (scale section).")
 
 
 def _dirs() -> tuple[Path, Path]:

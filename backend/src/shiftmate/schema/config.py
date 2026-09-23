@@ -550,6 +550,66 @@ class EdgeConfig(Strict):
     sync: SyncConfig
 
 
+# --- fleet service (§9.2, §7.6) --------------------------------------------------------------
+
+
+class FleetIngestConfig(Strict):
+    max_batch: int = Field(ge=1, le=5000)
+    seed_from_history: bool
+
+
+class FleetSummaryConfig(Strict):
+    baseline_days: int = Field(ge=1)
+    min_baseline_tasks: int = Field(ge=1)
+    behind_tolerance: float = Field(ge=0)
+    behind_slack_min: float = Field(ge=0)
+
+
+class FleetIdleCausesConfig(Strict):
+    lost_time_reasons: list[IdleReason]
+    site_reasons: list[IdleReason]
+    window_h: int = Field(ge=1, le=12)
+    min_window_wait_min: float = Field(ge=0)
+    similar_days: int = Field(ge=1)
+    min_similar_days: int = Field(ge=1)
+    range_quantiles: tuple[float, float]
+    habit_min_per_machine: float = Field(ge=0)
+    unattended_min: float = Field(ge=0)
+
+    @model_validator(mode="after")
+    def _ordered(self) -> FleetIdleCausesConfig:
+        lo, hi = self.range_quantiles
+        if not 0 <= lo < hi <= 1:
+            raise ValueError("range_quantiles must be two increasing numbers in [0, 1]")
+        return self
+
+
+class FleetTrendsConfig(Strict):
+    default_days: int = Field(ge=1)
+    max_days: int = Field(ge=1)
+    experience_bands: list[tuple[float, float]]
+
+
+class FleetFeedsConfig(Strict):
+    counters_hz: float = Field(gt=0)
+
+
+class ScaleConfig(Strict):
+    batch_size: int = Field(ge=1, le=500)
+    interval_minutes: int = Field(ge=1, le=60)
+    projection_machines: int = Field(ge=1)
+    hours_per_day: float = Field(gt=0, le=24)
+
+
+class FleetConfig(Strict):
+    ingest: FleetIngestConfig
+    summary: FleetSummaryConfig
+    idle_causes: FleetIdleCausesConfig
+    trends: FleetTrendsConfig
+    feeds: FleetFeedsConfig
+    scale: ScaleConfig
+
+
 # --- anomaly and estimation (§6.6, §6.7) ---------------------------------------------------
 
 

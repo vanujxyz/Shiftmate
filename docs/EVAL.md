@@ -134,3 +134,33 @@ Validation days (used for early stopping): median error 8.5 %, coverage 66.0 %.
 | backfilling | frozen | +23 % | 157 | 6 | dry/rocky |
 | site_clearing | frozen | +21 % | 213 | 8 | dry/rocky |
 <!-- END estimation -->
+
+<!-- BEGIN scale -->
+## Scale (F-FLT-07)
+
+**Scale run** (`shiftmate sim scale`, 2026-09-23): 10,000 synthetic machines, 60 simulated minutes, interval summaries and shared events resampled from the simulated history, posted to the Fleet Service in batches of 500 by one sequential client on the demo laptop.
+
+| Measure | Value |
+|---|---|
+| Records ingested | 44,612 (40,000 intervals, 4,612 events) in 92 requests |
+| Ingest throughput | 4,082 records/s (time inside ingest requests) |
+| Request latency per batch | p50 120 ms, p95 147 ms |
+| Wall time | 29.7 s |
+| Upload per machine | 5.7 kB/h, 4.5 records/h |
+
+**Runtime benchmark** (`shiftmate bench runtime`, 2026-09-23): 200 full machine runtimes (all engines), 30 simulated minutes at 1 s ticks (360,000 runtime steps), on the demo laptop.
+
+| Measure | Value |
+|---|---|
+| CPU per machine per tick | mean 0.185 ms, p95 0.215 ms |
+| Memory per machine runtime | 0.04 MB (Python allocations over the first minute; a lower bound) |
+| Upload per machine | 4.8 kB/h, 3.8 records/h |
+
+**Projection to 1,600,000 machines — a linear projection, not a measurement.** Basis: runtime benchmark (200 full machine runtimes); 24 reporting hours a day (upper bound).
+
+| Projected | Value |
+|---|---|
+| Uplink | 183.5 GB/day |
+| Records | 145,920,000/day ≈ 1,689/s |
+| Ingest capacity | ≈ 0.4× the single laptop process measured above |
+<!-- END scale -->
