@@ -1,6 +1,6 @@
 # ShiftMate — Build progress
 
-**Next step:** Milestone 14 (Assistant Ask Cat) in progress.
+**Next step:** Milestone 15 (Voice and camera) in progress.
 
 **Autonomy note (2026-09-23):** the user authorised continuing through all milestones without waiting for approval, and approved all needed downloads. Each milestone is still tested, committed, and reported in `docs/reports/milestone-N.md`.
 
@@ -167,12 +167,12 @@ Goal: supervisor console — live site map, day summary, fleet view, demo contro
 Requirements: F-SUP-01…05, F-FLT-07, 08.
 You will see: http://localhost:5174 driving the demo side by side with the cab.
 
-### Milestone 14 — Assistant "Ask Cat" (Phase 10) · Status: not started
+### Milestone 14 — Assistant "Ask Cat" (Phase 10) · Status: done
 Goal: a multilingual assistant answering only from the team-written knowledge base, online and offline.
-- [ ] 1. ~15 knowledge files (en; hi/ta for key safety files) with sample-content banner
-- [ ] 2. Index: chunking, BM25 + multilingual embeddings; `shiftmate assistant index`
-- [ ] 3. Online answering with validation; offline answering; intents; report parser online path
-- [ ] 4. `/ask` screen; eval set (40 questions) and `shiftmate eval assistant`
+- [x] 1. ~15 knowledge files (en; hi/ta for key safety files) with sample-content banner
+- [x] 2. Index: chunking, BM25 + multilingual embeddings; `shiftmate assistant index`
+- [x] 3. Online answering with validation; offline answering; intents; report parser online path
+- [x] 4. `/ask` screen; eval set (40 questions) and `shiftmate eval assistant`
 Requirements: F-ASK-01…06, F-REP-01 (online).
 Downloads (ask first): `google-genai` SDK, sentence-transformers model (~470 MB). LLM: Gemini via `assistant/llm.py` with offline fallback on missing key / 429 / timeout; eval paces calls and caches responses (D-021).
 

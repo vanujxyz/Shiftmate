@@ -596,3 +596,49 @@ Decision:
 - **Evaluation page:** reads docs/EVAL.md at build time through a small Markdown reader that never renders HTML from the file.
 Why: Supervisors see where time goes and what to do, without ranking people; no projection can pass as a measurement.
 Alternatives: Operator-level tables for supervisors (breaks P-02/P-03).
+
+## D-085 — Retrieval scoring: a lexical match must cover the question
+Date: 2026-09-24 · Phase: 10 · Requirement(s): TRD §10.2, §10.4
+Context: With BM25 normalised by the best score for each query, any chunk sharing a single word with an off-topic question ("the price of a new bucket") got full lexical marks. It reached the 0.55 offline bar and would have been returned as an answer.
+Decision: The lexical part is the max-normalised BM25 times the share of the query's IDF weight that the text contains. Words the knowledge base never uses count at the highest IDF. The dense part and the 0.5/0.5 weights stay as in the TRD, and the offline bar stays at 0.55. This was decided from the knowledge base alone, before the first evaluation run, and nothing was tuned on the evaluation set.
+Why: Off-topic questions now score 0.12–0.31 against 0.45–0.62 for real ones. Offline mode refuses rather than returns a wrong passage.
+Alternatives: Raising the offline bar (tuning a threshold); a stop-word list per language (brittle in hi/ta).
+
+## D-086 — The LLM provider in practice
+Date: 2026-09-24 · Phase: 10 · Requirement(s): TRD §10.3, D-021
+Context: `gemini-2.5-flash` and `-flash-lite` answer "no longer available to new users" for this key. `gemini-3.5-flash` returned empty text at small output limits (it spends tokens thinking). `gemini-3.5-flash-lite` answered JSON in about 1 s.
+Decision: The default model is `gemini-3.5-flash-lite` (config `assistant.yaml`), overridable with `SHIFTMATE_LLM_MODEL`. The key is read from `GEMINI_API_KEY` into a `SecretStr`, so it never appears in logs or reprs. A 12 s timeout, a 429, a server error or a missing key falls back to offline at once. Calls run in worker threads, so the gateway's clock never waits on the network. The assistant (and its 470 MB embedder) loads on first use, so the gateway starts at once. `tests/conftest.py` blanks the key, so the suite never calls the provider.
+Why: A working free-tier model today; safe key handling; offline stays the default path.
+Alternatives: Pinning a retired model name; loading the embedder at start-up (slow start, slow tests).
+
+## D-087 — Answer validation and the safety-bypass guard
+Date: 2026-09-24 · Phase: 10 · Requirement(s): F-ASK-01…06, TRD §10.3
+Context: The TRD asks for strict JSON, citations from the retrieved chunks, and refusal of any request to defeat a safety system.
+Decision:
+- **Online replies become a refusal** ("I don't know… I won't guess") if they are not the JSON object, cite a chunk that was not retrieved, or claim to be answerable without a citation.
+- **The model's own "not in the manuals" sentence is kept** and shown as a refusal.
+- **Bypass requests are always refused.** A keyword list in en/hi/ta (config) matches requests to bypass or defeat the seatbelt, alarms, cameras or sensors, and those are refused in both modes, even if the model answered.
+- **Refusals and notes are i18n keys** (`ask.dont_know`, `ask.refuse_bypass`, `ask.offline_unknown`, `ask.offline_english`, `ask.not_indexed`), so they read in the operator's language.
+- **Offline answers** are the best passage as written, in the operator's language when a translation exists, else English with a note.
+Why: No invented or unsourced answers; no help defeating safety systems.
+Alternatives: Trusting the model's own refusals only.
+
+## D-088 — The knowledge base
+Date: 2026-09-24 · Phase: 10 · Requirement(s): TRD §10.1
+Decision: 15 team-written English files cover the TRD list:
+- walkaround, seatbelt, swing radius, spotter signals and truck loading;
+- idling, cold start, heat, wet ground and night work;
+- refuelling, warning lights (clearly "sample indicator meanings"), emergency exit, reporting and fatigue.
+
+The four key safety files (seatbelt, swing radius, heat, emergency exit) also have Hindi and Tamil versions with the same headings in the same order, so chunk `<id>#<n>` names the same passage in every language. Distances, times and thresholds in the text match the config (10/6/3.5 m, heat index 41, 150/240 min, 5 min stops). The cab always shows the sample-content banner.
+Why: Honest content that agrees with what the machine actually does; aligned translations make citations language-independent.
+Alternatives: Translating every file now (more text for native review than the demo needs).
+
+## D-089 — Assistant evaluation method
+Date: 2026-09-24 · Phase: 10 · Requirement(s): TRD §10.6, §12
+Decision:
+- **The question set:** 40 questions in `eval/assistant_eval.yaml`, written before the first run (30 answerable, 10 per language, each with its acceptable chunks and key facts; 10 to refuse).
+- **Scoring:** citation accuracy counts a refusal as a miss. Key facts are graded by the same model with a fixed rubric, and every reply is cached by prompt hash with 4.5 s pacing. Retrieval hit@5 is reported to explain misses.
+- **What is reported:** both modes, as measured. Online met every target (93.3 % citations and key facts, 100 % refusals). Offline did not (66.7 % citations, 70 % key facts, 100 % refusals), because it answers only above the 0.55 bar.
+Why: Golden rule 11: report what was measured, including targets not met.
+Alternatives: A separate judge model (not available on the free tier here).

@@ -22,6 +22,8 @@ import httpx
 from fastapi import FastAPI, HTTPException, Query, WebSocket, WebSocketDisconnect
 
 from shiftmate import __version__
+from shiftmate.assistant.provider import AssistantProvider, llm_from_settings
+from shiftmate.assistant.service import Assistant
 from shiftmate.config_loader import ShiftMateConfig, load_config
 from shiftmate.edge.channels import Feeds, Subscriber, cab_channel, site_channel
 from shiftmate.edge.live import SCENARIO_DIR, Scenario, ScenarioPlayer
@@ -29,8 +31,7 @@ from shiftmate.edge.resources import EdgeResources
 from shiftmate.edge.services import build_insights, build_profile, build_shift, training_slots
 from shiftmate.edge.store import EdgeStore
 from shiftmate.edge.sync import SyncWorker
-from shiftmate.engines.intents import match_intent
-from shiftmate.engines.reports import auto_fill, parse_offline
+from shiftmate.engines.reports import auto_fill
 from shiftmate.engines.safety import SafetyEngine
 from shiftmate.schema import HealthResponse
 from shiftmate.schema.api import (
@@ -122,6 +123,7 @@ def create_app(
     cache_dir: Path | None = None,
     fleet_url: str | None = None,
     fleet_transport: httpx.AsyncBaseTransport | None = None,
+    assistant: Assistant | None = None,
 ) -> FastAPI:
     """Build the app. `autorun=False` (tests) leaves the clock and sync loops off."""
     settings = get_settings()
@@ -134,6 +136,8 @@ def create_app(
     store = EdgeStore(db_path if db_path is not None else data_dir / "edge" / "edge.db")
     player = ScenarioPlayer(cfg, resources, store)
     ctx = EdgeContext(cfg, resources, store, player)
+    provider = AssistantProvider(cfg, models_dir, llm_from_settings(cfg, settings))
+    ctx.extra["get_assistant"] = (lambda: assistant) if assistant is not None else provider.get
     ctx.feeds = Feeds(ctx)
     ctx.sync = SyncWorker(ctx, fleet_url or settings.fleet_url, cache_dir, fleet_transport)
     if scenario:
@@ -439,10 +443,9 @@ def _routes(app: FastAPI, ctx: EdgeContext) -> None:
 
     @app.post("/reports/parse", response_model=ReportParseResponse)
     async def reports_parse(body: ReportParseRequest) -> ReportParseResponse:
-        draft = parse_offline(body.transcript, body.language, cfg.report_keywords)
-        return ReportParseResponse(
-            draft=draft, context=report_context(body.language), mode="offline"
-        )
+        helper = await asyncio.to_thread(ctx.extra["get_assistant"])
+        draft, mode = await asyncio.to_thread(helper.parse_report, body.transcript, body.language)
+        return ReportParseResponse(draft=draft, context=report_context(body.language), mode=mode)
 
     @app.post("/reports", response_model=SavedReport)
     async def reports_save(body: ReportSaveRequest) -> SavedReport:
@@ -583,22 +586,17 @@ def _routes(app: FastAPI, ctx: EdgeContext) -> None:
     # --- assistant (the full assistant arrives in milestone 14) --------------------------------
     @app.post("/assistant/ask", response_model=AskResponse)
     async def ask(body: AskRequest) -> AskResponse:
-        answer = ctx.extra.get("assistant")
-        if answer is not None:
-            return await answer(body)
-        return AskResponse(
-            answer="",
-            citations=[],
-            answerable=False,
-            mode="offline",
-            language=body.language,
-            notice_key="ask.not_indexed",
-        )
+        helper = await asyncio.to_thread(ctx.extra["get_assistant"])
+        machine_type = None
+        site = ctx.player.site
+        if site is not None:
+            machine_type = site.world.agents[site.focus_id].machine.machine_type.value
+        return await asyncio.to_thread(helper.ask, body.question, body.language, machine_type)
 
     @app.post("/assistant/intent", response_model=IntentResponse)
     async def intent(body: IntentRequest) -> IntentResponse:
-        m = match_intent(body.utterance, cfg.intents)
-        return IntentResponse(intent=m.intent, matched=m.matched)
+        helper = await asyncio.to_thread(ctx.extra["get_assistant"])
+        return await asyncio.to_thread(helper.classify, body.utterance, body.language)
 
     # --- camera and sync ------------------------------------------------------------------------
     @app.post("/proximity/camera")

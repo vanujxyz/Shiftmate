@@ -1,0 +1,21 @@
+# Milestone 14 strings: Ask Cat (the /ask screen and the assistant's notices).
+ask.dont_know: {en: "I don't know. It isn't in the manuals on this machine, and I won't guess. Ask your supervisor or the dealer.", hi: "मुझे नहीं पता। यह इस मशीन के मैनुअल में नहीं है, और मैं अंदाज़ा नहीं लगाऊँगा। अपने सुपरवाइज़र या डीलर से पूछें।", ta: "எனக்குத் தெரியாது. இது இந்த இயந்திரத்தின் கையேடுகளில் இல்லை, நான் ஊகிக்க மாட்டேன். உங்கள் மேற்பார்வையாளரிடமோ டீலரிடமோ கேளுங்கள்."}
+ask.refuse_bypass: {en: "I can't help with switching off or getting round a safety system. It is there to keep you and the people around you safe. If it seems faulty, report it.", hi: "मैं किसी सुरक्षा व्यवस्था को बंद करने या उससे बचने में मदद नहीं कर सकता। यह आपको और आसपास के लोगों को सुरक्षित रखने के लिए है। अगर यह ख़राब लगे तो रिपोर्ट करें।", ta: "பாதுகாப்பு அமைப்பை அணைக்கவோ தவிர்க்கவோ என்னால் உதவ முடியாது. அது உங்களையும் சுற்றியுள்ளவர்களையும் காக்கவே உள்ளது. பழுதாகத் தெரிந்தால் புகார் செய்யுங்கள்."}
+ask.offline_unknown: {en: "No internet, and the manuals on this machine have no clear answer. Ask your supervisor, or ask again when the signal is back.", hi: "इंटरनेट नहीं है, और इस मशीन के मैनुअल में साफ़ जवाब नहीं है। सुपरवाइज़र से पूछें, या सिग्नल आने पर फिर पूछें।", ta: "இணையம் இல்லை, இந்த இயந்திரத்தின் கையேடுகளில் தெளிவான பதில் இல்லை. மேற்பார்வையாளரிடம் கேளுங்கள், அல்லது சிக்னல் வந்ததும் மீண்டும் கேளுங்கள்."}
+ask.offline_english: {en: "This part of the manual is only in English.", hi: "मैनुअल का यह हिस्सा सिर्फ़ अंग्रेज़ी में है।", ta: "கையேட்டின் இந்தப் பகுதி ஆங்கிலத்தில் மட்டுமே உள்ளது."}
+
+ui.ask.title: {en: "Ask Cat", hi: "Ask Cat", ta: "Ask Cat"}
+ui.ask.intro: {en: "Ask about the machine and working safely. Answers come only from the manuals on this machine.", hi: "मशीन और सुरक्षित काम के बारे में पूछें। जवाब सिर्फ़ इस मशीन के मैनुअल से आते हैं।", ta: "இயந்திரம் பற்றியும் பாதுகாப்பான வேலை பற்றியும் கேளுங்கள். பதில்கள் இந்த இயந்திரத்தின் கையேடுகளிலிருந்து மட்டுமே வரும்."}
+ui.ask.banner: {en: "Sample manual content written for this prototype. A production system would use official Cat Operation & Maintenance Manuals.", hi: "इस प्रोटोटाइप के लिए लिखी गई नमूना मैनुअल सामग्री। असली सिस्टम में आधिकारिक Cat ऑपरेशन और मेंटेनेंस मैनुअल होंगे।", ta: "இந்த முன்மாதிரிக்காக எழுதப்பட்ட மாதிரிக் கையேட்டு உள்ளடக்கம். உண்மையான அமைப்பு அதிகாரப்பூர்வ Cat இயக்க மற்றும் பராமரிப்புக் கையேடுகளைப் பயன்படுத்தும்."}
+ui.ask.input: {en: "Your question", hi: "आपका सवाल", ta: "உங்கள் கேள்வி"}
+ui.ask.send: {en: "Ask", hi: "पूछें", ta: "கேள்"}
+ui.ask.examples: {en: "Try asking", hi: "ऐसे पूछ सकते हैं", ta: "இப்படிக் கேட்கலாம்"}
+ui.ask.example1: {en: "How often should I drink water in hot weather?", hi: "गर्मी में कितनी बार पानी पीना चाहिए?", ta: "வெயிலில் எவ்வளவு அடிக்கடி தண்ணீர் குடிக்க வேண்டும்?"}
+ui.ask.example2: {en: "What do I do if someone comes into the swing radius?", hi: "अगर कोई घुमाव के दायरे में आ जाए तो क्या करूँ?", ta: "சுழற்சி வட்டத்துக்குள் யாராவது வந்தால் என்ன செய்வது?"}
+ui.ask.example3: {en: "How long should I warm up a cold engine?", hi: "ठंडे इंजन को कितनी देर गर्म करना चाहिए?", ta: "குளிர்ந்த இன்ஜினை எவ்வளவு நேரம் சூடேற்ற வேண்டும்?"}
+ui.ask.online_tag: {en: "From the manuals on this machine", hi: "इस मशीन के मैनुअल से", ta: "இந்த இயந்திரத்தின் கையேடுகளிலிருந்து"}
+ui.ask.offline_answer: {en: "Offline answer: the passage from the manual, as written", hi: "ऑफ़लाइन जवाब: मैनुअल का हिस्सा, जैसा लिखा है", ta: "இணைப்பில்லா பதில்: கையேட்டின் பகுதி, எழுதியபடியே"}
+ui.ask.sources: {en: "Sources", hi: "स्रोत", ta: "ஆதாரங்கள்"}
+ui.ask.failed: {en: "The question could not be sent. Try again.", hi: "सवाल भेजा नहीं जा सका। फिर कोशिश करें।", ta: "கேள்வியை அனுப்ப முடியவில்லை. மீண்டும் முயலுங்கள்."}
+ui.ask.read_aloud: {en: "Read it out", hi: "पढ़कर सुनाएँ", ta: "படித்துக் காட்டு"}
+ui.ask.new: {en: "Ask another question", hi: "दूसरा सवाल पूछें", ta: "வேறு கேள்வி கேள்"}

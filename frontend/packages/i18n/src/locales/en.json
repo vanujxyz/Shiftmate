@@ -207,7 +207,22 @@
       "sample_question": "How often do I check the seatbelt?",
       "sample_answer": "Check it at every walkaround, before you start the engine.",
       "sample_source": "Operator guide",
-      "sample_section": "Daily checks"
+      "sample_section": "Daily checks",
+      "title": "Ask Cat",
+      "intro": "Ask about the machine and working safely. Answers come only from the manuals on this machine.",
+      "banner": "Sample manual content written for this prototype. A production system would use official Cat Operation & Maintenance Manuals.",
+      "input": "Your question",
+      "send": "Ask",
+      "examples": "Try asking",
+      "example1": "How often should I drink water in hot weather?",
+      "example2": "What do I do if someone comes into the swing radius?",
+      "example3": "How long should I warm up a cold engine?",
+      "online_tag": "From the manuals on this machine",
+      "offline_answer": "Offline answer: the passage from the manual, as written",
+      "sources": "Sources",
+      "failed": "The question could not be sent. Try again.",
+      "read_aloud": "Read it out",
+      "new": "Ask another question"
     },
     "cond": {
       "heat": "Heat index",
@@ -663,7 +678,11 @@
     "break_heat": "Hot today: a water break now helps you finish strong"
   },
   "ask": {
-    "not_indexed": "The manual is not loaded on this machine yet."
+    "not_indexed": "The manual is not loaded on this machine yet.",
+    "dont_know": "I don't know. It isn't in the manuals on this machine, and I won't guess. Ask your supervisor or the dealer.",
+    "refuse_bypass": "I can't help with switching off or getting round a safety system. It is there to keep you and the people around you safe. If it seems faulty, report it.",
+    "offline_unknown": "No internet, and the manuals on this machine have no clear answer. Ask your supervisor, or ask again when the signal is back.",
+    "offline_english": "This part of the manual is only in English."
   },
   "task": {
     "truck_loading": "Truck loading",

@@ -1,0 +1,23 @@
+# Ask Cat, the manual assistant (TRD §10; PRD F-ASK-01…06). Answers come only from the team-written
+# knowledge base in knowledge/; online answers use the LLM provider layer, offline answers return
+# the best-matching passage as it is written.
+knowledge_dir: knowledge                                   # repo-relative
+index_dir: assistant                                        # under SHIFTMATE_MODELS_DIR
+embedding_dir: embeddings/paraphrase-multilingual-MiniLM-L12-v2   # under SHIFTMATE_MODELS_DIR
+embedding_model: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+chunk: {max_words: 350, overlap_words: 50}
+retrieval: {top_k: 5, bm25_weight: 0.5, dense_weight: 0.5}
+offline_min_score: 0.55          # §10.4: the top chunk must score at least this to be returned offline
+llm:
+  default_model: gemini-3.5-flash-lite   # used when SHIFTMATE_LLM_MODEL is empty
+  timeout_s: 12
+  max_output_tokens: 600
+  temperature: 0
+eval:
+  min_interval_s: 4.5            # stay under the free tier's per-minute limit
+  cache_dir: cache/llm           # under SHIFTMATE_DATA_DIR; keyed by prompt hash
+# Requests to defeat a safety system are refused in both modes (TRD §10.3), whatever the sources say.
+bypass_keywords:
+  en: ["bypass", "disable the seatbelt", "defeat", "override the alarm", "turn off the alarm", "switch off the alarm", "disable the alarm", "tie the seatbelt", "jump the switch", "disable the camera", "cover the camera", "without the seatbelt switch", "trick the sensor"]
+  hi: ["बायपास", "अलार्म बंद", "सीट बेल्ट स्विच बंद", "सेंसर को धोखा", "कैमरा बंद", "अलार्म को बंद"]
+  ta: ["பைபாஸ்", "அலாரத்தை அணை", "அலாரத்தை நிறுத்த", "சீட் பெல்ட் சுவிட்சை", "சென்சாரை ஏமாற்ற", "கேமராவை அணை"]

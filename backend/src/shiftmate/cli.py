@@ -282,8 +282,30 @@ def ml_train(seed: int = 7) -> None:
 
 @assistant_app.command("index")
 def assistant_index() -> None:
-    """Build the assistant retrieval index."""
-    _not_yet("assistant index", 14)
+    """Build the assistant retrieval index from knowledge/ into models/assistant/."""
+    from shiftmate.assistant.index import KnowledgeIndex, SentenceEmbedder
+    from shiftmate.assistant.knowledge import load_knowledge
+    from shiftmate.config_loader import load_config
+
+    cfg = load_config()
+    a = cfg.assistant
+    settings = get_settings()
+    models_dir = settings.resolve(settings.models_dir)
+    chunks = load_knowledge(REPO_ROOT / a.knowledge_dir, a.chunk)
+    model_path = models_dir / a.embedding_dir
+    if not model_path.exists():  # first run: fetch the model once (~470 MB), then run offline
+        from sentence_transformers import SentenceTransformer
+
+        typer.echo(f"Downloading {a.embedding_model} to {model_path} (one time, about 470 MB)")
+        SentenceTransformer(a.embedding_model, device="cpu").save(str(model_path))
+    embedder = SentenceEmbedder(model_path)
+    index = KnowledgeIndex.build(chunks, embedder, a.retrieval)
+    meta = index.save(models_dir / a.index_dir, a.embedding_model)
+    files = len({c.file_id for c in chunks})
+    typer.echo(
+        f"Assistant index: {meta['chunks']} chunks from {files} files, "
+        f"{meta['texts']} texts (en + hi/ta translations) → {models_dir / a.index_dir}"
+    )
 
 
 def _data_section(cfg, history_dir: Path) -> str:
@@ -332,6 +354,23 @@ def _run_eval(which: list[str]) -> None:
             typer.echo(
                 f"estimation: median error {t['median_ape']:.3f}, coverage {t['coverage']:.3f}"
             )
+        elif name == "assistant":
+            from shiftmate.assistant.provider import llm_from_settings
+            from shiftmate.eval.assistant import evaluate_assistant
+
+            settings = get_settings()
+            data_dir = settings.resolve(settings.data_dir)
+            metrics, md = evaluate_assistant(
+                cfg, models_dir, data_dir, llm_from_settings(cfg, settings)
+            )
+            for mode in ("offline", "online"):
+                if mode in metrics:
+                    o = metrics[mode]["overall"]
+                    typer.echo(
+                        f"assistant {mode}: citation {o['citation_accuracy']:.3f}, "
+                        f"refusals {o['refusal_accuracy']:.3f}"
+                    )
+            typer.echo(f"assistant LLM calls: {metrics['llm_calls']}")
         else:
             continue
         write_section(name, md)
@@ -341,7 +380,7 @@ def _run_eval(which: list[str]) -> None:
 @eval_app.command("all")
 def eval_all() -> None:
     """Run every evaluation and rewrite docs/EVAL.md."""
-    _run_eval(["idle", "anomaly", "estimation"])
+    _run_eval(["idle", "anomaly", "estimation", "assistant"])
 
 
 @eval_app.command("idle")
@@ -364,7 +403,8 @@ def eval_estimation() -> None:
 
 @eval_app.command("assistant")
 def eval_assistant() -> None:
-    _not_yet("eval assistant", 14)
+    """Ask Cat: citation accuracy, key-fact coverage and refusals, online and offline."""
+    _run_eval(["assistant"])
 
 
 if __name__ == "__main__":

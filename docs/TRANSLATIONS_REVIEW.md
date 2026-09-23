@@ -9,7 +9,7 @@ To approve a string, add it to `docs/translations-reviewed.json` under `hi` or `
 exact approved text, then run `pnpm i18n:review` again. If the text changes later, it returns
 to the review list.
 
-## Hindi (हिन्दी): 0 of 731 reviewed
+## Hindi (हिन्दी): 0 of 750 reviewed
 
 | Reviewed | Key | English | Hindi (हिन्दी) |
 |---|---|---|---|
@@ -178,6 +178,21 @@ to the review list.
 | **no** | `ui:ui.ask.sample_answer` | Check it at every walkaround, before you start the engine. | हर वॉकअराउंड में, इंजन चालू करने से पहले जाँचें। |
 | **no** | `ui:ui.ask.sample_source` | Operator guide | ऑपरेटर गाइड |
 | **no** | `ui:ui.ask.sample_section` | Daily checks | रोज़ की जाँच |
+| **no** | `ui:ui.ask.title` | Ask Cat | Ask Cat |
+| **no** | `ui:ui.ask.intro` | Ask about the machine and working safely. Answers come only from the manuals on this machine. | मशीन और सुरक्षित काम के बारे में पूछें। जवाब सिर्फ़ इस मशीन के मैनुअल से आते हैं। |
+| **no** | `ui:ui.ask.banner` | Sample manual content written for this prototype. A production system would use official Cat Operation & Maintenance Manuals. | इस प्रोटोटाइप के लिए लिखी गई नमूना मैनुअल सामग्री। असली सिस्टम में आधिकारिक Cat ऑपरेशन और मेंटेनेंस मैनुअल होंगे। |
+| **no** | `ui:ui.ask.input` | Your question | आपका सवाल |
+| **no** | `ui:ui.ask.send` | Ask | पूछें |
+| **no** | `ui:ui.ask.examples` | Try asking | ऐसे पूछ सकते हैं |
+| **no** | `ui:ui.ask.example1` | How often should I drink water in hot weather? | गर्मी में कितनी बार पानी पीना चाहिए? |
+| **no** | `ui:ui.ask.example2` | What do I do if someone comes into the swing radius? | अगर कोई घुमाव के दायरे में आ जाए तो क्या करूँ? |
+| **no** | `ui:ui.ask.example3` | How long should I warm up a cold engine? | ठंडे इंजन को कितनी देर गर्म करना चाहिए? |
+| **no** | `ui:ui.ask.online_tag` | From the manuals on this machine | इस मशीन के मैनुअल से |
+| **no** | `ui:ui.ask.offline_answer` | Offline answer: the passage from the manual, as written | ऑफ़लाइन जवाब: मैनुअल का हिस्सा, जैसा लिखा है |
+| **no** | `ui:ui.ask.sources` | Sources | स्रोत |
+| **no** | `ui:ui.ask.failed` | The question could not be sent. Try again. | सवाल भेजा नहीं जा सका। फिर कोशिश करें। |
+| **no** | `ui:ui.ask.read_aloud` | Read it out | पढ़कर सुनाएँ |
+| **no** | `ui:ui.ask.new` | Ask another question | दूसरा सवाल पूछें |
 | **no** | `ui:ui.cond.heat` | Heat index | गर्मी |
 | **no** | `ui:ui.cond.rain` | Rain | बारिश |
 | **no** | `ui:ui.cond.wet` | Ground | ज़मीन |
@@ -539,6 +554,10 @@ to the review list.
 | **no** | `ui:shift.break_scheduled` | Scheduled break | तय ब्रेक |
 | **no** | `ui:shift.break_heat` | Hot today: a water break now helps you finish strong | आज गर्मी है: अभी पानी का ब्रेक आगे के काम में मदद करेगा |
 | **no** | `ui:ask.not_indexed` | The manual is not loaded on this machine yet. | इस मशीन पर मैनुअल अभी लोड नहीं है। |
+| **no** | `ui:ask.dont_know` | I don't know. It isn't in the manuals on this machine, and I won't guess. Ask your supervisor or the dealer. | मुझे नहीं पता। यह इस मशीन के मैनुअल में नहीं है, और मैं अंदाज़ा नहीं लगाऊँगा। अपने सुपरवाइज़र या डीलर से पूछें। |
+| **no** | `ui:ask.refuse_bypass` | I can't help with switching off or getting round a safety system. It is there to keep you and the people around you safe. If it seems faulty, report it. | मैं किसी सुरक्षा व्यवस्था को बंद करने या उससे बचने में मदद नहीं कर सकता। यह आपको और आसपास के लोगों को सुरक्षित रखने के लिए है। अगर यह ख़राब लगे तो रिपोर्ट करें। |
+| **no** | `ui:ask.offline_unknown` | No internet, and the manuals on this machine have no clear answer. Ask your supervisor, or ask again when the signal is back. | इंटरनेट नहीं है, और इस मशीन के मैनुअल में साफ़ जवाब नहीं है। सुपरवाइज़र से पूछें, या सिग्नल आने पर फिर पूछें। |
+| **no** | `ui:ask.offline_english` | This part of the manual is only in English. | मैनुअल का यह हिस्सा सिर्फ़ अंग्रेज़ी में है। |
 | **no** | `ui:task.truck_loading` | Truck loading | ट्रक लोडिंग |
 | **no** | `ui:task.trenching` | Trenching | खाई खुदाई |
 | **no** | `ui:task.backfilling` | Backfilling | गड्ढा भराई |
@@ -745,7 +764,7 @@ to the review list.
 | **no** | `machine_profiles/excavator.yaml:display_name` | Excavator | एक्सकेवेटर |
 | **no** | `machine_profiles/wheel_loader.yaml:display_name` | Wheel loader | व्हील लोडर |
 
-## Tamil (தமிழ்): 0 of 731 reviewed
+## Tamil (தமிழ்): 0 of 750 reviewed
 
 | Reviewed | Key | English | Tamil (தமிழ்) |
 |---|---|---|---|
@@ -914,6 +933,21 @@ to the review list.
 | **no** | `ui:ui.ask.sample_answer` | Check it at every walkaround, before you start the engine. | ஒவ்வொரு சுற்றுப் பார்வையிலும், இன்ஜினை இயக்கும் முன் சரிபாருங்கள். |
 | **no** | `ui:ui.ask.sample_source` | Operator guide | இயக்குநர் வழிகாட்டி |
 | **no** | `ui:ui.ask.sample_section` | Daily checks | தினசரி சோதனைகள் |
+| **no** | `ui:ui.ask.title` | Ask Cat | Ask Cat |
+| **no** | `ui:ui.ask.intro` | Ask about the machine and working safely. Answers come only from the manuals on this machine. | இயந்திரம் பற்றியும் பாதுகாப்பான வேலை பற்றியும் கேளுங்கள். பதில்கள் இந்த இயந்திரத்தின் கையேடுகளிலிருந்து மட்டுமே வரும். |
+| **no** | `ui:ui.ask.banner` | Sample manual content written for this prototype. A production system would use official Cat Operation & Maintenance Manuals. | இந்த முன்மாதிரிக்காக எழுதப்பட்ட மாதிரிக் கையேட்டு உள்ளடக்கம். உண்மையான அமைப்பு அதிகாரப்பூர்வ Cat இயக்க மற்றும் பராமரிப்புக் கையேடுகளைப் பயன்படுத்தும். |
+| **no** | `ui:ui.ask.input` | Your question | உங்கள் கேள்வி |
+| **no** | `ui:ui.ask.send` | Ask | கேள் |
+| **no** | `ui:ui.ask.examples` | Try asking | இப்படிக் கேட்கலாம் |
+| **no** | `ui:ui.ask.example1` | How often should I drink water in hot weather? | வெயிலில் எவ்வளவு அடிக்கடி தண்ணீர் குடிக்க வேண்டும்? |
+| **no** | `ui:ui.ask.example2` | What do I do if someone comes into the swing radius? | சுழற்சி வட்டத்துக்குள் யாராவது வந்தால் என்ன செய்வது? |
+| **no** | `ui:ui.ask.example3` | How long should I warm up a cold engine? | குளிர்ந்த இன்ஜினை எவ்வளவு நேரம் சூடேற்ற வேண்டும்? |
+| **no** | `ui:ui.ask.online_tag` | From the manuals on this machine | இந்த இயந்திரத்தின் கையேடுகளிலிருந்து |
+| **no** | `ui:ui.ask.offline_answer` | Offline answer: the passage from the manual, as written | இணைப்பில்லா பதில்: கையேட்டின் பகுதி, எழுதியபடியே |
+| **no** | `ui:ui.ask.sources` | Sources | ஆதாரங்கள் |
+| **no** | `ui:ui.ask.failed` | The question could not be sent. Try again. | கேள்வியை அனுப்ப முடியவில்லை. மீண்டும் முயலுங்கள். |
+| **no** | `ui:ui.ask.read_aloud` | Read it out | படித்துக் காட்டு |
+| **no** | `ui:ui.ask.new` | Ask another question | வேறு கேள்வி கேள் |
 | **no** | `ui:ui.cond.heat` | Heat index | வெப்பம் |
 | **no** | `ui:ui.cond.rain` | Rain | மழை |
 | **no** | `ui:ui.cond.wet` | Ground | தரை |
@@ -1275,6 +1309,10 @@ to the review list.
 | **no** | `ui:shift.break_scheduled` | Scheduled break | திட்டமிட்ட இடைவேளை |
 | **no** | `ui:shift.break_heat` | Hot today: a water break now helps you finish strong | இன்று வெயில்: இப்போது தண்ணீர் இடைவேளை மீதி வேலைக்கு உதவும் |
 | **no** | `ui:ask.not_indexed` | The manual is not loaded on this machine yet. | இந்த இயந்திரத்தில் கையேடு இன்னும் ஏற்றப்படவில்லை. |
+| **no** | `ui:ask.dont_know` | I don't know. It isn't in the manuals on this machine, and I won't guess. Ask your supervisor or the dealer. | எனக்குத் தெரியாது. இது இந்த இயந்திரத்தின் கையேடுகளில் இல்லை, நான் ஊகிக்க மாட்டேன். உங்கள் மேற்பார்வையாளரிடமோ டீலரிடமோ கேளுங்கள். |
+| **no** | `ui:ask.refuse_bypass` | I can't help with switching off or getting round a safety system. It is there to keep you and the people around you safe. If it seems faulty, report it. | பாதுகாப்பு அமைப்பை அணைக்கவோ தவிர்க்கவோ என்னால் உதவ முடியாது. அது உங்களையும் சுற்றியுள்ளவர்களையும் காக்கவே உள்ளது. பழுதாகத் தெரிந்தால் புகார் செய்யுங்கள். |
+| **no** | `ui:ask.offline_unknown` | No internet, and the manuals on this machine have no clear answer. Ask your supervisor, or ask again when the signal is back. | இணையம் இல்லை, இந்த இயந்திரத்தின் கையேடுகளில் தெளிவான பதில் இல்லை. மேற்பார்வையாளரிடம் கேளுங்கள், அல்லது சிக்னல் வந்ததும் மீண்டும் கேளுங்கள். |
+| **no** | `ui:ask.offline_english` | This part of the manual is only in English. | கையேட்டின் இந்தப் பகுதி ஆங்கிலத்தில் மட்டுமே உள்ளது. |
 | **no** | `ui:task.truck_loading` | Truck loading | லாரி ஏற்றுதல் |
 | **no** | `ui:task.trenching` | Trenching | அகழி தோண்டுதல் |
 | **no** | `ui:task.backfilling` | Backfilling | குழி நிரப்புதல் |

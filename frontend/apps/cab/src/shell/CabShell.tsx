@@ -108,7 +108,8 @@ export function CabShell() {
 
   const rail = railProps({ ...live, mode }, t, now, signedIn.machineId);
   const lost = !live.connected && live.lastMessageAt != null && now - live.lastMessageAt > LOST_AFTER_MS;
-  const current = (TABS as readonly string[]).includes(location.pathname) ? location.pathname : "/";
+  // Ask Cat (behind push-to-talk) is not a tab: no tab is marked while it is open
+  const current = (TABS as readonly string[]).includes(location.pathname) ? location.pathname : "";
   const working = mode === "working";
 
   return (
@@ -141,7 +142,8 @@ export function CabShell() {
         />
       )}
       <div className="fixed right-10 bottom-5.5 z-(--sm-layer-sheet)">
-        <PushToTalk state="idle" label={t("ui.ptt.idle")} />
+        {/* milestone 14: a tap opens Ask Cat; speaking arrives in milestone 15 */}
+        <PushToTalk state="idle" label={t("ui.ptt.idle")} onRelease={() => void navigate("/ask")} />
       </div>
     </div>
   );

@@ -804,3 +804,50 @@ class IntentsConfig(Strict):
             if set(per_lang) != set(Language) or any(not v for v in per_lang.values()):
                 raise ValueError(f"intent {name} needs keywords in en, hi and ta")
         return self
+
+
+# --- assistant (§10) ------------------------------------------------------------------------------
+
+
+class ChunkConfig(Strict):
+    max_words: int = Field(gt=50)
+    overlap_words: int = Field(ge=0)
+
+
+class RetrievalConfig(Strict):
+    top_k: int = Field(gt=0)
+    bm25_weight: float = Field(ge=0, le=1)
+    dense_weight: float = Field(ge=0, le=1)
+
+
+class LlmConfig(Strict):
+    default_model: str
+    timeout_s: float = Field(gt=0)
+    max_output_tokens: int = Field(gt=0)
+    temperature: float = Field(ge=0)
+
+
+class AssistantEvalConfig(Strict):
+    min_interval_s: float = Field(ge=0)
+    cache_dir: str
+
+
+class AssistantConfig(Strict):
+    knowledge_dir: str
+    index_dir: str
+    embedding_dir: str
+    embedding_model: str
+    chunk: ChunkConfig
+    retrieval: RetrievalConfig
+    offline_min_score: float = Field(ge=0, le=1)
+    llm: LlmConfig
+    eval: AssistantEvalConfig
+    bypass_keywords: dict[Language, list[str]]
+
+    @model_validator(mode="after")
+    def _complete(self) -> AssistantConfig:
+        if set(self.bypass_keywords) != set(Language):
+            raise ValueError("bypass keywords are needed in en, hi and ta")
+        if abs(self.retrieval.bm25_weight + self.retrieval.dense_weight - 1) > 1e-9:
+            raise ValueError("retrieval weights must add up to 1")
+        return self
