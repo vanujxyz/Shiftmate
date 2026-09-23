@@ -194,12 +194,13 @@ class SyncWorker:
         except (httpx.HTTPError, OSError, KeyError, ValueError) as exc:
             log.info("model check failed (%s); keeping %s", _short_error(exc), current)
             return None
-        (self.cache_dir / "estimation" / "LATEST").write_text(version, encoding="utf-8")
         try:
-            res.use_estimation_from(self.cache_dir, "fleet")
+            res.use_estimation_from(self.cache_dir, "fleet", version)
         except Exception:  # a broken download must never take estimates away
             log.exception("downloaded model %s failed to load; keeping %s", version, current)
             return None
+        # only a model that loaded becomes the cache's LATEST (used at the next start)
+        (self.cache_dir / "estimation" / "LATEST").write_text(version, encoding="utf-8")
         log.info("estimation model updated %s → %s", current, version)
         return version
 

@@ -1,6 +1,6 @@
 # ShiftMate — Build progress
 
-**Next step:** Milestone 8 (Edge Gateway B) in progress — see HANDOFF.md at the repo root.
+**Next step:** Milestone 9 (Fleet Service) in progress.
 
 **Autonomy note (2026-09-23):** the user authorised continuing through all milestones without waiting for approval, and approved all needed downloads. Each milestone is still tested, committed, and reported in `docs/reports/milestone-N.md`.
 
@@ -112,13 +112,13 @@ Goal: the machine-side server runs live simulated machines and plays Ravi's shif
 Requirements: F-START-01, 02, 03, F-SHIFT-01, 04, 05, 06, F-FLT-03.
 You will see: interactive API docs at http://localhost:8100/docs; scenario control by HTTP.
 
-### Milestone 8 — Edge Gateway B: live channels, sync, headless demo (Phase 5, second half) · Status: not started
+### Milestone 8 — Edge Gateway B: live channels, sync, headless demo (Phase 5, second half) · Status: done
 Goal: live WebSocket feeds, offline outbox with sync, camera proximity input, and a verified headless run of Ravi's shift.
-- [ ] 1. `/ws/cab/{id}` and `/ws/site/{id}` with all message types
-- [ ] 2. Outbox + background sync with back-off; network toggle
-- [ ] 3. Estimation model download from fleet with cached fallback
-- [ ] 4. `/proximity/camera` merge (camera overrides sensor when fresher than 1 s)
-- [ ] 5. Headless `ravi_shift` at 60× asserting every beat; determinism (two identical event logs)
+- [x] 1. `/ws/cab/{id}` and `/ws/site/{id}` with all message types
+- [x] 2. Outbox + background sync with back-off; network toggle
+- [x] 3. Estimation model download from fleet with cached fallback
+- [x] 4. `/proximity/camera` merge (camera overrides sensor when fresher than 1 s)
+- [x] 5. Headless `ravi_shift` at 60× asserting every beat; determinism (two identical event logs)
 Requirements: F-REP-04, F-CAB-04, F-SAFE-03 (backend), F-FLT-03.
 You will see: a test printing the beat-by-beat event sequence.
 

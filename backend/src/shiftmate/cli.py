@@ -21,6 +21,10 @@ schema_app = typer.Typer(
     help="JSON Schema export for the frontend contracts.", no_args_is_help=True
 )
 config_app = typer.Typer(help="Configuration checks.", no_args_is_help=True)
+edge_app = typer.Typer(
+    help="Edge Gateway: run the server (no subcommand) or a headless scenario.",
+    invoke_without_command=True,
+)
 
 app.add_typer(sim_app, name="sim")
 app.add_typer(bench_app, name="bench")
@@ -29,6 +33,7 @@ app.add_typer(assistant_app, name="assistant")
 app.add_typer(eval_app, name="eval")
 app.add_typer(schema_app, name="schema")
 app.add_typer(config_app, name="config")
+app.add_typer(edge_app, name="edge")
 
 
 def _not_yet(what: str, milestone: int) -> None:
@@ -39,11 +44,28 @@ def _not_yet(what: str, milestone: int) -> None:
 # --- servers -------------------------------------------------------------------------------
 
 
-@app.command()
-def edge(host: str = "127.0.0.1", port: int | None = None) -> None:
+@edge_app.callback()
+def edge(ctx: typer.Context, host: str = "127.0.0.1", port: int | None = None) -> None:
     """Run the Edge Gateway (default port 8100)."""
+    if ctx.invoked_subcommand is not None:
+        return
     port = port or get_settings().edge_port
     uvicorn.run("shiftmate.edge.app:create_app", factory=True, host=host, port=port)
+
+
+@edge_app.command("headless")
+def edge_headless(scenario: str = "ravi_shift", speed: float = 60.0) -> None:
+    """Play a scenario with no browser on a fake clock and print what happened, beat by beat."""
+    import asyncio
+
+    from shiftmate.edge.headless import describe, run_headless
+
+    def on_beat(b: dict) -> None:
+        typer.echo(f"  … {b['fired']:%H:%M} {b['id']}", err=True)
+
+    result = asyncio.run(run_headless(scenario, speed, on_beat=on_beat))
+    for line in describe(result):
+        typer.echo(line)
 
 
 @app.command()
