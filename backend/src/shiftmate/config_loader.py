@@ -123,6 +123,16 @@ def _cross_check(cfg: ShiftMateConfig) -> None:
             if signal not in known_signals:
                 problems.append(f"safety_rules: {rule.id} requires unknown signal '{signal}'")
 
+    # safety rules: every expression compiles with the safe evaluator (no eval, known names only)
+    from shiftmate.engines.rule_eval import RuleError, compile_rule
+    from shiftmate.engines.safety import CONTEXT_NAMES
+
+    for rule in cfg.safety_rules.rules:
+        try:
+            compile_rule(rule.when, CONTEXT_NAMES)
+        except RuleError as exc:
+            problems.append(f"safety_rules: {rule.id}: {exc}")
+
     # alert policy: rule ids shown in the rail must exist
     rule_ids = {rule.id for rule in cfg.safety_rules.rules}
     for rule_id in cfg.alert_policy.live_in_rail_while_working:

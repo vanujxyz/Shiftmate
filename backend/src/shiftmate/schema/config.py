@@ -419,6 +419,7 @@ class RiskModelConfig(Strict):
     hysteresis_down_s: float = Field(default=120, ge=0)
     publish_min_delta: int = Field(default=3, ge=1)
     top_contributors: int = Field(default=3, ge=1)
+    rest_reset_min: float = Field(default=10, gt=0)
 
     @model_validator(mode="after")
     def _bands_cover(self) -> RiskModelConfig:
