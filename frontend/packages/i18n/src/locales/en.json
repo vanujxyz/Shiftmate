@@ -396,6 +396,159 @@
       "col_fuel": "Fuel per load",
       "no_week": "No earlier days on record.",
       "truck_note": "Waiting for trucks is a site delay, not your idle time."
+    },
+    "con": {
+      "nav_label": "Console sections",
+      "nav": {
+        "map": "Live map",
+        "summary": "Day summary",
+        "fleet": "Fleet",
+        "demo": "Demo",
+        "eval": "Evaluation"
+      },
+      "site": "Site",
+      "day": "Day",
+      "loading": "Loading…",
+      "edge_down": "Machine gateway not reachable",
+      "fleet_down": "Fleet service not reachable",
+      "down_text": "Start it, and this page updates by itself.",
+      "no_scenario": "No demo scenario is loaded. Load one on the Demo page.",
+      "none": "None"
+    },
+    "tier": {
+      "clear": "Clear",
+      "caution": "Caution",
+      "danger": "Danger",
+      "critical": "Critical"
+    },
+    "map": {
+      "label": "Live site map",
+      "sentence": "{{machines}} machines, {{trucks}} trucks and {{people}} people on site",
+      "north": "North",
+      "scale": "50 m",
+      "machines": "Machines",
+      "select_hint": "Select a machine to see how it is going.",
+      "events": "Site events",
+      "no_events": "No site events yet.",
+      "stale": "No map update for {{seconds}} s",
+      "focus": "Demo machine",
+      "trucks_waiting": "Trucks waiting at {{zone}}",
+      "site_issue_open": "{{machine}} waiting for trucks at {{zone}}",
+      "site_issue_cleared": "{{machine}} no longer waiting for trucks"
+    },
+    "detail": {
+      "operator": "Operator",
+      "model": "Model",
+      "sensors": "Sensors",
+      "nearby": "Nearby",
+      "no_sensing": "No people sensing",
+      "rings": "Warning rings {{caution}} · {{danger}} · {{critical}}",
+      "today": "Today so far",
+      "engine_on": "Engine on",
+      "working": "Working",
+      "idle": "Idle",
+      "tasks": "Tasks",
+      "no_day": "No data from this machine for this day yet.",
+      "close": "Close"
+    },
+    "sum": {
+      "title": "Day summary",
+      "tasks": "Tasks by machine",
+      "tasks_line": "{{done}} of {{total}} tasks done · {{behind}} behind",
+      "col_machine": "Machine",
+      "col_operator": "Operator",
+      "col_tasks": "Tasks",
+      "col_engine": "Engine on",
+      "col_working": "Working",
+      "col_idle": "Idle",
+      "col_status": "Status",
+      "task_cell": "{{done}} of {{total}} done"
+    },
+    "idle": {
+      "title": "Where time was lost",
+      "total": "{{time}} idle across {{machines}} machines",
+      "col_cause": "Cause",
+      "col_time": "Time",
+      "col_share": "Share",
+      "site_issue": "Site issue",
+      "by_hour": "Waiting for trucks, by hour",
+      "by_hour_sentence": "Most waiting at {{hour}}:00 ({{time}}).",
+      "no_wait": "No waiting for trucks this day.",
+      "suggestion": "Suggestion",
+      "saves": "would likely save {{low}} – {{high}}",
+      "basis": "based on {{days}} similar days"
+    },
+    "safe": {
+      "title": "Safety",
+      "p1": "Critical alerts",
+      "p2": "Warnings",
+      "reports": "Operator reports",
+      "risk": "Risk by machine",
+      "risk_hours": "{{amber}} raised · {{red}} high",
+      "counts": "{{p1}} critical · {{p2}} warnings · {{near}} near misses · {{incidents}} incidents",
+      "footer": "Counts are for learning, not ranking. Operators see the same data about themselves.",
+      "more": "and {{count}} more"
+    },
+    "trend": {
+      "title": "Team trends, last {{days}} days",
+      "note": "Shown for groups only. Groups smaller than {{n}} operators are hidden.",
+      "col_group": "Experience",
+      "col_ops": "Operators",
+      "col_idle": "Short stops per hour",
+      "col_belt": "Seatbelt off per hour",
+      "col_fuel": "Fuel per load",
+      "col_p1": "Critical alerts per 100 h",
+      "hidden": "Hidden (fewer than {{n}})",
+      "years": "{{group}} years",
+      "daily": "Waiting for trucks per day",
+      "daily_sentence": "Truck waiting ranged from {{low}} to {{high}} a day over the last {{days}} days."
+    },
+    "unit": {
+      "seconds": "{{value}} s",
+      "minutes": "{{value}} min"
+    },
+    "fl": {
+      "title": "Fleet",
+      "machines": "{{total}} machines across {{sites}} sites",
+      "by_type": "By type",
+      "by_tier": "By sensors",
+      "no_data": "No data yet",
+      "condition": "Heat index {{heat}} °C · {{ground}} ground",
+      "patterns": "What the fleet has learned",
+      "patterns_note": "Learned from finished tasks across all sites; each line shows how much more time a condition takes.",
+      "scale": "Scale",
+      "live": "Live ingest: {{rate}} records per second",
+      "totals": "Stored: {{intervals}} intervals, {{events}} events, {{tasks}} tasks, {{reports}} reports",
+      "run": "Measured: {{machines}} simulated machines sent {{records}} records in {{seconds}} s ({{rate}} records per second, p95 {{p95}} ms per request)",
+      "bench": "Measured on this computer: {{cpu}} ms CPU per machine per second of work, {{mem}} MB memory per machine, {{kb}} kB uplink per machine per hour",
+      "projection": "Projection for {{machines}} machines: {{gb}} GB uplink a day, {{rps}} records per second, {{nodes}} ingest nodes at the measured rate",
+      "projection_note": "Projection, not measured. Basis: {{basis}}.",
+      "no_run": "No scale run yet. Run it with: shiftmate fleet scale"
+    },
+    "dm": {
+      "title": "Demo control",
+      "scenario": "Scenario",
+      "load": "Load",
+      "reload": "Start again",
+      "loaded": "Loaded: {{title}}",
+      "speed": "Speed",
+      "time": "Site time {{time}}",
+      "playing": "Playing",
+      "paused": "Paused",
+      "beats": "Story beats",
+      "go": "Go here",
+      "beat_done": "Done",
+      "waiting": "Waiting for the cab: {{beat}}",
+      "network": "Site internet",
+      "online": "Online",
+      "offline": "Offline",
+      "captions": "Captions on the cab",
+      "signed_in": "Signed in on the cab: {{who}}",
+      "nobody": "nobody"
+    },
+    "ev": {
+      "title": "Evaluation",
+      "source": "Results from docs/EVAL.md, written by \"shiftmate eval all\" on held-out test days. They are shown as written, in English."
     }
   },
   "alert": {
@@ -568,5 +721,40 @@
     "long_idle": "stops of a few minutes with the engine on",
     "seat_not_sensed": "this machine has no seat sensor",
     "no_clear_cause": "The sensors could not tell why"
+  },
+  "machine": {
+    "excavator": "Excavator",
+    "wheel_loader": "Wheel loader",
+    "dozer": "Dozer"
+  },
+  "tier": {
+    "basic": "Basic sensors",
+    "standard": "Standard sensors",
+    "advanced": "Advanced sensors"
+  },
+  "track": {
+    "done": "Done",
+    "on_track": "On track",
+    "behind": "Behind",
+    "not_started": "Not started",
+    "unknown": "No estimate"
+  },
+  "idle_lead": {
+    "WAITING_FOR_TRUCK": "{{time}} waiting for trucks",
+    "HABIT": "{{time}} in short stops",
+    "UNKNOWN": "{{time}} idle with no clear cause",
+    "SCHEDULED_BREAK": "{{time}} on scheduled breaks",
+    "WARM_UP": "{{time}} warming up",
+    "UNATTENDED_RUNNING": "{{time}} with the engine on and the cab empty"
+  },
+  "suggest": {
+    "add_truck": "Add one truck to {{zone}}, {{start}}–{{end}}",
+    "toolbox_idle": "Talk about short stops at the next toolbox meeting",
+    "shutdown_briefing": "Remind the crew to switch off before stepping out"
+  },
+  "pattern": {
+    "ground_condition": "{{task}} on {{condition}} ground: {{pct}} time compared with dry or rocky ground",
+    "heat_band": "{{task}} at heat index {{condition}}: {{pct}} time compared with below 32 °C",
+    "basis": "{{tasks}} tasks on {{machines}} machines"
   }
 }

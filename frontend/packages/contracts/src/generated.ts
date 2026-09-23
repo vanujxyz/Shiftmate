@@ -216,6 +216,7 @@ export interface AskResponse {
  */
 export interface Citation {
   chunk_id: string;
+  title: string;
   section: string;
 }
 /**
@@ -1011,6 +1012,7 @@ export interface Zone {
  */
 export interface Lesson {
   id: string;
+  title: LocalizedText;
   format: LessonFormat;
   duration_s: number;
   triggers: string[];
@@ -1080,6 +1082,9 @@ export interface LessonOffer {
  */
 export interface LessonSummary {
   id: string;
+  title: {
+    [k: string]: string;
+  };
   format: string;
   duration_s: number;
   triggers: string[];
@@ -1492,6 +1497,20 @@ export interface ScaleStats {
   projection: Projection | null;
 }
 /**
+ * GET /demo/scenarios: what the demo page can load.
+ *
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "ScenarioInfo".
+ */
+export interface ScenarioInfo {
+  name: string;
+  title: {
+    [k: string]: string;
+  };
+  site_id: string;
+  focus_machine: string;
+}
+/**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "ScenarioLoadRequest".
  */
@@ -1732,6 +1751,19 @@ export interface SiteInfo {
   machines: number;
   first_date: string | null;
   last_date: string | null;
+}
+/**
+ * GET /site/layout: the loaded site's plan for the console map (metres, local x/y).
+ *
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "SiteLayout".
+ */
+export interface SiteLayout {
+  site_id: string;
+  name: string;
+  timezone: string;
+  focus_machine: string;
+  layout: Layout;
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema

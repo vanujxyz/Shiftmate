@@ -9,7 +9,7 @@ To approve a string, add it to `docs/translations-reviewed.json` under `hi` or `
 exact approved text, then run `pnpm i18n:review` again. If the text changes later, it returns
 to the review list.
 
-## Hindi (हिन्दी): 0 of 581 reviewed
+## Hindi (हिन्दी): 0 of 731 reviewed
 
 | Reviewed | Key | English | Hindi (हिन्दी) |
 |---|---|---|---|
@@ -334,6 +334,133 @@ to the review list.
 | **no** | `ui:ui.day.col_fuel` | Fuel per load | हर लोड पर ईंधन |
 | **no** | `ui:ui.day.no_week` | No earlier days on record. | पहले के दिनों का रिकॉर्ड नहीं। |
 | **no** | `ui:ui.day.truck_note` | Waiting for trucks is a site delay, not your idle time. | ट्रक का इंतज़ार साइट की देरी है, आपका खाली समय नहीं। |
+| **no** | `ui:ui.con.nav_label` | Console sections | कंसोल के हिस्से |
+| **no** | `ui:ui.con.nav.map` | Live map | लाइव नक्शा |
+| **no** | `ui:ui.con.nav.summary` | Day summary | दिन का सार |
+| **no** | `ui:ui.con.nav.fleet` | Fleet | फ़्लीट |
+| **no** | `ui:ui.con.nav.demo` | Demo | डेमो |
+| **no** | `ui:ui.con.nav.eval` | Evaluation | मूल्यांकन |
+| **no** | `ui:ui.con.site` | Site | साइट |
+| **no** | `ui:ui.con.day` | Day | दिन |
+| **no** | `ui:ui.con.loading` | Loading… | लोड हो रहा है… |
+| **no** | `ui:ui.con.edge_down` | Machine gateway not reachable | मशीन गेटवे से संपर्क नहीं |
+| **no** | `ui:ui.con.fleet_down` | Fleet service not reachable | फ़्लीट सेवा से संपर्क नहीं |
+| **no** | `ui:ui.con.down_text` | Start it, and this page updates by itself. | इसे चालू करें, यह पेज अपने-आप अपडेट होगा। |
+| **no** | `ui:ui.con.no_scenario` | No demo scenario is loaded. Load one on the Demo page. | कोई डेमो लोड नहीं है। डेमो पेज पर लोड करें। |
+| **no** | `ui:ui.con.none` | None | कोई नहीं |
+| **no** | `ui:ui.tier.clear` | Clear | साफ़ |
+| **no** | `ui:ui.tier.caution` | Caution | सावधानी |
+| **no** | `ui:ui.tier.danger` | Danger | ख़तरा |
+| **no** | `ui:ui.tier.critical` | Critical | गंभीर ख़तरा |
+| **no** | `ui:ui.map.label` | Live site map | साइट का लाइव नक्शा |
+| **no** | `ui:ui.map.sentence` | {{machines}} machines, {{trucks}} trucks and {{people}} people on site | साइट पर {{machines}} मशीनें, {{trucks}} ट्रक और {{people}} लोग |
+| **no** | `ui:ui.map.north` | North | उत्तर |
+| **no** | `ui:ui.map.scale` | 50 m | 50 मीटर |
+| **no** | `ui:ui.map.machines` | Machines | मशीनें |
+| **no** | `ui:ui.map.select_hint` | Select a machine to see how it is going. | कोई मशीन चुनें और उसका हाल देखें। |
+| **no** | `ui:ui.map.events` | Site events | साइट की घटनाएँ |
+| **no** | `ui:ui.map.no_events` | No site events yet. | अभी कोई घटना नहीं। |
+| **no** | `ui:ui.map.stale` | No map update for {{seconds}} s | {{seconds}} सेकंड से नक्शा अपडेट नहीं |
+| **no** | `ui:ui.map.focus` | Demo machine | डेमो मशीन |
+| **no** | `ui:ui.map.trucks_waiting` | Trucks waiting at {{zone}} | {{zone}} पर ट्रक इंतज़ार में |
+| **no** | `ui:ui.map.site_issue_open` | {{machine}} waiting for trucks at {{zone}} | {{machine}} {{zone}} पर ट्रक का इंतज़ार कर रही है |
+| **no** | `ui:ui.map.site_issue_cleared` | {{machine}} no longer waiting for trucks | {{machine}} अब ट्रक का इंतज़ार नहीं कर रही |
+| **no** | `ui:ui.detail.operator` | Operator | ऑपरेटर |
+| **no** | `ui:ui.detail.model` | Model | मॉडल |
+| **no** | `ui:ui.detail.sensors` | Sensors | सेंसर |
+| **no** | `ui:ui.detail.nearby` | Nearby | आसपास |
+| **no** | `ui:ui.detail.no_sensing` | No people sensing | लोगों का सेंसर नहीं |
+| **no** | `ui:ui.detail.rings` | Warning rings {{caution}} · {{danger}} · {{critical}} | चेतावनी घेरे {{caution}} · {{danger}} · {{critical}} |
+| **no** | `ui:ui.detail.today` | Today so far | आज अब तक |
+| **no** | `ui:ui.detail.engine_on` | Engine on | इंजन चालू |
+| **no** | `ui:ui.detail.working` | Working | काम |
+| **no** | `ui:ui.detail.idle` | Idle | खड़ी |
+| **no** | `ui:ui.detail.tasks` | Tasks | काम |
+| **no** | `ui:ui.detail.no_day` | No data from this machine for this day yet. | इस दिन की इस मशीन की जानकारी अभी नहीं। |
+| **no** | `ui:ui.detail.close` | Close | बंद करें |
+| **no** | `ui:ui.sum.title` | Day summary | दिन का सार |
+| **no** | `ui:ui.sum.tasks` | Tasks by machine | मशीन के हिसाब से काम |
+| **no** | `ui:ui.sum.tasks_line` | {{done}} of {{total}} tasks done · {{behind}} behind | {{total}} में से {{done}} काम पूरे · {{behind}} पीछे |
+| **no** | `ui:ui.sum.col_machine` | Machine | मशीन |
+| **no** | `ui:ui.sum.col_operator` | Operator | ऑपरेटर |
+| **no** | `ui:ui.sum.col_tasks` | Tasks | काम |
+| **no** | `ui:ui.sum.col_engine` | Engine on | इंजन चालू |
+| **no** | `ui:ui.sum.col_working` | Working | काम |
+| **no** | `ui:ui.sum.col_idle` | Idle | खड़ी |
+| **no** | `ui:ui.sum.col_status` | Status | स्थिति |
+| **no** | `ui:ui.sum.task_cell` | {{done}} of {{total}} done | {{total}} में से {{done}} पूरे |
+| **no** | `ui:ui.idle.title` | Where time was lost | समय कहाँ गया |
+| **no** | `ui:ui.idle.total` | {{time}} idle across {{machines}} machines | {{machines}} मशीनों पर कुल {{time}} खड़ी रहीं |
+| **no** | `ui:ui.idle.col_cause` | Cause | वजह |
+| **no** | `ui:ui.idle.col_time` | Time | समय |
+| **no** | `ui:ui.idle.col_share` | Share | हिस्सा |
+| **no** | `ui:ui.idle.site_issue` | Site issue | साइट की समस्या |
+| **no** | `ui:ui.idle.by_hour` | Waiting for trucks, by hour | घंटे के हिसाब से ट्रक का इंतज़ार |
+| **no** | `ui:ui.idle.by_hour_sentence` | Most waiting at {{hour}}:00 ({{time}}). | सबसे ज़्यादा इंतज़ार {{hour}}:00 बजे ({{time}})। |
+| **no** | `ui:ui.idle.no_wait` | No waiting for trucks this day. | इस दिन ट्रक का इंतज़ार नहीं हुआ। |
+| **no** | `ui:ui.idle.suggestion` | Suggestion | सुझाव |
+| **no** | `ui:ui.idle.saves` | would likely save {{low}} – {{high}} | संभवतः {{low}} – {{high}} बचेंगे |
+| **no** | `ui:ui.idle.basis` | based on {{days}} similar days | {{days}} मिलते-जुलते दिनों के आधार पर |
+| **no** | `ui:ui.safe.title` | Safety | सुरक्षा |
+| **no** | `ui:ui.safe.p1` | Critical alerts | गंभीर चेतावनियाँ |
+| **no** | `ui:ui.safe.p2` | Warnings | चेतावनियाँ |
+| **no** | `ui:ui.safe.reports` | Operator reports | ऑपरेटर रिपोर्ट |
+| **no** | `ui:ui.safe.risk` | Risk by machine | मशीन के हिसाब से जोखिम |
+| **no** | `ui:ui.safe.risk_hours` | {{amber}} raised · {{red}} high | {{amber}} बढ़ा · {{red}} ज़्यादा |
+| **no** | `ui:ui.safe.counts` | {{p1}} critical · {{p2}} warnings · {{near}} near misses · {{incidents}} incidents | {{p1}} गंभीर · {{p2}} चेतावनियाँ · {{near}} बाल-बाल बचे · {{incidents}} घटनाएँ |
+| **no** | `ui:ui.safe.footer` | Counts are for learning, not ranking. Operators see the same data about themselves. | ये गिनती सीखने के लिए हैं, रैंकिंग के लिए नहीं। ऑपरेटर अपने बारे में यही जानकारी देखते हैं। |
+| **no** | `ui:ui.safe.more` | and {{count}} more | और {{count}} |
+| **no** | `ui:ui.trend.title` | Team trends, last {{days}} days | टीम के रुझान, पिछले {{days}} दिन |
+| **no** | `ui:ui.trend.note` | Shown for groups only. Groups smaller than {{n}} operators are hidden. | सिर्फ़ समूह दिखाए गए हैं। {{n}} से कम ऑपरेटर वाले समूह छिपे हैं। |
+| **no** | `ui:ui.trend.col_group` | Experience | अनुभव |
+| **no** | `ui:ui.trend.col_ops` | Operators | ऑपरेटर |
+| **no** | `ui:ui.trend.col_idle` | Short stops per hour | हर घंटे छोटे ठहराव |
+| **no** | `ui:ui.trend.col_belt` | Seatbelt off per hour | हर घंटे बेल्ट खुली |
+| **no** | `ui:ui.trend.col_fuel` | Fuel per load | हर लोड पर ईंधन |
+| **no** | `ui:ui.trend.col_p1` | Critical alerts per 100 h | हर 100 घंटे में गंभीर चेतावनियाँ |
+| **no** | `ui:ui.trend.hidden` | Hidden (fewer than {{n}}) | छिपा ({{n}} से कम) |
+| **no** | `ui:ui.trend.years` | {{group}} years | {{group}} साल |
+| **no** | `ui:ui.trend.daily` | Waiting for trucks per day | रोज़ ट्रक का इंतज़ार |
+| **no** | `ui:ui.trend.daily_sentence` | Truck waiting ranged from {{low}} to {{high}} a day over the last {{days}} days. | पिछले {{days}} दिनों में ट्रक का इंतज़ार रोज़ {{low}} से {{high}} रहा। |
+| **no** | `ui:ui.unit.seconds` | {{value}} s | {{value}} सेकंड |
+| **no** | `ui:ui.unit.minutes` | {{value}} min | {{value}} मिनट |
+| **no** | `ui:ui.fl.title` | Fleet | फ़्लीट |
+| **no** | `ui:ui.fl.machines` | {{total}} machines across {{sites}} sites | {{sites}} साइटों पर {{total}} मशीनें |
+| **no** | `ui:ui.fl.by_type` | By type | प्रकार के हिसाब से |
+| **no** | `ui:ui.fl.by_tier` | By sensors | सेंसर के हिसाब से |
+| **no** | `ui:ui.fl.no_data` | No data yet | अभी जानकारी नहीं |
+| **no** | `ui:ui.fl.condition` | Heat index {{heat}} °C · {{ground}} ground | हीट इंडेक्स {{heat}} °C · {{ground}} ज़मीन |
+| **no** | `ui:ui.fl.patterns` | What the fleet has learned | फ़्लीट ने क्या सीखा |
+| **no** | `ui:ui.fl.patterns_note` | Learned from finished tasks across all sites; each line shows how much more time a condition takes. | सभी साइटों के पूरे हुए कामों से सीखा; हर पंक्ति बताती है कि कोई हालत कितना ज़्यादा समय लेती है। |
+| **no** | `ui:ui.fl.scale` | Scale | पैमाना |
+| **no** | `ui:ui.fl.live` | Live ingest: {{rate}} records per second | लाइव आवक: हर सेकंड {{rate}} रिकॉर्ड |
+| **no** | `ui:ui.fl.totals` | Stored: {{intervals}} intervals, {{events}} events, {{tasks}} tasks, {{reports}} reports | सहेजे गए: {{intervals}} अंतराल, {{events}} घटनाएँ, {{tasks}} काम, {{reports}} रिपोर्ट |
+| **no** | `ui:ui.fl.run` | Measured: {{machines}} simulated machines sent {{records}} records in {{seconds}} s ({{rate}} records per second, p95 {{p95}} ms per request) | मापा गया: {{machines}} सिम्युलेटेड मशीनों ने {{seconds}} सेकंड में {{records}} रिकॉर्ड भेजे (हर सेकंड {{rate}} रिकॉर्ड, p95 {{p95}} ms प्रति अनुरोध) |
+| **no** | `ui:ui.fl.bench` | Measured on this computer: {{cpu}} ms CPU per machine per second of work, {{mem}} MB memory per machine, {{kb}} kB uplink per machine per hour | इस कंप्यूटर पर मापा गया: हर मशीन के हर सेकंड के काम पर {{cpu}} ms CPU, हर मशीन {{mem}} MB मेमोरी, हर मशीन हर घंटे {{kb}} kB अपलिंक |
+| **no** | `ui:ui.fl.projection` | Projection for {{machines}} machines: {{gb}} GB uplink a day, {{rps}} records per second, {{nodes}} ingest nodes at the measured rate | {{machines}} मशीनों का अनुमान: रोज़ {{gb}} GB अपलिंक, हर सेकंड {{rps}} रिकॉर्ड, मापी गई दर पर {{nodes}} इन्जेस्ट नोड |
+| **no** | `ui:ui.fl.projection_note` | Projection, not measured. Basis: {{basis}}. | यह अनुमान है, मापा नहीं गया। आधार: {{basis}}। |
+| **no** | `ui:ui.fl.no_run` | No scale run yet. Run it with: shiftmate fleet scale | अभी स्केल रन नहीं हुआ। चलाएँ: shiftmate fleet scale |
+| **no** | `ui:ui.dm.title` | Demo control | डेमो नियंत्रण |
+| **no** | `ui:ui.dm.scenario` | Scenario | परिदृश्य |
+| **no** | `ui:ui.dm.load` | Load | लोड करें |
+| **no** | `ui:ui.dm.reload` | Start again | फिर से शुरू |
+| **no** | `ui:ui.dm.loaded` | Loaded: {{title}} | लोड: {{title}} |
+| **no** | `ui:ui.dm.speed` | Speed | गति |
+| **no** | `ui:ui.dm.time` | Site time {{time}} | साइट का समय {{time}} |
+| **no** | `ui:ui.dm.playing` | Playing | चल रहा है |
+| **no** | `ui:ui.dm.paused` | Paused | रुका हुआ |
+| **no** | `ui:ui.dm.beats` | Story beats | कहानी के पड़ाव |
+| **no** | `ui:ui.dm.go` | Go here | यहाँ जाएँ |
+| **no** | `ui:ui.dm.beat_done` | Done | हो गया |
+| **no** | `ui:ui.dm.waiting` | Waiting for the cab: {{beat}} | कैब का इंतज़ार: {{beat}} |
+| **no** | `ui:ui.dm.network` | Site internet | साइट इंटरनेट |
+| **no** | `ui:ui.dm.online` | Online | ऑनलाइन |
+| **no** | `ui:ui.dm.offline` | Offline | ऑफ़लाइन |
+| **no** | `ui:ui.dm.captions` | Captions on the cab | कैब पर कैप्शन |
+| **no** | `ui:ui.dm.signed_in` | Signed in on the cab: {{who}} | कैब पर साइन इन: {{who}} |
+| **no** | `ui:ui.dm.nobody` | nobody | कोई नहीं |
+| **no** | `ui:ui.ev.title` | Evaluation | मूल्यांकन |
+| **no** | `ui:ui.ev.source` | Results from docs/EVAL.md, written by "shiftmate eval all" on held-out test days. They are shown as written, in English. | नतीजे docs/EVAL.md से, जिसे "shiftmate eval all" अलग रखे गए टेस्ट दिनों पर लिखता है। ये जैसे लिखे गए हैं वैसे, अंग्रेज़ी में दिखाए गए हैं। |
 | **no** | `ui:alert.seatbelt_moving.title` | Seatbelt off while working | काम के दौरान बेल्ट खुली है |
 | **no** | `ui:alert.seatbelt_moving.action` | Stop the machine. Buckle up. | मशीन रोकिए। बेल्ट लगाइए। |
 | **no** | `ui:alert.seatbelt_moving.speak` | Stop. Seatbelt off. | रुकिए। बेल्ट खुली है। |
@@ -451,6 +578,29 @@ to the review list.
 | **no** | `ui:evidence.long_idle` | stops of a few minutes with the engine on | इंजन चालू रखकर कुछ मिनट के ठहराव |
 | **no** | `ui:evidence.seat_not_sensed` | this machine has no seat sensor | इस मशीन में सीट सेंसर नहीं है |
 | **no** | `ui:evidence.no_clear_cause` | The sensors could not tell why | सेंसर वजह नहीं बता सके |
+| **no** | `ui:machine.excavator` | Excavator | एक्सकेवेटर |
+| **no** | `ui:machine.wheel_loader` | Wheel loader | व्हील लोडर |
+| **no** | `ui:machine.dozer` | Dozer | डोज़र |
+| **no** | `ui:tier.basic` | Basic sensors | बुनियादी सेंसर |
+| **no** | `ui:tier.standard` | Standard sensors | सामान्य सेंसर |
+| **no** | `ui:tier.advanced` | Advanced sensors | उन्नत सेंसर |
+| **no** | `ui:track.done` | Done | पूरा |
+| **no** | `ui:track.on_track` | On track | समय पर |
+| **no** | `ui:track.behind` | Behind | पीछे |
+| **no** | `ui:track.not_started` | Not started | शुरू नहीं |
+| **no** | `ui:track.unknown` | No estimate | अनुमान नहीं |
+| **no** | `ui:idle_lead.WAITING_FOR_TRUCK` | {{time}} waiting for trucks | {{time}} ट्रक के इंतज़ार में |
+| **no** | `ui:idle_lead.HABIT` | {{time}} in short stops | {{time}} छोटे ठहरावों में |
+| **no** | `ui:idle_lead.UNKNOWN` | {{time}} idle with no clear cause | {{time}} बिना साफ़ वजह के खड़ी |
+| **no** | `ui:idle_lead.SCHEDULED_BREAK` | {{time}} on scheduled breaks | {{time}} तय ब्रेक में |
+| **no** | `ui:idle_lead.WARM_UP` | {{time}} warming up | {{time}} वार्म-अप में |
+| **no** | `ui:idle_lead.UNATTENDED_RUNNING` | {{time}} with the engine on and the cab empty | {{time}} इंजन चालू और केबिन खाली |
+| **no** | `ui:suggest.add_truck` | Add one truck to {{zone}}, {{start}}–{{end}} | {{zone}} पर {{start}}–{{end}} एक ट्रक और लगाएँ |
+| **no** | `ui:suggest.toolbox_idle` | Talk about short stops at the next toolbox meeting | अगली टूलबॉक्स मीटिंग में छोटे ठहरावों पर बात करें |
+| **no** | `ui:suggest.shutdown_briefing` | Remind the crew to switch off before stepping out | टीम को याद दिलाएँ कि उतरने से पहले इंजन बंद करें |
+| **no** | `ui:pattern.ground_condition` | {{task}} on {{condition}} ground: {{pct}} time compared with dry or rocky ground | {{condition}} ज़मीन पर {{task}}: सूखी या पथरीली ज़मीन से {{pct}} समय |
+| **no** | `ui:pattern.heat_band` | {{task}} at heat index {{condition}}: {{pct}} time compared with below 32 °C | हीट इंडेक्स {{condition}} पर {{task}}: 32 °C से कम की तुलना में {{pct}} समय |
+| **no** | `ui:pattern.basis` | {{tasks}} tasks on {{machines}} machines | {{machines}} मशीनों पर {{tasks}} काम |
 | **no** | `checklist.yaml:items[tracks_tyres].text` | Tracks or tyres: no damage, no loose parts | ट्रैक या टायर: कोई टूट-फूट या ढीला पुर्ज़ा नहीं |
 | **no** | `checklist.yaml:items[leaks].text` | No oil, fuel or coolant leaks under the machine | मशीन के नीचे तेल, ईंधन या कूलेंट का रिसाव नहीं |
 | **no** | `checklist.yaml:items[lights_horn].text` | Lights, beacon and horn work | लाइटें, बीकन और हॉर्न काम कर रहे हैं |
@@ -595,7 +745,7 @@ to the review list.
 | **no** | `machine_profiles/excavator.yaml:display_name` | Excavator | एक्सकेवेटर |
 | **no** | `machine_profiles/wheel_loader.yaml:display_name` | Wheel loader | व्हील लोडर |
 
-## Tamil (தமிழ்): 0 of 581 reviewed
+## Tamil (தமிழ்): 0 of 731 reviewed
 
 | Reviewed | Key | English | Tamil (தமிழ்) |
 |---|---|---|---|
@@ -920,6 +1070,133 @@ to the review list.
 | **no** | `ui:ui.day.col_fuel` | Fuel per load | லோடுக்கு எரிபொருள் |
 | **no** | `ui:ui.day.no_week` | No earlier days on record. | முந்தைய நாட்களின் பதிவு இல்லை. |
 | **no** | `ui:ui.day.truck_note` | Waiting for trucks is a site delay, not your idle time. | லாரிக்காகக் காத்திருப்பது தளத் தாமதம், உங்கள் சும்மா நேரம் அல்ல. |
+| **no** | `ui:ui.con.nav_label` | Console sections | கன்சோல் பகுதிகள் |
+| **no** | `ui:ui.con.nav.map` | Live map | நேரடி வரைபடம் |
+| **no** | `ui:ui.con.nav.summary` | Day summary | நாள் சுருக்கம் |
+| **no** | `ui:ui.con.nav.fleet` | Fleet | ஃப்ளீட் |
+| **no** | `ui:ui.con.nav.demo` | Demo | டெமோ |
+| **no** | `ui:ui.con.nav.eval` | Evaluation | மதிப்பீடு |
+| **no** | `ui:ui.con.site` | Site | தளம் |
+| **no** | `ui:ui.con.day` | Day | நாள் |
+| **no** | `ui:ui.con.loading` | Loading… | ஏற்றுகிறது… |
+| **no** | `ui:ui.con.edge_down` | Machine gateway not reachable | இயந்திர நுழைவாயிலை அடைய முடியவில்லை |
+| **no** | `ui:ui.con.fleet_down` | Fleet service not reachable | ஃப்ளீட் சேவையை அடைய முடியவில்லை |
+| **no** | `ui:ui.con.down_text` | Start it, and this page updates by itself. | அதைத் தொடங்குங்கள், இந்தப் பக்கம் தானாகப் புதுப்பிக்கப்படும். |
+| **no** | `ui:ui.con.no_scenario` | No demo scenario is loaded. Load one on the Demo page. | டெமோ எதுவும் ஏற்றப்படவில்லை. டெமோ பக்கத்தில் ஏற்றுங்கள். |
+| **no** | `ui:ui.con.none` | None | எதுவும் இல்லை |
+| **no** | `ui:ui.tier.clear` | Clear | தெளிவு |
+| **no** | `ui:ui.tier.caution` | Caution | கவனம் |
+| **no** | `ui:ui.tier.danger` | Danger | ஆபத்து |
+| **no** | `ui:ui.tier.critical` | Critical | மிக ஆபத்து |
+| **no** | `ui:ui.map.label` | Live site map | தளத்தின் நேரடி வரைபடம் |
+| **no** | `ui:ui.map.sentence` | {{machines}} machines, {{trucks}} trucks and {{people}} people on site | தளத்தில் {{machines}} இயந்திரங்கள், {{trucks}} லாரிகள், {{people}} ஆட்கள் |
+| **no** | `ui:ui.map.north` | North | வடக்கு |
+| **no** | `ui:ui.map.scale` | 50 m | 50 மீ |
+| **no** | `ui:ui.map.machines` | Machines | இயந்திரங்கள் |
+| **no** | `ui:ui.map.select_hint` | Select a machine to see how it is going. | ஒரு இயந்திரத்தைத் தேர்ந்தெடுத்து நிலையைப் பாருங்கள். |
+| **no** | `ui:ui.map.events` | Site events | தள நிகழ்வுகள் |
+| **no** | `ui:ui.map.no_events` | No site events yet. | இதுவரை நிகழ்வு இல்லை. |
+| **no** | `ui:ui.map.stale` | No map update for {{seconds}} s | {{seconds}} வினாடியாக வரைபடம் புதுப்பிக்கப்படவில்லை |
+| **no** | `ui:ui.map.focus` | Demo machine | டெமோ இயந்திரம் |
+| **no** | `ui:ui.map.trucks_waiting` | Trucks waiting at {{zone}} | {{zone}}-இல் லாரிகள் காத்திருக்கின்றன |
+| **no** | `ui:ui.map.site_issue_open` | {{machine}} waiting for trucks at {{zone}} | {{machine}} {{zone}}-இல் லாரிக்காகக் காத்திருக்கிறது |
+| **no** | `ui:ui.map.site_issue_cleared` | {{machine}} no longer waiting for trucks | {{machine}} இனி லாரிக்காகக் காத்திருக்கவில்லை |
+| **no** | `ui:ui.detail.operator` | Operator | ஆபரேட்டர் |
+| **no** | `ui:ui.detail.model` | Model | மாடல் |
+| **no** | `ui:ui.detail.sensors` | Sensors | சென்சார்கள் |
+| **no** | `ui:ui.detail.nearby` | Nearby | அருகில் |
+| **no** | `ui:ui.detail.no_sensing` | No people sensing | ஆட்களைக் கண்டறியும் சென்சார் இல்லை |
+| **no** | `ui:ui.detail.rings` | Warning rings {{caution}} · {{danger}} · {{critical}} | எச்சரிக்கை வளையங்கள் {{caution}} · {{danger}} · {{critical}} |
+| **no** | `ui:ui.detail.today` | Today so far | இன்று இதுவரை |
+| **no** | `ui:ui.detail.engine_on` | Engine on | இன்ஜின் இயக்கம் |
+| **no** | `ui:ui.detail.working` | Working | வேலை |
+| **no** | `ui:ui.detail.idle` | Idle | நின்றது |
+| **no** | `ui:ui.detail.tasks` | Tasks | வேலைகள் |
+| **no** | `ui:ui.detail.no_day` | No data from this machine for this day yet. | இந்த நாளுக்கு இந்த இயந்திரத்தின் தரவு இன்னும் இல்லை. |
+| **no** | `ui:ui.detail.close` | Close | மூடு |
+| **no** | `ui:ui.sum.title` | Day summary | நாள் சுருக்கம் |
+| **no** | `ui:ui.sum.tasks` | Tasks by machine | இயந்திர வாரியாக வேலைகள் |
+| **no** | `ui:ui.sum.tasks_line` | {{done}} of {{total}} tasks done · {{behind}} behind | {{total}}-ல் {{done}} வேலைகள் முடிந்தன · {{behind}} பின்தங்கியவை |
+| **no** | `ui:ui.sum.col_machine` | Machine | இயந்திரம் |
+| **no** | `ui:ui.sum.col_operator` | Operator | ஆபரேட்டர் |
+| **no** | `ui:ui.sum.col_tasks` | Tasks | வேலைகள் |
+| **no** | `ui:ui.sum.col_engine` | Engine on | இன்ஜின் இயக்கம் |
+| **no** | `ui:ui.sum.col_working` | Working | வேலை |
+| **no** | `ui:ui.sum.col_idle` | Idle | நின்றது |
+| **no** | `ui:ui.sum.col_status` | Status | நிலை |
+| **no** | `ui:ui.sum.task_cell` | {{done}} of {{total}} done | {{total}}-ல் {{done}} முடிந்தது |
+| **no** | `ui:ui.idle.title` | Where time was lost | நேரம் எங்கே போனது |
+| **no** | `ui:ui.idle.total` | {{time}} idle across {{machines}} machines | {{machines}} இயந்திரங்களில் மொத்தம் {{time}} நின்றன |
+| **no** | `ui:ui.idle.col_cause` | Cause | காரணம் |
+| **no** | `ui:ui.idle.col_time` | Time | நேரம் |
+| **no** | `ui:ui.idle.col_share` | Share | பங்கு |
+| **no** | `ui:ui.idle.site_issue` | Site issue | தளப் பிரச்சினை |
+| **no** | `ui:ui.idle.by_hour` | Waiting for trucks, by hour | மணி வாரியாக லாரிக் காத்திருப்பு |
+| **no** | `ui:ui.idle.by_hour_sentence` | Most waiting at {{hour}}:00 ({{time}}). | அதிகக் காத்திருப்பு {{hour}}:00 மணிக்கு ({{time}}). |
+| **no** | `ui:ui.idle.no_wait` | No waiting for trucks this day. | இந்த நாளில் லாரிக் காத்திருப்பு இல்லை. |
+| **no** | `ui:ui.idle.suggestion` | Suggestion | பரிந்துரை |
+| **no** | `ui:ui.idle.saves` | would likely save {{low}} – {{high}} | பெரும்பாலும் {{low}} – {{high}} மிச்சமாகும் |
+| **no** | `ui:ui.idle.basis` | based on {{days}} similar days | {{days}} ஒத்த நாட்களின் அடிப்படையில் |
+| **no** | `ui:ui.safe.title` | Safety | பாதுகாப்பு |
+| **no** | `ui:ui.safe.p1` | Critical alerts | மிக முக்கிய எச்சரிக்கைகள் |
+| **no** | `ui:ui.safe.p2` | Warnings | எச்சரிக்கைகள் |
+| **no** | `ui:ui.safe.reports` | Operator reports | ஆபரேட்டர் புகார்கள் |
+| **no** | `ui:ui.safe.risk` | Risk by machine | இயந்திர வாரியாக ஆபத்து |
+| **no** | `ui:ui.safe.risk_hours` | {{amber}} raised · {{red}} high | {{amber}} கூடியது · {{red}} அதிகம் |
+| **no** | `ui:ui.safe.counts` | {{p1}} critical · {{p2}} warnings · {{near}} near misses · {{incidents}} incidents | {{p1}} மிக முக்கியம் · {{p2}} எச்சரிக்கைகள் · {{near}} நூலிழை தப்புதல் · {{incidents}} விபத்துகள் |
+| **no** | `ui:ui.safe.footer` | Counts are for learning, not ranking. Operators see the same data about themselves. | இந்த எண்ணிக்கைகள் கற்றுக்கொள்வதற்கு, தரவரிசைக்கு அல்ல. ஆபரேட்டர்கள் தங்களைப் பற்றிய இதே தரவைப் பார்க்கிறார்கள். |
+| **no** | `ui:ui.safe.more` | and {{count}} more | மேலும் {{count}} |
+| **no** | `ui:ui.trend.title` | Team trends, last {{days}} days | குழுப் போக்குகள், கடந்த {{days}} நாட்கள் |
+| **no** | `ui:ui.trend.note` | Shown for groups only. Groups smaller than {{n}} operators are hidden. | குழுக்களாக மட்டுமே காட்டப்படுகிறது. {{n}}-க்குக் குறைவான ஆபரேட்டர்கள் உள்ள குழுக்கள் மறைக்கப்படும். |
+| **no** | `ui:ui.trend.col_group` | Experience | அனுபவம் |
+| **no** | `ui:ui.trend.col_ops` | Operators | ஆபரேட்டர்கள் |
+| **no** | `ui:ui.trend.col_idle` | Short stops per hour | மணிக்குச் சிறு நிறுத்தங்கள் |
+| **no** | `ui:ui.trend.col_belt` | Seatbelt off per hour | மணிக்குப் பெல்ட் இல்லாத நேரம் |
+| **no** | `ui:ui.trend.col_fuel` | Fuel per load | லோடுக்கு எரிபொருள் |
+| **no** | `ui:ui.trend.col_p1` | Critical alerts per 100 h | 100 மணிக்கு மிக முக்கிய எச்சரிக்கைகள் |
+| **no** | `ui:ui.trend.hidden` | Hidden (fewer than {{n}}) | மறைக்கப்பட்டது ({{n}}-க்குக் குறைவு) |
+| **no** | `ui:ui.trend.years` | {{group}} years | {{group}} ஆண்டுகள் |
+| **no** | `ui:ui.trend.daily` | Waiting for trucks per day | நாள்தோறும் லாரிக் காத்திருப்பு |
+| **no** | `ui:ui.trend.daily_sentence` | Truck waiting ranged from {{low}} to {{high}} a day over the last {{days}} days. | கடந்த {{days}} நாட்களில் லாரிக் காத்திருப்பு நாளொன்றுக்கு {{low}} முதல் {{high}} வரை. |
+| **no** | `ui:ui.unit.seconds` | {{value}} s | {{value}} வினாடி |
+| **no** | `ui:ui.unit.minutes` | {{value}} min | {{value}} நிமிடம் |
+| **no** | `ui:ui.fl.title` | Fleet | ஃப்ளீட் |
+| **no** | `ui:ui.fl.machines` | {{total}} machines across {{sites}} sites | {{sites}} தளங்களில் {{total}} இயந்திரங்கள் |
+| **no** | `ui:ui.fl.by_type` | By type | வகை வாரியாக |
+| **no** | `ui:ui.fl.by_tier` | By sensors | சென்சார் வாரியாக |
+| **no** | `ui:ui.fl.no_data` | No data yet | இன்னும் தரவு இல்லை |
+| **no** | `ui:ui.fl.condition` | Heat index {{heat}} °C · {{ground}} ground | வெப்பக் குறியீடு {{heat}} °C · {{ground}} தரை |
+| **no** | `ui:ui.fl.patterns` | What the fleet has learned | ஃப்ளீட் கற்றுக்கொண்டவை |
+| **no** | `ui:ui.fl.patterns_note` | Learned from finished tasks across all sites; each line shows how much more time a condition takes. | எல்லாத் தளங்களிலும் முடிந்த வேலைகளிலிருந்து கற்றது; ஒவ்வொரு வரியும் ஒரு நிலை எவ்வளவு கூடுதல் நேரம் எடுக்கிறது எனக் காட்டுகிறது. |
+| **no** | `ui:ui.fl.scale` | Scale | அளவு |
+| **no** | `ui:ui.fl.live` | Live ingest: {{rate}} records per second | நேரடி வரவு: வினாடிக்கு {{rate}} பதிவுகள் |
+| **no** | `ui:ui.fl.totals` | Stored: {{intervals}} intervals, {{events}} events, {{tasks}} tasks, {{reports}} reports | சேமிக்கப்பட்டவை: {{intervals}} இடைவெளிகள், {{events}} நிகழ்வுகள், {{tasks}} வேலைகள், {{reports}} புகார்கள் |
+| **no** | `ui:ui.fl.run` | Measured: {{machines}} simulated machines sent {{records}} records in {{seconds}} s ({{rate}} records per second, p95 {{p95}} ms per request) | அளக்கப்பட்டது: {{machines}} உருவகப்படுத்திய இயந்திரங்கள் {{seconds}} வினாடியில் {{records}} பதிவுகளை அனுப்பின (வினாடிக்கு {{rate}} பதிவுகள், p95 {{p95}} ms ஒரு கோரிக்கைக்கு) |
+| **no** | `ui:ui.fl.bench` | Measured on this computer: {{cpu}} ms CPU per machine per second of work, {{mem}} MB memory per machine, {{kb}} kB uplink per machine per hour | இந்தக் கணினியில் அளக்கப்பட்டது: ஒவ்வொரு இயந்திரத்தின் ஒரு வினாடி வேலைக்கு {{cpu}} ms CPU, இயந்திரத்துக்கு {{mem}} MB நினைவகம், இயந்திரத்துக்கு மணிக்கு {{kb}} kB அப்லிங்க் |
+| **no** | `ui:ui.fl.projection` | Projection for {{machines}} machines: {{gb}} GB uplink a day, {{rps}} records per second, {{nodes}} ingest nodes at the measured rate | {{machines}} இயந்திரங்களுக்கான கணிப்பு: நாளுக்கு {{gb}} GB அப்லிங்க், வினாடிக்கு {{rps}} பதிவுகள், அளந்த வேகத்தில் {{nodes}} பெறும் கணுக்கள் |
+| **no** | `ui:ui.fl.projection_note` | Projection, not measured. Basis: {{basis}}. | இது கணிப்பு, அளக்கப்படவில்லை. அடிப்படை: {{basis}}. |
+| **no** | `ui:ui.fl.no_run` | No scale run yet. Run it with: shiftmate fleet scale | இன்னும் அளவு ஓட்டம் இல்லை. இயக்க: shiftmate fleet scale |
+| **no** | `ui:ui.dm.title` | Demo control | டெமோ கட்டுப்பாடு |
+| **no** | `ui:ui.dm.scenario` | Scenario | காட்சி |
+| **no** | `ui:ui.dm.load` | Load | ஏற்று |
+| **no** | `ui:ui.dm.reload` | Start again | மீண்டும் தொடங்கு |
+| **no** | `ui:ui.dm.loaded` | Loaded: {{title}} | ஏற்றப்பட்டது: {{title}} |
+| **no** | `ui:ui.dm.speed` | Speed | வேகம் |
+| **no** | `ui:ui.dm.time` | Site time {{time}} | தள நேரம் {{time}} |
+| **no** | `ui:ui.dm.playing` | Playing | இயங்குகிறது |
+| **no** | `ui:ui.dm.paused` | Paused | நிறுத்தப்பட்டது |
+| **no** | `ui:ui.dm.beats` | Story beats | கதையின் கட்டங்கள் |
+| **no** | `ui:ui.dm.go` | Go here | இங்கே செல் |
+| **no** | `ui:ui.dm.beat_done` | Done | முடிந்தது |
+| **no** | `ui:ui.dm.waiting` | Waiting for the cab: {{beat}} | கேபுக்காகக் காத்திருக்கிறது: {{beat}} |
+| **no** | `ui:ui.dm.network` | Site internet | தள இணையம் |
+| **no** | `ui:ui.dm.online` | Online | இணைப்பில் |
+| **no** | `ui:ui.dm.offline` | Offline | இணைப்பு இல்லை |
+| **no** | `ui:ui.dm.captions` | Captions on the cab | கேபில் விளக்கவுரை |
+| **no** | `ui:ui.dm.signed_in` | Signed in on the cab: {{who}} | கேபில் உள்நுழைந்தவர்: {{who}} |
+| **no** | `ui:ui.dm.nobody` | nobody | யாருமில்லை |
+| **no** | `ui:ui.ev.title` | Evaluation | மதிப்பீடு |
+| **no** | `ui:ui.ev.source` | Results from docs/EVAL.md, written by "shiftmate eval all" on held-out test days. They are shown as written, in English. | முடிவுகள் docs/EVAL.md-இலிருந்து; "shiftmate eval all" தனியாக வைத்த சோதனை நாட்களில் எழுதியவை. எழுதியபடியே ஆங்கிலத்தில் காட்டப்படுகின்றன. |
 | **no** | `ui:alert.seatbelt_moving.title` | Seatbelt off while working | வேலை செய்யும்போது பெல்ட் போடவில்லை |
 | **no** | `ui:alert.seatbelt_moving.action` | Stop the machine. Buckle up. | இயந்திரத்தை நிறுத்துங்கள். பெல்ட் போடுங்கள். |
 | **no** | `ui:alert.seatbelt_moving.speak` | Stop. Seatbelt off. | நிறுத்துங்கள். பெல்ட் போடவில்லை. |
@@ -1037,6 +1314,29 @@ to the review list.
 | **no** | `ui:evidence.long_idle` | stops of a few minutes with the engine on | இன்ஜின் ஓடியபடி சில நிமிட நிறுத்தங்கள் |
 | **no** | `ui:evidence.seat_not_sensed` | this machine has no seat sensor | இந்த இயந்திரத்தில் இருக்கை சென்சார் இல்லை |
 | **no** | `ui:evidence.no_clear_cause` | The sensors could not tell why | காரணத்தை சென்சார்களால் சொல்ல முடியவில்லை |
+| **no** | `ui:machine.excavator` | Excavator | அகழ்வு இயந்திரம் |
+| **no** | `ui:machine.wheel_loader` | Wheel loader | சக்கர லோடர் |
+| **no** | `ui:machine.dozer` | Dozer | டோசர் |
+| **no** | `ui:tier.basic` | Basic sensors | அடிப்படை சென்சார்கள் |
+| **no** | `ui:tier.standard` | Standard sensors | நிலையான சென்சார்கள் |
+| **no** | `ui:tier.advanced` | Advanced sensors | மேம்பட்ட சென்சார்கள் |
+| **no** | `ui:track.done` | Done | முடிந்தது |
+| **no** | `ui:track.on_track` | On track | சரியான பாதையில் |
+| **no** | `ui:track.behind` | Behind | பின்தங்கியது |
+| **no** | `ui:track.not_started` | Not started | தொடங்கவில்லை |
+| **no** | `ui:track.unknown` | No estimate | மதிப்பீடு இல்லை |
+| **no** | `ui:idle_lead.WAITING_FOR_TRUCK` | {{time}} waiting for trucks | {{time}} லாரிக்காகக் காத்திருப்பு |
+| **no** | `ui:idle_lead.HABIT` | {{time}} in short stops | {{time}} சிறு நிறுத்தங்களில் |
+| **no** | `ui:idle_lead.UNKNOWN` | {{time}} idle with no clear cause | {{time}} தெளிவான காரணமின்றி நின்றது |
+| **no** | `ui:idle_lead.SCHEDULED_BREAK` | {{time}} on scheduled breaks | {{time}} திட்டமிட்ட இடைவேளையில் |
+| **no** | `ui:idle_lead.WARM_UP` | {{time}} warming up | {{time}} சூடேற்றுவதில் |
+| **no** | `ui:idle_lead.UNATTENDED_RUNNING` | {{time}} with the engine on and the cab empty | {{time}} இன்ஜின் ஓடி கேபின் காலியாக |
+| **no** | `ui:suggest.add_truck` | Add one truck to {{zone}}, {{start}}–{{end}} | {{zone}}-க்கு {{start}}–{{end}} ஒரு லாரியைக் கூடுதலாக அனுப்புங்கள் |
+| **no** | `ui:suggest.toolbox_idle` | Talk about short stops at the next toolbox meeting | அடுத்த டூல்பாக்ஸ் கூட்டத்தில் சிறு நிறுத்தங்களைப் பற்றிப் பேசுங்கள் |
+| **no** | `ui:suggest.shutdown_briefing` | Remind the crew to switch off before stepping out | இறங்கும் முன் இன்ஜினை அணைக்கக் குழுவுக்கு நினைவூட்டுங்கள் |
+| **no** | `ui:pattern.ground_condition` | {{task}} on {{condition}} ground: {{pct}} time compared with dry or rocky ground | {{condition}} தரையில் {{task}}: உலர்ந்த அல்லது பாறைத் தரையை விட {{pct}} நேரம் |
+| **no** | `ui:pattern.heat_band` | {{task}} at heat index {{condition}}: {{pct}} time compared with below 32 °C | வெப்பக் குறியீடு {{condition}}-இல் {{task}}: 32 °C-க்குக் குறைவை விட {{pct}} நேரம் |
+| **no** | `ui:pattern.basis` | {{tasks}} tasks on {{machines}} machines | {{machines}} இயந்திரங்களில் {{tasks}} வேலைகள் |
 | **no** | `checklist.yaml:items[tracks_tyres].text` | Tracks or tyres: no damage, no loose parts | டிராக் அல்லது டயர்: சேதம் இல்லை, தளர்ந்த பாகம் இல்லை |
 | **no** | `checklist.yaml:items[leaks].text` | No oil, fuel or coolant leaks under the machine | இயந்திரத்தின் கீழே எண்ணெய், எரிபொருள், கூலன்ட் கசிவு இல்லை |
 | **no** | `checklist.yaml:items[lights_horn].text` | Lights, beacon and horn work | விளக்குகள், சுழல் விளக்கு, ஹாரன் வேலை செய்கின்றன |

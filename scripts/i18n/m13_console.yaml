@@ -1,0 +1,162 @@
+# Milestone 13 strings: the supervisor console (live map, day summary, fleet, demo, evaluation).
+ui.con.nav_label: {en: "Console sections", hi: "कंसोल के हिस्से", ta: "கன்சோல் பகுதிகள்"}
+ui.con.nav.map: {en: "Live map", hi: "लाइव नक्शा", ta: "நேரடி வரைபடம்"}
+ui.con.nav.summary: {en: "Day summary", hi: "दिन का सार", ta: "நாள் சுருக்கம்"}
+ui.con.nav.fleet: {en: "Fleet", hi: "फ़्लीट", ta: "ஃப்ளீட்"}
+ui.con.nav.demo: {en: "Demo", hi: "डेमो", ta: "டெமோ"}
+ui.con.nav.eval: {en: "Evaluation", hi: "मूल्यांकन", ta: "மதிப்பீடு"}
+ui.con.site: {en: "Site", hi: "साइट", ta: "தளம்"}
+ui.con.day: {en: "Day", hi: "दिन", ta: "நாள்"}
+ui.con.loading: {en: "Loading…", hi: "लोड हो रहा है…", ta: "ஏற்றுகிறது…"}
+ui.con.edge_down: {en: "Machine gateway not reachable", hi: "मशीन गेटवे से संपर्क नहीं", ta: "இயந்திர நுழைவாயிலை அடைய முடியவில்லை"}
+ui.con.fleet_down: {en: "Fleet service not reachable", hi: "फ़्लीट सेवा से संपर्क नहीं", ta: "ஃப்ளீட் சேவையை அடைய முடியவில்லை"}
+ui.con.down_text: {en: "Start it, and this page updates by itself.", hi: "इसे चालू करें, यह पेज अपने-आप अपडेट होगा।", ta: "அதைத் தொடங்குங்கள், இந்தப் பக்கம் தானாகப் புதுப்பிக்கப்படும்."}
+ui.con.no_scenario: {en: "No demo scenario is loaded. Load one on the Demo page.", hi: "कोई डेमो लोड नहीं है। डेमो पेज पर लोड करें।", ta: "டெமோ எதுவும் ஏற்றப்படவில்லை. டெமோ பக்கத்தில் ஏற்றுங்கள்."}
+ui.con.none: {en: "None", hi: "कोई नहीं", ta: "எதுவும் இல்லை"}
+
+machine.excavator: {en: "Excavator", hi: "एक्सकेवेटर", ta: "அகழ்வு இயந்திரம்"}
+machine.wheel_loader: {en: "Wheel loader", hi: "व्हील लोडर", ta: "சக்கர லோடர்"}
+machine.dozer: {en: "Dozer", hi: "डोज़र", ta: "டோசர்"}
+tier.basic: {en: "Basic sensors", hi: "बुनियादी सेंसर", ta: "அடிப்படை சென்சார்கள்"}
+tier.standard: {en: "Standard sensors", hi: "सामान्य सेंसर", ta: "நிலையான சென்சார்கள்"}
+tier.advanced: {en: "Advanced sensors", hi: "उन्नत सेंसर", ta: "மேம்பட்ட சென்சார்கள்"}
+ui.tier.clear: {en: "Clear", hi: "साफ़", ta: "தெளிவு"}
+ui.tier.caution: {en: "Caution", hi: "सावधानी", ta: "கவனம்"}
+ui.tier.danger: {en: "Danger", hi: "ख़तरा", ta: "ஆபத்து"}
+ui.tier.critical: {en: "Critical", hi: "गंभीर ख़तरा", ta: "மிக ஆபத்து"}
+
+ui.map.label: {en: "Live site map", hi: "साइट का लाइव नक्शा", ta: "தளத்தின் நேரடி வரைபடம்"}
+ui.map.sentence: {en: "{{machines}} machines, {{trucks}} trucks and {{people}} people on site", hi: "साइट पर {{machines}} मशीनें, {{trucks}} ट्रक और {{people}} लोग", ta: "தளத்தில் {{machines}} இயந்திரங்கள், {{trucks}} லாரிகள், {{people}} ஆட்கள்"}
+ui.map.north: {en: "North", hi: "उत्तर", ta: "வடக்கு"}
+ui.map.scale: {en: "50 m", hi: "50 मीटर", ta: "50 மீ"}
+ui.map.machines: {en: "Machines", hi: "मशीनें", ta: "இயந்திரங்கள்"}
+ui.map.select_hint: {en: "Select a machine to see how it is going.", hi: "कोई मशीन चुनें और उसका हाल देखें।", ta: "ஒரு இயந்திரத்தைத் தேர்ந்தெடுத்து நிலையைப் பாருங்கள்."}
+ui.map.events: {en: "Site events", hi: "साइट की घटनाएँ", ta: "தள நிகழ்வுகள்"}
+ui.map.no_events: {en: "No site events yet.", hi: "अभी कोई घटना नहीं।", ta: "இதுவரை நிகழ்வு இல்லை."}
+ui.map.stale: {en: "No map update for {{seconds}} s", hi: "{{seconds}} सेकंड से नक्शा अपडेट नहीं", ta: "{{seconds}} வினாடியாக வரைபடம் புதுப்பிக்கப்படவில்லை"}
+ui.map.focus: {en: "Demo machine", hi: "डेमो मशीन", ta: "டெமோ இயந்திரம்"}
+ui.map.trucks_waiting: {en: "Trucks waiting at {{zone}}", hi: "{{zone}} पर ट्रक इंतज़ार में", ta: "{{zone}}-இல் லாரிகள் காத்திருக்கின்றன"}
+ui.map.site_issue_open: {en: "{{machine}} waiting for trucks at {{zone}}", hi: "{{machine}} {{zone}} पर ट्रक का इंतज़ार कर रही है", ta: "{{machine}} {{zone}}-இல் லாரிக்காகக் காத்திருக்கிறது"}
+ui.map.site_issue_cleared: {en: "{{machine}} no longer waiting for trucks", hi: "{{machine}} अब ट्रक का इंतज़ार नहीं कर रही", ta: "{{machine}} இனி லாரிக்காகக் காத்திருக்கவில்லை"}
+
+ui.detail.operator: {en: "Operator", hi: "ऑपरेटर", ta: "ஆபரேட்டர்"}
+ui.detail.model: {en: "Model", hi: "मॉडल", ta: "மாடல்"}
+ui.detail.sensors: {en: "Sensors", hi: "सेंसर", ta: "சென்சார்கள்"}
+ui.detail.nearby: {en: "Nearby", hi: "आसपास", ta: "அருகில்"}
+ui.detail.no_sensing: {en: "No people sensing", hi: "लोगों का सेंसर नहीं", ta: "ஆட்களைக் கண்டறியும் சென்சார் இல்லை"}
+ui.detail.rings: {en: "Warning rings {{caution}} · {{danger}} · {{critical}}", hi: "चेतावनी घेरे {{caution}} · {{danger}} · {{critical}}", ta: "எச்சரிக்கை வளையங்கள் {{caution}} · {{danger}} · {{critical}}"}
+ui.detail.today: {en: "Today so far", hi: "आज अब तक", ta: "இன்று இதுவரை"}
+ui.detail.engine_on: {en: "Engine on", hi: "इंजन चालू", ta: "இன்ஜின் இயக்கம்"}
+ui.detail.working: {en: "Working", hi: "काम", ta: "வேலை"}
+ui.detail.idle: {en: "Idle", hi: "खड़ी", ta: "நின்றது"}
+ui.detail.tasks: {en: "Tasks", hi: "काम", ta: "வேலைகள்"}
+ui.detail.no_day: {en: "No data from this machine for this day yet.", hi: "इस दिन की इस मशीन की जानकारी अभी नहीं।", ta: "இந்த நாளுக்கு இந்த இயந்திரத்தின் தரவு இன்னும் இல்லை."}
+ui.detail.close: {en: "Close", hi: "बंद करें", ta: "மூடு"}
+
+track.done: {en: "Done", hi: "पूरा", ta: "முடிந்தது"}
+track.on_track: {en: "On track", hi: "समय पर", ta: "சரியான பாதையில்"}
+track.behind: {en: "Behind", hi: "पीछे", ta: "பின்தங்கியது"}
+track.not_started: {en: "Not started", hi: "शुरू नहीं", ta: "தொடங்கவில்லை"}
+track.unknown: {en: "No estimate", hi: "अनुमान नहीं", ta: "மதிப்பீடு இல்லை"}
+
+ui.sum.title: {en: "Day summary", hi: "दिन का सार", ta: "நாள் சுருக்கம்"}
+ui.sum.tasks: {en: "Tasks by machine", hi: "मशीन के हिसाब से काम", ta: "இயந்திர வாரியாக வேலைகள்"}
+ui.sum.tasks_line: {en: "{{done}} of {{total}} tasks done · {{behind}} behind", hi: "{{total}} में से {{done}} काम पूरे · {{behind}} पीछे", ta: "{{total}}-ல் {{done}} வேலைகள் முடிந்தன · {{behind}} பின்தங்கியவை"}
+ui.sum.col_machine: {en: "Machine", hi: "मशीन", ta: "இயந்திரம்"}
+ui.sum.col_operator: {en: "Operator", hi: "ऑपरेटर", ta: "ஆபரேட்டர்"}
+ui.sum.col_tasks: {en: "Tasks", hi: "काम", ta: "வேலைகள்"}
+ui.sum.col_engine: {en: "Engine on", hi: "इंजन चालू", ta: "இன்ஜின் இயக்கம்"}
+ui.sum.col_working: {en: "Working", hi: "काम", ta: "வேலை"}
+ui.sum.col_idle: {en: "Idle", hi: "खड़ी", ta: "நின்றது"}
+ui.sum.col_status: {en: "Status", hi: "स्थिति", ta: "நிலை"}
+ui.sum.task_cell: {en: "{{done}} of {{total}} done", hi: "{{total}} में से {{done}} पूरे", ta: "{{total}}-ல் {{done}} முடிந்தது"}
+
+ui.idle.title: {en: "Where time was lost", hi: "समय कहाँ गया", ta: "நேரம் எங்கே போனது"}
+ui.idle.total: {en: "{{time}} idle across {{machines}} machines", hi: "{{machines}} मशीनों पर कुल {{time}} खड़ी रहीं", ta: "{{machines}} இயந்திரங்களில் மொத்தம் {{time}} நின்றன"}
+idle_lead.WAITING_FOR_TRUCK: {en: "{{time}} waiting for trucks", hi: "{{time}} ट्रक के इंतज़ार में", ta: "{{time}} லாரிக்காகக் காத்திருப்பு"}
+idle_lead.HABIT: {en: "{{time}} in short stops", hi: "{{time}} छोटे ठहरावों में", ta: "{{time}} சிறு நிறுத்தங்களில்"}
+idle_lead.UNKNOWN: {en: "{{time}} idle with no clear cause", hi: "{{time}} बिना साफ़ वजह के खड़ी", ta: "{{time}} தெளிவான காரணமின்றி நின்றது"}
+idle_lead.SCHEDULED_BREAK: {en: "{{time}} on scheduled breaks", hi: "{{time}} तय ब्रेक में", ta: "{{time}} திட்டமிட்ட இடைவேளையில்"}
+idle_lead.WARM_UP: {en: "{{time}} warming up", hi: "{{time}} वार्म-अप में", ta: "{{time}} சூடேற்றுவதில்"}
+idle_lead.UNATTENDED_RUNNING: {en: "{{time}} with the engine on and the cab empty", hi: "{{time}} इंजन चालू और केबिन खाली", ta: "{{time}} இன்ஜின் ஓடி கேபின் காலியாக"}
+ui.idle.col_cause: {en: "Cause", hi: "वजह", ta: "காரணம்"}
+ui.idle.col_time: {en: "Time", hi: "समय", ta: "நேரம்"}
+ui.idle.col_share: {en: "Share", hi: "हिस्सा", ta: "பங்கு"}
+ui.idle.site_issue: {en: "Site issue", hi: "साइट की समस्या", ta: "தளப் பிரச்சினை"}
+ui.idle.by_hour: {en: "Waiting for trucks, by hour", hi: "घंटे के हिसाब से ट्रक का इंतज़ार", ta: "மணி வாரியாக லாரிக் காத்திருப்பு"}
+ui.idle.by_hour_sentence: {en: "Most waiting at {{hour}}:00 ({{time}}).", hi: "सबसे ज़्यादा इंतज़ार {{hour}}:00 बजे ({{time}})।", ta: "அதிகக் காத்திருப்பு {{hour}}:00 மணிக்கு ({{time}})."}
+ui.idle.no_wait: {en: "No waiting for trucks this day.", hi: "इस दिन ट्रक का इंतज़ार नहीं हुआ।", ta: "இந்த நாளில் லாரிக் காத்திருப்பு இல்லை."}
+ui.idle.suggestion: {en: "Suggestion", hi: "सुझाव", ta: "பரிந்துரை"}
+suggest.add_truck: {en: "Add one truck to {{zone}}, {{start}}–{{end}}", hi: "{{zone}} पर {{start}}–{{end}} एक ट्रक और लगाएँ", ta: "{{zone}}-க்கு {{start}}–{{end}} ஒரு லாரியைக் கூடுதலாக அனுப்புங்கள்"}
+suggest.toolbox_idle: {en: "Talk about short stops at the next toolbox meeting", hi: "अगली टूलबॉक्स मीटिंग में छोटे ठहरावों पर बात करें", ta: "அடுத்த டூல்பாக்ஸ் கூட்டத்தில் சிறு நிறுத்தங்களைப் பற்றிப் பேசுங்கள்"}
+suggest.shutdown_briefing: {en: "Remind the crew to switch off before stepping out", hi: "टीम को याद दिलाएँ कि उतरने से पहले इंजन बंद करें", ta: "இறங்கும் முன் இன்ஜினை அணைக்கக் குழுவுக்கு நினைவூட்டுங்கள்"}
+ui.idle.saves: {en: "would likely save {{low}} – {{high}}", hi: "संभवतः {{low}} – {{high}} बचेंगे", ta: "பெரும்பாலும் {{low}} – {{high}} மிச்சமாகும்"}
+ui.idle.basis: {en: "based on {{days}} similar days", hi: "{{days}} मिलते-जुलते दिनों के आधार पर", ta: "{{days}} ஒத்த நாட்களின் அடிப்படையில்"}
+
+ui.safe.title: {en: "Safety", hi: "सुरक्षा", ta: "பாதுகாப்பு"}
+ui.safe.p1: {en: "Critical alerts", hi: "गंभीर चेतावनियाँ", ta: "மிக முக்கிய எச்சரிக்கைகள்"}
+ui.safe.p2: {en: "Warnings", hi: "चेतावनियाँ", ta: "எச்சரிக்கைகள்"}
+ui.safe.reports: {en: "Operator reports", hi: "ऑपरेटर रिपोर्ट", ta: "ஆபரேட்டர் புகார்கள்"}
+ui.safe.risk: {en: "Risk by machine", hi: "मशीन के हिसाब से जोखिम", ta: "இயந்திர வாரியாக ஆபத்து"}
+ui.safe.risk_hours: {en: "{{amber}} raised · {{red}} high", hi: "{{amber}} बढ़ा · {{red}} ज़्यादा", ta: "{{amber}} கூடியது · {{red}} அதிகம்"}
+ui.safe.counts: {en: "{{p1}} critical · {{p2}} warnings · {{near}} near misses · {{incidents}} incidents", hi: "{{p1}} गंभीर · {{p2}} चेतावनियाँ · {{near}} बाल-बाल बचे · {{incidents}} घटनाएँ", ta: "{{p1}} மிக முக்கியம் · {{p2}} எச்சரிக்கைகள் · {{near}} நூலிழை தப்புதல் · {{incidents}} விபத்துகள்"}
+ui.safe.footer: {en: "Counts are for learning, not ranking. Operators see the same data about themselves.", hi: "ये गिनती सीखने के लिए हैं, रैंकिंग के लिए नहीं। ऑपरेटर अपने बारे में यही जानकारी देखते हैं।", ta: "இந்த எண்ணிக்கைகள் கற்றுக்கொள்வதற்கு, தரவரிசைக்கு அல்ல. ஆபரேட்டர்கள் தங்களைப் பற்றிய இதே தரவைப் பார்க்கிறார்கள்."}
+ui.safe.more: {en: "and {{count}} more", hi: "और {{count}}", ta: "மேலும் {{count}}"}
+
+ui.trend.title: {en: "Team trends, last {{days}} days", hi: "टीम के रुझान, पिछले {{days}} दिन", ta: "குழுப் போக்குகள், கடந்த {{days}} நாட்கள்"}
+ui.trend.note: {en: "Shown for groups only. Groups smaller than {{n}} operators are hidden.", hi: "सिर्फ़ समूह दिखाए गए हैं। {{n}} से कम ऑपरेटर वाले समूह छिपे हैं।", ta: "குழுக்களாக மட்டுமே காட்டப்படுகிறது. {{n}}-க்குக் குறைவான ஆபரேட்டர்கள் உள்ள குழுக்கள் மறைக்கப்படும்."}
+ui.trend.col_group: {en: "Experience", hi: "अनुभव", ta: "அனுபவம்"}
+ui.trend.col_ops: {en: "Operators", hi: "ऑपरेटर", ta: "ஆபரேட்டர்கள்"}
+ui.trend.col_idle: {en: "Short stops per hour", hi: "हर घंटे छोटे ठहराव", ta: "மணிக்குச் சிறு நிறுத்தங்கள்"}
+ui.trend.col_belt: {en: "Seatbelt off per hour", hi: "हर घंटे बेल्ट खुली", ta: "மணிக்குப் பெல்ட் இல்லாத நேரம்"}
+ui.trend.col_fuel: {en: "Fuel per load", hi: "हर लोड पर ईंधन", ta: "லோடுக்கு எரிபொருள்"}
+ui.trend.col_p1: {en: "Critical alerts per 100 h", hi: "हर 100 घंटे में गंभीर चेतावनियाँ", ta: "100 மணிக்கு மிக முக்கிய எச்சரிக்கைகள்"}
+ui.trend.hidden: {en: "Hidden (fewer than {{n}})", hi: "छिपा ({{n}} से कम)", ta: "மறைக்கப்பட்டது ({{n}}-க்குக் குறைவு)"}
+ui.trend.years: {en: "{{group}} years", hi: "{{group}} साल", ta: "{{group}} ஆண்டுகள்"}
+ui.trend.daily: {en: "Waiting for trucks per day", hi: "रोज़ ट्रक का इंतज़ार", ta: "நாள்தோறும் லாரிக் காத்திருப்பு"}
+ui.trend.daily_sentence: {en: "Truck waiting ranged from {{low}} to {{high}} a day over the last {{days}} days.", hi: "पिछले {{days}} दिनों में ट्रक का इंतज़ार रोज़ {{low}} से {{high}} रहा।", ta: "கடந்த {{days}} நாட்களில் லாரிக் காத்திருப்பு நாளொன்றுக்கு {{low}} முதல் {{high}} வரை."}
+ui.unit.seconds: {en: "{{value}} s", hi: "{{value}} सेकंड", ta: "{{value}} வினாடி"}
+ui.unit.minutes: {en: "{{value}} min", hi: "{{value}} मिनट", ta: "{{value}} நிமிடம்"}
+
+ui.fl.title: {en: "Fleet", hi: "फ़्लीट", ta: "ஃப்ளீட்"}
+ui.fl.machines: {en: "{{total}} machines across {{sites}} sites", hi: "{{sites}} साइटों पर {{total}} मशीनें", ta: "{{sites}} தளங்களில் {{total}} இயந்திரங்கள்"}
+ui.fl.by_type: {en: "By type", hi: "प्रकार के हिसाब से", ta: "வகை வாரியாக"}
+ui.fl.by_tier: {en: "By sensors", hi: "सेंसर के हिसाब से", ta: "சென்சார் வாரியாக"}
+ui.fl.no_data: {en: "No data yet", hi: "अभी जानकारी नहीं", ta: "இன்னும் தரவு இல்லை"}
+ui.fl.condition: {en: "Heat index {{heat}} °C · {{ground}} ground", hi: "हीट इंडेक्स {{heat}} °C · {{ground}} ज़मीन", ta: "வெப்பக் குறியீடு {{heat}} °C · {{ground}} தரை"}
+ui.fl.patterns: {en: "What the fleet has learned", hi: "फ़्लीट ने क्या सीखा", ta: "ஃப்ளீட் கற்றுக்கொண்டவை"}
+ui.fl.patterns_note: {en: "Learned from finished tasks across all sites; each line shows how much more time a condition takes.", hi: "सभी साइटों के पूरे हुए कामों से सीखा; हर पंक्ति बताती है कि कोई हालत कितना ज़्यादा समय लेती है।", ta: "எல்லாத் தளங்களிலும் முடிந்த வேலைகளிலிருந்து கற்றது; ஒவ்வொரு வரியும் ஒரு நிலை எவ்வளவு கூடுதல் நேரம் எடுக்கிறது எனக் காட்டுகிறது."}
+pattern.ground_condition: {en: "{{task}} on {{condition}} ground: {{pct}} time compared with dry or rocky ground", hi: "{{condition}} ज़मीन पर {{task}}: सूखी या पथरीली ज़मीन से {{pct}} समय", ta: "{{condition}} தரையில் {{task}}: உலர்ந்த அல்லது பாறைத் தரையை விட {{pct}} நேரம்"}
+pattern.heat_band: {en: "{{task}} at heat index {{condition}}: {{pct}} time compared with below 32 °C", hi: "हीट इंडेक्स {{condition}} पर {{task}}: 32 °C से कम की तुलना में {{pct}} समय", ta: "வெப்பக் குறியீடு {{condition}}-இல் {{task}}: 32 °C-க்குக் குறைவை விட {{pct}} நேரம்"}
+pattern.basis: {en: "{{tasks}} tasks on {{machines}} machines", hi: "{{machines}} मशीनों पर {{tasks}} काम", ta: "{{machines}} இயந்திரங்களில் {{tasks}} வேலைகள்"}
+ui.fl.scale: {en: "Scale", hi: "पैमाना", ta: "அளவு"}
+ui.fl.live: {en: "Live ingest: {{rate}} records per second", hi: "लाइव आवक: हर सेकंड {{rate}} रिकॉर्ड", ta: "நேரடி வரவு: வினாடிக்கு {{rate}} பதிவுகள்"}
+ui.fl.totals: {en: "Stored: {{intervals}} intervals, {{events}} events, {{tasks}} tasks, {{reports}} reports", hi: "सहेजे गए: {{intervals}} अंतराल, {{events}} घटनाएँ, {{tasks}} काम, {{reports}} रिपोर्ट", ta: "சேமிக்கப்பட்டவை: {{intervals}} இடைவெளிகள், {{events}} நிகழ்வுகள், {{tasks}} வேலைகள், {{reports}} புகார்கள்"}
+ui.fl.run: {en: "Measured: {{machines}} simulated machines sent {{records}} records in {{seconds}} s ({{rate}} records per second, p95 {{p95}} ms per request)", hi: "मापा गया: {{machines}} सिम्युलेटेड मशीनों ने {{seconds}} सेकंड में {{records}} रिकॉर्ड भेजे (हर सेकंड {{rate}} रिकॉर्ड, p95 {{p95}} ms प्रति अनुरोध)", ta: "அளக்கப்பட்டது: {{machines}} உருவகப்படுத்திய இயந்திரங்கள் {{seconds}} வினாடியில் {{records}} பதிவுகளை அனுப்பின (வினாடிக்கு {{rate}} பதிவுகள், p95 {{p95}} ms ஒரு கோரிக்கைக்கு)"}
+ui.fl.bench: {en: "Measured on this computer: {{cpu}} ms CPU per machine per second of work, {{mem}} MB memory per machine, {{kb}} kB uplink per machine per hour", hi: "इस कंप्यूटर पर मापा गया: हर मशीन के हर सेकंड के काम पर {{cpu}} ms CPU, हर मशीन {{mem}} MB मेमोरी, हर मशीन हर घंटे {{kb}} kB अपलिंक", ta: "இந்தக் கணினியில் அளக்கப்பட்டது: ஒவ்வொரு இயந்திரத்தின் ஒரு வினாடி வேலைக்கு {{cpu}} ms CPU, இயந்திரத்துக்கு {{mem}} MB நினைவகம், இயந்திரத்துக்கு மணிக்கு {{kb}} kB அப்லிங்க்"}
+ui.fl.projection: {en: "Projection for {{machines}} machines: {{gb}} GB uplink a day, {{rps}} records per second, {{nodes}} ingest nodes at the measured rate", hi: "{{machines}} मशीनों का अनुमान: रोज़ {{gb}} GB अपलिंक, हर सेकंड {{rps}} रिकॉर्ड, मापी गई दर पर {{nodes}} इन्जेस्ट नोड", ta: "{{machines}} இயந்திரங்களுக்கான கணிப்பு: நாளுக்கு {{gb}} GB அப்லிங்க், வினாடிக்கு {{rps}} பதிவுகள், அளந்த வேகத்தில் {{nodes}} பெறும் கணுக்கள்"}
+ui.fl.projection_note: {en: "Projection, not measured. Basis: {{basis}}.", hi: "यह अनुमान है, मापा नहीं गया। आधार: {{basis}}।", ta: "இது கணிப்பு, அளக்கப்படவில்லை. அடிப்படை: {{basis}}."}
+ui.fl.no_run: {en: "No scale run yet. Run it with: shiftmate fleet scale", hi: "अभी स्केल रन नहीं हुआ। चलाएँ: shiftmate fleet scale", ta: "இன்னும் அளவு ஓட்டம் இல்லை. இயக்க: shiftmate fleet scale"}
+
+ui.dm.title: {en: "Demo control", hi: "डेमो नियंत्रण", ta: "டெமோ கட்டுப்பாடு"}
+ui.dm.scenario: {en: "Scenario", hi: "परिदृश्य", ta: "காட்சி"}
+ui.dm.load: {en: "Load", hi: "लोड करें", ta: "ஏற்று"}
+ui.dm.reload: {en: "Start again", hi: "फिर से शुरू", ta: "மீண்டும் தொடங்கு"}
+ui.dm.loaded: {en: "Loaded: {{title}}", hi: "लोड: {{title}}", ta: "ஏற்றப்பட்டது: {{title}}"}
+ui.dm.speed: {en: "Speed", hi: "गति", ta: "வேகம்"}
+ui.dm.time: {en: "Site time {{time}}", hi: "साइट का समय {{time}}", ta: "தள நேரம் {{time}}"}
+ui.dm.playing: {en: "Playing", hi: "चल रहा है", ta: "இயங்குகிறது"}
+ui.dm.paused: {en: "Paused", hi: "रुका हुआ", ta: "நிறுத்தப்பட்டது"}
+ui.dm.beats: {en: "Story beats", hi: "कहानी के पड़ाव", ta: "கதையின் கட்டங்கள்"}
+ui.dm.go: {en: "Go here", hi: "यहाँ जाएँ", ta: "இங்கே செல்"}
+ui.dm.beat_done: {en: "Done", hi: "हो गया", ta: "முடிந்தது"}
+ui.dm.waiting: {en: "Waiting for the cab: {{beat}}", hi: "कैब का इंतज़ार: {{beat}}", ta: "கேபுக்காகக் காத்திருக்கிறது: {{beat}}"}
+ui.dm.network: {en: "Site internet", hi: "साइट इंटरनेट", ta: "தள இணையம்"}
+ui.dm.online: {en: "Online", hi: "ऑनलाइन", ta: "இணைப்பில்"}
+ui.dm.offline: {en: "Offline", hi: "ऑफ़लाइन", ta: "இணைப்பு இல்லை"}
+ui.dm.captions: {en: "Captions on the cab", hi: "कैब पर कैप्शन", ta: "கேபில் விளக்கவுரை"}
+ui.dm.signed_in: {en: "Signed in on the cab: {{who}}", hi: "कैब पर साइन इन: {{who}}", ta: "கேபில் உள்நுழைந்தவர்: {{who}}"}
+ui.dm.nobody: {en: "nobody", hi: "कोई नहीं", ta: "யாருமில்லை"}
+
+ui.ev.title: {en: "Evaluation", hi: "मूल्यांकन", ta: "மதிப்பீடு"}
+ui.ev.source: {en: "Results from docs/EVAL.md, written by \"shiftmate eval all\" on held-out test days. They are shown as written, in English.", hi: "नतीजे docs/EVAL.md से, जिसे \"shiftmate eval all\" अलग रखे गए टेस्ट दिनों पर लिखता है। ये जैसे लिखे गए हैं वैसे, अंग्रेज़ी में दिखाए गए हैं।", ta: "முடிவுகள் docs/EVAL.md-இலிருந்து; \"shiftmate eval all\" தனியாக வைத்த சோதனை நாட்களில் எழுதியவை. எழுதியபடியே ஆங்கிலத்தில் காட்டப்படுகின்றன."}

@@ -9,6 +9,7 @@ from typing import Any, Literal
 
 from pydantic import AwareDatetime, BaseModel, Field
 
+from shiftmate.schema.config import Layout
 from shiftmate.schema.enums import (
     CabMode,
     GroundCondition,
@@ -537,6 +538,25 @@ class BeatView(BaseModel):
     action: str
     caption: dict[str, str] | None
     done: bool
+
+
+class SiteLayout(BaseModel):
+    """GET /site/layout: the loaded site's plan for the console map (metres, local x/y)."""
+
+    site_id: str
+    name: str
+    timezone: str
+    focus_machine: str
+    layout: Layout
+
+
+class ScenarioInfo(BaseModel):
+    """GET /demo/scenarios: what the demo page can load."""
+
+    name: str
+    title: dict[str, str]
+    site_id: str
+    focus_machine: str
 
 
 class DemoState(BaseModel):

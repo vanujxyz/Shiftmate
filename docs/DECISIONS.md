@@ -561,3 +561,38 @@ Context: The cab must open with no network. The preview browser used for manual 
 Decision: vite-plugin-pwa (`generateSW`, auto-update) pre-caches the app shell, CSS, JS (with the bundled locale strings) and every Anek font subset (15 files, about 2 MB). Every route falls back to the shell. The manifest and icon are static files in `public/`, so their colour values stay outside app code (the tokens-only rule). `e2e/offline.spec.ts` builds and serves the PWA, lets the worker take control, turns the network off in Chrome, reloads, and checks that the app opens, switches to Tamil and has the Tamil font loaded.
 Why: A real, repeatable offline check instead of a manual one.
 Alternatives: Run the service worker in dev mode (differs from production).
+
+## D-081 — The console site map
+Date: 2026-09-24 · Phase: 9 · Requirement(s): F-SUP-01, DESIGN §9 Site map symbology, §10 ConsoleSiteMap
+Context: The map must show machines, trucks and people moving, with swing zones coloured by proximity state, at 30 fps or more, from 5 Hz entity updates.
+Decision: `ConsoleSiteMap` lives in `packages/ui`, where its fixed drawing sizes belong. It uses a fixed 0.45 m per pixel: the map scrolls and never squashes. North is up, world +y is north, and headings run clockwise from north, as in the simulator. Rings are drawn from the thresholds each machine reports. The tier sector points at the nearest tagged person inside the rings, with the hatch only for critical. The console draws the map one update behind and glides between the last two updates on every animation frame; 68 fps was measured in the browser. A seek jumps without gliding. Selecting a machine shows its model, sensors, operator, nearby tier, warning rings and its day from the Fleet Service. There are no action buttons: "send a truck" and "voice note" stay removed (owner decision).
+Why: Smooth, honest motion; one drawing vocabulary shared with the cab; tokens-only app code.
+Alternatives: A canvas renderer (loses accessible machine buttons); drawing positions as they arrive (visible 5 Hz jumps).
+
+## D-082 — Two small gateway endpoints for the console
+Date: 2026-09-24 · Phase: 9 · Requirement(s): TRD §11.3 /site, /demo
+Context: The console needs the loaded site's plan (zones, roads) and the list of loadable scenarios; neither was exposed.
+Decision: `GET /site/layout` returns the site id, name, time zone, focus machine and layout (409 when nothing is loaded). `GET /demo/scenarios` returns each scenario's name, title (en/hi/ta), site and focus machine.
+Why: The console draws from the gateway's own configuration; nothing is duplicated in the frontend.
+Alternatives: Bundle the site YAML into the console (two copies that could disagree).
+
+## D-083 — The contracts generator kept fields called `title`
+Date: 2026-09-24 · Phase: 9 · Requirement(s): TRD §5 contracts
+Context: `gen.mjs` strips pydantic's per-field `title` annotations. It also deleted any field actually named `title` from a model's `properties`, so `Lesson.title`, `LessonSummary.title` and `ScenarioInfo.title` had been missing from the TypeScript types.
+Decision: The stripper now walks into each field's schema instead of deleting keys from the `properties` map. Contracts are regenerated; `contracts:check` passes.
+Why: Types must match the API exactly (golden rule: contracts are generated, never hand-written).
+Alternatives: Renaming the fields (changes the API to work around a tool bug).
+
+## D-084 — The console frame, day summary and fleet pages
+Date: 2026-09-24 · Phase: 9 · Requirement(s): F-SUP-02…05, F-FLT-07, F-FLT-08
+Context: The console should work in three languages, show which data is simulated, and respect privacy.yaml.
+Decision:
+- **Frame:** a 64 px top bar with the five sections and the language (kept per browser), and the dashed "Demo mode · simulated data" strip on every page. The default site is the one live on the gateway.
+- **Day summary:** offers the fleet's days for the site, newest first. The latest is the default (D-067).
+- **Where time was lost:** leads with one sentence naming the cause, never the operators. It shows the fleet's primary suggestion with its saving range and basis.
+- **Safety:** lists critical alerts with the operator's name, since they are safety-critical events (F-SUP-05), in the site's local time. Warnings are grouped by kind.
+- **Team trends:** groups only, with groups under the privacy minimum hidden.
+- **Fleet page:** keeps what was measured (live ingest, the simulated 10,000-machine run, the runtime benchmark) visually apart from the dashed, labelled projection to 1.6 million machines.
+- **Evaluation page:** reads docs/EVAL.md at build time through a small Markdown reader that never renders HTML from the file.
+Why: Supervisors see where time goes and what to do, without ranking people; no projection can pass as a measurement.
+Alternatives: Operator-level tables for supervisors (breaks P-02/P-03).

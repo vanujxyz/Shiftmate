@@ -4730,6 +4730,38 @@
       "title": "ScaleStats",
       "type": "object"
     },
+    "ScenarioInfo": {
+      "description": "GET /demo/scenarios: what the demo page can load.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "title": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Title",
+          "type": "object"
+        },
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        },
+        "focus_machine": {
+          "title": "Focus Machine",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "title",
+        "site_id",
+        "focus_machine"
+      ],
+      "title": "ScenarioInfo",
+      "type": "object"
+    },
     "ScenarioLoadRequest": {
       "properties": {
         "name": {
@@ -5467,6 +5499,39 @@
         "last_date"
       ],
       "title": "SiteInfo",
+      "type": "object"
+    },
+    "SiteLayout": {
+      "description": "GET /site/layout: the loaded site's plan for the console map (metres, local x/y).",
+      "properties": {
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "timezone": {
+          "title": "Timezone",
+          "type": "string"
+        },
+        "focus_machine": {
+          "title": "Focus Machine",
+          "type": "string"
+        },
+        "layout": {
+          "$ref": "#/$defs/Layout"
+        }
+      },
+      "required": [
+        "site_id",
+        "name",
+        "timezone",
+        "focus_machine",
+        "layout"
+      ],
+      "title": "SiteLayout",
       "type": "object"
     },
     "SiteSummary": {

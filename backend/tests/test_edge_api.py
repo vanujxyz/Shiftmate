@@ -333,3 +333,14 @@ def test_cab_config(client) -> None:
     assert c["alerts"]["paused_idle_seconds"] == 30
     assert len(c["checklist"]) == 7 and set(c["checklist"][0]["text"]) == {"en", "hi", "ta"}
     assert c["languages"] == ["en", "hi", "ta"]
+
+
+def test_site_layout_and_scenarios(client) -> None:
+    lay = client.get("/site/layout").json()
+    assert lay["site_id"] == "CHN-HWY-01" and lay["focus_machine"] == "EXC001"
+    assert lay["layout"]["size"] == {"w": 400, "h": 260}
+    zones = {z["id"]: z for z in lay["layout"]["zones"]}
+    assert zones["LOAD-A"]["polygon"] and zones["HAUL"]["polyline"]
+    names = {s["name"]: s for s in client.get("/demo/scenarios").json()}
+    assert set(names) >= {"ravi_shift", "fleet_tour"}
+    assert names["ravi_shift"]["focus_machine"] == "EXC001" and "ta" in names["ravi_shift"]["title"]

@@ -24,7 +24,7 @@ from fastapi import FastAPI, HTTPException, Query, WebSocket, WebSocketDisconnec
 from shiftmate import __version__
 from shiftmate.config_loader import ShiftMateConfig, load_config
 from shiftmate.edge.channels import Feeds, Subscriber, cab_channel, site_channel
-from shiftmate.edge.live import ScenarioPlayer
+from shiftmate.edge.live import SCENARIO_DIR, Scenario, ScenarioPlayer
 from shiftmate.edge.resources import EdgeResources
 from shiftmate.edge.services import build_insights, build_profile, build_shift, training_slots
 from shiftmate.edge.store import EdgeStore
@@ -63,11 +63,13 @@ from shiftmate.schema.api import (
     ReportParseResponse,
     ReportSaveRequest,
     SavedReport,
+    ScenarioInfo,
     ScenarioLoadRequest,
     SeekRequest,
     SessionResponse,
     ShiftResponse,
     SignInRequest,
+    SiteLayout,
     SpeedRequest,
     SyncStatus,
     TaskEstimate,
@@ -663,6 +665,26 @@ def _routes(app: FastAPI, ctx: EdgeContext) -> None:
             ],
             signed_in=p.site.runtime.operator_id if p.site else None,
         )
+
+    @app.get("/site/layout", response_model=SiteLayout)
+    async def site_layout() -> SiteLayout:
+        site = ctx.site
+        return SiteLayout(
+            site_id=site.site.site_id,
+            name=site.site.name,
+            timezone=site.site.timezone,
+            focus_machine=site.focus_id,
+            layout=site.site.layout,
+        )
+
+    @app.get("/demo/scenarios", response_model=list[ScenarioInfo])
+    async def demo_scenarios() -> list[ScenarioInfo]:
+        return [
+            ScenarioInfo(
+                name=sc.name, title=sc.title, site_id=sc.site_id, focus_machine=sc.focus_machine
+            )
+            for sc in (Scenario.load(p.stem) for p in sorted(SCENARIO_DIR.glob("*.yaml")))
+        ]
 
     @app.get("/demo/state", response_model=DemoState)
     async def demo_get() -> DemoState:
