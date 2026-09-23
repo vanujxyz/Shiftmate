@@ -8,7 +8,7 @@ training, tuning or early stopping.
 <!-- BEGIN data -->
 ## Data
 
-Simulated history, seed 7: 42 days (2026-08-13 to 2026-09-23), 60 machines, 80 operators, 3,185,280 ticks at 30 s, 7,039 completed tasks. Split by day: train 1–32, validation 33–35, test 36–42.
+Simulated history, seed 7: 42 days (2026-08-13 to 2026-09-23), 60 machines, 80 operators, 3,185,280 ticks at 30 s, 7,040 completed tasks. Split by day: train 1–32, validation 33–35, test 36–42.
 <!-- END data -->
 
 <!-- BEGIN idle -->
@@ -134,6 +134,37 @@ Validation days (used for early stopping): median error 8.5 %, coverage 66.0 %.
 | backfilling | frozen | +23 % | 157 | 6 | dry/rocky |
 | site_clearing | frozen | +21 % | 213 | 8 | dry/rocky |
 <!-- END estimation -->
+
+<!-- BEGIN assistant -->
+## Ask Cat assistant (F-ASK-01…06)
+
+40 questions in `eval/assistant_eval.yaml` (30 answerable: 10 en, 10 hi, 10 ta; 10 that must be refused). The index holds 46 chunks from 15 team-written files. Online answers use `gemini-3.5-flash-lite`; key facts are graded by the same model with a fixed rubric (`assistant/prompts/judge_system.md`), and every reply is cached by prompt hash.
+
+Citation accuracy counts a refusal as a miss. Targets (TRD §12): citation accuracy and key-fact coverage ≥ 85 %, refusal accuracy ≥ 90 %.
+
+| mode | language | citation accuracy | key-fact coverage | retrieval hit@5 | answered | refusal accuracy |
+|---|---|---|---|---|---|---|
+| offline | all | 66.7 % | 70.0 % | 93.3 % | 70.0 % | 100.0 % |
+| offline | en | 50.0 % | 60.0 % | 100.0 % | 60.0 % | 100.0 % |
+| offline | hi | 80.0 % | 80.0 % | 100.0 % | 80.0 % | 100.0 % |
+| offline | ta | 70.0 % | 70.0 % | 80.0 % | 70.0 % | 100.0 % |
+| online | all | 93.3 % | 93.3 % | 93.3 % | 93.3 % | 100.0 % |
+| online | en | 100.0 % | 100.0 % | 100.0 % | 100.0 % | 100.0 % |
+| online | hi | 100.0 % | 100.0 % | 100.0 % | 100.0 % | 100.0 % |
+| online | ta | 80.0 % | 80.0 % | 80.0 % | 80.0 % | 100.0 % |
+
+| mode | citation ≥ 85 % | key facts ≥ 85 % | refusals ≥ 90 % |
+|---|---|---|---|
+| offline | not met | not met | met |
+| online | met | met | met |
+
+### Questions missed
+
+- offline: answerable without an expected citation: en01, en03, en05, en09, en10, hi08, hi10, ta08, ta09, ta10; unanswerable but answered: none.
+- online: answerable without an expected citation: ta09, ta10; unanswerable but answered: none.
+
+Offline answers return the best-matching manual passage as written, and only when it scores at least 0.55 (TRD §10.4), so offline mode refuses more often: it prefers saying it does not know to guessing.
+<!-- END assistant -->
 
 <!-- BEGIN scale -->
 ## Scale (F-FLT-07)

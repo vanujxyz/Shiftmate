@@ -4,6 +4,7 @@
  * even when the site has no internet (TRD §1.1 "offline definition").
  */
 import type {
+  AskResponse,
   CabConfig,
   ChecklistResult,
   ChecklistSubmit,
@@ -74,6 +75,8 @@ export const api = {
   saveReport: (body: ReportSaveRequest) => post<SavedReport>("/reports", body),
   reports: (operatorId: string) =>
     call<SavedReport[]>(`/reports?operator_id=${encodeURIComponent(operatorId)}`),
+  ask: (question: string, language: Language) =>
+    post<AskResponse>("/assistant/ask", { question, language }),
   insights: (operatorId: string, range: "shift" | "week") =>
     call<InsightsResponse>(`/insights/${encodeURIComponent(operatorId)}?range=${range}`),
 };

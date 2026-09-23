@@ -8,6 +8,7 @@ find by walking up from this file until we see `pnpm-workspace.yaml`.
 from functools import lru_cache
 from pathlib import Path
 
+from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -35,6 +36,8 @@ class Settings(BaseSettings):
 
     llm_provider: str = "gemini"
     llm_model: str = ""
+    # read from GEMINI_API_KEY (no prefix); a SecretStr so it never appears in logs or reprs
+    gemini_api_key: SecretStr = Field(default=SecretStr(""), validation_alias="GEMINI_API_KEY")
     edge_port: int = 8100
     fleet_port: int = 8200
     fleet_url: str = "http://localhost:8200"

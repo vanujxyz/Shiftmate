@@ -18,6 +18,7 @@ from pydantic import BaseModel, ValidationError
 from shiftmate.schema.config import (
     AlertPolicyConfig,
     AnomalyConfig,
+    AssistantConfig,
     ChecklistConfig,
     EdgeConfig,
     EstimationConfig,
@@ -84,6 +85,7 @@ class ShiftMateConfig:
     report_keywords: ReportKeywords
     edge: EdgeConfig
     fleet: FleetConfig
+    assistant: AssistantConfig
     simulator: SimulatorConfig  # read only by shiftmate.sim
 
     def lesson_trigger_vocabulary(self) -> set[str]:
@@ -233,6 +235,7 @@ def load_config(config_dir: Path | None = None) -> ShiftMateConfig:
         report_keywords=_parse(REPORTS_FILE, ReportKeywords),
         edge=_parse(root / "edge.yaml", EdgeConfig),
         fleet=_parse(root / "fleet.yaml", FleetConfig),
+        assistant=_parse(root / "assistant.yaml", AssistantConfig),
         simulator=_parse(root / "simulator.yaml", SimulatorConfig),
     )
     _cross_check(cfg)

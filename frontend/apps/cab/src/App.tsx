@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router";
 
+import { Ask } from "./screens/Ask";
 import { MyDay } from "./screens/MyDay";
 import { MyShift } from "./screens/MyShift";
 import { Report } from "./screens/Report";
@@ -36,6 +37,7 @@ export function App() {
         <Route path="report" element={<Report />} />
         <Route path="insights" element={<MyDay />} />
         <Route path="learn" element={<NotYet />} />
+        <Route path="ask" element={<Ask />} />
         <Route path="*" element={<MyShift />} />
       </Route>
     </Routes>
