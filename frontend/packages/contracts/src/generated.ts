@@ -622,6 +622,7 @@ export interface SignalTick {
   seatbelt_fastened: boolean;
   gps: Gps;
   heading_deg: number;
+  load_cycles_total?: number;
   seat_occupied?: boolean | null;
   engine_rpm?: number | null;
   coolant_temp_c?: number | null;

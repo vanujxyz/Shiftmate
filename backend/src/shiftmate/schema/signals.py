@@ -29,6 +29,7 @@ class SignalTick(BaseModel):
     seatbelt_fastened: bool
     gps: Gps
     heading_deg: float = Field(ge=0, lt=360)
+    load_cycles_total: int = Field(default=0, ge=0)  # machine cycle counter (brief column, D-035)
     # standard tier
     seat_occupied: bool | None = None
     engine_rpm: float | None = None

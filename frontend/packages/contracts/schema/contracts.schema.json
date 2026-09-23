@@ -1952,6 +1952,12 @@
           "title": "Heading Deg",
           "type": "number"
         },
+        "load_cycles_total": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Load Cycles Total",
+          "type": "integer"
+        },
         "seat_occupied": {
           "anyOf": [
             {

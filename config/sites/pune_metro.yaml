@@ -10,7 +10,7 @@ units: metric
 climate:
   month_profiles:
     4: {temp_mean_c: 31, temp_amp_c: 7, rh_mean: 35, rain_prob: 0.02, rain_mean_mm_h: 2.0, wind_mean_kmh: 10}
-    8: {temp_mean_c: 25, temp_amp_c: 3, rh_mean: 84, rain_prob: 0.40, rain_mean_mm_h: 4.0, wind_mean_kmh: 16}
+    8: {temp_mean_c: 25, temp_amp_c: 3, rh_mean: 82, rain_prob: 0.20, rain_mean_mm_h: 4.0, wind_mean_kmh: 16}
     9: {temp_mean_c: 26, temp_amp_c: 4, rh_mean: 78, rain_prob: 0.25, rain_mean_mm_h: 4.0, wind_mean_kmh: 12}
   history_seasons:
     - {days: [1, 21], month: 4}
