@@ -1,6 +1,6 @@
 # ShiftMate — Build progress
 
-**Next step:** Milestone 10 (Design system in code) in progress.
+**Next step:** Milestone 11 (Cab app A) in progress.
 
 **Autonomy note (2026-09-23):** the user authorised continuing through all milestones without waiting for approval, and approved all needed downloads. Each milestone is still tested, committed, and reported in `docs/reports/milestone-N.md`.
 
@@ -132,13 +132,13 @@ Goal: the cloud side — ingest, supervisor aggregates with privacy, fleet patte
 Requirements: F-SUP-02, 03, 04, 05, F-FLT-05, 07, 08, P-01…P-06.
 You will see: http://localhost:8200/docs; a 10,000-machine run with ingest rate and 1.6 M projection.
 
-### Milestone 10 — Design system in code (Phase 7) · Status: not started
+### Milestone 10 — Design system in code (Phase 7) · Status: done
 Goal: all DESIGN.md components built once in `packages/ui`, visible in a kitchen-sink page.
-- [ ] 1. Tokens wired into Tailwind v4; Day / Sunlight / Night themes; Anek fonts self-hosted
-- [ ] 2. Glyph set (machine state, idle reasons, proximity, belt, sync, sensor, priority shapes, conditions) as SVG components
-- [ ] 3. Components: Reach, StatusRail, alerts P1–P4 + queue, TaskRow, RangeBar, ReasonChip, TimeSplit, sparkline, PushToTalk, LargeToggle, SegmentedControl, PIN pad, LessonCard, DrillFrame, map legend, system states, etc.
-- [ ] 4. `/_kitchen-sink` in the console: every component × 3 themes × 3 languages
-- [ ] 5. Contrast test; lint rule/test banning hex and font literals outside `packages/ui`
+- [x] 1. Tokens wired into Tailwind v4; Day / Sunlight / Night themes; Anek fonts self-hosted
+- [x] 2. Glyph set (machine state, idle reasons, proximity, belt, sync, sensor, priority shapes, conditions) as SVG components
+- [x] 3. Components: Reach, StatusRail, alerts P1–P4 + queue, TaskRow, RangeBar, ReasonChip, TimeSplit, sparkline, PushToTalk, LargeToggle, SegmentedControl, PIN pad, LessonCard, DrillFrame, map legend, system states, etc.
+- [x] 4. `/_kitchen-sink` in the console: every component × 3 themes × 3 languages
+- [x] 5. Contrast test; lint rule/test banning hex and font literals outside `packages/ui`
 Requirements: F-CAB-02, F-CAB-05 (rendering), PRD §10 experience.
 You will see: http://localhost:5174/_kitchen-sink with theme and language switches.
 

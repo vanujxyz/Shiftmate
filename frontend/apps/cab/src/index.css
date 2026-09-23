@@ -1,3 +1,4 @@
 @import "tailwindcss";
 @import "@shiftmate/ui/tokens.css";
+@import "@shiftmate/ui/ui.css";
 @source "../../../packages/ui/src";

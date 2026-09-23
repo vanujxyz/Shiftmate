@@ -1,0 +1,174 @@
+/* ShiftMate component layer (docs/DESIGN.md). Import after tokens.css.
+ * tokens.css is the delivered design file and is not edited; everything the components need on
+ * top of it lives here: theme weight shifts, script line-heights, borders, focus, hatch, motion.
+ * Raw values are allowed here and only here (packages/ui); apps use tokens and these classes. */
+
+/* ---- Typography: Sunlight +100 / Night −50 weight on every style (DESIGN §3) ---- */
+[data-theme="sunlight"], [data-theme="night"] {
+  --sm-text-cab-hero-weight: calc(700 + var(--sm-text-weight-shift));
+  --sm-text-cab-display-weight: calc(700 + var(--sm-text-weight-shift));
+  --sm-text-cab-title-weight: calc(600 + var(--sm-text-weight-shift));
+  --sm-text-cab-heading-weight: calc(600 + var(--sm-text-weight-shift));
+  --sm-text-cab-body-weight: calc(450 + var(--sm-text-weight-shift));
+  --sm-text-cab-label-weight: calc(600 + var(--sm-text-weight-shift));
+  --sm-text-cab-meta-weight: calc(500 + var(--sm-text-weight-shift));
+  --sm-text-cab-decal-weight: calc(700 + var(--sm-text-weight-shift));
+  --sm-text-con-display-weight: calc(600 + var(--sm-text-weight-shift));
+  --sm-text-con-title-weight: calc(600 + var(--sm-text-weight-shift));
+  --sm-text-con-heading-weight: calc(600 + var(--sm-text-weight-shift));
+  --sm-text-con-body-weight: calc(400 + var(--sm-text-weight-shift));
+  --sm-text-con-label-weight: calc(600 + var(--sm-text-weight-shift));
+  --sm-text-con-meta-weight: calc(500 + var(--sm-text-weight-shift));
+  --sm-text-con-num-weight: calc(600 + var(--sm-text-weight-shift));
+}
+
+/* ---- Scripts: taller lines for Tamil and Devanagari, never letter-spaced (DESIGN §3) ---- */
+:lang(ta) {
+  --sm-text-cab-body-line: 48px;
+  --sm-text-cab-title-size: 44px; --sm-text-cab-title-line: 60px;
+  --sm-text-cab-display-size: 60px; --sm-text-cab-display-line: 84px;
+  --sm-text-cab-heading-line: 54px;
+  --sm-text-cab-label-line: 42px;
+  --sm-text-cab-meta-line: 38px;
+  --sm-text-con-body-line: 28px;
+  --sm-text-con-label-line: 24px;
+}
+:lang(hi) {
+  --sm-text-cab-body-line: 46px;
+  --sm-text-cab-title-size: 46px; --sm-text-cab-title-line: 62px;
+  --sm-text-cab-display-size: 64px; --sm-text-cab-display-line: 88px;
+  --sm-text-cab-heading-line: 52px;
+  --sm-text-cab-label-line: 40px;
+  --sm-text-cab-meta-line: 36px;
+  --sm-text-con-body-line: 28px;
+  --sm-text-con-label-line: 22px;
+}
+:lang(ta), :lang(hi) {
+  --sm-text-cab-hero-tracking: 0; --sm-text-cab-display-tracking: 0; --sm-text-cab-label-tracking: 0;
+  --sm-text-cab-meta-tracking: 0; --sm-text-con-display-tracking: 0; --sm-text-con-label-tracking: 0;
+  --sm-text-con-meta-tracking: 0;
+}
+
+.sm-root {
+  font-family: var(--sm-font-sans);
+  color: var(--sm-color-ink);
+  background: var(--sm-color-ground);
+  overflow-wrap: break-word; /* wrap, never truncate (DESIGN §3); break-word keeps min-content whole */
+}
+
+/* ---- Figures and widths ---- */
+.sm-num { font-feature-settings: var(--sm-font-numeric); }
+.sm-decal { font-variation-settings: "wdth" var(--sm-font-wdth-decal); letter-spacing: 0.03em; }
+.sm-dense:lang(ta), .sm-dense:lang(hi) { font-variation-settings: "wdth" var(--sm-font-wdth-tamil-dense); }
+
+/* ---- Borders (Sunlight thickens through the tokens) ---- */
+.sm-rule { border: var(--sm-border-rule) solid var(--sm-color-line); }
+.sm-rule-b { border-bottom: var(--sm-border-rule) solid var(--sm-color-line); }
+.sm-rule-t { border-top: var(--sm-border-rule) solid var(--sm-color-line); }
+.sm-rule-soft-b { border-bottom: var(--sm-border-rule) solid var(--sm-color-line-soft); }
+.sm-heavy { border: var(--sm-border-heavy) solid var(--sm-color-line); }
+.sm-dash { border: var(--sm-border-dash) dashed var(--sm-color-mark); }
+.sm-alert-frame { border: var(--sm-border-alert) solid var(--sm-safety-alert-p1); }
+
+/* ---- Focus and press (no hover anywhere, DESIGN §10) ---- */
+.sm-focus:focus-visible {
+  outline: 4px solid var(--sm-color-focus);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px var(--sm-color-chalk);
+}
+.sm-press { transition: transform var(--sm-motion-press) linear, background-color var(--sm-motion-press) linear; }
+.sm-press:active { transform: translateY(2px); }
+
+/* ---- The 45° critical hatch: only for a person inside the swing radius ---- */
+.sm-hatch {
+  background: repeating-linear-gradient(
+    45deg, var(--sm-safety-danger) 0 14px, var(--sm-safety-hatch) 14px 28px);
+}
+
+/* ---- Idle patterns: lightness + pattern, never a safety hue (DESIGN §9) ---- */
+.sm-idle-WORKING { background: var(--sm-safety-time-working); }
+.sm-idle-OFF { background: var(--sm-safety-time-off); }
+.sm-idle-WAITING_FOR_TRUCK { background: var(--sm-safety-idle-waiting); }
+.sm-idle-WARM_UP {
+  background: repeating-linear-gradient(90deg, var(--sm-safety-idle-warmup) 0 6px,
+    var(--sm-color-surface) 6px 9px);
+}
+.sm-idle-SCHEDULED_BREAK { background: var(--sm-safety-idle-break); }
+.sm-idle-UNATTENDED_RUNNING {
+  background-color: var(--sm-safety-idle-unattended);
+  background-image: radial-gradient(var(--sm-color-surface) 2px, transparent 2.5px);
+  background-size: 9px 9px;
+}
+.sm-idle-HABIT {
+  background: repeating-linear-gradient(0deg, var(--sm-safety-idle-habit) 0 5px,
+    var(--sm-color-surface) 5px 8px);
+}
+.sm-idle-UNKNOWN {
+  background: var(--sm-safety-idle-unknown);
+  outline: var(--sm-border-dash) dashed var(--sm-color-mark);
+  outline-offset: calc(-1 * var(--sm-border-dash));
+}
+
+/* ---- Motion: only a change of state (DESIGN §7) ---- */
+@keyframes sm-p1-flash { 0%, 49.99% { border-color: var(--sm-safety-alert-p1); } 50%, 100% { border-color: var(--sm-color-ink); } }
+.sm-p1-flash { animation: sm-p1-flash var(--sm-motion-p1-flash) steps(1) infinite; }
+@keyframes sm-drop-in { from { transform: translateY(-100%); } to { transform: none; } }
+@keyframes sm-rise-in { from { transform: translateY(100%); } to { transform: none; } }
+.sm-drop-in { animation: sm-drop-in var(--sm-motion-alert-in) var(--sm-motion-ease); }
+.sm-rise-in { animation: sm-rise-in var(--sm-motion-alert-in) var(--sm-motion-ease); }
+@keyframes sm-listen { from { transform: scale(1); opacity: 1; } to { transform: scale(1.6); opacity: 0; } }
+.sm-listen-ring { animation: sm-listen var(--sm-motion-listen) var(--sm-motion-ease) infinite; }
+@keyframes sm-step { 0% { opacity: 0.25; } 33% { opacity: 1; } 100% { opacity: 0.25; } }
+.sm-step { animation: sm-step 1200ms steps(1) infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sm-p1-flash { animation: none; border-width: 16px; }
+  .sm-listen-ring { animation: none; transform: scale(1.15); }
+  .sm-drop-in, .sm-rise-in, .sm-step { animation: none; }
+  .sm-press:active { transform: none; }
+}
+
+/* ---- Night: no large fields of safety colour (DESIGN §10 theme behaviour) ---- */
+[data-theme="night"] .sm-p2 { background: var(--sm-color-surface); color: var(--sm-color-ink); border: 6px solid var(--sm-safety-alert-p2); }
+[data-theme="night"] .sm-p3 { background: var(--sm-color-surface); color: var(--sm-color-ink); border: 4px solid var(--sm-safety-alert-p3); }
+[data-theme="night"] .sm-p1-fill { background: var(--sm-color-surface); color: var(--sm-color-ink); }
+[data-theme="sunlight"] .sm-rail { border-bottom: 5px solid var(--sm-color-line); }
+
+/* ---- Glyph strokes: fixed width at every size (DESIGN §6) ---- */
+.sm-glyph * { vector-effect: non-scaling-stroke; stroke-width: var(--sm-icon-stroke); }
+.sm-glyph [stroke="none"] { stroke-width: 0; }
+
+/* ---- In-between text sizes named by DESIGN components, with script line-heights ---- */
+.sm-t-p2 { font-size: 44px; line-height: 52px; font-weight: calc(700 + var(--sm-text-weight-shift)); }
+.sm-t-p3 { font-size: 32px; line-height: 38px; font-weight: calc(600 + var(--sm-text-weight-shift)); }
+.sm-t-row { font-size: 30px; line-height: 38px; font-weight: calc(600 + var(--sm-text-weight-shift)); }
+.sm-t-feed { font-size: 26px; line-height: 34px; font-weight: calc(600 + var(--sm-text-weight-shift)); }
+.sm-t-big { font-size: 34px; line-height: 40px; font-weight: calc(700 + var(--sm-text-weight-shift)); }
+.sm-t-small { font-size: 22px; line-height: 28px; font-weight: calc(500 + var(--sm-text-weight-shift)); }
+.sm-t-transcript { font-size: 40px; line-height: 52px; font-weight: calc(500 + var(--sm-text-weight-shift)); }
+:lang(ta) .sm-t-p2, :lang(ta).sm-t-p2 { line-height: 66px; }
+:lang(hi) .sm-t-p2, :lang(hi).sm-t-p2 { line-height: 64px; }
+:lang(ta) .sm-t-p3, :lang(ta).sm-t-p3 { line-height: 50px; }
+:lang(hi) .sm-t-p3, :lang(hi).sm-t-p3 { line-height: 48px; }
+:lang(ta) .sm-t-row, :lang(ta).sm-t-row { line-height: 48px; }
+:lang(hi) .sm-t-row, :lang(hi).sm-t-row { line-height: 46px; }
+:lang(ta) .sm-t-feed, :lang(hi) .sm-t-feed { line-height: 42px; }
+/* Tamil and Devanagari never go below 24 px in the cab (DESIGN §3) */
+:lang(ta) .sm-t-small, :lang(hi) .sm-t-small { font-size: 24px; line-height: 36px; }
+:lang(ta) .sm-t-transcript { line-height: 64px; }
+:lang(hi) .sm-t-transcript { line-height: 62px; }
+.sm-t-32 { font-size: 32px; line-height: 40px; font-weight: calc(600 + var(--sm-text-weight-shift)); }
+:lang(ta) .sm-t-32, :lang(hi) .sm-t-32 { line-height: 50px; }
+.sm-t-answer { font-size: 34px; line-height: 46px; font-weight: calc(450 + var(--sm-text-weight-shift)); }
+:lang(ta) .sm-t-answer { line-height: 56px; }
+:lang(hi) .sm-t-answer { line-height: 54px; }
+
+/* ---- Status rail in Tamil and Hindi (DESIGN §10 StatusRail, review row 11): labels step down to
+ * 24 px and wrap to two lines; the risk reason is dropped from the rail (the risk line carries it). */
+:lang(ta) .sm-rail-word, :lang(hi) .sm-rail-word { font-size: 24px; line-height: 30px; max-width: 7em; }
+:lang(ta) .sm-rail-reason { display: none; }
+/* the machine's state word repeats its glyph (which carries it as its label): dropped in ta/hi */
+:lang(ta) .sm-rail-repeat, :lang(hi) .sm-rail-repeat { display: none; }
+/* Tamil runs 30–50 % longer: like the 1024 × 768 layout, the rail drops the machine segment and the
+ * cab shows the machine ID in the Paused content header instead (D-068). */
+:lang(ta) .sm-rail-machine { display: none; }

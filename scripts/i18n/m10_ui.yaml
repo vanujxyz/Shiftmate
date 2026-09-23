@@ -1,0 +1,184 @@
+# Milestone 10 strings: the design-system vocabulary (rail, nav, push-to-talk, buttons, states)
+# and kitchen-sink sample content. Lines marked (D) are DESIGN §11 example strings, used as written.
+ui.theme.label: {en: "Theme", hi: "थीम", ta: "தீம்"}
+ui.theme.day: {en: "Day", hi: "दिन", ta: "பகல்"}
+ui.theme.sunlight: {en: "Sunlight", hi: "तेज़ धूप", ta: "வெயில்"}
+ui.theme.night: {en: "Night", hi: "रात", ta: "இரவு"}
+
+ui.rail.clear: {en: "Clear", hi: "साफ़", ta: "தெளிவு"}
+ui.rail.one_near: {en: "1 near", hi: "1 पास में", ta: "1 அருகில்"}
+ui.rail.stop: {en: "Stop", hi: "रुकिए", ta: "நிறுத்துங்கள்"}
+ui.rail.no_sensing: {en: "No sensing", hi: "सेंसर नहीं", ta: "சென்சார் இல்லை"}
+ui.rail.risk_low: {en: "Risk low", hi: "जोखिम कम", ta: "ஆபத்து குறைவு"}
+ui.rail.risk_raised: {en: "Risk raised", hi: "जोखिम बढ़ा", ta: "ஆபத்து கூடியது"}
+ui.rail.risk_high: {en: "Risk high", hi: "जोखिम ज़्यादा", ta: "ஆபத்து அதிகம்"}
+ui.rail.belt_on: {en: "Belt on", hi: "बेल्ट लगी", ta: "பெல்ட் போட்டுள்ளது"}
+ui.rail.belt_off: {en: "Belt off", hi: "बेल्ट खुली", ta: "பெல்ட் இல்லை"}
+ui.rail.prox_clear_label: {en: "Proximity: clear", hi: "आसपास: साफ़", ta: "அருகில்: யாரும் இல்லை"}
+ui.rail.prox_caution_label: {en: "One person, caution ring, right rear, 7 metres", hi: "एक व्यक्ति, सावधानी घेरे में, दाएँ पीछे, 7 मीटर", ta: "ஒருவர், எச்சரிக்கை வளையத்தில், வலது பின்புறம், 7 மீட்டர்"}
+ui.rail.risk_label: {en: "Risk raised, mainly heat", hi: "जोखिम बढ़ा, मुख्य कारण गर्मी", ta: "ஆபத்து கூடியது, முக்கியக் காரணம் வெப்பம்"}
+ui.rail.queue_label: {en: "One more alert waiting: warning", hi: "एक और चेतावनी इंतज़ार में", ta: "இன்னும் ஒரு எச்சரிக்கை காத்திருக்கிறது"}
+
+ui.machine.working: {en: "Working", hi: "काम चालू", ta: "வேலையில்"}
+ui.machine.idle: {en: "Idle", hi: "खड़ी", ta: "நிற்கிறது"}
+ui.machine.travel: {en: "Moving", hi: "चल रही", ta: "நகர்கிறது"}
+ui.machine.off: {en: "Engine off", hi: "इंजन बंद", ta: "இன்ஜின் அணைப்பு"}
+
+ui.sync.synced_at: {en: "Synced at {{time}}", hi: "{{time}} पर सिंक हुआ", ta: "{{time}}-க்கு ஒத்திசைந்தது"}
+ui.sync.waiting: {en: "{{count}} waiting", hi: "{{count}} इंतज़ार में", ta: "{{count}} காத்திருப்பில்"}
+ui.sync.offline: {en: "Offline", hi: "ऑफ़लाइन", ta: "இணைப்பு இல்லை"}
+ui.stale: {en: "No update {{seconds}} s", hi: "{{seconds}} सेकंड से अपडेट नहीं", ta: "{{seconds}} வினாடியாகப் புதுப்பிப்பு இல்லை"}
+
+ui.nav.label: {en: "Sections", hi: "हिस्से", ta: "பகுதிகள்"}
+ui.nav.shift: {en: "My shift", hi: "मेरी शिफ़्ट", ta: "என் பணி"}
+ui.nav.safety: {en: "Safety", hi: "सुरक्षा", ta: "பாதுகாப்பு"}
+ui.nav.report: {en: "Report", hi: "रिपोर्ट", ta: "புகார்"}
+ui.nav.day: {en: "My day", hi: "मेरा दिन", ta: "என் நாள்"}
+ui.nav.learn: {en: "Learn", hi: "सीखें", ta: "கற்க"}
+
+ui.ptt.idle: {en: "Hold to talk", hi: "बोलने के लिए दबाए रखें", ta: "பேச அழுத்திப் பிடியுங்கள்"}
+ui.ptt.listening: {en: "Listening…", hi: "सुन रहा है…", ta: "கேட்கிறது…"}
+ui.ptt.transcribing: {en: "Writing it down", hi: "लिख रहा है", ta: "எழுதுகிறது"}
+ui.ptt.thinking: {en: "Checking the manual", hi: "मैनुअल देख रहा है", ta: "கையேட்டைப் பார்க்கிறது"}
+ui.ptt.tap_again: {en: "Tap again to stop", hi: "रोकने के लिए फिर दबाएँ", ta: "நிறுத்த மீண்டும் தொடுங்கள்"}
+ui.ptt.helper: {en: "Nothing is sent until you check it", hi: "आपके देखने से पहले कुछ नहीं भेजा जाएगा", ta: "நீங்கள் சரிபார்க்கும் வரை எதுவும் அனுப்பப்படாது"}
+ui.ptt.error: {en: "Didn't catch that. Try again, or use the buttons below.", hi: "समझ नहीं आया। फिर बोलिए, या नीचे के बटन दबाइए।", ta: "சரியாகக் கேட்கவில்லை. மீண்டும் சொல்லுங்கள், அல்லது கீழே உள்ள பட்டன்களை அழுத்துங்கள்."}  # (D)
+
+ui.btn.seen: {en: "Seen", hi: "देख लिया", ta: "பார்த்தேன்"}
+ui.btn.stopped: {en: "I've stopped", hi: "मैंने रोक दिया", ta: "நிறுத்திவிட்டேன்"}
+ui.btn.later: {en: "Later", hi: "बाद में", ta: "பிறகு"}
+ui.btn.done: {en: "Done", hi: "हो गया", ta: "முடிந்தது"}
+ui.btn.ok: {en: "OK", hi: "ठीक", ta: "சரி"}
+ui.btn.problem: {en: "Problem", hi: "समस्या", ta: "பிரச்சினை"}
+ui.btn.edit: {en: "Edit", hi: "बदलें", ta: "மாற்று"}
+ui.btn.send_report: {en: "Send report", hi: "रिपोर्ट भेजें", ta: "புகாரை அனுப்பு"}
+ui.btn.send_offline: {en: "Send when online", hi: "नेट आने पर भेजें", ta: "இணைப்பு வந்ததும் அனுப்பு"}
+ui.btn.delete_draft: {en: "Delete draft", hi: "ड्राफ़्ट हटाएँ", ta: "வரைவை நீக்கு"}
+ui.btn.start: {en: "Start", hi: "शुरू करें", ta: "தொடங்கு"}
+ui.btn.not_now: {en: "Not now", hi: "अभी नहीं", ta: "இப்போது வேண்டாம்"}
+ui.btn.stop_drill: {en: "STOP", hi: "रुको", ta: "நிறுத்து"}
+ui.btn.again: {en: "Again", hi: "फिर से", ta: "மீண்டும்"}
+ui.btn.play: {en: "Play", hi: "चलाएँ", ta: "இயக்கு"}
+ui.btn.pause: {en: "Pause", hi: "रोकें", ta: "இடைநிறுத்து"}
+ui.btn.read_again: {en: "Read it again", hi: "फिर से पढ़ें", ta: "மீண்டும் படி"}
+ui.toggle.on: {en: "ON", hi: "चालू", ta: "ஆன்"}
+ui.toggle.off: {en: "OFF", hi: "बंद", ta: "ஆஃப்"}
+ui.toggle.read_aloud: {en: "Read alerts aloud", hi: "चेतावनी बोलकर सुनाएँ", ta: "எச்சரிக்கைகளை உரக்கப் படி"}
+ui.lang.segment_label: {en: "Narration language", hi: "सुनाने की भाषा", ta: "விவரிப்பு மொழி"}
+
+ui.p1.queue_one: {en: "1 more alert after this", hi: "इसके बाद 1 और चेतावनी", ta: "இதற்குப் பிறகு இன்னும் 1 எச்சரிக்கை"}
+ui.p1.person_command: {en: "Stop.", hi: "रुकिए।", ta: "நிறுத்துங்கள்."}  # (D)
+ui.p1.person_where: {en: "Behind you, left side · 2 m", hi: "आपके पीछे, बाईं ओर · 2 m", ta: "உங்களுக்குப் பின்னால், இடது பக்கம் · 2 m"}
+ui.p2.person: {en: "Person close on your left. Slow down.", hi: "बाईं ओर कोई पास है। धीरे चलाइए।", ta: "இடது பக்கம் அருகில் ஒருவர் இருக்கிறார். மெதுவாக."}  # (D)
+ui.p3.heat: {en: "Water break due at 11:00.", hi: "11:00 बजे पानी का ब्रेक है।", ta: "11:00-க்கு தண்ணீர் இடைவேளை."}  # (D)
+
+ui.task.now: {en: "Now", hi: "अभी", ta: "இப்போது"}
+ui.task.low_confidence: {en: "Estimated from limited data.", hi: "कम डेटा से अनुमान।", ta: "குறைந்த தரவிலிருந்து மதிப்பீடு."}  # (D)
+ui.task.unknown: {en: "Not enough data yet", hi: "अभी पर्याप्त डेटा नहीं", ta: "இன்னும் போதுமான தரவு இல்லை"}
+ui.task.likely_finish: {en: "Likely finish", hi: "संभावित समाप्ति", ta: "முடியும் நேரம்"}
+ui.task.estimate_sr: {en: "Likely 1 h 05 m, between 55 m and 1 h 25 m.", hi: "लगभग 1 घंटा 5 मिनट, 55 मिनट से 1 घंटा 25 मिनट के बीच।", ta: "பெரும்பாலும் 1 மணி 5 நிமிடம்; 55 நிமிடம் முதல் 1 மணி 25 நிமிடம் வரை."}  # (D)
+ui.task.loads: {en: "{{done}} of {{total}} loads", hi: "{{total}} में से {{done}} लोड", ta: "{{total}}-ல் {{done}} லோடு"}
+ui.task.finish_note: {en: "Rain after 14:00 could move this.", hi: "14:00 के बाद बारिश से यह बदल सकता है।", ta: "14:00-க்குப் பிறகு மழை வந்தால் இது மாறலாம்."}
+
+ui.pin.progress: {en: "{{entered}} of 4 digits", hi: "4 में से {{entered}} अंक", ta: "4-ல் {{entered}} எண்கள்"}
+ui.pin.wrong: {en: "That PIN didn't match. Try again.", hi: "PIN मेल नहीं खाया। फिर कोशिश करें।", ta: "PIN பொருந்தவில்லை. மீண்டும் முயலுங்கள்."}
+ui.pin.backspace: {en: "Delete last digit", hi: "आख़िरी अंक हटाएँ", ta: "கடைசி எண்ணை நீக்கு"}
+ui.badge.title: {en: "Scan your badge", hi: "अपना बैज स्कैन करें", ta: "உங்கள் பேட்ஜை ஸ்கேன் செய்யுங்கள்"}
+ui.badge.hint: {en: "Hold it up to the camera, or use your PIN", hi: "इसे कैमरे के सामने रखें, या PIN डालें", ta: "கேமராவின் முன் காட்டுங்கள், அல்லது PIN பயன்படுத்துங்கள்"}
+
+ui.state.empty_title: {en: "No tasks yet", hi: "अभी कोई काम नहीं", ta: "இன்னும் வேலைகள் இல்லை"}
+ui.state.empty_text: {en: "Your supervisor's plan usually arrives before 07:00.", hi: "सुपरवाइज़र का प्लान आमतौर पर 07:00 से पहले आता है।", ta: "மேற்பார்வையாளரின் திட்டம் பொதுவாக 07:00-க்கு முன் வரும்."}  # (D, split)
+ui.state.offline_text: {en: "Everything still works. {{count}} reports will send when the signal is back.", hi: "सब काम कर रहा है। सिग्नल आते ही {{count}} रिपोर्ट चली जाएँगी।", ta: "எல்லாம் வேலை செய்கிறது. சிக்னல் வந்ததும் {{count}} அறிக்கைகள் போகும்."}  # (D)
+ui.state.error_title: {en: "This screen could not load", hi: "यह स्क्रीन नहीं खुली", ta: "இந்தத் திரை திறக்கவில்லை"}
+ui.state.error_text: {en: "Your work is still being recorded.", hi: "आपका काम अब भी दर्ज हो रहा है।", ta: "உங்கள் வேலை இன்னும் பதிவாகிறது."}
+ui.state.stale_title: {en: "No update for 40 s", hi: "40 सेकंड से अपडेट नहीं", ta: "40 வினாடியாகப் புதுப்பிப்பு இல்லை"}
+ui.state.stale_text: {en: "Showing the last values received. Look around before you swing.", hi: "आख़िरी मिली जानकारी दिख रही है। घुमाने से पहले चारों ओर देखें।", ta: "கடைசியாக வந்த தகவல் காட்டப்படுகிறது. சுழற்றும் முன் சுற்றிப் பாருங்கள்."}
+
+ui.report.type: {en: "Type", hi: "प्रकार", ta: "வகை"}
+ui.report.where_when: {en: "Where and when", hi: "कहाँ और कब", ta: "எங்கே, எப்போது"}
+ui.report.what: {en: "What happened", hi: "क्या हुआ", ta: "என்ன நடந்தது"}
+ui.report.people: {en: "People involved", hi: "कौन शामिल थे", ta: "சம்பந்தப்பட்டவர்கள்"}
+ui.report.offline_tag: {en: "Will send when back online", hi: "नेट आने पर भेजा जाएगा", ta: "இணைப்பு வந்ததும் அனுப்பப்படும்"}
+ui.report.check: {en: "Check this", hi: "इसे जाँचें", ta: "இதைச் சரிபாருங்கள்"}
+ui.report.near_miss: {en: "Near miss", hi: "बाल-बाल बचे", ta: "நூலிழையில் தப்பியது"}
+ui.report.sample_what: {en: "A worker walked behind the bucket", hi: "एक मज़दूर बकेट के पीछे से गुज़रा", ta: "ஒரு தொழிலாளி பக்கெட்டுக்குப் பின்னால் நடந்தார்"}
+ui.report.people_one: {en: "One person, not named", hi: "एक व्यक्ति, नाम नहीं", ta: "ஒருவர், பெயர் இல்லை"}
+
+ui.coach.went_well: {en: "Went well", hi: "अच्छा रहा", ta: "நன்றாக நடந்தது"}
+ui.coach.idea: {en: "One idea for tomorrow", hi: "कल के लिए एक सुझाव", ta: "நாளைக்கு ஒரு யோசனை"}
+ui.coach.went_well_text: {en: "18 of 18 loads. Loading cycle 21 s, 2 s faster than last week.", hi: "18 में से 18 लोड। लोडिंग साइकिल 21 सेकंड, पिछले हफ़्ते से 2 सेकंड तेज़।", ta: "18-க்கு 18 லோடு. ஏற்றும் சுழற்சி 21 வினாடி — கடந்த வாரத்தைவிட 2 வினாடி வேகம்."}  # (D)
+ui.coach.idle_why_truck: {en: "Trucks were late 10:10–10:40", hi: "ट्रक 10:10–10:40 देर से आए", ta: "லாரிகள் 10:10–10:40 தாமதமாக வந்தன"}
+ui.coach.idle_why_cab: {en: "The engine ran 10 min with the cab empty. Switching off for stops over 5 min saves about 1 L.", hi: "केबिन खाली था और इंजन 10 मिनट चला। 5 मिनट से लंबे रुकने पर इंजन बंद करें, करीब 1 लीटर बचेगा।", ta: "கேபின் காலியாக இருந்தபோது இன்ஜின் 10 நிமிடம் ஓடியது. 5 நிமிடத்துக்கு மேல் நின்றால் அணைத்தால் சுமார் 1 லிட்டர் மிச்சம்."}  # (D)
+ui.coach.idle_why_unknown: {en: "The sensors could not tell why", hi: "सेंसर से कारण पता नहीं चला", ta: "காரணத்தை சென்சார்களால் அறிய முடியவில்லை"}
+ui.coach.split_summary: {en: "Working 5 h 10 m, idle 2 h 45 m, engine off 35 m", hi: "काम 5 घंटे 10 मिनट, खड़ी 2 घंटे 45 मिनट, इंजन बंद 35 मिनट", ta: "வேலை 5 மணி 10 நிமிடம், நின்றது 2 மணி 45 நிமிடம், இன்ஜின் அணைப்பு 35 நிமிடம்"}
+
+ui.learn.recommended: {en: "Recommended", hi: "सुझाया गया", ta: "பரிந்துரை"}
+ui.learn.done: {en: "Done", hi: "पूरा", ta: "முடிந்தது"}
+ui.learn.full: {en: "Full", hi: "भरा हुआ", ta: "நிரம்பியது"}
+ui.learn.minutes: {en: "{{minutes}} min · narrated", hi: "{{minutes}} मिनट · सुनाया हुआ", ta: "{{minutes}} நிமிடம் · விவரிப்புடன்"}
+ui.learn.paused_only: {en: "Drills run only while the machine is parked.", hi: "ड्रिल सिर्फ़ मशीन खड़ी होने पर चलती है।", ta: "இயந்திரம் நின்றிருக்கும்போது மட்டுமே பயிற்சி நடக்கும்."}
+ui.learn.lesson_sentence: {en: "Park the truck so you swing less than 90°.", hi: "ट्रक ऐसे लगवाइए कि 90° से कम घुमाना पड़े।", ta: "90°-க்குக் குறைவாகச் சுழலும்படி லாரியை நிறுத்தச் சொல்லுங்கள்."}  # (D)
+ui.learn.lesson_fact: {en: "Each 90° less saves about 3 s a load.", hi: "हर 90° कम घुमाने से एक लोड पर करीब 3 सेकंड बचते हैं।", ta: "ஒவ்வொரு 90° குறைவுக்கும் ஒரு லோடுக்கு சுமார் 3 வினாடி மிச்சம்."}
+ui.learn.progress: {en: "Card {{card}} of {{cards}}", hi: "{{cards}} में से कार्ड {{card}}", ta: "{{cards}}-ல் அட்டை {{card}}"}
+ui.learn.quiz_right: {en: "Stop, then buckle up before you move again", hi: "रुकिए, फिर चलाने से पहले बेल्ट लगाइए", ta: "நிறுத்துங்கள், மீண்டும் நகரும் முன் பெல்ட் போடுங்கள்"}
+ui.learn.quiz_wrong: {en: "Keep working and buckle up at the break", hi: "काम चालू रखें और ब्रेक में बेल्ट लगाएँ", ta: "வேலையைத் தொடர்ந்து இடைவேளையில் பெல்ட் போடுங்கள்"}
+ui.learn.quiz_why: {en: "The belt only helps if it is on when something goes wrong.", hi: "बेल्ट तभी बचाती है जब हादसे के समय लगी हो।", ta: "ஏதாவது நடக்கும்போது பெல்ட் போட்டிருந்தால்தான் அது காக்கும்."}
+ui.learn.slot_who: {en: "Cat dealer training centre", hi: "Cat डीलर प्रशिक्षण केंद्र", ta: "Cat டீலர் பயிற்சி மையம்"}
+ui.learn.slot_where: {en: "Chennai, Ambattur", hi: "चेन्नई, अंबत्तूर", ta: "சென்னை, அம்பத்தூர்"}
+ui.learn.slot_day: {en: "Saturday", hi: "शनिवार", ta: "சனிக்கிழமை"}
+ui.learn.skill: {en: "Loading trucks", hi: "ट्रक भरना", ta: "லாரி ஏற்றுதல்"}
+ui.learn.skill_next: {en: "Next: park trucks on your swing side", hi: "अगला: ट्रक अपनी घुमाव वाली तरफ़ लगवाएँ", ta: "அடுத்து: லாரிகளை உங்கள் சுழலும் பக்கம் நிறுத்துங்கள்"}
+ui.learn.skill_label: {en: "Level {{level}} of {{levels}}", hi: "{{levels}} में से स्तर {{level}}", ta: "{{levels}}-ல் நிலை {{level}}"}
+ui.learn.hazard: {en: "Hazard", hi: "ख़तरा", ta: "ஆபத்து"}
+
+ui.ask.you_asked: {en: "You asked: {{question}}", hi: "आपने पूछा: {{question}}", ta: "நீங்கள் கேட்டது: {{question}}"}
+ui.ask.offline_tag: {en: "Offline answer, from the manual saved on 18 Sep.", hi: "ऑफ़लाइन जवाब, 18 सितंबर को सेव की गई मैनुअल से।", ta: "இணைப்பில்லாத பதில் — 18 செப்டம்பர் அன்று சேமித்த கையேட்டிலிருந்து."}  # (D)
+ui.ask.dont_know: {en: "I don't know. It isn't in the manuals on this machine, and I won't guess.", hi: "मुझे नहीं पता। यह इस मशीन की मैनुअल में नहीं है, और मैं अंदाज़ा नहीं लगाऊँगा।", ta: "எனக்குத் தெரியாது. இந்த இயந்திரத்தின் கையேட்டில் இல்லை; நான் ஊகிக்க மாட்டேன்."}  # (D)
+ui.ask.sample_question: {en: "How often do I check the seatbelt?", hi: "सीट बेल्ट कितनी बार जाँचूँ?", ta: "சீட் பெல்ட்டை எவ்வளவு அடிக்கடி சரிபார்க்க வேண்டும்?"}
+ui.ask.sample_answer: {en: "Check it at every walkaround, before you start the engine.", hi: "हर वॉकअराउंड में, इंजन चालू करने से पहले जाँचें।", ta: "ஒவ்வொரு சுற்றுப் பார்வையிலும், இன்ஜினை இயக்கும் முன் சரிபாருங்கள்."}
+ui.ask.sample_source: {en: "Operator guide", hi: "ऑपरेटर गाइड", ta: "இயக்குநர் வழிகாட்டி"}
+ui.ask.sample_section: {en: "Daily checks", hi: "रोज़ की जाँच", ta: "தினசரி சோதனைகள்"}
+
+ui.cond.heat: {en: "Heat index", hi: "गर्मी", ta: "வெப்பம்"}
+ui.cond.rain: {en: "Rain", hi: "बारिश", ta: "மழை"}
+ui.cond.wet: {en: "Ground", hi: "ज़मीन", ta: "தரை"}
+ui.cond.wet_value: {en: "Wet", hi: "गीली", ta: "ஈரம்"}
+ui.cond.dark: {en: "Dark", hi: "अँधेरा", ta: "இருட்டு"}
+ui.cond.fatigue: {en: "Time without a break", hi: "बिना ब्रेक का समय", ta: "இடைவேளை இல்லாத நேரம்"}
+ui.cond.clock: {en: "Shift time", hi: "शिफ़्ट का समय", ta: "பணி நேரம்"}
+ui.cond.risk_sentence: {en: "Risk raised, mainly heat.", hi: "जोखिम बढ़ा, मुख्य कारण गर्मी।", ta: "ஆபத்து கூடியது, முக்கியக் காரணம் வெப்பம்."}
+
+ui.legend.title: {en: "Legend", hi: "संकेत", ta: "குறிப்பு"}
+ui.legend.machine: {en: "Machine", hi: "मशीन", ta: "இயந்திரம்"}
+ui.legend.truck: {en: "Truck", hi: "ट्रक", ta: "லாரி"}
+ui.legend.worker: {en: "Person", hi: "व्यक्ति", ta: "நபர்"}
+ui.legend.zone: {en: "Work zone", hi: "काम की जगह", ta: "பணிப் பகுதி"}
+ui.legend.rings: {en: "Swing rings", hi: "घुमाव के घेरे", ta: "சுழல் வளையங்கள்"}
+ui.demo.label: {en: "Demo mode · simulated data", hi: "डेमो मोड · सिम्युलेटेड डेटा", ta: "டெமோ முறை · உருவகப்படுத்திய தரவு"}
+ui.fleet.active: {en: "{{active}} of {{total}} machines active", hi: "{{total}} में से {{active}} मशीनें चालू", ta: "{{total}}-ல் {{active}} இயந்திரங்கள் இயங்குகின்றன"}
+ui.fleet.bands: {en: "{{green}} low, {{amber}} raised, {{red}} high", hi: "{{green}} कम, {{amber}} बढ़ा, {{red}} ज़्यादा", ta: "{{green}} குறைவு, {{amber}} கூடியது, {{red}} அதிகம்"}
+ui.fleet.spark_last: {en: "Now {{value}}/s", hi: "अभी {{value}}/s", ta: "இப்போது {{value}}/s"}
+ui.fleet.spark_peak: {en: "Peak {{value}}/s", hi: "सबसे ज़्यादा {{value}}/s", ta: "உச்சம் {{value}}/s"}
+ui.fleet.spark_label: {en: "Records ingested per second, last 10 minutes", hi: "पिछले 10 मिनट में प्रति सेकंड आए रिकॉर्ड", ta: "கடந்த 10 நிமிடத்தில் வினாடிக்கு வந்த பதிவுகள்"}
+
+ui.ks.title: {en: "Kitchen sink", hi: "सभी कंपोनेंट", ta: "அனைத்துக் கூறுகள்"}
+ui.ks.intro: {en: "Every ShiftMate component in the chosen theme and language.", hi: "चुनी गई थीम और भाषा में ShiftMate का हर कंपोनेंट।", ta: "தேர்ந்த தீம் மற்றும் மொழியில் ShiftMate-இன் ஒவ்வொரு கூறும்."}
+ui.ks.glyphs: {en: "Glyphs", hi: "चिह्न", ta: "குறியீடுகள்"}
+ui.ks.reach: {en: "Reach", hi: "रीच", ta: "ரீச்"}
+ui.ks.rail: {en: "Status rail and navigation", hi: "स्टेटस पट्टी और नेविगेशन", ta: "நிலைப் பட்டை மற்றும் வழிசெலுத்தல்"}
+ui.ks.alerts: {en: "Alerts", hi: "चेतावनियाँ", ta: "எச்சரிக்கைகள்"}
+ui.ks.tasks: {en: "Tasks and estimates", hi: "काम और अनुमान", ta: "வேலைகளும் மதிப்பீடுகளும்"}
+ui.ks.controls: {en: "Controls", hi: "नियंत्रण", ta: "கட்டுப்பாடுகள்"}
+ui.ks.insights: {en: "My day", hi: "मेरा दिन", ta: "என் நாள்"}
+ui.ks.learn: {en: "Learn", hi: "सीखें", ta: "கற்க"}
+ui.ks.voice: {en: "Voice", hi: "आवाज़", ta: "குரல்"}
+ui.ks.states: {en: "States", hi: "स्थितियाँ", ta: "நிலைகள்"}
+ui.ks.console: {en: "Console", hi: "कंसोल", ta: "கன்சோல்"}
+ui.ks.task_load: {en: "Load trucks", hi: "ट्रक भरना", ta: "லாரி ஏற்றுதல்"}
+ui.ks.task_trench: {en: "Trench", hi: "खाई खोदना", ta: "அகழி தோண்டுதல்"}
+ui.ks.task_backfill: {en: "Backfill", hi: "भराई", ta: "மண் நிரப்புதல்"}
+ui.ks.where_load: {en: "18 loads · 7 done", hi: "18 लोड · 7 पूरे", ta: "18 லோடு · 7 முடிந்தது"}
+ui.ks.where_trench: {en: "60 m", hi: "60 m", ta: "60 m"}
+ui.ks.where_backfill: {en: "120 m³", hi: "120 m³", ta: "120 m³"}
+ui.ks.reason_wet: {en: "Wet ground adds 20–40 min.", hi: "गीली ज़मीन से 20–40 मिनट ज़्यादा लगेंगे।", ta: "ஈரமான தரையால் 20–40 நிமிடம் கூடுதலாகும்."}  # (D)
+ui.ks.checklist_item: {en: "Tracks and tyres", hi: "ट्रैक और टायर", ta: "டிராக் மற்றும் டயர்கள்"}

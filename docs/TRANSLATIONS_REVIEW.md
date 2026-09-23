@@ -9,7 +9,7 @@ To approve a string, add it to `docs/translations-reviewed.json` under `hi` or `
 exact approved text, then run `pnpm i18n:review` again. If the text changes later, it returns
 to the review list.
 
-## Hindi (हिन्दी): 0 of 233 reviewed
+## Hindi (हिन्दी): 0 of 398 reviewed
 
 | Reviewed | Key | English | Hindi (हिन्दी) |
 |---|---|---|---|
@@ -18,6 +18,7 @@ to the review list.
 | **no** | `ui:ui.lang.en` | English | English |
 | **no** | `ui:ui.lang.hi` | हिन्दी | हिन्दी |
 | **no** | `ui:ui.lang.ta` | தமிழ் | தமிழ் |
+| **no** | `ui:ui.lang.segment_label` | Narration language | सुनाने की भाषा |
 | **no** | `ui:ui.scaffold.cab` | The cab app is being built. Nothing to do here yet. | कैब ऐप अभी बन रहा है। यहाँ अभी करने को कुछ नहीं है। |
 | **no** | `ui:ui.scaffold.console` | The supervisor console is being built. | सुपरवाइज़र कंसोल अभी बन रहा है। |
 | **no** | `ui:ui.health.checking` | Checking the connection… | कनेक्शन जाँच रहे हैं… |
@@ -25,6 +26,170 @@ to the review list.
 | **no** | `ui:ui.health.edge_down` | Machine gateway not reachable yet | मशीन गेटवे से अभी संपर्क नहीं हुआ |
 | **no** | `ui:ui.health.fleet_ok` | Connected to the fleet service | फ़्लीट सेवा से जुड़ा है |
 | **no** | `ui:ui.health.fleet_down` | Fleet service not reachable yet | फ़्लीट सेवा से अभी संपर्क नहीं हुआ |
+| **no** | `ui:ui.theme.label` | Theme | थीम |
+| **no** | `ui:ui.theme.day` | Day | दिन |
+| **no** | `ui:ui.theme.sunlight` | Sunlight | तेज़ धूप |
+| **no** | `ui:ui.theme.night` | Night | रात |
+| **no** | `ui:ui.rail.clear` | Clear | साफ़ |
+| **no** | `ui:ui.rail.one_near` | 1 near | 1 पास में |
+| **no** | `ui:ui.rail.stop` | Stop | रुकिए |
+| **no** | `ui:ui.rail.no_sensing` | No sensing | सेंसर नहीं |
+| **no** | `ui:ui.rail.risk_low` | Risk low | जोखिम कम |
+| **no** | `ui:ui.rail.risk_raised` | Risk raised | जोखिम बढ़ा |
+| **no** | `ui:ui.rail.risk_high` | Risk high | जोखिम ज़्यादा |
+| **no** | `ui:ui.rail.belt_on` | Belt on | बेल्ट लगी |
+| **no** | `ui:ui.rail.belt_off` | Belt off | बेल्ट खुली |
+| **no** | `ui:ui.rail.prox_clear_label` | Proximity: clear | आसपास: साफ़ |
+| **no** | `ui:ui.rail.prox_caution_label` | One person, caution ring, right rear, 7 metres | एक व्यक्ति, सावधानी घेरे में, दाएँ पीछे, 7 मीटर |
+| **no** | `ui:ui.rail.risk_label` | Risk raised, mainly heat | जोखिम बढ़ा, मुख्य कारण गर्मी |
+| **no** | `ui:ui.rail.queue_label` | One more alert waiting: warning | एक और चेतावनी इंतज़ार में |
+| **no** | `ui:ui.machine.working` | Working | काम चालू |
+| **no** | `ui:ui.machine.idle` | Idle | खड़ी |
+| **no** | `ui:ui.machine.travel` | Moving | चल रही |
+| **no** | `ui:ui.machine.off` | Engine off | इंजन बंद |
+| **no** | `ui:ui.sync.synced_at` | Synced at {{time}} | {{time}} पर सिंक हुआ |
+| **no** | `ui:ui.sync.waiting` | {{count}} waiting | {{count}} इंतज़ार में |
+| **no** | `ui:ui.sync.offline` | Offline | ऑफ़लाइन |
+| **no** | `ui:ui.stale` | No update {{seconds}} s | {{seconds}} सेकंड से अपडेट नहीं |
+| **no** | `ui:ui.nav.label` | Sections | हिस्से |
+| **no** | `ui:ui.nav.shift` | My shift | मेरी शिफ़्ट |
+| **no** | `ui:ui.nav.safety` | Safety | सुरक्षा |
+| **no** | `ui:ui.nav.report` | Report | रिपोर्ट |
+| **no** | `ui:ui.nav.day` | My day | मेरा दिन |
+| **no** | `ui:ui.nav.learn` | Learn | सीखें |
+| **no** | `ui:ui.ptt.idle` | Hold to talk | बोलने के लिए दबाए रखें |
+| **no** | `ui:ui.ptt.listening` | Listening… | सुन रहा है… |
+| **no** | `ui:ui.ptt.transcribing` | Writing it down | लिख रहा है |
+| **no** | `ui:ui.ptt.thinking` | Checking the manual | मैनुअल देख रहा है |
+| **no** | `ui:ui.ptt.tap_again` | Tap again to stop | रोकने के लिए फिर दबाएँ |
+| **no** | `ui:ui.ptt.helper` | Nothing is sent until you check it | आपके देखने से पहले कुछ नहीं भेजा जाएगा |
+| **no** | `ui:ui.ptt.error` | Didn't catch that. Try again, or use the buttons below. | समझ नहीं आया। फिर बोलिए, या नीचे के बटन दबाइए। |
+| **no** | `ui:ui.btn.seen` | Seen | देख लिया |
+| **no** | `ui:ui.btn.stopped` | I've stopped | मैंने रोक दिया |
+| **no** | `ui:ui.btn.later` | Later | बाद में |
+| **no** | `ui:ui.btn.done` | Done | हो गया |
+| **no** | `ui:ui.btn.ok` | OK | ठीक |
+| **no** | `ui:ui.btn.problem` | Problem | समस्या |
+| **no** | `ui:ui.btn.edit` | Edit | बदलें |
+| **no** | `ui:ui.btn.send_report` | Send report | रिपोर्ट भेजें |
+| **no** | `ui:ui.btn.send_offline` | Send when online | नेट आने पर भेजें |
+| **no** | `ui:ui.btn.delete_draft` | Delete draft | ड्राफ़्ट हटाएँ |
+| **no** | `ui:ui.btn.start` | Start | शुरू करें |
+| **no** | `ui:ui.btn.not_now` | Not now | अभी नहीं |
+| **no** | `ui:ui.btn.stop_drill` | STOP | रुको |
+| **no** | `ui:ui.btn.again` | Again | फिर से |
+| **no** | `ui:ui.btn.play` | Play | चलाएँ |
+| **no** | `ui:ui.btn.pause` | Pause | रोकें |
+| **no** | `ui:ui.btn.read_again` | Read it again | फिर से पढ़ें |
+| **no** | `ui:ui.toggle.on` | ON | चालू |
+| **no** | `ui:ui.toggle.off` | OFF | बंद |
+| **no** | `ui:ui.toggle.read_aloud` | Read alerts aloud | चेतावनी बोलकर सुनाएँ |
+| **no** | `ui:ui.p1.queue_one` | 1 more alert after this | इसके बाद 1 और चेतावनी |
+| **no** | `ui:ui.p1.person_command` | Stop. | रुकिए। |
+| **no** | `ui:ui.p1.person_where` | Behind you, left side · 2 m | आपके पीछे, बाईं ओर · 2 m |
+| **no** | `ui:ui.p2.person` | Person close on your left. Slow down. | बाईं ओर कोई पास है। धीरे चलाइए। |
+| **no** | `ui:ui.p3.heat` | Water break due at 11:00. | 11:00 बजे पानी का ब्रेक है। |
+| **no** | `ui:ui.task.now` | Now | अभी |
+| **no** | `ui:ui.task.low_confidence` | Estimated from limited data. | कम डेटा से अनुमान। |
+| **no** | `ui:ui.task.unknown` | Not enough data yet | अभी पर्याप्त डेटा नहीं |
+| **no** | `ui:ui.task.likely_finish` | Likely finish | संभावित समाप्ति |
+| **no** | `ui:ui.task.estimate_sr` | Likely 1 h 05 m, between 55 m and 1 h 25 m. | लगभग 1 घंटा 5 मिनट, 55 मिनट से 1 घंटा 25 मिनट के बीच। |
+| **no** | `ui:ui.task.loads` | {{done}} of {{total}} loads | {{total}} में से {{done}} लोड |
+| **no** | `ui:ui.task.finish_note` | Rain after 14:00 could move this. | 14:00 के बाद बारिश से यह बदल सकता है। |
+| **no** | `ui:ui.pin.progress` | {{entered}} of 4 digits | 4 में से {{entered}} अंक |
+| **no** | `ui:ui.pin.wrong` | That PIN didn't match. Try again. | PIN मेल नहीं खाया। फिर कोशिश करें। |
+| **no** | `ui:ui.pin.backspace` | Delete last digit | आख़िरी अंक हटाएँ |
+| **no** | `ui:ui.badge.title` | Scan your badge | अपना बैज स्कैन करें |
+| **no** | `ui:ui.badge.hint` | Hold it up to the camera, or use your PIN | इसे कैमरे के सामने रखें, या PIN डालें |
+| **no** | `ui:ui.state.empty_title` | No tasks yet | अभी कोई काम नहीं |
+| **no** | `ui:ui.state.empty_text` | Your supervisor's plan usually arrives before 07:00. | सुपरवाइज़र का प्लान आमतौर पर 07:00 से पहले आता है। |
+| **no** | `ui:ui.state.offline_text` | Everything still works. {{count}} reports will send when the signal is back. | सब काम कर रहा है। सिग्नल आते ही {{count}} रिपोर्ट चली जाएँगी। |
+| **no** | `ui:ui.state.error_title` | This screen could not load | यह स्क्रीन नहीं खुली |
+| **no** | `ui:ui.state.error_text` | Your work is still being recorded. | आपका काम अब भी दर्ज हो रहा है। |
+| **no** | `ui:ui.state.stale_title` | No update for 40 s | 40 सेकंड से अपडेट नहीं |
+| **no** | `ui:ui.state.stale_text` | Showing the last values received. Look around before you swing. | आख़िरी मिली जानकारी दिख रही है। घुमाने से पहले चारों ओर देखें। |
+| **no** | `ui:ui.report.type` | Type | प्रकार |
+| **no** | `ui:ui.report.where_when` | Where and when | कहाँ और कब |
+| **no** | `ui:ui.report.what` | What happened | क्या हुआ |
+| **no** | `ui:ui.report.people` | People involved | कौन शामिल थे |
+| **no** | `ui:ui.report.offline_tag` | Will send when back online | नेट आने पर भेजा जाएगा |
+| **no** | `ui:ui.report.check` | Check this | इसे जाँचें |
+| **no** | `ui:ui.report.near_miss` | Near miss | बाल-बाल बचे |
+| **no** | `ui:ui.report.sample_what` | A worker walked behind the bucket | एक मज़दूर बकेट के पीछे से गुज़रा |
+| **no** | `ui:ui.report.people_one` | One person, not named | एक व्यक्ति, नाम नहीं |
+| **no** | `ui:ui.coach.went_well` | Went well | अच्छा रहा |
+| **no** | `ui:ui.coach.idea` | One idea for tomorrow | कल के लिए एक सुझाव |
+| **no** | `ui:ui.coach.went_well_text` | 18 of 18 loads. Loading cycle 21 s, 2 s faster than last week. | 18 में से 18 लोड। लोडिंग साइकिल 21 सेकंड, पिछले हफ़्ते से 2 सेकंड तेज़। |
+| **no** | `ui:ui.coach.idle_why_truck` | Trucks were late 10:10–10:40 | ट्रक 10:10–10:40 देर से आए |
+| **no** | `ui:ui.coach.idle_why_cab` | The engine ran 10 min with the cab empty. Switching off for stops over 5 min saves about 1 L. | केबिन खाली था और इंजन 10 मिनट चला। 5 मिनट से लंबे रुकने पर इंजन बंद करें, करीब 1 लीटर बचेगा। |
+| **no** | `ui:ui.coach.idle_why_unknown` | The sensors could not tell why | सेंसर से कारण पता नहीं चला |
+| **no** | `ui:ui.coach.split_summary` | Working 5 h 10 m, idle 2 h 45 m, engine off 35 m | काम 5 घंटे 10 मिनट, खड़ी 2 घंटे 45 मिनट, इंजन बंद 35 मिनट |
+| **no** | `ui:ui.learn.recommended` | Recommended | सुझाया गया |
+| **no** | `ui:ui.learn.done` | Done | पूरा |
+| **no** | `ui:ui.learn.full` | Full | भरा हुआ |
+| **no** | `ui:ui.learn.minutes` | {{minutes}} min · narrated | {{minutes}} मिनट · सुनाया हुआ |
+| **no** | `ui:ui.learn.paused_only` | Drills run only while the machine is parked. | ड्रिल सिर्फ़ मशीन खड़ी होने पर चलती है। |
+| **no** | `ui:ui.learn.lesson_sentence` | Park the truck so you swing less than 90°. | ट्रक ऐसे लगवाइए कि 90° से कम घुमाना पड़े। |
+| **no** | `ui:ui.learn.lesson_fact` | Each 90° less saves about 3 s a load. | हर 90° कम घुमाने से एक लोड पर करीब 3 सेकंड बचते हैं। |
+| **no** | `ui:ui.learn.progress` | Card {{card}} of {{cards}} | {{cards}} में से कार्ड {{card}} |
+| **no** | `ui:ui.learn.quiz_right` | Stop, then buckle up before you move again | रुकिए, फिर चलाने से पहले बेल्ट लगाइए |
+| **no** | `ui:ui.learn.quiz_wrong` | Keep working and buckle up at the break | काम चालू रखें और ब्रेक में बेल्ट लगाएँ |
+| **no** | `ui:ui.learn.quiz_why` | The belt only helps if it is on when something goes wrong. | बेल्ट तभी बचाती है जब हादसे के समय लगी हो। |
+| **no** | `ui:ui.learn.slot_who` | Cat dealer training centre | Cat डीलर प्रशिक्षण केंद्र |
+| **no** | `ui:ui.learn.slot_where` | Chennai, Ambattur | चेन्नई, अंबत्तूर |
+| **no** | `ui:ui.learn.slot_day` | Saturday | शनिवार |
+| **no** | `ui:ui.learn.skill` | Loading trucks | ट्रक भरना |
+| **no** | `ui:ui.learn.skill_next` | Next: park trucks on your swing side | अगला: ट्रक अपनी घुमाव वाली तरफ़ लगवाएँ |
+| **no** | `ui:ui.learn.skill_label` | Level {{level}} of {{levels}} | {{levels}} में से स्तर {{level}} |
+| **no** | `ui:ui.learn.hazard` | Hazard | ख़तरा |
+| **no** | `ui:ui.ask.you_asked` | You asked: {{question}} | आपने पूछा: {{question}} |
+| **no** | `ui:ui.ask.offline_tag` | Offline answer, from the manual saved on 18 Sep. | ऑफ़लाइन जवाब, 18 सितंबर को सेव की गई मैनुअल से। |
+| **no** | `ui:ui.ask.dont_know` | I don't know. It isn't in the manuals on this machine, and I won't guess. | मुझे नहीं पता। यह इस मशीन की मैनुअल में नहीं है, और मैं अंदाज़ा नहीं लगाऊँगा। |
+| **no** | `ui:ui.ask.sample_question` | How often do I check the seatbelt? | सीट बेल्ट कितनी बार जाँचूँ? |
+| **no** | `ui:ui.ask.sample_answer` | Check it at every walkaround, before you start the engine. | हर वॉकअराउंड में, इंजन चालू करने से पहले जाँचें। |
+| **no** | `ui:ui.ask.sample_source` | Operator guide | ऑपरेटर गाइड |
+| **no** | `ui:ui.ask.sample_section` | Daily checks | रोज़ की जाँच |
+| **no** | `ui:ui.cond.heat` | Heat index | गर्मी |
+| **no** | `ui:ui.cond.rain` | Rain | बारिश |
+| **no** | `ui:ui.cond.wet` | Ground | ज़मीन |
+| **no** | `ui:ui.cond.wet_value` | Wet | गीली |
+| **no** | `ui:ui.cond.dark` | Dark | अँधेरा |
+| **no** | `ui:ui.cond.fatigue` | Time without a break | बिना ब्रेक का समय |
+| **no** | `ui:ui.cond.clock` | Shift time | शिफ़्ट का समय |
+| **no** | `ui:ui.cond.risk_sentence` | Risk raised, mainly heat. | जोखिम बढ़ा, मुख्य कारण गर्मी। |
+| **no** | `ui:ui.legend.title` | Legend | संकेत |
+| **no** | `ui:ui.legend.machine` | Machine | मशीन |
+| **no** | `ui:ui.legend.truck` | Truck | ट्रक |
+| **no** | `ui:ui.legend.worker` | Person | व्यक्ति |
+| **no** | `ui:ui.legend.zone` | Work zone | काम की जगह |
+| **no** | `ui:ui.legend.rings` | Swing rings | घुमाव के घेरे |
+| **no** | `ui:ui.demo.label` | Demo mode · simulated data | डेमो मोड · सिम्युलेटेड डेटा |
+| **no** | `ui:ui.fleet.active` | {{active}} of {{total}} machines active | {{total}} में से {{active}} मशीनें चालू |
+| **no** | `ui:ui.fleet.bands` | {{green}} low, {{amber}} raised, {{red}} high | {{green}} कम, {{amber}} बढ़ा, {{red}} ज़्यादा |
+| **no** | `ui:ui.fleet.spark_last` | Now {{value}}/s | अभी {{value}}/s |
+| **no** | `ui:ui.fleet.spark_peak` | Peak {{value}}/s | सबसे ज़्यादा {{value}}/s |
+| **no** | `ui:ui.fleet.spark_label` | Records ingested per second, last 10 minutes | पिछले 10 मिनट में प्रति सेकंड आए रिकॉर्ड |
+| **no** | `ui:ui.ks.title` | Kitchen sink | सभी कंपोनेंट |
+| **no** | `ui:ui.ks.intro` | Every ShiftMate component in the chosen theme and language. | चुनी गई थीम और भाषा में ShiftMate का हर कंपोनेंट। |
+| **no** | `ui:ui.ks.glyphs` | Glyphs | चिह्न |
+| **no** | `ui:ui.ks.reach` | Reach | रीच |
+| **no** | `ui:ui.ks.rail` | Status rail and navigation | स्टेटस पट्टी और नेविगेशन |
+| **no** | `ui:ui.ks.alerts` | Alerts | चेतावनियाँ |
+| **no** | `ui:ui.ks.tasks` | Tasks and estimates | काम और अनुमान |
+| **no** | `ui:ui.ks.controls` | Controls | नियंत्रण |
+| **no** | `ui:ui.ks.insights` | My day | मेरा दिन |
+| **no** | `ui:ui.ks.learn` | Learn | सीखें |
+| **no** | `ui:ui.ks.voice` | Voice | आवाज़ |
+| **no** | `ui:ui.ks.states` | States | स्थितियाँ |
+| **no** | `ui:ui.ks.console` | Console | कंसोल |
+| **no** | `ui:ui.ks.task_load` | Load trucks | ट्रक भरना |
+| **no** | `ui:ui.ks.task_trench` | Trench | खाई खोदना |
+| **no** | `ui:ui.ks.task_backfill` | Backfill | भराई |
+| **no** | `ui:ui.ks.where_load` | 18 loads · 7 done | 18 लोड · 7 पूरे |
+| **no** | `ui:ui.ks.where_trench` | 60 m | 60 m |
+| **no** | `ui:ui.ks.where_backfill` | 120 m³ | 120 m³ |
+| **no** | `ui:ui.ks.reason_wet` | Wet ground adds 20–40 min. | गीली ज़मीन से 20–40 मिनट ज़्यादा लगेंगे। |
+| **no** | `ui:ui.ks.checklist_item` | Tracks and tyres | ट्रैक और टायर |
 | **no** | `ui:alert.seatbelt_moving.title` | Seatbelt off while working | काम के दौरान बेल्ट खुली है |
 | **no** | `ui:alert.seatbelt_moving.action` | Stop the machine. Buckle up. | मशीन रोकिए। बेल्ट लगाइए। |
 | **no** | `ui:alert.seatbelt_moving.speak` | Stop. Seatbelt off. | रुकिए। बेल्ट खुली है। |
@@ -247,7 +412,7 @@ to the review list.
 | **no** | `machine_profiles/excavator.yaml:display_name` | Excavator | एक्सकेवेटर |
 | **no** | `machine_profiles/wheel_loader.yaml:display_name` | Wheel loader | व्हील लोडर |
 
-## Tamil (தமிழ்): 0 of 233 reviewed
+## Tamil (தமிழ்): 0 of 398 reviewed
 
 | Reviewed | Key | English | Tamil (தமிழ்) |
 |---|---|---|---|
@@ -256,6 +421,7 @@ to the review list.
 | **no** | `ui:ui.lang.en` | English | English |
 | **no** | `ui:ui.lang.hi` | हिन्दी | हिन्दी |
 | **no** | `ui:ui.lang.ta` | தமிழ் | தமிழ் |
+| **no** | `ui:ui.lang.segment_label` | Narration language | விவரிப்பு மொழி |
 | **no** | `ui:ui.scaffold.cab` | The cab app is being built. Nothing to do here yet. | கேபின் செயலி உருவாக்கப்பட்டு வருகிறது. இப்போது இங்கே செய்ய எதுவும் இல்லை. |
 | **no** | `ui:ui.scaffold.console` | The supervisor console is being built. | மேற்பார்வையாளர் கன்சோல் உருவாக்கப்பட்டு வருகிறது. |
 | **no** | `ui:ui.health.checking` | Checking the connection… | இணைப்பைச் சரிபார்க்கிறது… |
@@ -263,6 +429,170 @@ to the review list.
 | **no** | `ui:ui.health.edge_down` | Machine gateway not reachable yet | இயந்திர இணைப்பை இன்னும் அடைய முடியவில்லை |
 | **no** | `ui:ui.health.fleet_ok` | Connected to the fleet service | ஃப்ளீட் சேவையுடன் இணைந்துள்ளது |
 | **no** | `ui:ui.health.fleet_down` | Fleet service not reachable yet | ஃப்ளீட் சேவையை இன்னும் அடைய முடியவில்லை |
+| **no** | `ui:ui.theme.label` | Theme | தீம் |
+| **no** | `ui:ui.theme.day` | Day | பகல் |
+| **no** | `ui:ui.theme.sunlight` | Sunlight | வெயில் |
+| **no** | `ui:ui.theme.night` | Night | இரவு |
+| **no** | `ui:ui.rail.clear` | Clear | தெளிவு |
+| **no** | `ui:ui.rail.one_near` | 1 near | 1 அருகில் |
+| **no** | `ui:ui.rail.stop` | Stop | நிறுத்துங்கள் |
+| **no** | `ui:ui.rail.no_sensing` | No sensing | சென்சார் இல்லை |
+| **no** | `ui:ui.rail.risk_low` | Risk low | ஆபத்து குறைவு |
+| **no** | `ui:ui.rail.risk_raised` | Risk raised | ஆபத்து கூடியது |
+| **no** | `ui:ui.rail.risk_high` | Risk high | ஆபத்து அதிகம் |
+| **no** | `ui:ui.rail.belt_on` | Belt on | பெல்ட் போட்டுள்ளது |
+| **no** | `ui:ui.rail.belt_off` | Belt off | பெல்ட் இல்லை |
+| **no** | `ui:ui.rail.prox_clear_label` | Proximity: clear | அருகில்: யாரும் இல்லை |
+| **no** | `ui:ui.rail.prox_caution_label` | One person, caution ring, right rear, 7 metres | ஒருவர், எச்சரிக்கை வளையத்தில், வலது பின்புறம், 7 மீட்டர் |
+| **no** | `ui:ui.rail.risk_label` | Risk raised, mainly heat | ஆபத்து கூடியது, முக்கியக் காரணம் வெப்பம் |
+| **no** | `ui:ui.rail.queue_label` | One more alert waiting: warning | இன்னும் ஒரு எச்சரிக்கை காத்திருக்கிறது |
+| **no** | `ui:ui.machine.working` | Working | வேலையில் |
+| **no** | `ui:ui.machine.idle` | Idle | நிற்கிறது |
+| **no** | `ui:ui.machine.travel` | Moving | நகர்கிறது |
+| **no** | `ui:ui.machine.off` | Engine off | இன்ஜின் அணைப்பு |
+| **no** | `ui:ui.sync.synced_at` | Synced at {{time}} | {{time}}-க்கு ஒத்திசைந்தது |
+| **no** | `ui:ui.sync.waiting` | {{count}} waiting | {{count}} காத்திருப்பில் |
+| **no** | `ui:ui.sync.offline` | Offline | இணைப்பு இல்லை |
+| **no** | `ui:ui.stale` | No update {{seconds}} s | {{seconds}} வினாடியாகப் புதுப்பிப்பு இல்லை |
+| **no** | `ui:ui.nav.label` | Sections | பகுதிகள் |
+| **no** | `ui:ui.nav.shift` | My shift | என் பணி |
+| **no** | `ui:ui.nav.safety` | Safety | பாதுகாப்பு |
+| **no** | `ui:ui.nav.report` | Report | புகார் |
+| **no** | `ui:ui.nav.day` | My day | என் நாள் |
+| **no** | `ui:ui.nav.learn` | Learn | கற்க |
+| **no** | `ui:ui.ptt.idle` | Hold to talk | பேச அழுத்திப் பிடியுங்கள் |
+| **no** | `ui:ui.ptt.listening` | Listening… | கேட்கிறது… |
+| **no** | `ui:ui.ptt.transcribing` | Writing it down | எழுதுகிறது |
+| **no** | `ui:ui.ptt.thinking` | Checking the manual | கையேட்டைப் பார்க்கிறது |
+| **no** | `ui:ui.ptt.tap_again` | Tap again to stop | நிறுத்த மீண்டும் தொடுங்கள் |
+| **no** | `ui:ui.ptt.helper` | Nothing is sent until you check it | நீங்கள் சரிபார்க்கும் வரை எதுவும் அனுப்பப்படாது |
+| **no** | `ui:ui.ptt.error` | Didn't catch that. Try again, or use the buttons below. | சரியாகக் கேட்கவில்லை. மீண்டும் சொல்லுங்கள், அல்லது கீழே உள்ள பட்டன்களை அழுத்துங்கள். |
+| **no** | `ui:ui.btn.seen` | Seen | பார்த்தேன் |
+| **no** | `ui:ui.btn.stopped` | I've stopped | நிறுத்திவிட்டேன் |
+| **no** | `ui:ui.btn.later` | Later | பிறகு |
+| **no** | `ui:ui.btn.done` | Done | முடிந்தது |
+| **no** | `ui:ui.btn.ok` | OK | சரி |
+| **no** | `ui:ui.btn.problem` | Problem | பிரச்சினை |
+| **no** | `ui:ui.btn.edit` | Edit | மாற்று |
+| **no** | `ui:ui.btn.send_report` | Send report | புகாரை அனுப்பு |
+| **no** | `ui:ui.btn.send_offline` | Send when online | இணைப்பு வந்ததும் அனுப்பு |
+| **no** | `ui:ui.btn.delete_draft` | Delete draft | வரைவை நீக்கு |
+| **no** | `ui:ui.btn.start` | Start | தொடங்கு |
+| **no** | `ui:ui.btn.not_now` | Not now | இப்போது வேண்டாம் |
+| **no** | `ui:ui.btn.stop_drill` | STOP | நிறுத்து |
+| **no** | `ui:ui.btn.again` | Again | மீண்டும் |
+| **no** | `ui:ui.btn.play` | Play | இயக்கு |
+| **no** | `ui:ui.btn.pause` | Pause | இடைநிறுத்து |
+| **no** | `ui:ui.btn.read_again` | Read it again | மீண்டும் படி |
+| **no** | `ui:ui.toggle.on` | ON | ஆன் |
+| **no** | `ui:ui.toggle.off` | OFF | ஆஃப் |
+| **no** | `ui:ui.toggle.read_aloud` | Read alerts aloud | எச்சரிக்கைகளை உரக்கப் படி |
+| **no** | `ui:ui.p1.queue_one` | 1 more alert after this | இதற்குப் பிறகு இன்னும் 1 எச்சரிக்கை |
+| **no** | `ui:ui.p1.person_command` | Stop. | நிறுத்துங்கள். |
+| **no** | `ui:ui.p1.person_where` | Behind you, left side · 2 m | உங்களுக்குப் பின்னால், இடது பக்கம் · 2 m |
+| **no** | `ui:ui.p2.person` | Person close on your left. Slow down. | இடது பக்கம் அருகில் ஒருவர் இருக்கிறார். மெதுவாக. |
+| **no** | `ui:ui.p3.heat` | Water break due at 11:00. | 11:00-க்கு தண்ணீர் இடைவேளை. |
+| **no** | `ui:ui.task.now` | Now | இப்போது |
+| **no** | `ui:ui.task.low_confidence` | Estimated from limited data. | குறைந்த தரவிலிருந்து மதிப்பீடு. |
+| **no** | `ui:ui.task.unknown` | Not enough data yet | இன்னும் போதுமான தரவு இல்லை |
+| **no** | `ui:ui.task.likely_finish` | Likely finish | முடியும் நேரம் |
+| **no** | `ui:ui.task.estimate_sr` | Likely 1 h 05 m, between 55 m and 1 h 25 m. | பெரும்பாலும் 1 மணி 5 நிமிடம்; 55 நிமிடம் முதல் 1 மணி 25 நிமிடம் வரை. |
+| **no** | `ui:ui.task.loads` | {{done}} of {{total}} loads | {{total}}-ல் {{done}} லோடு |
+| **no** | `ui:ui.task.finish_note` | Rain after 14:00 could move this. | 14:00-க்குப் பிறகு மழை வந்தால் இது மாறலாம். |
+| **no** | `ui:ui.pin.progress` | {{entered}} of 4 digits | 4-ல் {{entered}} எண்கள் |
+| **no** | `ui:ui.pin.wrong` | That PIN didn't match. Try again. | PIN பொருந்தவில்லை. மீண்டும் முயலுங்கள். |
+| **no** | `ui:ui.pin.backspace` | Delete last digit | கடைசி எண்ணை நீக்கு |
+| **no** | `ui:ui.badge.title` | Scan your badge | உங்கள் பேட்ஜை ஸ்கேன் செய்யுங்கள் |
+| **no** | `ui:ui.badge.hint` | Hold it up to the camera, or use your PIN | கேமராவின் முன் காட்டுங்கள், அல்லது PIN பயன்படுத்துங்கள் |
+| **no** | `ui:ui.state.empty_title` | No tasks yet | இன்னும் வேலைகள் இல்லை |
+| **no** | `ui:ui.state.empty_text` | Your supervisor's plan usually arrives before 07:00. | மேற்பார்வையாளரின் திட்டம் பொதுவாக 07:00-க்கு முன் வரும். |
+| **no** | `ui:ui.state.offline_text` | Everything still works. {{count}} reports will send when the signal is back. | எல்லாம் வேலை செய்கிறது. சிக்னல் வந்ததும் {{count}} அறிக்கைகள் போகும். |
+| **no** | `ui:ui.state.error_title` | This screen could not load | இந்தத் திரை திறக்கவில்லை |
+| **no** | `ui:ui.state.error_text` | Your work is still being recorded. | உங்கள் வேலை இன்னும் பதிவாகிறது. |
+| **no** | `ui:ui.state.stale_title` | No update for 40 s | 40 வினாடியாகப் புதுப்பிப்பு இல்லை |
+| **no** | `ui:ui.state.stale_text` | Showing the last values received. Look around before you swing. | கடைசியாக வந்த தகவல் காட்டப்படுகிறது. சுழற்றும் முன் சுற்றிப் பாருங்கள். |
+| **no** | `ui:ui.report.type` | Type | வகை |
+| **no** | `ui:ui.report.where_when` | Where and when | எங்கே, எப்போது |
+| **no** | `ui:ui.report.what` | What happened | என்ன நடந்தது |
+| **no** | `ui:ui.report.people` | People involved | சம்பந்தப்பட்டவர்கள் |
+| **no** | `ui:ui.report.offline_tag` | Will send when back online | இணைப்பு வந்ததும் அனுப்பப்படும் |
+| **no** | `ui:ui.report.check` | Check this | இதைச் சரிபாருங்கள் |
+| **no** | `ui:ui.report.near_miss` | Near miss | நூலிழையில் தப்பியது |
+| **no** | `ui:ui.report.sample_what` | A worker walked behind the bucket | ஒரு தொழிலாளி பக்கெட்டுக்குப் பின்னால் நடந்தார் |
+| **no** | `ui:ui.report.people_one` | One person, not named | ஒருவர், பெயர் இல்லை |
+| **no** | `ui:ui.coach.went_well` | Went well | நன்றாக நடந்தது |
+| **no** | `ui:ui.coach.idea` | One idea for tomorrow | நாளைக்கு ஒரு யோசனை |
+| **no** | `ui:ui.coach.went_well_text` | 18 of 18 loads. Loading cycle 21 s, 2 s faster than last week. | 18-க்கு 18 லோடு. ஏற்றும் சுழற்சி 21 வினாடி — கடந்த வாரத்தைவிட 2 வினாடி வேகம். |
+| **no** | `ui:ui.coach.idle_why_truck` | Trucks were late 10:10–10:40 | லாரிகள் 10:10–10:40 தாமதமாக வந்தன |
+| **no** | `ui:ui.coach.idle_why_cab` | The engine ran 10 min with the cab empty. Switching off for stops over 5 min saves about 1 L. | கேபின் காலியாக இருந்தபோது இன்ஜின் 10 நிமிடம் ஓடியது. 5 நிமிடத்துக்கு மேல் நின்றால் அணைத்தால் சுமார் 1 லிட்டர் மிச்சம். |
+| **no** | `ui:ui.coach.idle_why_unknown` | The sensors could not tell why | காரணத்தை சென்சார்களால் அறிய முடியவில்லை |
+| **no** | `ui:ui.coach.split_summary` | Working 5 h 10 m, idle 2 h 45 m, engine off 35 m | வேலை 5 மணி 10 நிமிடம், நின்றது 2 மணி 45 நிமிடம், இன்ஜின் அணைப்பு 35 நிமிடம் |
+| **no** | `ui:ui.learn.recommended` | Recommended | பரிந்துரை |
+| **no** | `ui:ui.learn.done` | Done | முடிந்தது |
+| **no** | `ui:ui.learn.full` | Full | நிரம்பியது |
+| **no** | `ui:ui.learn.minutes` | {{minutes}} min · narrated | {{minutes}} நிமிடம் · விவரிப்புடன் |
+| **no** | `ui:ui.learn.paused_only` | Drills run only while the machine is parked. | இயந்திரம் நின்றிருக்கும்போது மட்டுமே பயிற்சி நடக்கும். |
+| **no** | `ui:ui.learn.lesson_sentence` | Park the truck so you swing less than 90°. | 90°-க்குக் குறைவாகச் சுழலும்படி லாரியை நிறுத்தச் சொல்லுங்கள். |
+| **no** | `ui:ui.learn.lesson_fact` | Each 90° less saves about 3 s a load. | ஒவ்வொரு 90° குறைவுக்கும் ஒரு லோடுக்கு சுமார் 3 வினாடி மிச்சம். |
+| **no** | `ui:ui.learn.progress` | Card {{card}} of {{cards}} | {{cards}}-ல் அட்டை {{card}} |
+| **no** | `ui:ui.learn.quiz_right` | Stop, then buckle up before you move again | நிறுத்துங்கள், மீண்டும் நகரும் முன் பெல்ட் போடுங்கள் |
+| **no** | `ui:ui.learn.quiz_wrong` | Keep working and buckle up at the break | வேலையைத் தொடர்ந்து இடைவேளையில் பெல்ட் போடுங்கள் |
+| **no** | `ui:ui.learn.quiz_why` | The belt only helps if it is on when something goes wrong. | ஏதாவது நடக்கும்போது பெல்ட் போட்டிருந்தால்தான் அது காக்கும். |
+| **no** | `ui:ui.learn.slot_who` | Cat dealer training centre | Cat டீலர் பயிற்சி மையம் |
+| **no** | `ui:ui.learn.slot_where` | Chennai, Ambattur | சென்னை, அம்பத்தூர் |
+| **no** | `ui:ui.learn.slot_day` | Saturday | சனிக்கிழமை |
+| **no** | `ui:ui.learn.skill` | Loading trucks | லாரி ஏற்றுதல் |
+| **no** | `ui:ui.learn.skill_next` | Next: park trucks on your swing side | அடுத்து: லாரிகளை உங்கள் சுழலும் பக்கம் நிறுத்துங்கள் |
+| **no** | `ui:ui.learn.skill_label` | Level {{level}} of {{levels}} | {{levels}}-ல் நிலை {{level}} |
+| **no** | `ui:ui.learn.hazard` | Hazard | ஆபத்து |
+| **no** | `ui:ui.ask.you_asked` | You asked: {{question}} | நீங்கள் கேட்டது: {{question}} |
+| **no** | `ui:ui.ask.offline_tag` | Offline answer, from the manual saved on 18 Sep. | இணைப்பில்லாத பதில் — 18 செப்டம்பர் அன்று சேமித்த கையேட்டிலிருந்து. |
+| **no** | `ui:ui.ask.dont_know` | I don't know. It isn't in the manuals on this machine, and I won't guess. | எனக்குத் தெரியாது. இந்த இயந்திரத்தின் கையேட்டில் இல்லை; நான் ஊகிக்க மாட்டேன். |
+| **no** | `ui:ui.ask.sample_question` | How often do I check the seatbelt? | சீட் பெல்ட்டை எவ்வளவு அடிக்கடி சரிபார்க்க வேண்டும்? |
+| **no** | `ui:ui.ask.sample_answer` | Check it at every walkaround, before you start the engine. | ஒவ்வொரு சுற்றுப் பார்வையிலும், இன்ஜினை இயக்கும் முன் சரிபாருங்கள். |
+| **no** | `ui:ui.ask.sample_source` | Operator guide | இயக்குநர் வழிகாட்டி |
+| **no** | `ui:ui.ask.sample_section` | Daily checks | தினசரி சோதனைகள் |
+| **no** | `ui:ui.cond.heat` | Heat index | வெப்பம் |
+| **no** | `ui:ui.cond.rain` | Rain | மழை |
+| **no** | `ui:ui.cond.wet` | Ground | தரை |
+| **no** | `ui:ui.cond.wet_value` | Wet | ஈரம் |
+| **no** | `ui:ui.cond.dark` | Dark | இருட்டு |
+| **no** | `ui:ui.cond.fatigue` | Time without a break | இடைவேளை இல்லாத நேரம் |
+| **no** | `ui:ui.cond.clock` | Shift time | பணி நேரம் |
+| **no** | `ui:ui.cond.risk_sentence` | Risk raised, mainly heat. | ஆபத்து கூடியது, முக்கியக் காரணம் வெப்பம். |
+| **no** | `ui:ui.legend.title` | Legend | குறிப்பு |
+| **no** | `ui:ui.legend.machine` | Machine | இயந்திரம் |
+| **no** | `ui:ui.legend.truck` | Truck | லாரி |
+| **no** | `ui:ui.legend.worker` | Person | நபர் |
+| **no** | `ui:ui.legend.zone` | Work zone | பணிப் பகுதி |
+| **no** | `ui:ui.legend.rings` | Swing rings | சுழல் வளையங்கள் |
+| **no** | `ui:ui.demo.label` | Demo mode · simulated data | டெமோ முறை · உருவகப்படுத்திய தரவு |
+| **no** | `ui:ui.fleet.active` | {{active}} of {{total}} machines active | {{total}}-ல் {{active}} இயந்திரங்கள் இயங்குகின்றன |
+| **no** | `ui:ui.fleet.bands` | {{green}} low, {{amber}} raised, {{red}} high | {{green}} குறைவு, {{amber}} கூடியது, {{red}} அதிகம் |
+| **no** | `ui:ui.fleet.spark_last` | Now {{value}}/s | இப்போது {{value}}/s |
+| **no** | `ui:ui.fleet.spark_peak` | Peak {{value}}/s | உச்சம் {{value}}/s |
+| **no** | `ui:ui.fleet.spark_label` | Records ingested per second, last 10 minutes | கடந்த 10 நிமிடத்தில் வினாடிக்கு வந்த பதிவுகள் |
+| **no** | `ui:ui.ks.title` | Kitchen sink | அனைத்துக் கூறுகள் |
+| **no** | `ui:ui.ks.intro` | Every ShiftMate component in the chosen theme and language. | தேர்ந்த தீம் மற்றும் மொழியில் ShiftMate-இன் ஒவ்வொரு கூறும். |
+| **no** | `ui:ui.ks.glyphs` | Glyphs | குறியீடுகள் |
+| **no** | `ui:ui.ks.reach` | Reach | ரீச் |
+| **no** | `ui:ui.ks.rail` | Status rail and navigation | நிலைப் பட்டை மற்றும் வழிசெலுத்தல் |
+| **no** | `ui:ui.ks.alerts` | Alerts | எச்சரிக்கைகள் |
+| **no** | `ui:ui.ks.tasks` | Tasks and estimates | வேலைகளும் மதிப்பீடுகளும் |
+| **no** | `ui:ui.ks.controls` | Controls | கட்டுப்பாடுகள் |
+| **no** | `ui:ui.ks.insights` | My day | என் நாள் |
+| **no** | `ui:ui.ks.learn` | Learn | கற்க |
+| **no** | `ui:ui.ks.voice` | Voice | குரல் |
+| **no** | `ui:ui.ks.states` | States | நிலைகள் |
+| **no** | `ui:ui.ks.console` | Console | கன்சோல் |
+| **no** | `ui:ui.ks.task_load` | Load trucks | லாரி ஏற்றுதல் |
+| **no** | `ui:ui.ks.task_trench` | Trench | அகழி தோண்டுதல் |
+| **no** | `ui:ui.ks.task_backfill` | Backfill | மண் நிரப்புதல் |
+| **no** | `ui:ui.ks.where_load` | 18 loads · 7 done | 18 லோடு · 7 முடிந்தது |
+| **no** | `ui:ui.ks.where_trench` | 60 m | 60 m |
+| **no** | `ui:ui.ks.where_backfill` | 120 m³ | 120 m³ |
+| **no** | `ui:ui.ks.reason_wet` | Wet ground adds 20–40 min. | ஈரமான தரையால் 20–40 நிமிடம் கூடுதலாகும். |
+| **no** | `ui:ui.ks.checklist_item` | Tracks and tyres | டிராக் மற்றும் டயர்கள் |
 | **no** | `ui:alert.seatbelt_moving.title` | Seatbelt off while working | வேலை செய்யும்போது பெல்ட் போடவில்லை |
 | **no** | `ui:alert.seatbelt_moving.action` | Stop the machine. Buckle up. | இயந்திரத்தை நிறுத்துங்கள். பெல்ட் போடுங்கள். |
 | **no** | `ui:alert.seatbelt_moving.speak` | Stop. Seatbelt off. | நிறுத்துங்கள். பெல்ட் போடவில்லை. |

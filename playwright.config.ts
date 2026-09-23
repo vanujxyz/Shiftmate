@@ -3,12 +3,20 @@ import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
   testDir: "e2e",
-  timeout: 30_000,
+  timeout: 60_000,
   use: { baseURL: "http://localhost:5173", channel: "chrome", viewport: { width: 1280, height: 800 } },
-  webServer: {
-    command: "pnpm --filter cab dev",
-    url: "http://localhost:5173",
-    reuseExistingServer: true,
-    timeout: 60_000,
-  },
+  webServer: [
+    {
+      command: "pnpm --filter cab dev",
+      url: "http://localhost:5173",
+      reuseExistingServer: true,
+      timeout: 60_000,
+    },
+    {
+      command: "pnpm --filter console dev",
+      url: "http://localhost:5174",
+      reuseExistingServer: true,
+      timeout: 60_000,
+    },
+  ],
 });
