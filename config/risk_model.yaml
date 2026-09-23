@@ -19,3 +19,4 @@ max_score: 100
 hysteresis_down_s: 120      # a band change down needs the score below the band floor for this long
 publish_min_delta: 3        # publish risk_update when the score moves by at least this much
 top_contributors: 3         # components shown in the UI ("Heat +25, Fatigue +10")
+rest_reset_min: 10          # continuous operation resets after this long in a break or engine off (TRD §6.1)

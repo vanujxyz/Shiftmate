@@ -1,6 +1,6 @@
 # ShiftMate — Build progress
 
-**Next step:** Milestone 4 (engines A: safety core) in progress.
+**Next step:** Milestone 5 (engines B: insight core + history pipeline) in progress.
 
 **Autonomy note (2026-09-23):** the user authorised continuing through all milestones without waiting for approval, and approved all needed downloads. Each milestone is still tested, committed, and reported in `docs/reports/milestone-N.md`.
 
@@ -71,14 +71,14 @@ Goal: a realistic, deterministic simulated world that generates 42 days of fleet
 Requirements: supports F-INS-*, F-SHIFT-02, F-FLT-04/05/07 (data).
 You will see: the generate command's runtime and the `SUMMARY.md` with row counts and label distributions.
 
-### Milestone 4 — Engines A: safety core (Phase 3, first half) · Status: not started
+### Milestone 4 — Engines A: safety core (Phase 3, first half) · Status: done
 Goal: the safety brain — safe rule evaluator, machine state, risk level, safety rules and alert discipline.
-- [ ] 1. `rule_eval` safe expression evaluator (rejects attribute access, calls, imports)
-- [ ] 2. Machine state + Paused/Working mode + continuous operation (TRD §6.1)
-- [ ] 3. Risk engine with hysteresis and effective thresholds (§6.3)
-- [ ] 4. Safety engine: sustain, cooldown, tier-disabled rules (§6.2)
-- [ ] 5. Alert policy: priority queue, single interrupting alert, pre-emption, cooldown, dedupe, paused-only P3/P4, P1 escalation (§6.8)
-- [ ] 6. Ground-truth access guard test (golden rule 5)
+- [x] 1. `rule_eval` safe expression evaluator (rejects attribute access, calls, imports)
+- [x] 2. Machine state + Paused/Working mode + continuous operation (TRD §6.1)
+- [x] 3. Risk engine with hysteresis and effective thresholds (§6.3)
+- [x] 4. Safety engine: sustain, cooldown, tier-disabled rules (§6.2)
+- [x] 5. Alert policy: priority queue, single interrupting alert, pre-emption, cooldown, dedupe, paused-only P3/P4, P1 escalation (§6.8)
+- [x] 6. Ground-truth access guard test (golden rule 5)
 Requirements: F-SAFE-01, 02, 04, 05, 06, 07, 08, F-INS-04, F-FLT-02.
 You will see: pytest output listing each engine test (e.g. hysteresis, pre-emption, cooldown).
 

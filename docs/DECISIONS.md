@@ -267,3 +267,31 @@ Context: The first run gave Chennai October afternoons a heat index around 53 °
 Decision: Chennai month profiles set to May 34 ± 5 °C / 58 % RH, September 30 ± 4 °C / 70 %, October 29 ± 4 °C / 76 % with lower hourly rain-start probabilities; humidity falls 3 % per °C above the daily mean. Tuned for plausibility before any model was trained, not against any evaluation result.
 Why: Realistic conditions; honest numbers.
 Alternatives: Keep the first values.
+
+## D-039 — Rule evaluation semantics
+Date: 2026-09-23 · Phase: 3 · Requirement(s): TRD §4.4, §6.2
+Context: The TRD defines rule fields but not how sustain, cooldown and missing data behave.
+Decision: A tick holds for its period `dt`, so sustain counts `dt` per true tick (a 2 s sustain fires on the second 1 s tick, or the first 30 s tick). Any `None` value used by a rule makes it False (a rule never fires on data it lacks). Level rules raise once per activation and not again within `cooldown_s` of the last raise; edge rules (risk band) raise each time they switch on. All rule expressions are compiled at config load, so a typo fails start-up.
+Why: One engine for 1 s live ticks and 30 s history; safe default on missing data.
+Alternatives: Treat missing as "unknown → alert" (would raise false alarms on basic machines).
+
+## D-040 — What counts as rest
+Date: 2026-09-23 · Phase: 3 · Requirement(s): TRD §6.1, F-SAFE-06, D-006
+Context: TRD §6.1 resets continuous operation after "≥ 10 min in a break or engine off" but does not define "in a break".
+Decision: Rest = engine off, or idle inside a scheduled break window, or idle after the operator says/taps "start break". Ten minutes of rest (`risk_model.rest_reset_min`) resets continuous operation; waiting for a truck is not rest. `minutes_since_break` is wall-clock time since the last completed rest.
+Why: Matches D-006 and how a supervisor would judge a real break.
+Alternatives: Any idle ≥ 10 min counts (would make truck waits reset fatigue).
+
+## D-041 — Proximity tier for the risk score
+Date: 2026-09-23 · Phase: 3 · Requirement(s): TRD §6.3
+Context: The risk score includes the proximity tier, but the tier's distances depend on the risk band (circular).
+Decision: The proximity component uses the previous tick's effective distances; the published tier uses the new ones.
+Why: Breaks the loop with a one-tick lag, which is invisible at 1 Hz.
+Alternatives: Use base profile distances for the score (ignores tightening).
+
+## D-042 — Alert policy details
+Date: 2026-09-23 · Phase: 3 · Requirement(s): TRD §6.8, DESIGN AlertQueue / AlertStripP3
+Context: Details not fixed by the TRD.
+Decision: Alert ids are deterministic (`<machine>-<rule>-<epoch ms>`), no randomness in engines. The ack event records the reaction time. An acknowledged P1 is re-checked 3 s later; if still true it becomes a reduced P1 until cleared. A P3 strip stays until the operator taps Done or Later (Later re-shows it after 10 min if still true); P3s whose condition stopped before the pause go to the feed. Escalation is recorded as an `alert` event with `phase: escalated`, always shared with the supervisor.
+Why: DESIGN behaviour, expressed without inventing new event types.
+Alternatives: New `alert_escalated` event type (not in TRD §5.4).
