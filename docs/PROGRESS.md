@@ -1,6 +1,6 @@
 # ShiftMate — Build progress
 
-**Next step:** Milestone 8 (Edge Gateway B: live channels, sync, headless demo) in progress.
+**Next step:** Milestone 8 (Edge Gateway B) in progress — see HANDOFF.md at the repo root.
 
 **Autonomy note (2026-09-23):** the user authorised continuing through all milestones without waiting for approval, and approved all needed downloads. Each milestone is still tested, committed, and reported in `docs/reports/milestone-N.md`.
 

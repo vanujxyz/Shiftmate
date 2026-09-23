@@ -3,7 +3,7 @@
 Everything the cab needs works from this file with no network: events, interval records,
 reports, lesson and drill results, instructor slots and bookings. The `outbox` table queues what
 must reach the fleet service (interval summaries, shared events, reports, task summaries —
-`privacy.yaml → fleet_upload`); the sync task (milestone 8) drains it when online.
+`privacy.yaml → fleet_upload`); `edge/sync.py` drains it when online.
 
 Rows keep their full JSON next to a few indexed columns, which keeps the schema small and easy to
 explain. Times are stored as ISO 8601 UTC strings.
@@ -254,6 +254,19 @@ class EdgeStore:
                 },
             )
 
+    def add_task_summary(self, summary: dict[str, Any]) -> None:
+        """A finished task, queued for the fleet (privacy.yaml → task_summaries)."""
+        with self.engine.begin() as c:
+            c.execute(
+                insert(outbox),
+                {
+                    "kind": "task",
+                    "record_id": summary["task_id"],
+                    "ts": iso(summary["actual_end"]),
+                    "payload": json.dumps(summary, default=str),
+                },
+            )
+
     def list_reports(self, operator_id: str | None = None, limit: int = 20) -> list[dict[str, Any]]:
         q = select(reports.c.report_id, reports.c.data).order_by(reports.c.ts.desc()).limit(limit)
         if operator_id:
@@ -384,24 +397,21 @@ class EdgeStore:
             return [dict(r._mapping) for r in c.execute(q)]
 
     # --- outbox -------------------------------------------------------------------------------
-    def outbox_pending(self, limit: int = 500) -> list[dict[str, Any]]:
+    def outbox_pending(
+        self, limit: int = 500, kinds: list[str] | None = None
+    ) -> list[dict[str, Any]]:
+        q = select(outbox).where(outbox.c.synced_at.is_(None)).order_by(outbox.c.id).limit(limit)
+        if kinds is not None:
+            q = q.where(outbox.c.kind.in_(kinds))
         with self.engine.connect() as c:
-            q = (
-                select(outbox)
-                .where(outbox.c.synced_at.is_(None))
-                .order_by(outbox.c.id)
-                .limit(limit)
-            )
             return [dict(r._mapping) for r in c.execute(q)]
 
-    def outbox_size(self) -> int:
+    def outbox_size(self, kinds: list[str] | None = None) -> int:
+        q = select(func.count()).select_from(outbox).where(outbox.c.synced_at.is_(None))
+        if kinds is not None:
+            q = q.where(outbox.c.kind.in_(kinds))
         with self.engine.connect() as c:
-            return int(
-                c.execute(
-                    select(func.count()).select_from(outbox).where(outbox.c.synced_at.is_(None))
-                ).scalar()
-                or 0
-            )
+            return int(c.execute(q).scalar() or 0)
 
     def mark_synced(self, ids: list[int], when: datetime) -> None:
         if not ids:

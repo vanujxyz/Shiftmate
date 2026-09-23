@@ -18,6 +18,7 @@ from shiftmate.schema.enums import (
     ProximityTier,
     RiskBand,
     SensorTier,
+    TaskStatus,
 )
 from shiftmate.schema.events import ReportDraft
 from shiftmate.schema.reference import Machine, Operator, Task
@@ -316,6 +317,8 @@ class SyncStatus(BaseModel):
     outbox_size: int
     last_sync: AwareDatetime | None
     last_error: str | None = None
+    estimation_model: str | None = None  # version in use
+    estimation_source: str | None = None  # fleet (downloaded) | cache | bundled
 
 
 # --- live state (cab telemetry, WebSocket) -----------------------------------------------------
@@ -341,6 +344,80 @@ class Telemetry(BaseModel):
     task_progress_qty: float
     continuous_operation_min: float
     sensor_tier: SensorTier
+    thresholds: dict[str, float]  # proximity rings in use now (caution_m, danger_m, critical_m…)
+    x_m: float | None = None
+    y_m: float | None = None
+    heading_deg: float | None = None
+
+
+class TaskProgress(BaseModel):
+    task_id: str
+    status: TaskStatus
+    done_qty: float
+    planned_qty: float
+    unit: str
+
+
+class EstimateUpdate(BaseModel):
+    task_id: str | None  # the active task, if any
+    estimate: TaskEstimate | None  # its live remaining time
+    likely_finish: TaskEstimate | None  # all remaining work
+
+
+class Connectivity(BaseModel):
+    online: bool
+
+
+class SyncUpdate(BaseModel):
+    online: bool
+    outbox_size: int
+    last_sync: AwareDatetime | None
+    last_error: str | None = None
+    synced_now: int = 0  # records accepted by the fleet in this round
+
+
+class SiteEntities(BaseModel):
+    """`entities` on /ws/site: everything on the map (5 Hz)."""
+
+    ts: AwareDatetime
+    site_id: str
+    machines: list[dict[str, Any]]
+    trucks: list[dict[str, Any]]
+    workers: list[dict[str, Any]]
+
+
+CabMessageType = Literal[
+    "snapshot",  # sent on connect and after load/seek: the full current state
+    "telemetry",
+    "mode",
+    "risk_update",
+    "alert",
+    "alert_cleared",
+    "alert_queued",
+    "alert_feed",
+    "idle_segment",
+    "insight",
+    "task_progress",
+    "estimate_update",
+    "lesson_offer",
+    "session",
+    "connectivity",
+    "sync",
+    "scenario_caption",  # demo only; sent only while the console has captions on
+    "demo",  # demo player notices (waiting for a beat, seeked, end of shift)
+]
+SiteMessageType = Literal["snapshot", "entities", "dispatch", "site_event", "demo"]
+
+
+class WsEnvelope(BaseModel):
+    """Every WebSocket message (TRD §9): `seq` increases by one per channel."""
+
+    type: str
+    seq: int
+    ts: AwareDatetime | None
+    machine_id: str | None
+    site_id: str | None
+    payload: dict[str, Any]
 
 
 # --- demo control ------------------------------------------------------------------------------
@@ -360,6 +437,10 @@ class SeekRequest(BaseModel):
 
 class NetworkRequest(BaseModel):
     online: bool
+
+
+class CaptionsRequest(BaseModel):
+    on: bool
 
 
 class BeatView(BaseModel):

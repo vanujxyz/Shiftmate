@@ -4,6 +4,158 @@
   "type": "object",
   "additionalProperties": false,
   "$defs": {
+    "AckRequest": {
+      "properties": {
+        "action": {
+          "default": "ack",
+          "enum": [
+            "ack",
+            "later",
+            "done"
+          ],
+          "title": "Action",
+          "type": "string"
+        }
+      },
+      "title": "AckRequest",
+      "type": "object"
+    },
+    "AskRequest": {
+      "properties": {
+        "question": {
+          "minLength": 1,
+          "title": "Question",
+          "type": "string"
+        },
+        "language": {
+          "$ref": "#/$defs/Language"
+        },
+        "machine_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Machine Id"
+        },
+        "operator_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Operator Id"
+        }
+      },
+      "required": [
+        "question",
+        "language"
+      ],
+      "title": "AskRequest",
+      "type": "object"
+    },
+    "AskResponse": {
+      "properties": {
+        "answer": {
+          "title": "Answer",
+          "type": "string"
+        },
+        "citations": {
+          "items": {
+            "$ref": "#/$defs/Citation"
+          },
+          "title": "Citations",
+          "type": "array"
+        },
+        "answerable": {
+          "title": "Answerable",
+          "type": "boolean"
+        },
+        "mode": {
+          "enum": [
+            "online",
+            "offline"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "language": {
+          "$ref": "#/$defs/Language"
+        },
+        "notice_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Notice Key"
+        }
+      },
+      "required": [
+        "answer",
+        "citations",
+        "answerable",
+        "mode",
+        "language"
+      ],
+      "title": "AskResponse",
+      "type": "object"
+    },
+    "BeatView": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "at": {
+          "title": "At",
+          "type": "string"
+        },
+        "action": {
+          "title": "Action",
+          "type": "string"
+        },
+        "caption": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Caption"
+        },
+        "done": {
+          "title": "Done",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "at",
+        "action",
+        "caption",
+        "done"
+      ],
+      "title": "BeatView",
+      "type": "object"
+    },
     "Booking": {
       "properties": {
         "booking_id": {
@@ -29,6 +181,24 @@
         "status"
       ],
       "title": "Booking",
+      "type": "object"
+    },
+    "BookingRequest": {
+      "properties": {
+        "operator_id": {
+          "title": "Operator Id",
+          "type": "string"
+        },
+        "slot_id": {
+          "title": "Slot Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "operator_id",
+        "slot_id"
+      ],
+      "title": "BookingRequest",
       "type": "object"
     },
     "BookingStatus": {
@@ -60,6 +230,138 @@
       "title": "BreakWindow",
       "type": "object"
     },
+    "CabMode": {
+      "enum": [
+        "working",
+        "paused"
+      ],
+      "title": "CabMode",
+      "type": "string"
+    },
+    "CameraReading": {
+      "properties": {
+        "machine_id": {
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "distance_m": {
+          "exclusiveMinimum": 0,
+          "title": "Distance M",
+          "type": "number"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "bearing_deg": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bearing Deg"
+        },
+        "ts": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ts"
+        }
+      },
+      "required": [
+        "machine_id",
+        "distance_m",
+        "confidence"
+      ],
+      "title": "CameraReading",
+      "type": "object"
+    },
+    "Capability": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "enabled": {
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        }
+      },
+      "required": [
+        "id",
+        "enabled"
+      ],
+      "title": "Capability",
+      "type": "object"
+    },
+    "CaptionsRequest": {
+      "properties": {
+        "on": {
+          "title": "On",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "on"
+      ],
+      "title": "CaptionsRequest",
+      "type": "object"
+    },
+    "ChecklistAnswer": {
+      "properties": {
+        "item_id": {
+          "title": "Item Id",
+          "type": "string"
+        },
+        "ok": {
+          "title": "Ok",
+          "type": "boolean"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        }
+      },
+      "required": [
+        "item_id",
+        "ok"
+      ],
+      "title": "ChecklistAnswer",
+      "type": "object"
+    },
     "ChecklistItem": {
       "additionalProperties": false,
       "properties": {
@@ -83,6 +385,81 @@
         "illustration"
       ],
       "title": "ChecklistItem",
+      "type": "object"
+    },
+    "ChecklistResult": {
+      "properties": {
+        "saved": {
+          "title": "Saved",
+          "type": "boolean"
+        },
+        "problems": {
+          "title": "Problems",
+          "type": "integer"
+        },
+        "report_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Report Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "saved",
+        "problems",
+        "report_ids"
+      ],
+      "title": "ChecklistResult",
+      "type": "object"
+    },
+    "ChecklistSubmit": {
+      "properties": {
+        "operator_id": {
+          "title": "Operator Id",
+          "type": "string"
+        },
+        "machine_id": {
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "answers": {
+          "items": {
+            "$ref": "#/$defs/ChecklistAnswer"
+          },
+          "title": "Answers",
+          "type": "array"
+        }
+      },
+      "required": [
+        "operator_id",
+        "machine_id",
+        "answers"
+      ],
+      "title": "ChecklistSubmit",
+      "type": "object"
+    },
+    "Citation": {
+      "properties": {
+        "chunk_id": {
+          "title": "Chunk Id",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "section": {
+          "title": "Section",
+          "type": "string"
+        }
+      },
+      "required": [
+        "chunk_id",
+        "title",
+        "section"
+      ],
+      "title": "Citation",
       "type": "object"
     },
     "Climate": {
@@ -109,6 +486,199 @@
         "history_seasons"
       ],
       "title": "Climate",
+      "type": "object"
+    },
+    "Conditions": {
+      "properties": {
+        "ambient_temp_c": {
+          "title": "Ambient Temp C",
+          "type": "number"
+        },
+        "relative_humidity_pct": {
+          "title": "Relative Humidity Pct",
+          "type": "number"
+        },
+        "heat_index_c": {
+          "title": "Heat Index C",
+          "type": "number"
+        },
+        "precipitation_mm_h": {
+          "title": "Precipitation Mm H",
+          "type": "number"
+        },
+        "wind_kmh": {
+          "title": "Wind Kmh",
+          "type": "number"
+        },
+        "visibility_m": {
+          "title": "Visibility M",
+          "type": "number"
+        },
+        "is_night": {
+          "title": "Is Night",
+          "type": "boolean"
+        },
+        "ground_condition": {
+          "$ref": "#/$defs/GroundCondition"
+        },
+        "sunrise": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sunrise"
+        },
+        "sunset": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sunset"
+        }
+      },
+      "required": [
+        "ambient_temp_c",
+        "relative_humidity_pct",
+        "heat_index_c",
+        "precipitation_mm_h",
+        "wind_kmh",
+        "visibility_m",
+        "is_night",
+        "ground_condition"
+      ],
+      "title": "Conditions",
+      "type": "object"
+    },
+    "Connectivity": {
+      "properties": {
+        "online": {
+          "title": "Online",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "online"
+      ],
+      "title": "Connectivity",
+      "type": "object"
+    },
+    "DemoState": {
+      "properties": {
+        "scenario": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Scenario"
+        },
+        "site_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Site Id"
+        },
+        "focus_machine": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Focus Machine"
+        },
+        "sim_time": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Sim Time"
+        },
+        "playing": {
+          "title": "Playing",
+          "type": "boolean"
+        },
+        "speed": {
+          "title": "Speed",
+          "type": "number"
+        },
+        "waiting_for": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Waiting For"
+        },
+        "online": {
+          "title": "Online",
+          "type": "boolean"
+        },
+        "captions": {
+          "title": "Captions",
+          "type": "boolean"
+        },
+        "beats": {
+          "items": {
+            "$ref": "#/$defs/BeatView"
+          },
+          "title": "Beats",
+          "type": "array"
+        },
+        "signed_in": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Signed In"
+        }
+      },
+      "required": [
+        "scenario",
+        "site_id",
+        "focus_machine",
+        "sim_time",
+        "playing",
+        "speed",
+        "waiting_for",
+        "online",
+        "captions",
+        "beats",
+        "signed_in"
+      ],
+      "title": "DemoState",
       "type": "object"
     },
     "DrillHazard": {
@@ -180,6 +750,32 @@
       "title": "DrillResult",
       "type": "object"
     },
+    "DrillResultRequest": {
+      "properties": {
+        "operator_id": {
+          "title": "Operator Id",
+          "type": "string"
+        },
+        "drill_id": {
+          "title": "Drill Id",
+          "type": "string"
+        },
+        "hazards": {
+          "items": {
+            "$ref": "#/$defs/HazardAnswer"
+          },
+          "title": "Hazards",
+          "type": "array"
+        }
+      },
+      "required": [
+        "operator_id",
+        "drill_id",
+        "hazards"
+      ],
+      "title": "DrillResultRequest",
+      "type": "object"
+    },
     "ErrorBody": {
       "properties": {
         "code": {
@@ -209,6 +805,71 @@
         "error"
       ],
       "title": "ErrorResponse",
+      "type": "object"
+    },
+    "EstimateReason": {
+      "properties": {
+        "key": {
+          "title": "Key",
+          "type": "string"
+        },
+        "feature": {
+          "title": "Feature",
+          "type": "string"
+        },
+        "minutes": {
+          "title": "Minutes",
+          "type": "number"
+        }
+      },
+      "required": [
+        "key",
+        "feature",
+        "minutes"
+      ],
+      "title": "EstimateReason",
+      "type": "object"
+    },
+    "EstimateUpdate": {
+      "properties": {
+        "task_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Task Id"
+        },
+        "estimate": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TaskEstimate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "likely_finish": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TaskEstimate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "task_id",
+        "estimate",
+        "likely_finish"
+      ],
+      "title": "EstimateUpdate",
       "type": "object"
     },
     "Event": {
@@ -297,13 +958,15 @@
         "anomaly",
         "incident",
         "near_miss",
+        "equipment_problem",
         "lesson_offered",
         "lesson_completed",
         "drill_result",
         "booking",
         "checklist",
         "risk_band_change",
-        "connectivity"
+        "connectivity",
+        "site_issue"
       ],
       "title": "EventType",
       "type": "string"
@@ -333,6 +996,53 @@
         "dozer"
       ],
       "title": "FleetMix",
+      "type": "object"
+    },
+    "FuelMetrics": {
+      "properties": {
+        "fuel_l": {
+          "title": "Fuel L",
+          "type": "number"
+        },
+        "idle_fuel_l": {
+          "title": "Idle Fuel L",
+          "type": "number"
+        },
+        "fuel_per_load_l": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Fuel Per Load L"
+        },
+        "usual_fuel_per_load_l": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Usual Fuel Per Load L"
+        },
+        "loads": {
+          "title": "Loads",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "fuel_l",
+        "idle_fuel_l",
+        "fuel_per_load_l",
+        "usual_fuel_per_load_l",
+        "loads"
+      ],
+      "title": "FuelMetrics",
       "type": "object"
     },
     "FuelRates": {
@@ -391,6 +1101,36 @@
       ],
       "title": "GroundCondition",
       "type": "string"
+    },
+    "HazardAnswer": {
+      "properties": {
+        "hazard_id": {
+          "title": "Hazard Id",
+          "type": "string"
+        },
+        "reaction_ms": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reaction Ms"
+        },
+        "correct": {
+          "title": "Correct",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "hazard_id",
+        "correct"
+      ],
+      "title": "HazardAnswer",
+      "type": "object"
     },
     "HazardResult": {
       "properties": {
@@ -549,6 +1289,53 @@
       "title": "IdleSegmentPayload",
       "type": "object"
     },
+    "IdleSegmentView": {
+      "properties": {
+        "start": {
+          "format": "date-time",
+          "title": "Start",
+          "type": "string"
+        },
+        "end": {
+          "format": "date-time",
+          "title": "End",
+          "type": "string"
+        },
+        "minutes": {
+          "title": "Minutes",
+          "type": "number"
+        },
+        "reason": {
+          "$ref": "#/$defs/IdleReason"
+        },
+        "confidence": {
+          "title": "Confidence",
+          "type": "number"
+        },
+        "evidence": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "fuel_l": {
+          "title": "Fuel L",
+          "type": "number"
+        }
+      },
+      "required": [
+        "start",
+        "end",
+        "minutes",
+        "reason",
+        "confidence",
+        "evidence",
+        "fuel_l"
+      ],
+      "title": "IdleSegmentView",
+      "type": "object"
+    },
     "IdleThresholds": {
       "additionalProperties": false,
       "properties": {
@@ -574,6 +1361,169 @@
         "unattended_seat_empty_seconds"
       ],
       "title": "IdleThresholds",
+      "type": "object"
+    },
+    "InsightNote": {
+      "properties": {
+        "key": {
+          "title": "Key",
+          "type": "string"
+        },
+        "values": {
+          "additionalProperties": true,
+          "default": {},
+          "title": "Values",
+          "type": "object"
+        },
+        "lesson_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lesson Id"
+        }
+      },
+      "required": [
+        "key"
+      ],
+      "title": "InsightNote",
+      "type": "object"
+    },
+    "InsightsResponse": {
+      "properties": {
+        "operator_id": {
+          "title": "Operator Id",
+          "type": "string"
+        },
+        "range": {
+          "enum": [
+            "shift",
+            "week"
+          ],
+          "title": "Range",
+          "type": "string"
+        },
+        "totals_min": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Totals Min",
+          "type": "object"
+        },
+        "time_split": {
+          "items": {
+            "$ref": "#/$defs/TimeSplitSegment"
+          },
+          "title": "Time Split",
+          "type": "array"
+        },
+        "idle_segments": {
+          "items": {
+            "$ref": "#/$defs/IdleSegmentView"
+          },
+          "title": "Idle Segments",
+          "type": "array"
+        },
+        "fuel": {
+          "$ref": "#/$defs/FuelMetrics"
+        },
+        "anomalies": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Anomalies",
+          "type": "array"
+        },
+        "coaching": {
+          "items": {
+            "$ref": "#/$defs/InsightNote"
+          },
+          "title": "Coaching",
+          "type": "array"
+        },
+        "positives": {
+          "items": {
+            "$ref": "#/$defs/InsightNote"
+          },
+          "title": "Positives",
+          "type": "array"
+        },
+        "days": {
+          "default": [],
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Days",
+          "type": "array"
+        }
+      },
+      "required": [
+        "operator_id",
+        "range",
+        "totals_min",
+        "time_split",
+        "idle_segments",
+        "fuel",
+        "anomalies",
+        "coaching",
+        "positives"
+      ],
+      "title": "InsightsResponse",
+      "type": "object"
+    },
+    "IntentRequest": {
+      "properties": {
+        "utterance": {
+          "title": "Utterance",
+          "type": "string"
+        },
+        "language": {
+          "$ref": "#/$defs/Language"
+        }
+      },
+      "required": [
+        "utterance",
+        "language"
+      ],
+      "title": "IntentRequest",
+      "type": "object"
+    },
+    "IntentResponse": {
+      "properties": {
+        "intent": {
+          "title": "Intent",
+          "type": "string"
+        },
+        "slots": {
+          "additionalProperties": true,
+          "default": {},
+          "title": "Slots",
+          "type": "object"
+        },
+        "matched": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Matched"
+        }
+      },
+      "required": [
+        "intent"
+      ],
+      "title": "IntentResponse",
       "type": "object"
     },
     "IntervalRecord": {
@@ -1257,6 +2207,36 @@
       "title": "LessonCard",
       "type": "object"
     },
+    "LessonCompleteRequest": {
+      "properties": {
+        "operator_id": {
+          "title": "Operator Id",
+          "type": "string"
+        },
+        "score": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Score",
+          "type": "number"
+        },
+        "duration_s": {
+          "minimum": 0,
+          "title": "Duration S",
+          "type": "number"
+        },
+        "language": {
+          "$ref": "#/$defs/Language"
+        }
+      },
+      "required": [
+        "operator_id",
+        "score",
+        "duration_s",
+        "language"
+      ],
+      "title": "LessonCompleteRequest",
+      "type": "object"
+    },
     "LessonCompletion": {
       "properties": {
         "operator_id": {
@@ -1306,6 +2286,50 @@
       ],
       "title": "LessonFormat",
       "type": "string"
+    },
+    "LessonSummary": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "title": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Title",
+          "type": "object"
+        },
+        "format": {
+          "title": "Format",
+          "type": "string"
+        },
+        "duration_s": {
+          "title": "Duration S",
+          "type": "integer"
+        },
+        "triggers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Triggers",
+          "type": "array"
+        },
+        "completed": {
+          "default": false,
+          "title": "Completed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "format",
+        "duration_s",
+        "triggers"
+      ],
+      "title": "LessonSummary",
+      "type": "object"
     },
     "LocalizedText": {
       "additionalProperties": false,
@@ -1381,6 +2405,44 @@
         "engine_hours_start"
       ],
       "title": "Machine",
+      "type": "object"
+    },
+    "MachineInfo": {
+      "properties": {
+        "machine": {
+          "$ref": "#/$defs/Machine"
+        },
+        "focus": {
+          "title": "Focus",
+          "type": "boolean"
+        },
+        "capabilities": {
+          "items": {
+            "$ref": "#/$defs/Capability"
+          },
+          "title": "Capabilities",
+          "type": "array"
+        },
+        "features": {
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "title": "Features",
+          "type": "object"
+        },
+        "low_confidence": {
+          "title": "Low Confidence",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "machine",
+        "focus",
+        "capabilities",
+        "features",
+        "low_confidence"
+      ],
+      "title": "MachineInfo",
       "type": "object"
     },
     "MachineProfile": {
@@ -1474,6 +2536,16 @@
       ],
       "title": "MachineProfile",
       "type": "object"
+    },
+    "MachineState": {
+      "enum": [
+        "ENGINE_OFF",
+        "IDLE",
+        "WORKING",
+        "TRAVELLING"
+      ],
+      "title": "MachineState",
+      "type": "string"
     },
     "MachineType": {
       "enum": [
@@ -1584,6 +2656,19 @@
       "title": "MonthProfile",
       "type": "object"
     },
+    "NetworkRequest": {
+      "properties": {
+        "online": {
+          "title": "Online",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "online"
+      ],
+      "title": "NetworkRequest",
+      "type": "object"
+    },
     "Operator": {
       "properties": {
         "operator_id": {
@@ -1627,6 +2712,48 @@
         "certifications"
       ],
       "title": "Operator",
+      "type": "object"
+    },
+    "OperatorProfile": {
+      "properties": {
+        "operator": {
+          "$ref": "#/$defs/Operator"
+        },
+        "language": {
+          "$ref": "#/$defs/Language"
+        },
+        "skill_index": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Skill Index",
+          "type": "object"
+        },
+        "lessons_completed": {
+          "title": "Lessons Completed",
+          "type": "integer"
+        },
+        "drills_done": {
+          "title": "Drills Done",
+          "type": "integer"
+        },
+        "recent_lessons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Recent Lessons",
+          "type": "array"
+        }
+      },
+      "required": [
+        "operator",
+        "language",
+        "skill_index",
+        "lessons_completed",
+        "drills_done",
+        "recent_lessons"
+      ],
+      "title": "OperatorProfile",
       "type": "object"
     },
     "Priority": {
@@ -1674,6 +2801,16 @@
       "title": "ProximitySource",
       "type": "string"
     },
+    "ProximityTier": {
+      "enum": [
+        "clear",
+        "caution",
+        "danger",
+        "critical"
+      ],
+      "title": "ProximityTier",
+      "type": "string"
+    },
     "QuantityUnit": {
       "enum": [
         "loads",
@@ -1715,6 +2852,113 @@
         "explain"
       ],
       "title": "QuizQuestion",
+      "type": "object"
+    },
+    "Recommendation": {
+      "properties": {
+        "lesson": {
+          "$ref": "#/$defs/LessonSummary"
+        },
+        "score": {
+          "title": "Score",
+          "type": "number"
+        },
+        "because": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Because",
+          "type": "array"
+        }
+      },
+      "required": [
+        "lesson",
+        "score",
+        "because"
+      ],
+      "title": "Recommendation",
+      "type": "object"
+    },
+    "ReportContextModel": {
+      "properties": {
+        "ts": {
+          "format": "date-time",
+          "title": "Ts",
+          "type": "string"
+        },
+        "machine_id": {
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "operator_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Operator Id"
+        },
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        },
+        "zone_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Zone Id"
+        },
+        "task_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Task Id"
+        },
+        "weather": {
+          "additionalProperties": true,
+          "title": "Weather",
+          "type": "object"
+        },
+        "risk_score": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Risk Score"
+        },
+        "language": {
+          "$ref": "#/$defs/Language"
+        }
+      },
+      "required": [
+        "ts",
+        "machine_id",
+        "operator_id",
+        "site_id",
+        "zone_id",
+        "task_id",
+        "weather",
+        "risk_score",
+        "language"
+      ],
+      "title": "ReportContextModel",
       "type": "object"
     },
     "ReportDraft": {
@@ -1760,6 +3004,77 @@
       "title": "ReportDraft",
       "type": "object"
     },
+    "ReportParseRequest": {
+      "properties": {
+        "transcript": {
+          "minLength": 1,
+          "title": "Transcript",
+          "type": "string"
+        },
+        "language": {
+          "$ref": "#/$defs/Language"
+        }
+      },
+      "required": [
+        "transcript",
+        "language"
+      ],
+      "title": "ReportParseRequest",
+      "type": "object"
+    },
+    "ReportParseResponse": {
+      "properties": {
+        "draft": {
+          "$ref": "#/$defs/ReportDraft"
+        },
+        "context": {
+          "$ref": "#/$defs/ReportContextModel"
+        },
+        "mode": {
+          "enum": [
+            "online",
+            "offline"
+          ],
+          "title": "Mode",
+          "type": "string"
+        }
+      },
+      "required": [
+        "draft",
+        "context",
+        "mode"
+      ],
+      "title": "ReportParseResponse",
+      "type": "object"
+    },
+    "ReportSaveRequest": {
+      "properties": {
+        "draft": {
+          "$ref": "#/$defs/ReportDraft"
+        },
+        "context": {
+          "$ref": "#/$defs/ReportContextModel"
+        },
+        "transcript": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Transcript"
+        }
+      },
+      "required": [
+        "draft",
+        "context"
+      ],
+      "title": "ReportSaveRequest",
+      "type": "object"
+    },
     "ReportType": {
       "enum": [
         "incident",
@@ -1767,6 +3082,15 @@
         "equipment_problem"
       ],
       "title": "ReportType",
+      "type": "string"
+    },
+    "RiskBand": {
+      "enum": [
+        "green",
+        "amber",
+        "red"
+      ],
+      "title": "RiskBand",
       "type": "string"
     },
     "RpmLevels": {
@@ -1788,6 +3112,51 @@
         "working"
       ],
       "title": "RpmLevels",
+      "type": "object"
+    },
+    "SavedReport": {
+      "properties": {
+        "report_id": {
+          "title": "Report Id",
+          "type": "string"
+        },
+        "ts": {
+          "format": "date-time",
+          "title": "Ts",
+          "type": "string"
+        },
+        "draft": {
+          "$ref": "#/$defs/ReportDraft"
+        },
+        "context": {
+          "$ref": "#/$defs/ReportContextModel"
+        },
+        "synced": {
+          "title": "Synced",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "report_id",
+        "ts",
+        "draft",
+        "context",
+        "synced"
+      ],
+      "title": "SavedReport",
+      "type": "object"
+    },
+    "ScenarioLoadRequest": {
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "ScenarioLoadRequest",
       "type": "object"
     },
     "SeasonSpan": {
@@ -1831,6 +3200,19 @@
       "title": "SeatbeltStatus",
       "type": "string"
     },
+    "SeekRequest": {
+      "properties": {
+        "beat_id": {
+          "title": "Beat Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "beat_id"
+      ],
+      "title": "SeekRequest",
+      "type": "object"
+    },
     "SensorTier": {
       "enum": [
         "basic",
@@ -1839,6 +3221,26 @@
       ],
       "title": "SensorTier",
       "type": "string"
+    },
+    "SessionResponse": {
+      "properties": {
+        "profile": {
+          "$ref": "#/$defs/OperatorProfile"
+        },
+        "machine": {
+          "$ref": "#/$defs/MachineInfo"
+        },
+        "shift": {
+          "$ref": "#/$defs/ShiftResponse"
+        }
+      },
+      "required": [
+        "profile",
+        "machine",
+        "shift"
+      ],
+      "title": "SessionResponse",
+      "type": "object"
     },
     "Severity": {
       "enum": [
@@ -1878,6 +3280,93 @@
       "title": "Shift",
       "type": "object"
     },
+    "ShiftResponse": {
+      "properties": {
+        "date": {
+          "title": "Date",
+          "type": "string"
+        },
+        "operator_id": {
+          "title": "Operator Id",
+          "type": "string"
+        },
+        "machine_id": {
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "conditions": {
+          "$ref": "#/$defs/Conditions"
+        },
+        "tasks": {
+          "items": {
+            "$ref": "#/$defs/ShiftTask"
+          },
+          "title": "Tasks",
+          "type": "array"
+        },
+        "likely_finish": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TaskEstimate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "breaks": {
+          "items": {
+            "$ref": "#/$defs/SuggestedBreak"
+          },
+          "title": "Breaks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "date",
+        "operator_id",
+        "machine_id",
+        "conditions",
+        "tasks",
+        "likely_finish",
+        "breaks"
+      ],
+      "title": "ShiftResponse",
+      "type": "object"
+    },
+    "ShiftTask": {
+      "properties": {
+        "task": {
+          "$ref": "#/$defs/Task"
+        },
+        "estimate": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TaskEstimate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "progress_qty": {
+          "default": 0.0,
+          "title": "Progress Qty",
+          "type": "number"
+        },
+        "zone_decal": {
+          "title": "Zone Decal",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task",
+        "estimate",
+        "zone_decal"
+      ],
+      "title": "ShiftTask",
+      "type": "object"
+    },
     "ShortageWindow": {
       "additionalProperties": false,
       "properties": {
@@ -1903,6 +3392,52 @@
         "minutes"
       ],
       "title": "ShortageWindow",
+      "type": "object"
+    },
+    "SignInRequest": {
+      "properties": {
+        "operator_id": {
+          "title": "Operator Id",
+          "type": "string"
+        },
+        "machine_id": {
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "pin": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pin"
+        },
+        "badge": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Badge"
+        },
+        "language": {
+          "$ref": "#/$defs/Language"
+        }
+      },
+      "required": [
+        "operator_id",
+        "machine_id",
+        "language"
+      ],
+      "title": "SignInRequest",
       "type": "object"
     },
     "SignalTick": {
@@ -2244,6 +3779,53 @@
       "title": "Site",
       "type": "object"
     },
+    "SiteEntities": {
+      "description": "`entities` on /ws/site: everything on the map (5 Hz).",
+      "properties": {
+        "ts": {
+          "format": "date-time",
+          "title": "Ts",
+          "type": "string"
+        },
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        },
+        "machines": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Machines",
+          "type": "array"
+        },
+        "trucks": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Trucks",
+          "type": "array"
+        },
+        "workers": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Workers",
+          "type": "array"
+        }
+      },
+      "required": [
+        "ts",
+        "site_id",
+        "machines",
+        "trucks",
+        "workers"
+      ],
+      "title": "SiteEntities",
+      "type": "object"
+    },
     "Size": {
       "additionalProperties": false,
       "properties": {
@@ -2263,6 +3845,159 @@
         "h"
       ],
       "title": "Size",
+      "type": "object"
+    },
+    "SpeedRequest": {
+      "properties": {
+        "x": {
+          "exclusiveMinimum": 0,
+          "maximum": 120,
+          "title": "X",
+          "type": "number"
+        }
+      },
+      "required": [
+        "x"
+      ],
+      "title": "SpeedRequest",
+      "type": "object"
+    },
+    "SuggestedBreak": {
+      "properties": {
+        "at": {
+          "title": "At",
+          "type": "string"
+        },
+        "minutes": {
+          "title": "Minutes",
+          "type": "integer"
+        },
+        "reason_key": {
+          "title": "Reason Key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "at",
+        "minutes",
+        "reason_key"
+      ],
+      "title": "SuggestedBreak",
+      "type": "object"
+    },
+    "SyncStatus": {
+      "properties": {
+        "online": {
+          "title": "Online",
+          "type": "boolean"
+        },
+        "outbox_size": {
+          "title": "Outbox Size",
+          "type": "integer"
+        },
+        "last_sync": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Last Sync"
+        },
+        "last_error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Error"
+        },
+        "estimation_model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Estimation Model"
+        },
+        "estimation_source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Estimation Source"
+        }
+      },
+      "required": [
+        "online",
+        "outbox_size",
+        "last_sync"
+      ],
+      "title": "SyncStatus",
+      "type": "object"
+    },
+    "SyncUpdate": {
+      "properties": {
+        "online": {
+          "title": "Online",
+          "type": "boolean"
+        },
+        "outbox_size": {
+          "title": "Outbox Size",
+          "type": "integer"
+        },
+        "last_sync": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Last Sync"
+        },
+        "last_error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Error"
+        },
+        "synced_now": {
+          "default": 0,
+          "title": "Synced Now",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "online",
+        "outbox_size",
+        "last_sync"
+      ],
+      "title": "SyncUpdate",
       "type": "object"
     },
     "Task": {
@@ -2403,6 +4138,47 @@
       "title": "TaskConditions",
       "type": "object"
     },
+    "TaskEstimate": {
+      "properties": {
+        "p10": {
+          "title": "P10",
+          "type": "number"
+        },
+        "p50": {
+          "title": "P50",
+          "type": "number"
+        },
+        "p90": {
+          "title": "P90",
+          "type": "number"
+        },
+        "reasons": {
+          "items": {
+            "$ref": "#/$defs/EstimateReason"
+          },
+          "title": "Reasons",
+          "type": "array"
+        },
+        "low_confidence": {
+          "default": false,
+          "title": "Low Confidence",
+          "type": "boolean"
+        },
+        "remaining": {
+          "default": false,
+          "title": "Remaining",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "p10",
+        "p50",
+        "p90",
+        "reasons"
+      ],
+      "title": "TaskEstimate",
+      "type": "object"
+    },
     "TaskProfile": {
       "additionalProperties": false,
       "description": "How a task type behaves for this machine type (used by the simulator and estimation).",
@@ -2432,6 +4208,38 @@
       "title": "TaskProfile",
       "type": "object"
     },
+    "TaskProgress": {
+      "properties": {
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/TaskStatus"
+        },
+        "done_qty": {
+          "title": "Done Qty",
+          "type": "number"
+        },
+        "planned_qty": {
+          "title": "Planned Qty",
+          "type": "number"
+        },
+        "unit": {
+          "title": "Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id",
+        "status",
+        "done_qty",
+        "planned_qty",
+        "unit"
+      ],
+      "title": "TaskProgress",
+      "type": "object"
+    },
     "TaskStatus": {
       "enum": [
         "scheduled",
@@ -2440,6 +4248,221 @@
       ],
       "title": "TaskStatus",
       "type": "string"
+    },
+    "Telemetry": {
+      "properties": {
+        "ts": {
+          "format": "date-time",
+          "title": "Ts",
+          "type": "string"
+        },
+        "machine_id": {
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/$defs/MachineState"
+        },
+        "mode": {
+          "$ref": "#/$defs/CabMode"
+        },
+        "engine_on": {
+          "title": "Engine On",
+          "type": "boolean"
+        },
+        "travel_speed_kmh": {
+          "title": "Travel Speed Kmh",
+          "type": "number"
+        },
+        "seatbelt_fastened": {
+          "title": "Seatbelt Fastened",
+          "type": "boolean"
+        },
+        "seat_occupied": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Seat Occupied"
+        },
+        "proximity_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Proximity M"
+        },
+        "proximity_bearing_deg": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Proximity Bearing Deg"
+        },
+        "proximity_source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Proximity Source"
+        },
+        "proximity_tier": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ProximityTier"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "heat_index_c": {
+          "title": "Heat Index C",
+          "type": "number"
+        },
+        "risk_score": {
+          "title": "Risk Score",
+          "type": "integer"
+        },
+        "risk_band": {
+          "$ref": "#/$defs/RiskBand"
+        },
+        "task_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Task Id"
+        },
+        "task_progress_qty": {
+          "title": "Task Progress Qty",
+          "type": "number"
+        },
+        "continuous_operation_min": {
+          "title": "Continuous Operation Min",
+          "type": "number"
+        },
+        "sensor_tier": {
+          "$ref": "#/$defs/SensorTier"
+        },
+        "thresholds": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Thresholds",
+          "type": "object"
+        },
+        "x_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "X M"
+        },
+        "y_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Y M"
+        },
+        "heading_deg": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Heading Deg"
+        }
+      },
+      "required": [
+        "ts",
+        "machine_id",
+        "state",
+        "mode",
+        "engine_on",
+        "travel_speed_kmh",
+        "seatbelt_fastened",
+        "seat_occupied",
+        "proximity_m",
+        "proximity_bearing_deg",
+        "proximity_source",
+        "proximity_tier",
+        "heat_index_c",
+        "risk_score",
+        "risk_band",
+        "task_id",
+        "task_progress_qty",
+        "continuous_operation_min",
+        "sensor_tier",
+        "thresholds"
+      ],
+      "title": "Telemetry",
+      "type": "object"
+    },
+    "TimeSplitSegment": {
+      "properties": {
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "start": {
+          "format": "date-time",
+          "title": "Start",
+          "type": "string"
+        },
+        "end": {
+          "format": "date-time",
+          "title": "End",
+          "type": "string"
+        },
+        "minutes": {
+          "title": "Minutes",
+          "type": "number"
+        }
+      },
+      "required": [
+        "kind",
+        "start",
+        "end",
+        "minutes"
+      ],
+      "title": "TimeSplitSegment",
+      "type": "object"
     },
     "TrainingSlot": {
       "properties": {
@@ -2603,6 +4626,68 @@
         "count"
       ],
       "title": "Workers",
+      "type": "object"
+    },
+    "WsEnvelope": {
+      "description": "Every WebSocket message (TRD §9): `seq` increases by one per channel.",
+      "properties": {
+        "type": {
+          "title": "Type",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "ts": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Ts"
+        },
+        "machine_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Machine Id"
+        },
+        "site_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Site Id"
+        },
+        "payload": {
+          "additionalProperties": true,
+          "title": "Payload",
+          "type": "object"
+        }
+      },
+      "required": [
+        "type",
+        "seq",
+        "ts",
+        "machine_id",
+        "site_id",
+        "payload"
+      ],
+      "title": "WsEnvelope",
       "type": "object"
     },
     "YesNo": {

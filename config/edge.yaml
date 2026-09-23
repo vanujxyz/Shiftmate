@@ -1,0 +1,15 @@
+# Edge Gateway timings (TRD §9.1, §9.3). Wall-clock seconds unless noted.
+feeds:
+  telemetry_hz: 1              # cab telemetry rate (TRD §9.1: 1 Hz)
+  site_entities_hz: 5          # site map entities rate (TRD §9.1: 5 Hz)
+  estimate_update_sim_s: 60    # live remaining-time refresh for the active task (sim seconds)
+camera:
+  fresh_s: 1.0                 # camera overrides the sensor while this fresh (TRD §9.1)
+  active_s: 5.0                # a camera that reported this recently counts as a proximity source
+  wait_s: 30                   # worker_near beat waits this long for camera readings (TRD §8)
+sync:
+  interval_s: 5                # post a batch every 5 s when online (TRD §9.3)
+  batch_size: 500              # ≤ 500 records per request (TRD §9.2)
+  timeout_s: 5
+  backoff_max_s: 60            # exponential back-off after failures: 5, 10, 20, 40, 60, 60 …
+  model_check_s: 300           # look for a newer estimation model this often when online

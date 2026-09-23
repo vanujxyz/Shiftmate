@@ -1,9 +1,10 @@
 """Edge Gateway FastAPI app (TRD §9.1): the machine-side server the cab talks to.
 
 One process hosts the live simulated site and the focus machine's runtime. A clock task advances
-the world `speed` seconds per real second while the scenario plays. Endpoints are `async`, so
-they run on the same event loop as the clock and never see the world half-updated.
-WebSockets, the outbox sync and fleet model download arrive in milestone 8.
+the world `speed` seconds per real second while the scenario plays, then pumps what happened to
+the WebSocket channels (`edge/channels.py`). A second task syncs the outbox and fetches newer
+estimation models from the fleet (`edge/sync.py`). Endpoints and sockets are `async`, so
+everything runs on one event loop and never sees the world half-updated.
 """
 
 from __future__ import annotations
@@ -14,18 +15,20 @@ import logging
 import time as _time
 from collections.abc import AsyncIterator
 from dataclasses import dataclass, field
-from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI, HTTPException, Query
+import httpx
+from fastapi import FastAPI, HTTPException, Query, WebSocket, WebSocketDisconnect
 
 from shiftmate import __version__
 from shiftmate.config_loader import ShiftMateConfig, load_config
+from shiftmate.edge.channels import Feeds, Subscriber, cab_channel, site_channel
 from shiftmate.edge.live import ScenarioPlayer
 from shiftmate.edge.resources import EdgeResources
 from shiftmate.edge.services import build_insights, build_profile, build_shift, training_slots
 from shiftmate.edge.store import EdgeStore
+from shiftmate.edge.sync import SyncWorker
 from shiftmate.engines.intents import match_intent
 from shiftmate.engines.reports import auto_fill, parse_offline
 from shiftmate.engines.safety import SafetyEngine
@@ -38,6 +41,7 @@ from shiftmate.schema.api import (
     BookingRequest,
     CameraReading,
     Capability,
+    CaptionsRequest,
     ChecklistResult,
     ChecklistSubmit,
     DemoState,
@@ -84,8 +88,8 @@ class EdgeContext:
     resources: EdgeResources
     store: EdgeStore
     player: ScenarioPlayer
-    last_sync: datetime | None = None
-    last_sync_error: str | None = None
+    feeds: Feeds | None = None
+    sync: SyncWorker | None = None
     extra: dict[str, Any] = field(default_factory=dict)
 
     @property
@@ -110,24 +114,33 @@ def create_app(
     db_path: Path | None = None,
     scenario: str | None = "ravi_shift",
     autorun: bool = True,
+    cache_dir: Path | None = None,
+    fleet_url: str | None = None,
+    fleet_transport: httpx.AsyncBaseTransport | None = None,
 ) -> FastAPI:
+    """Build the app. `autorun=False` (tests) leaves the clock and sync loops off."""
     settings = get_settings()
     cfg = cfg or load_config()
     data_dir = settings.resolve(settings.data_dir)
     history_dir = history_dir or data_dir / "history"
     models_dir = models_dir or settings.resolve(settings.models_dir)
-    resources = EdgeResources.load(cfg, history_dir, models_dir)
+    cache_dir = cache_dir or data_dir / "edge" / "models"
+    resources = EdgeResources.load(cfg, history_dir, models_dir, cache_dir)
     store = EdgeStore(db_path if db_path is not None else data_dir / "edge" / "edge.db")
     player = ScenarioPlayer(cfg, resources, store)
     ctx = EdgeContext(cfg, resources, store, player)
+    ctx.feeds = Feeds(ctx)
+    ctx.sync = SyncWorker(ctx, fleet_url or settings.fleet_url, cache_dir, fleet_transport)
     if scenario:
         player.load(scenario)
 
     @contextlib.asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-        task = asyncio.create_task(_clock(ctx)) if autorun else None
+        tasks = []
+        if autorun:
+            tasks = [asyncio.create_task(_clock(ctx)), asyncio.create_task(ctx.sync.run())]
         yield
-        if task:
+        for task in tasks:
             task.cancel()
 
     app = FastAPI(title="ShiftMate Edge Gateway", version=__version__, lifespan=lifespan)
@@ -145,9 +158,46 @@ async def _clock(ctx: EdgeContext) -> None:
         now = _time.monotonic()
         try:
             ctx.player.tick_wall(now - last, now)
+            ctx.feeds.pump(now)
         except Exception:  # keep the clock alive; the error is logged for the demo operator
             log.exception("clock step failed")
         last = now
+
+
+async def _serve_socket(ctx: EdgeContext, ws: WebSocket, channel: str, first: dict) -> None:
+    """Send a channel to one socket: a snapshot first, then every message in order."""
+    await ws.accept()
+    hub = ctx.feeds.hub
+    sub: Subscriber = hub.subscribe(channel)
+    site = ctx.player.site
+    hub.publish(
+        channel,
+        "snapshot",
+        first,
+        site.now if site else None,
+        machine_id=channel.removeprefix("cab:") if channel.startswith("cab:") else None,
+        site_id=site.site.site_id if site else None,
+        only=sub,
+    )
+
+    async def reader() -> None:  # clients only send pings; reading also notices a disconnect
+        while True:
+            await ws.receive_text()
+
+    read_task = asyncio.create_task(reader())
+    try:
+        while True:
+            get = asyncio.create_task(sub.queue.get())
+            done, _ = await asyncio.wait({get, read_task}, return_when=asyncio.FIRST_COMPLETED)
+            if read_task in done:
+                get.cancel()
+                break
+            await ws.send_json(get.result())
+    except (WebSocketDisconnect, RuntimeError):
+        pass
+    finally:
+        read_task.cancel()
+        hub.unsubscribe(channel, sub)
 
 
 # --- helpers ------------------------------------------------------------------------------------
@@ -536,12 +586,33 @@ def _routes(app: FastAPI, ctx: EdgeContext) -> None:
 
     @app.get("/sync/status", response_model=SyncStatus)
     async def sync_status() -> SyncStatus:
+        st = ctx.sync.status_payload()
+        res = ctx.resources
         return SyncStatus(
-            online=ctx.player.online,
-            outbox_size=ctx.store.outbox_size(),
-            last_sync=ctx.last_sync,
-            last_error=ctx.last_sync_error,
+            online=st["online"],
+            outbox_size=st["outbox_size"],
+            last_sync=st["last_sync"],
+            last_error=st["last_error"],
+            estimation_model=res.estimation.version if res.estimation else None,
+            estimation_source=res.estimation_source,
         )
+
+    # --- live channels (TRD §9.1) -------------------------------------------------------------
+    @app.websocket("/ws/cab/{machine_id}")
+    async def ws_cab(ws: WebSocket, machine_id: str) -> None:
+        site = ctx.player.site
+        if site is None or machine_id != site.focus_id:
+            await ws.close(code=4404, reason=f"No live runtime for {machine_id}.")
+            return
+        await _serve_socket(ctx, ws, cab_channel(machine_id), ctx.feeds.cab_snapshot())
+
+    @app.websocket("/ws/site/{site_id}")
+    async def ws_site(ws: WebSocket, site_id: str) -> None:
+        site = ctx.player.site
+        if site is None or site_id != site.site.site_id:
+            await ws.close(code=4404, reason=f"Site {site_id} is not running here.")
+            return
+        await _serve_socket(ctx, ws, site_channel(site_id), ctx.feeds.site_snapshot())
 
     # --- demo control ---------------------------------------------------------------------------
     def demo_state() -> DemoState:
@@ -580,6 +651,7 @@ def _routes(app: FastAPI, ctx: EdgeContext) -> None:
             ctx.player.load(body.name)
         except FileNotFoundError as exc:
             raise HTTPException(404, str(exc)) from exc
+        ctx.feeds.pump(ctx.wall())
         return demo_state()
 
     @app.post("/demo/play", response_model=DemoState)
@@ -606,17 +678,20 @@ def _routes(app: FastAPI, ctx: EdgeContext) -> None:
             ctx.player.seek(body.beat_id)
         except KeyError as exc:
             raise HTTPException(404, f"Unknown beat {body.beat_id}.") from exc
+        ctx.feeds.pump(ctx.wall())
         return demo_state()
 
     @app.post("/demo/network", response_model=DemoState)
     async def demo_network(body: NetworkRequest) -> DemoState:
         ctx.site  # noqa: B018
         ctx.player.set_network(body.online)
+        ctx.sync.publish_status(force=True)
+        ctx.feeds.pump(ctx.wall())
         return demo_state()
 
     @app.post("/demo/captions", response_model=DemoState)
-    async def demo_captions(body: NetworkRequest) -> DemoState:
-        ctx.player.captions = body.online  # reuses {online: bool} as {on: bool}
+    async def demo_captions(body: CaptionsRequest) -> DemoState:
+        ctx.player.captions = body.on
         return demo_state()
 
 
@@ -649,9 +724,7 @@ def _save_report(
         "ts": site.now.isoformat(),
     }
     ctx.store.add_report(report_id, site.now, rt.operator_id, site.focus_id, data)
-    kind = {ReportType.INCIDENT: EventType.INCIDENT, ReportType.NEAR_MISS: EventType.NEAR_MISS}.get(
-        draft.type, EventType.INCIDENT
-    )
+    kind = EventType(draft.type.value)  # incident | near_miss | equipment_problem
     rt.record(
         kind,
         site.now,

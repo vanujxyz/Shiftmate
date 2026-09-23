@@ -295,7 +295,7 @@ def test_demo_controls(client) -> None:
     assert client.post("/demo/network", json={"online": False}).json()["online"] is False
     assert client.get("/health").json()["network_online"] is False
     client.post("/demo/network", json={"online": True})
-    assert client.post("/demo/captions", json={"online": True}).json()["captions"] is True
+    assert client.post("/demo/captions", json={"on": True}).json()["captions"] is True
     assert client.post("/demo/seek", json={"beat_id": "nope"}).status_code == 404
     seek = client.post("/demo/seek", json={"beat_id": "truck_delay"}).json()
     assert seek["sim_time"].startswith("2026-09-24T08:1") or seek["sim_time"].startswith(
