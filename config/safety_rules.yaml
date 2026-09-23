@@ -1,0 +1,93 @@
+# Declarative safety rules evaluated each tick by the Safety engine (TRD §4.4, §6.2).
+# `when` is evaluated by engines/rule_eval.py (whitelisted names and operators, never Python eval).
+# Names available in expressions: tick signals (seatbelt_fastened, travel_speed_kmh, ...), effective
+# thresholds from the Risk engine (caution_m, danger_m, critical_m, fatigue_warn_min,
+# fatigue_limit_min), profile values (speed_near_person_kmh) and runtime values
+# (continuous_operation_min, minutes_since_break, risk_band_rank, proximity_age_s).
+# trigger: level = fires while true (respecting cooldown); edge = fires once when it becomes true.
+rules:
+  - id: SEATBELT_MOVING
+    when: "not seatbelt_fastened and (travel_speed_kmh > 0.5 or hydraulic_active)"
+    sustain_s: 2
+    priority: P1
+    message_key: alert.seatbelt_moving
+    cooldown_s: 60
+    requires_signals: [seatbelt_fastened]
+    category: seatbelt
+  - id: PROXIMITY_CAUTION
+    when: "proximity_m <= caution_m"
+    priority: P3
+    message_key: alert.proximity_caution
+    cooldown_s: 60
+    requires_signals: [proximity_m]
+    category: proximity
+  - id: PROXIMITY_DANGER
+    when: "proximity_m <= danger_m"
+    priority: P2
+    message_key: alert.proximity_danger
+    cooldown_s: 30
+    requires_signals: [proximity_m]
+    category: proximity
+  - id: PROXIMITY_CRITICAL
+    when: "proximity_m <= critical_m"
+    priority: P1
+    message_key: alert.proximity_critical
+    cooldown_s: 30
+    requires_signals: [proximity_m]
+    category: proximity
+  - id: SPEED_NEAR_PERSON
+    when: "proximity_m <= caution_m and travel_speed_kmh > speed_near_person_kmh"
+    sustain_s: 1
+    priority: P1
+    message_key: alert.speed_near_person
+    cooldown_s: 60
+    requires_signals: [proximity_m]
+    category: proximity
+  - id: UNATTENDED_RUNNING
+    when: "engine_on and not seat_occupied"
+    sustain_s: 120
+    priority: P2
+    message_key: alert.unattended_running
+    cooldown_s: 600
+    requires_signals: [seat_occupied]
+    category: unattended
+  - id: FATIGUE_WARN
+    when: "continuous_operation_min >= fatigue_warn_min"
+    priority: P3
+    message_key: alert.fatigue_warn
+    cooldown_s: 1800
+    category: fatigue
+  - id: FATIGUE_LIMIT
+    when: "continuous_operation_min >= fatigue_limit_min"
+    priority: P2
+    message_key: alert.fatigue_limit
+    cooldown_s: 1200
+    category: fatigue
+  - id: HEAT_NO_BREAK
+    when: "heat_index_c >= 41 and minutes_since_break >= 60"
+    priority: P2
+    message_key: alert.heat_no_break
+    cooldown_s: 1200
+    category: heat
+  # D-008: band rises raise one alert each, then the band lives quietly in the rail.
+  - id: RISK_BAND_RAISED
+    when: "risk_band_rank == 1"
+    priority: P3
+    message_key: alert.risk_band_raised
+    trigger: edge
+    category: risk
+  - id: RISK_BAND_HIGH
+    when: "risk_band_rank == 2"
+    priority: P2
+    message_key: alert.risk_band_high
+    trigger: edge
+    category: risk
+  # D-008: stale proximity data is never shown as clear (DESIGN SystemStates).
+  - id: PROXIMITY_STALE
+    when: "proximity_age_s > 3"
+    sustain_s: 2
+    priority: P2
+    message_key: alert.proximity_stale
+    cooldown_s: 300
+    requires_signals: [proximity_m]
+    category: proximity

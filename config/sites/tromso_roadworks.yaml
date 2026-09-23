@@ -1,0 +1,37 @@
+# Tromsø roadworks (TRD §4.3): sub-zero, polar night, frozen ground, long warm-ups. English.
+site_id: TRO-RD-01
+name: "Tromsø E8 Road Upgrade"
+country: "NO"                 # quoted: bare NO is a boolean in YAML
+timezone: Europe/Oslo
+latitude: 69.65
+locale_default: en
+languages: [en]
+units: metric
+climate:
+  month_profiles:
+    1:  {temp_mean_c: -5, temp_amp_c: 2, rh_mean: 82, rain_prob: 0.20, rain_mean_mm_h: 1.5, wind_mean_kmh: 18, fog_prob: 0.03}
+    9:  {temp_mean_c: 8, temp_amp_c: 4, rh_mean: 80, rain_prob: 0.25, rain_mean_mm_h: 2.0, wind_mean_kmh: 16, fog_prob: 0.02}
+    12: {temp_mean_c: -4, temp_amp_c: 2, rh_mean: 85, rain_prob: 0.22, rain_mean_mm_h: 1.5, wind_mean_kmh: 20, fog_prob: 0.04}
+  history_seasons:            # D-016: winter, so history shows frost and long darkness
+    - {days: [1, 21], month: 12}
+    - {days: [22, 42], month: 1}
+shift: {start: "07:00", end: "16:00", breaks: [{start: "09:30", minutes: 15}, {start: "12:00", minutes: 30}, {start: "14:30", minutes: 15}]}
+layout:
+  size: {w: 300, h: 150}
+  zones:
+    - {id: DIG-A, type: dig, polygon: [[20,20],[120,20],[120,80],[20,80]]}
+    - {id: LOAD-A, type: loading, polygon: [[130,30],[170,30],[170,70],[130,70]]}
+    - {id: HAUL, type: haul_road, polyline: [[170,50],[280,50],[280,130]]}
+    - {id: STOCK-1, type: stockpile, polygon: [[190,80],[250,80],[250,130],[190,130]]}
+    - {id: REST, type: break_area, polygon: [[20,100],[60,100],[60,135],[20,135]]}
+trucks: {count: 6, dispatch_mean_interval_min: 8.0, shortage_windows: []}
+workers: {count: 6, swing_entry_prob_per_h: 0.05}
+fleet: {excavator: 5, wheel_loader: 2, dozer: 1}
+operators: 11
+ground_baseline: dry
+training_centre: "Cat dealer training centre — Tromsø"
+operator_names: [
+  "Ole Hansen", "Lars Johansen", "Erik Olsen", "Magnus Larsen", "Anders Andersen",
+  "Jonas Pedersen", "Sindre Nilsen", "Ingrid Kristiansen", "Kari Jensen", "Henrik Karlsen",
+  "Silje Berg"]
+safety_overrides: {}

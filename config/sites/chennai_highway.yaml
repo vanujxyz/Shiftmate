@@ -1,0 +1,47 @@
+# Chennai highway site (TRD §4.3). Ravi Kumar (OP1001) and EXC001 work here.
+site_id: CHN-HWY-01
+name: "Chennai Outer Ring Road — Package 3"
+country: IN
+timezone: Asia/Kolkata
+latitude: 13.08
+locale_default: ta
+languages: [ta, hi, en]
+units: metric
+climate:                      # used by the weather generator
+  month_profiles:
+    5:  {temp_mean_c: 36, temp_amp_c: 6, rh_mean: 62, rain_prob: 0.08, rain_mean_mm_h: 4.0, wind_mean_kmh: 14}
+    9:  {temp_mean_c: 31, temp_amp_c: 5, rh_mean: 72, rain_prob: 0.25, rain_mean_mm_h: 5.0, wind_mean_kmh: 12}
+    10: {temp_mean_c: 30, temp_amp_c: 4, rh_mean: 80, rain_prob: 0.45, rain_mean_mm_h: 6.0, wind_mean_kmh: 12}
+  history_seasons:            # D-016: May (hot) for days 1–21, October (monsoon) for days 22–42
+    - {days: [1, 21], month: 5}
+    - {days: [22, 42], month: 10}
+shift: {start: "07:00", end: "17:00", breaks: [{start: "10:30", minutes: 15}, {start: "13:00", minutes: 30}, {start: "15:30", minutes: 15}]}
+layout:                       # metres, local x/y; used by simulator and site map
+  size: {w: 400, h: 260}
+  zones:
+    - {id: DIG-A, type: dig, polygon: [[40,40],[160,40],[160,120],[40,120]]}
+    - {id: LOAD-A, type: loading, polygon: [[170,60],[210,60],[210,100],[170,100]]}
+    - {id: HAUL, type: haul_road, polyline: [[210,80],[380,80],[380,220]]}
+    - {id: STOCK-1, type: stockpile, polygon: [[250,160],[330,160],[330,230],[250,230]]}
+    - {id: REST, type: break_area, polygon: [[20,200],[70,200],[70,240],[20,240]]}
+    - {id: DIG-B, type: dig, polygon: [[40,140],[150,140],[150,190],[40,190]]}
+    - {id: LOAD-B, type: loading, polygon: [[160,150],[200,150],[200,190],[160,190]]}
+    - {id: HAUL-B, type: haul_road, polyline: [[200,170],[245,170],[245,80]]}
+    - {id: DIG-C, type: dig, polygon: [[220,15],[330,15],[330,60],[220,60]]}
+    - {id: LOAD-C, type: loading, polygon: [[340,20],[380,20],[380,60],[340,60]]}
+    - {id: HAUL-C, type: haul_road, polyline: [[360,60],[360,80]]}
+trucks: {count: 20, dispatch_mean_interval_min: 6.0, shortage_windows: []}
+workers: {count: 14, swing_entry_prob_per_h: 0.06}
+fleet: {excavator: 12, wheel_loader: 6, dozer: 6}
+operators: 32
+ground_baseline: dry
+training_centre: "Cat dealer training centre — Chennai"
+operator_names: [
+  "Ravi Kumar", "Senthil Murugan", "Karthik Raja", "Arun Prakash", "Vijay Anand", "Suresh Babu",
+  "Murali Krishnan", "Ganesh Pandian", "Prakash Selvam", "Dinesh Kumar", "Saravanan Ramasamy",
+  "Balaji Srinivasan", "Manikandan Velu", "Rajesh Kannan", "Anbu Selvan", "Muthu Kumar",
+  "Kannan Subramani", "Selvam Arumugam", "Ramesh Natarajan", "Sathish Kumar", "Venkatesh Iyer",
+  "Elango Perumal", "Siva Shankar", "Palani Samy", "Mohan Raj", "Lakshmi Narayanan",
+  "Thirumalai Vasan", "Vignesh Ravi", "Kumaresan Mani", "Priya Dharshini", "Meenakshi Sundaram",
+  "Divya Bharathi"]
+safety_overrides: {}          # per-site threshold overrides (F-FLT-06)

@@ -1,0 +1,26 @@
+# Wheel loader profile (TRD §4.1).
+machine_type: wheel_loader
+display_name: {en: "Wheel loader", hi: "व्हील लोडर", ta: "சக்கர லோடர்"}
+id_prefix: WHL
+example_models: ["Cat 950 GC", "Cat 966"]
+load_cycle_definition: "one haul truck fully loaded"
+passes_per_load: {min: 3, max: 5}
+seconds_per_pass: {mean: 38, sd: 6}
+fuel_lph: {idle: 2.8, working: 13.0, travel: 11.0}
+rpm: {idle: 850, working: 1700}
+max_travel_speed_kmh: 38
+warm_up: {coolant_ready_c: 60, max_minutes_normal: 5, max_minutes_below_0c: 15}
+idle:
+  segment_min_seconds: 60
+  habit_threshold_minutes: 5
+  unattended_seat_empty_seconds: 120
+proximity_m: {caution: 12.0, danger: 7.0, critical: 4.0}
+unsafe:
+  speed_near_person_kmh: 5.0
+  continuous_operation_warn_min: 150
+  continuous_operation_limit_min: 240
+task_types: [truck_loading, stockpile_moving, site_clearing]
+tasks:
+  truck_loading:    {quantity_unit: loads, base_rate_per_h: 11,  truck_dependent: true, typical_quantity: {min: 12, max: 30}}
+  stockpile_moving: {quantity_unit: m3,    base_rate_per_h: 120, typical_quantity: {min: 150, max: 450}}
+  site_clearing:    {quantity_unit: m2,    base_rate_per_h: 400, typical_quantity: {min: 500, max: 1500}}

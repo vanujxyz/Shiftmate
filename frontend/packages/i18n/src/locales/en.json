@@ -18,5 +18,110 @@
       "fleet_ok": "Connected to the fleet service",
       "fleet_down": "Fleet service not reachable yet"
     }
+  },
+  "alert": {
+    "seatbelt_moving": {
+      "title": "Seatbelt off while working",
+      "action": "Stop the machine. Buckle up.",
+      "speak": "Stop. Seatbelt off."
+    },
+    "proximity_caution": {
+      "title": "Person near the machine",
+      "action": "Keep watching. Slow your swing.",
+      "speak": "Person near the machine."
+    },
+    "proximity_danger": {
+      "title": "Person close to the swing zone",
+      "action": "Slow down. Do not swing that way.",
+      "speak": "Person close. Slow down."
+    },
+    "proximity_critical": {
+      "title": "Person inside the swing zone",
+      "action": "Stop all movement now.",
+      "speak": "Stop. Person in swing zone."
+    },
+    "speed_near_person": {
+      "title": "Moving fast near a person",
+      "action": "Stop. Let them move clear.",
+      "speak": "Stop. Person near your path."
+    },
+    "unattended_running": {
+      "title": "Engine on, cab empty",
+      "action": "Switch off before stepping out.",
+      "speak": "Engine on with the cab empty."
+    },
+    "fatigue_warn": {
+      "title": "Long time without a break",
+      "action": "Plan a short break soon.",
+      "speak": "Time for a short break soon."
+    },
+    "fatigue_limit": {
+      "title": "Very long time without a break",
+      "action": "Park safely and take a break now.",
+      "speak": "Please take a break now."
+    },
+    "heat_no_break": {
+      "title": "Hot today, and no break for a while",
+      "action": "A water break now helps you finish strong.",
+      "speak": "Hot today. Time for a water break."
+    },
+    "risk_band_raised": {
+      "title": "Risk level raised",
+      "action": "Warning distances are wider now. Take extra care.",
+      "speak": "Risk raised. Take extra care."
+    },
+    "risk_band_high": {
+      "title": "Risk level high",
+      "action": "Slow down and keep a wider gap around the machine.",
+      "speak": "Risk high. Slow down."
+    },
+    "proximity_stale": {
+      "title": "People sensing is off",
+      "action": "Look around before you swing.",
+      "speak": "People sensing is off. Look around."
+    }
+  },
+  "idle": {
+    "SCHEDULED_BREAK": "Break",
+    "WARM_UP": "Warm-up",
+    "UNATTENDED_RUNNING": "Engine on, cab empty",
+    "WAITING_FOR_TRUCK": "Waiting for a truck",
+    "HABIT": "Short stops",
+    "UNKNOWN": "Not sure"
+  },
+  "insight": {
+    "idle_ratio_high": "Idle share was {{value}}, your usual is {{usual}}.",
+    "fuel_per_load_high": "Fuel per truck was {{value}}, your usual is {{usual}}.",
+    "fuel_rate_high": "Fuel use was {{value}} an hour, your usual is {{usual}}.",
+    "productivity_low": "Loads per hour were {{value}}, your usual is {{usual}}.",
+    "seatbelt_unfastened": "Seatbelt was off for {{value}} while working.",
+    "speed_high": "Top travel speed was {{value}}, your usual is {{usual}}.",
+    "close_calls_high": "People came close {{value}} times, your usual is {{usual}}.",
+    "short_stops_high": "Short stops added up to {{value}}, your usual is {{usual}}.",
+    "cab_empty_engine_on": "Engine ran {{value}} with the cab empty.",
+    "rpm_high": "Engine speed averaged {{value}}, your usual is {{usual}}."
+  },
+  "reason": {
+    "wet_ground_slower": "Wet ground adds time",
+    "dry_ground_faster": "Firm ground saves time",
+    "rain_slower": "Rain adds time",
+    "experience_slower": "Less practice on this task, allow more time",
+    "experience_faster": "Your experience saves time",
+    "truck_supply_slower": "Fewer trucks expected, adds time",
+    "truck_supply_faster": "Good truck supply saves time",
+    "heat_slower": "Heat adds time",
+    "cool_faster": "Cool weather saves time",
+    "night_slower": "Working in the dark adds time",
+    "daylight_faster": "Daylight saves time",
+    "quantity_large": "Large quantity",
+    "quantity_small": "Small quantity",
+    "task_type_slower": "This kind of task takes longer",
+    "task_type_faster": "This kind of task is quicker",
+    "machine_slower": "This machine is slower for this task",
+    "machine_faster": "This machine suits the task",
+    "site_slower": "Site conditions add time",
+    "site_faster": "Site conditions save time",
+    "time_of_day_slower": "Time of day adds time",
+    "time_of_day_faster": "Good time of day for this task"
   }
 }

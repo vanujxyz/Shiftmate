@@ -1,0 +1,39 @@
+# Voice command keywords (TRD §10.5). Rule-based matcher: an utterance matches an intent when it
+# contains one of the phrases (case-insensitive, after trimming punctuation). Longer phrases win.
+intents:
+  next_task:
+    en: ["next task", "next job", "what's next", "what is next", "next work"]
+    hi: ["अगला काम", "आगे क्या", "अगला टास्क"]
+    ta: ["அடுத்த வேலை", "அடுத்தது என்ன", "அடுத்த பணி"]
+  time_left:
+    en: ["how long left", "time left", "how much time", "how long will it take", "when will i finish"]
+    hi: ["कितना समय बाकी", "कितनी देर", "कितना टाइम", "कब ख़त्म"]
+    ta: ["எவ்வளவு நேரம்", "இன்னும் எவ்வளவு", "எப்போது முடியும்", "மீதி நேரம்"]
+  report_problem:
+    en: ["report a problem", "report problem", "near miss", "report", "problem", "incident"]
+    hi: ["समस्या बताओ", "रिपोर्ट", "समस्या", "दुर्घटना", "बाल-बाल बचे", "गड़बड़"]
+    ta: ["பிரச்சினை", "புகார்", "அறிக்கை", "விபத்து", "தப்பினோம்", "கோளாறு"]
+  start_break:
+    en: ["start break", "take a break", "break time", "i am on break", "start my break"]
+    hi: ["ब्रेक शुरू", "ब्रेक लेना", "आराम", "ब्रेक लो"]
+    ta: ["இடைவேளை தொடங்கு", "இடைவேளை", "ஓய்வு"]
+  end_break:
+    en: ["end break", "break over", "back to work", "finish break"]
+    hi: ["ब्रेक ख़त्म", "ब्रेक खत्म", "काम पर वापस"]
+    ta: ["இடைவேளை முடிந்தது", "வேலைக்குத் திரும்பு", "இடைவேளை முடி"]
+  repeat_last:
+    en: ["repeat", "say again", "say that again", "pardon", "one more time"]
+    hi: ["दोबारा बोलो", "फिर से बोलो", "दोहराओ", "फिर से"]
+    ta: ["மீண்டும் சொல்", "திரும்பச் சொல்", "மறுபடி"]
+  ack_alert:
+    en: ["i've stopped", "i have stopped", "stopped", "seen", "acknowledge", "okay seen"]
+    hi: ["रुक गया", "रोक दिया", "देख लिया", "ठीक है देखा"]
+    ta: ["நிறுத்திவிட்டேன்", "நிறுத்தினேன்", "பார்த்தேன்", "சரி பார்த்தேன்"]
+  open_lessons:
+    en: ["lessons", "open lessons", "training", "learn", "show lessons"]
+    hi: ["पाठ", "सीखना", "ट्रेनिंग", "प्रशिक्षण"]
+    ta: ["பாடங்கள்", "பயிற்சி", "கற்றுக்கொள்", "பாடம்"]
+  help:
+    en: ["help", "what can you do", "what can i say"]
+    hi: ["मदद", "सहायता", "क्या बोल सकता हूँ"]
+    ta: ["உதவி", "என்ன சொல்லலாம்", "என்ன செய்ய முடியும்"]

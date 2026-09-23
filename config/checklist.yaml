@@ -1,0 +1,24 @@
+# Pre-start walkaround checklist (TRD §4.10, PRD F-START-04). Each item is answered OK or Problem;
+# Problem opens a report draft with the item pre-filled.
+items:
+  - id: tracks_tyres
+    illustration: check-tracks
+    text: {en: "Tracks or tyres: no damage, no loose parts", hi: "ट्रैक या टायर: कोई टूट-फूट या ढीला पुर्ज़ा नहीं", ta: "டிராக் அல்லது டயர்: சேதம் இல்லை, தளர்ந்த பாகம் இல்லை"}
+  - id: leaks
+    illustration: check-leaks
+    text: {en: "No oil, fuel or coolant leaks under the machine", hi: "मशीन के नीचे तेल, ईंधन या कूलेंट का रिसाव नहीं", ta: "இயந்திரத்தின் கீழே எண்ணெய், எரிபொருள், கூலன்ட் கசிவு இல்லை"}
+  - id: lights_horn
+    illustration: check-lights
+    text: {en: "Lights, beacon and horn work", hi: "लाइटें, बीकन और हॉर्न काम कर रहे हैं", ta: "விளக்குகள், சுழல் விளக்கு, ஹாரன் வேலை செய்கின்றன"}
+  - id: mirrors_camera
+    illustration: check-mirrors
+    text: {en: "Mirrors and camera are clean and set", hi: "शीशे और कैमरा साफ़ हैं और सही जगह पर हैं", ta: "கண்ணாடிகளும் கேமராவும் சுத்தமாகவும் சரியாகவும் உள்ளன"}
+  - id: seatbelt_condition
+    illustration: check-belt
+    text: {en: "Seatbelt has no cuts and latches firmly", hi: "सीटबेल्ट में कटाव नहीं है और बकल ठीक से लगता है", ta: "சீட் பெல்ட்டில் கிழிசல் இல்லை, கொக்கி இறுக்கமாக மாட்டுகிறது"}
+  - id: fire_extinguisher
+    illustration: check-extinguisher
+    text: {en: "Fire extinguisher is in place and charged", hi: "अग्निशामक अपनी जगह पर है और भरा हुआ है", ta: "தீயணைப்பான் இடத்தில் உள்ளது, நிரம்பியுள்ளது"}
+  - id: area_clear
+    illustration: check-area
+    text: {en: "Area around the machine is clear of people", hi: "मशीन के आसपास कोई व्यक्ति नहीं है", ta: "இயந்திரத்தைச் சுற்றி யாரும் இல்லை"}

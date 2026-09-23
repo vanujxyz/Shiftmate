@@ -1,0 +1,27 @@
+# Excavator profile (TRD §4.1). Adding a machine type means adding a profile, not code (F-FLT-01).
+machine_type: excavator
+display_name: {en: "Excavator", hi: "एक्सकेवेटर", ta: "அகழ்வு இயந்திரம்"}
+id_prefix: EXC
+example_models: ["Cat 320", "Cat 323", "Cat 336"]
+load_cycle_definition: "one haul truck fully loaded"
+passes_per_load: {min: 4, max: 7}
+seconds_per_pass: {mean: 24, sd: 4}
+fuel_lph: {idle: 3.2, working: 15.0, travel: 9.0}
+rpm: {idle: 950, working: 1800}
+max_travel_speed_kmh: 5.5
+warm_up: {coolant_ready_c: 60, max_minutes_normal: 5, max_minutes_below_0c: 15}
+idle:
+  segment_min_seconds: 60          # idle shorter than this is ignored
+  habit_threshold_minutes: 5       # unexplained seated idle longer than this → Habit
+  unattended_seat_empty_seconds: 120
+proximity_m: {caution: 10.0, danger: 6.0, critical: 3.5}   # swing radius based
+unsafe:
+  speed_near_person_kmh: 3.0       # moving faster than this with person within caution distance
+  continuous_operation_warn_min: 150
+  continuous_operation_limit_min: 240
+task_types: [trenching, truck_loading, backfilling, site_clearing]
+tasks:                             # base productivity in good conditions (simulator + estimation)
+  trenching:     {quantity_unit: m,     base_rate_per_h: 25,  typical_quantity: {min: 30, max: 90}}
+  truck_loading: {quantity_unit: loads, base_rate_per_h: 9,   truck_dependent: true, typical_quantity: {min: 10, max: 24}}
+  backfilling:   {quantity_unit: m3,    base_rate_per_h: 60,  typical_quantity: {min: 60, max: 180}}
+  site_clearing: {quantity_unit: m2,    base_rate_per_h: 250, typical_quantity: {min: 300, max: 900}}

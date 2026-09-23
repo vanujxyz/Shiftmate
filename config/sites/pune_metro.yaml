@@ -1,0 +1,40 @@
+# Pune metro site (TRD §4.3): moderate climate, Hindi and English.
+site_id: PNQ-MET-01
+name: "Pune Metro — Line 3 Viaduct"
+country: IN
+timezone: Asia/Kolkata
+latitude: 18.52
+locale_default: hi
+languages: [hi, en]
+units: metric
+climate:
+  month_profiles:
+    4: {temp_mean_c: 31, temp_amp_c: 7, rh_mean: 35, rain_prob: 0.02, rain_mean_mm_h: 2.0, wind_mean_kmh: 10}
+    8: {temp_mean_c: 25, temp_amp_c: 3, rh_mean: 84, rain_prob: 0.40, rain_mean_mm_h: 4.0, wind_mean_kmh: 16}
+    9: {temp_mean_c: 26, temp_amp_c: 4, rh_mean: 78, rain_prob: 0.25, rain_mean_mm_h: 4.0, wind_mean_kmh: 12}
+  history_seasons:
+    - {days: [1, 21], month: 4}
+    - {days: [22, 42], month: 8}
+shift: {start: "07:00", end: "17:00", breaks: [{start: "10:30", minutes: 15}, {start: "13:00", minutes: 30}, {start: "15:30", minutes: 15}]}
+layout:
+  size: {w: 300, h: 200}
+  zones:
+    - {id: DIG-A, type: dig, polygon: [[30,30],[130,30],[130,100],[30,100]]}
+    - {id: LOAD-A, type: loading, polygon: [[140,50],[180,50],[180,90],[140,90]]}
+    - {id: LOAD-B, type: loading, polygon: [[140,120],[180,120],[180,160],[140,160]]}
+    - {id: HAUL, type: haul_road, polyline: [[180,70],[280,70],[280,180]]}
+    - {id: HAUL-B, type: haul_road, polyline: [[180,140],[220,140],[220,70]]}
+    - {id: STOCK-1, type: stockpile, polygon: [[230,100],[270,100],[270,160],[230,160]]}
+    - {id: REST, type: break_area, polygon: [[20,150],[60,150],[60,185],[20,185]]}
+trucks: {count: 10, dispatch_mean_interval_min: 7.0, shortage_windows: []}
+workers: {count: 10, swing_entry_prob_per_h: 0.07}
+fleet: {excavator: 8, wheel_loader: 3, dozer: 3}
+operators: 19
+ground_baseline: dry
+training_centre: "Cat dealer training centre — Pune"
+operator_names: [
+  "Amit Patil", "Sandeep Jadhav", "Rahul Deshmukh", "Vikas Shinde", "Sunil Pawar",
+  "Mahesh Kulkarni", "Nitin Gaikwad", "Ajay More", "Santosh Bhosale", "Prashant Joshi",
+  "Ganesh Chavan", "Yogesh Kale", "Rohit Sharma", "Manoj Yadav", "Deepak Singh", "Anil Kamble",
+  "Swati Deshpande", "Pooja Salunkhe", "Kiran Mane"]
+safety_overrides: {}

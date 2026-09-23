@@ -1,0 +1,21 @@
+# Unusual-behaviour detection (TRD §6.6). Not listed in TRD §4, added so no threshold lives in code
+# (golden rule 3). Feature codes are also valid lesson triggers (TRD §4.9).
+features:
+  - {code: idle_ratio,                    message_key: insight.idle_ratio_high}
+  - {code: fuel_per_load_cycle_l,         message_key: insight.fuel_per_load_high}
+  - {code: fuel_lph,                      message_key: insight.fuel_rate_high}
+  - {code: load_cycles_per_working_h,     message_key: insight.productivity_low, higher_is_worse: false}
+  - {code: seatbelt_unfastened_working_s, message_key: insight.seatbelt_unfastened}
+  - {code: max_travel_speed_kmh,          message_key: insight.speed_high}
+  - {code: proximity_close_count,         message_key: insight.close_calls_high}
+  - {code: idle_habit_min,                message_key: insight.short_stops_high}
+  - {code: idle_unattended_min,           message_key: insight.cab_empty_engine_on}
+  - {code: avg_engine_rpm,                message_key: insight.rpm_high}
+baseline_days: 14             # trailing window for personal baselines
+baseline_min_intervals: 20    # fewer than this → fall back to (machine_type, task_type, site_id)
+mad_scale: 1.4826             # robust z = (x − median) / (1.4826 × MAD + ε)
+epsilon: 0.000001
+z_threshold: 3.0
+if_top_fraction: 0.05         # IsolationForest score in the top 5 % of its group
+max_explanations: 3
+isolation_forest: {n_estimators: 200, contamination: 0.05, random_state: 7}
