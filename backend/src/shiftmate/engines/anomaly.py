@@ -25,6 +25,7 @@ Pure functions over data passed in; no I/O.
 from __future__ import annotations
 
 import math
+import warnings
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
 
@@ -32,6 +33,9 @@ import numpy as np
 import pandas as pd
 
 from shiftmate.schema.config import AnomalyConfig
+
+# (z-scores are clipped to ±10 before the IsolationForest: when a behaviour is normally absent,
+# MAD = 0 and the raw z is enormous; clipping keeps one feature from swamping the others, D-050)
 
 MIN_WORKING_MIN_FOR_RATE = 5.0  # below this, loads per working hour is not meaningful
 
@@ -186,6 +190,58 @@ def explain(
             }
         )
     return out
+
+
+def baseline_z_frame(df: pd.DataFrame, cfg: AnomalyConfig) -> pd.DataFrame:
+    """Robust z-scores (raw sign) for every interval in `df`, vectorised.
+
+    `df` needs the feature columns plus `day`, `operator_id`, `machine_type`, `task_type` and
+    `site_id`. For each interval the baseline is the trailing `baseline_days` window of its
+    personal group, falling back to its site group when the personal group has too few rows.
+    Returns one column per feature, plus `baseline_level` (personal / group / none) and, per
+    feature, the baseline median as `<feature>__usual`.
+    """
+    codes = cfg.codes()
+    n = len(df)
+    out = np.full((n, len(codes)), np.nan)
+    usual = np.full((n, len(codes)), np.nan)
+    level = np.full(n, "none", dtype=object)
+    days = pd.to_datetime(df["day"]).to_numpy()
+    window = np.timedelta64(cfg.baseline_days, "D")
+    values = df[codes].to_numpy(dtype="float64")
+    for level_name, keys in (("group", Baselines.GROUP), ("personal", Baselines.PERSONAL)):
+        # group first, then personal overwrites where personal has enough history
+        for idx in df.groupby(list(keys), dropna=False, sort=False).indices.values():
+            order = idx[np.argsort(days[idx], kind="stable")]
+            gdays = days[order]
+            for d in np.unique(gdays):
+                lo = np.searchsorted(gdays, d - window, side="left")
+                hi = np.searchsorted(gdays, d, side="left")
+                if hi - lo < cfg.baseline_min_intervals:
+                    continue
+                past = values[order[lo:hi]]
+                with np.errstate(all="ignore"), warnings.catch_warnings():
+                    warnings.simplefilter("ignore", RuntimeWarning)  # all-NaN feature columns
+                    med = np.nanmedian(past, axis=0)
+                    mad = np.nanmedian(np.abs(past - med), axis=0)
+                rows = order[gdays == d]
+                out[rows] = (values[rows] - med) / (cfg.mad_scale * mad + cfg.epsilon)
+                usual[rows] = med
+                level[rows] = level_name
+    result = pd.DataFrame(out, index=df.index, columns=codes)
+    result = pd.concat(
+        [result, pd.DataFrame(usual, index=df.index, columns=[f"{c}__usual" for c in codes])],
+        axis=1,
+    )
+    result["baseline_level"] = level
+    return result
+
+
+def worse_z_matrix(z: pd.DataFrame, cfg: AnomalyConfig, clip: float = 10.0) -> pd.DataFrame:
+    """Worse-direction z-scores clipped to ±clip; missing features become 0 (neutral)."""
+    signs = {f.code: 1.0 if f.higher_is_worse else -1.0 for f in cfg.features}
+    m = pd.DataFrame({c: z[c] * signs[c] for c in cfg.codes()}, index=z.index)
+    return m.clip(-clip, clip).fillna(0.0)
 
 
 def is_unusual(

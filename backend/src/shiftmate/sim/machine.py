@@ -134,7 +134,7 @@ class MachineAgent:
         self.fuel_multiplier_until = None
         self.low_prod_until = None
         self.pending = []
-        self.coolant_c = ambient_c if self.coolant_c is None else self.coolant_c
+        self.coolant_c = ambient_c  # the engine has stood overnight: coolant is at air temperature
         self._event_index = 0
         # Operators who speed near people do so on some days (trait-driven), in travel and work.
         self.speeder_today = rng.random() < self._trait("speeds_near_people") * (
@@ -258,14 +258,17 @@ class MachineAgent:
             return
         if kind == "board":
             self.belt_fastened = True
-            self._start("warmup", None, dt)
-            self._warm_extra_s = (
-                self.rng.uniform(
-                    self.sim.warm_up.extra_idle_min.min, self.sim.warm_up.extra_idle_min.max
+            # Warm up only when the engine is actually cold (D-050); a warm engine goes to work.
+            if (self.coolant_c or 0) < self.profile.warm_up.coolant_ready_c:
+                self._start("warmup", None, dt)
+                self._warm_extra_s = (
+                    self.rng.uniform(
+                        self.sim.warm_up.extra_idle_min.min, self.sim.warm_up.extra_idle_min.max
+                    )
+                    * 60
                 )
-                * 60
-            )
-            return
+                return
+            kind = "warmup_skipped"  # fall through to breaks, events and tasks below
         if kind == "warmup":
             ready = self.profile.warm_up.coolant_ready_c
             if (self.coolant_c or 0) < ready:
@@ -459,8 +462,11 @@ class MachineAgent:
             "habit_idle": kind == "habit",
             "unattended": kind == "step_out",
             "seatbelt": engine_on and not seatbelt and seated and (hydraulic or speed_kmh > 0.5),
+            # the documented definition: a person within the caution distance (profile, TRD §4.4)
             "speed_near_person": bool(
-                person_near and speed_kmh > profile.unsafe.speed_near_person_kmh
+                nearest is not None
+                and nearest[0] <= profile.proximity_m.caution
+                and speed_kmh > profile.unsafe.speed_near_person_kmh
             ),
             "fuel_abnormal": fuel_abnormal,
             "low_productivity": bool(

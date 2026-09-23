@@ -1,6 +1,6 @@
 # ShiftMate — Build progress
 
-**Next step:** Milestone 6 (ML training and evaluation) in progress.
+**Next step:** Milestone 7 (Edge Gateway A: runtime, REST, scenario player) in progress.
 
 **Autonomy note (2026-09-23):** the user authorised continuing through all milestones without waiting for approval, and approved all needed downloads. Each milestone is still tested, committed, and reported in `docs/reports/milestone-N.md`.
 
@@ -93,13 +93,13 @@ Goal: idle reasons, 15-minute interval records, anomaly features, lesson recomme
 Requirements: F-INS-01, 02, 03, 05, 06, F-LRN-02, 03, F-REP-01 (offline), F-REP-02, P-04.
 You will see: tests passing; history intervals file in the brief's column format.
 
-### Milestone 6 — ML training and evaluation (Phase 4) · Status: not started
+### Milestone 6 — ML training and evaluation (Phase 4) · Status: done
 Goal: train the anomaly and time-estimation models and write honest results to `docs/EVAL.md`.
-- [ ] 1. `shiftmate ml train`: IsolationForest per (type, tier); LightGBM quantile p10/p50/p90 with manifest
-- [ ] 2. Estimation explanations (pred_contrib → reason keys) and live remaining-time blend
-- [ ] 3. Fleet patterns (condition multipliers with counts)
-- [ ] 4. `shiftmate eval idle|anomaly|estimation` → `docs/EVAL.md` (confusion matrix, per tier, coverage)
-- [ ] 5. If a target is missed: one investigation, fix genuine bugs only, report honestly, log in DECISIONS.md
+- [x] 1. `shiftmate ml train`: IsolationForest per (type, tier); LightGBM quantile p10/p50/p90 with manifest
+- [x] 2. Estimation explanations (pred_contrib → reason keys) and live remaining-time blend
+- [x] 3. Fleet patterns (condition multipliers with counts)
+- [x] 4. `shiftmate eval idle|anomaly|estimation` → `docs/EVAL.md` (confusion matrix, per tier, coverage)
+- [x] 5. If a target is missed: one investigation, fix genuine bugs only, report honestly, log in DECISIONS.md
 Requirements: F-SHIFT-02, 03, F-INS-05, F-FLT-04, 05, PRD §10 metrics.
 You will see: `docs/EVAL.md` with real numbers.
 

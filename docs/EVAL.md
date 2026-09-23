@@ -1,0 +1,136 @@
+# ShiftMate — Evaluation results
+
+Measured results, reported as they are, including targets that were not met (golden rule 11).
+All numbers come from `shiftmate eval …` on simulated data (see `data/history/SUMMARY.md`);
+nothing here is typed in by hand. Test data are history days 36–42, which no model saw during
+training, tuning or early stopping.
+
+<!-- BEGIN data -->
+## Data
+
+Simulated history, seed 7: 42 days (2026-08-13 to 2026-09-23), 60 machines, 80 operators, 3,185,280 ticks at 30 s, 7,039 completed tasks. Split by day: train 1–32, validation 33–35, test 36–42.
+<!-- END data -->
+
+<!-- BEGIN idle -->
+## Idle reasons (F-INS-02)
+
+Test days 36–42 (2026-09-17 to 2026-09-23): 5,388 idle segments classified by the engines, each compared with the majority true reason over its ticks.
+
+**Overall accuracy 89.9 %**, macro-average recall 84.8 % (every reason weighted equally, so the common 'Not sure' class cannot hide weak classes).
+
+| sensor tier | segments | accuracy | target | result |
+|---|---|---|---|---|
+| advanced | 1474 | 96.1 % | 90.0 % | met |
+| standard | 1929 | 91.8 % | – | – |
+| basic | 1985 | 83.3 % | 75.0 % | met |
+
+### Per reason
+
+| reason | precision | recall | true segments | predicted |
+|---|---|---|---|---|
+| SCHEDULED_BREAK | 81.1 % | 100.0 % | 396 | 488 |
+| WARM_UP | 98.7 % | 90.4 % | 658 | 603 |
+| UNATTENDED_RUNNING | 97.6 % | 58.2 % | 141 | 84 |
+| WAITING_FOR_TRUCK | 96.1 % | 67.8 % | 992 | 700 |
+| HABIT | 73.6 % | 95.2 % | 537 | 694 |
+| UNKNOWN | 91.7 % | 97.0 % | 2664 | 2819 |
+
+### Confusion matrix (rows: true reason, columns: predicted)
+
+| true \ predicted | SCHEDULED_BREAK | WARM_UP | UNATTENDED_RUNNING | WAITING_FOR_TRUCK | HABIT | UNKNOWN |
+|---|---|---|---|---|---|---|
+| SCHEDULED_BREAK | 396 | 0 | 0 | 0 | 0 | 0 |
+| WARM_UP | 0 | 595 | 0 | 0 | 63 | 0 |
+| UNATTENDED_RUNNING | 2 | 1 | 82 | 0 | 35 | 21 |
+| WAITING_FOR_TRUCK | 24 | 4 | 2 | 673 | 76 | 213 |
+| HABIT | 21 | 0 | 0 | 5 | 511 | 0 |
+| UNKNOWN | 45 | 3 | 0 | 22 | 9 | 2585 |
+| NOT_IDLE | 0 | 0 | 0 | 0 | 0 | 0 |
+
+### True idle periods that were never classified
+
+0 of 5,586 true idle periods of at least a minute had no classified segment (they were merged into, or split from, neighbouring states at 30 s resolution).
+
+None.
+<!-- END idle -->
+
+<!-- BEGIN anomaly -->
+## Unusual behaviour (F-INS-04, F-INS-05)
+
+Test days: 16,721 intervals, 1,699 truly anomalous (10.2 %); 1,056 flagged.
+
+| metric | value | target | result |
+|---|---|---|---|
+| precision | 67.2 % | 80.0 % | **not met** |
+| recall | 41.8 % | 80.0 % | **not met** |
+| F1 | 51.5 % | – | – |
+
+Without the P1 hard rule (model and z-score only): precision 69.6 %, recall 34.3 %.
+
+Why recall is limited: the TRD rule lets the model flag only intervals in its top 5.0 % (and only those that are also ≥ 3 robust z-scores worse than the operator's own normal), while 10.2 % of test intervals are truly anomalous. Behaviour that is habitual for an operator is part of their own baseline and is not unusual for them, and machines without a proximity or seat sensor cannot see speeding near people or an empty cab.
+
+### Recall per anomaly type
+
+| anomaly type | true intervals | recall |
+|---|---|---|
+| habit_idle | 974 | 38.4 % |
+| unattended | 191 | 63.9 % |
+| seatbelt | 278 | 76.6 % |
+| speed_near_person | 34 | 29.4 % |
+| fuel_abnormal | 128 | 18.8 % |
+| low_productivity | 150 | 10.7 % |
+
+### By sensor tier
+
+| sensor tier | intervals | anomalous (truth) | precision | recall | F1 |
+|---|---|---|---|---|---|
+| advanced | 4462 | 485 | 58.7 % | 45.4 % | 51.2 % |
+| standard | 6161 | 576 | 72.1 % | 41.7 % | 52.8 % |
+| basic | 6098 | 638 | 71.8 % | 39.2 % | 50.7 % |
+
+### What drives the false alarms
+
+| false alarm driven by | intervals |
+|---|---|
+| a P1 safety rule (e.g. a person inside the swing radius) | 112 |
+| IsolationForest + z-score only | 234 |
+<!-- END anomaly -->
+
+<!-- BEGIN estimation -->
+## Task time estimation (F-SHIFT-02, F-SHIFT-03, F-FLT-05)
+
+Model `est-20260923-s7` (LightGBM quantile 0.1 / 0.5 / 0.9, trained on days 1–32, early stopping on days 33–35). Test: 1,146 completed tasks on days 36–42.
+
+| metric | model | naive base-rate estimate | target | result |
+|---|---|---|---|---|
+| median absolute error (% of actual) | 10.5 % | 24.0 % | ≤ 12.0 % | met |
+| mean absolute error (% of actual) | 13.8 % | 24.3 % | ≤ 12.0 % (TRD) | **not met** |
+| mean absolute error (minutes) | 19.9 | 41.8 | – | – |
+| actual inside p10–p90 | 64.5 % | – | 75–85 % | **not met** |
+
+Validation days (used for early stopping): median error 8.5 %, coverage 66.0 %.
+
+### Per task type (test days)
+
+| task type | tasks | MAE (min) | median error | mean error | inside p10–p90 |
+|---|---|---|---|---|---|
+| backfilling | 228 | 18.50 | 9.8 % | 12.1 % | 68.9 % |
+| grading | 67 | 18.70 | 10.4 % | 11.2 % | 71.6 % |
+| site_clearing | 405 | 19.10 | 9.3 % | 11.4 % | 62.2 % |
+| stockpile_moving | 126 | 19.00 | 8.5 % | 10.8 % | 64.3 % |
+| trenching | 161 | 20.00 | 10.4 % | 11.6 % | 68.3 % |
+| truck_loading | 159 | 24.80 | 20.0 % | 28.0 % | 57.2 % |
+
+### Fleet-learned patterns (days 1–35, all machines)
+
+| task type | condition | effect | tasks | machines | compared with |
+|---|---|---|---|---|---|
+| grading | muddy | +34 % | 60 | 11 | dry/rocky |
+| backfilling | muddy | +31 % | 218 | 36 | dry/rocky |
+| trenching | muddy | +30 % | 145 | 25 | dry/rocky |
+| stockpile_moving | muddy | +28 % | 121 | 16 | dry/rocky |
+| site_clearing | muddy | +28 % | 324 | 52 | dry/rocky |
+| truck_loading | frozen | +24 % | 69 | 7 | dry/rocky |
+| backfilling | frozen | +23 % | 157 | 6 | dry/rocky |
+| site_clearing | frozen | +21 % | 213 | 8 | dry/rocky |
+<!-- END estimation -->
