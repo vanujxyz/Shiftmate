@@ -386,3 +386,45 @@ Context: D-010 adds a PIN fallback to the QR badge, but PRD §3 excludes login s
 Decision: The demo PIN is the numeric part of the operator ID (OP1001 → 1001). A wrong PIN returns 401 "That PIN didn't match." It is documented as a demo convenience, not security.
 Why: No login system (non-goal); easy to demonstrate; still exercises the fallback flow.
 Alternatives: PINs in config (adds a credential-looking file for no benefit).
+
+## D-056 — Edge ingest endpoints, extra channel message types and the telemetry throttle
+Date: 2026-09-23 · Phase: 5 · Requirement(s): TRD §9.1, §9.2, §9.3, F-REP-04, F-CAB-04
+Context: TRD §9.2 lists only `/ingest/intervals` and `/ingest/events`, but the edge also queues saved reports and finished task summaries (both allowed by `privacy.yaml → fleet_upload`). TRD §9.1 names the main cab and site messages but not how a client resynchronises or learns demo state. At 60× the world produces up to 60 telemetry ticks per real second.
+Decision: The outbox posts four kinds, each as `{source, records}`: intervals → `/ingest/intervals`, events → `/ingest/events`, reports → `/ingest/reports`, task summaries → `/ingest/tasks`; the fleet ingests idempotently by the record's own id (`record_id`, `event_id`, `report_id`, `task_id`). Extra message types: `snapshot` (full state, first on connect and after load or seek; it replaces any messages queued before it), `session`, `demo` (captions, waits, seek, end of shift), `alert_queued` and `alert_feed` from the alert policy. `telemetry` is sent at `edge.yaml → feeds.telemetry_hz` (latest value wins) and provisional idle-segment updates are coalesced; everything else is sent in order, every time.
+Why: Reports and task summaries are what the supervisor and the fleet estimation model need (F-SUP, F-FLT-05); snapshots keep a reconnecting screen from showing stale data (golden rule 6); a screen cannot use 60 telemetry messages a second.
+Alternatives: Send reports as events (loses the draft and context); send every tick (floods the socket at demo speeds).
+
+## D-057 — A truck wait is a site issue, anonymous and attributed to the site
+Date: 2026-09-23 · Phase: 5 · Requirement(s): PRD P-04, F-INS-03, PRD §9 beat 4
+Context: The supervisor must see truck shortages (PRD §9 beat 4), but P-04 says waiting caused by the site must never count against the operator.
+Decision: While a WAITING_FOR_TRUCK segment is open, the site map gets a live `site_event` (`site_issue`, status `open`, machine and zone, no operator). When the segment closes, the edge records a shared `site_issue` event with `operator_id` null (start, end, minutes, zone) and the cab gets the insight "not you". If the wait ends without being classified as a truck wait, a `cleared` site_event withdraws the notice.
+Why: The supervisor learns about dispatch problems without any operator being named (P-04).
+Alternatives: Share the operator's idle segment (names the operator); report only at the end of the shift (too late to act).
+
+## D-058 — Equipment problems get their own event type
+Date: 2026-09-23 · Phase: 5 · Requirement(s): F-REP-01, F-START-03
+Context: Checklist problems and spoken equipment reports were logged with event type `incident`, which inflated safety counts and was shared as if someone had been hurt.
+Decision: New `EventType.EQUIPMENT_PROBLEM` (and `SITE_ISSUE`). A saved report records an event of its own draft type (incident, near_miss or equipment_problem). Incidents and near misses are shared with the supervisor; equipment problems are not shared as events, but the report itself still uploads (it goes to maintenance through the fleet).
+Why: Honest safety numbers; the right people see the right report.
+Alternatives: Keep `incident` with a sub-type in the payload (every consumer has to remember to filter).
+
+## D-059 — API models are exported to the frontend contracts
+Date: 2026-09-23 · Phase: 5 · Requirement(s): CLAUDE.md §4 (types only from contracts), TRD §9
+Context: Milestone 7 added the REST models in `schema/api.py` but did not add them to the JSON Schema export, so the frontend would have had to hand-write API types (forbidden).
+Decision: `schema/__init__.py` appends every pydantic model defined in `schema/api.py` (including the WebSocket envelope and payload models) to `EXPORTED_MODELS`; the contracts are regenerated and `pnpm contracts:check` guards them.
+Why: One source of truth for every type that crosses the network.
+Alternatives: List the models by hand (easy to forget one again).
+
+## D-060 — The headless run reports an equipment problem while offline
+Date: 2026-09-23 · Phase: 5 · Requirement(s): PRD §9 beat 10, F-REP-04, CLAUDE.md Phase 5 DoD
+Context: The Phase 5 DoD asks that "network off → outbox grows". In the scenario, only one record (a 15-minute interval) closes during the 8 minutes offline, and PRD §9 beat 10 says "reports queue" — something the operator does, not a scripted beat.
+Decision: The headless driver (`edge/headless.py`) acts as Ravi: it signs in at the sign-in wait, speaks a near-miss report at the near-miss wait, and, once the internet is off, speaks one equipment-problem report through the same REST calls as the cab. The test checks the outbox grows while offline, that report reaches the fake fleet after reconnecting, and the outbox drains to 0. The scenario file is unchanged.
+Why: Shows exactly what F-REP-04 promises (reports work offline and sync later) with a real report, not only a background interval.
+Alternatives: Add a scripted report beat to the scenario (changes what the judges see); rely on the interval alone (a weak check).
+
+## D-061 — A downloaded model becomes LATEST only after it loads
+Date: 2026-09-23 · Phase: 5 · Requirement(s): TRD §6.7 publishing, F-FLT-03
+Context: The model downloader wrote the cache's `LATEST` pointer before loading the new model. A broken download therefore stayed "latest" on disk, and at the next start the loader (which only caught missing files) would fail on the unreadable booster.
+Decision: The edge loads the downloaded version first and writes `LATEST` only on success; at start, any error loading the cache (or the bundled model) falls through to the next source, and without any model estimates are simply off (the cab says so). Report uploads now also carry `report_id`, `operator_id` and `machine_id`, which the fleet needs for idempotent ingest.
+Why: Estimates must never depend on the network or on a bad download (TRD §9.3); the edge must always start.
+Alternatives: Verify checksums in the manifest (useful later, but still needs the load check).

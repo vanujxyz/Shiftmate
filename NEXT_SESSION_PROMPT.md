@@ -10,11 +10,11 @@ You are continuing to build **ShiftMate**, an operator-first in-cab companion fo
 1. `HANDOFF.md` (repo root): the exact state, what milestone 8 already contains, and what remains.
 2. `CLAUDE.md`: process rules, golden rules and things you must never do. Its "phases" map to the milestones in PROGRESS.md.
 3. `docs/PROGRESS.md`: all 18 milestones with checkboxes, goals and requirement IDs.
-4. `docs/DECISIONS.md`: decisions D-001…D-055. Entries marked **(user)** are the owner's decisions; never reverse them. Add new entries in the same format, starting at **D-056**.
+4. `docs/DECISIONS.md`: decisions D-001…D-061. Entries marked **(user)** are the owner's decisions; never reverse them. Add new entries in the same format, starting at **D-062**.
 5. `docs/TRD.md`: implementation spec. Read §8 (scenarios) and §9 (APIs, WebSockets, sync) now; read other sections as each milestone needs them.
 6. `docs/PRD.md`: behaviour and requirement IDs (F-…); §9 is the demo story (Ravi's shift).
 7. `docs/DESIGN.md` and `frontend/packages/ui/src/tokens.css`: the visual system (from milestone 10 on).
-8. `docs/reports/milestone-7.md`: the report format to copy for every milestone.
+8. `docs/reports/milestone-8.md`: the report format to copy for every milestone.
 9. `docs/EVAL.md`: the current evaluation results.
 
 ## 2. Owner's standing instructions
@@ -95,15 +95,10 @@ pnpm i18n:review
 ```
 
 ## 5. Current state and your first tasks
-- Milestones 1–7 are done. Milestone 8 (Edge Gateway B) is committed as WIP (`wip milestone 8: …`).
-- **Step 1:** run the full backend suite, `pnpm test:all` and `pnpm lint:all`. The M8 changes have only been checked with the edge API tests so far. Fix anything that fails.
-- **Step 2:** finish milestone 8 exactly as the "Still to do" list in `HANDOFF.md` describes:
-  - the headless `ravi_shift` runner at 60×, a CLI command that prints each beat, and assertions on every beat outcome;
-  - the determinism test;
-  - the WebSocket, sync, model-download and camera tests;
-  - decisions D-056…D-059;
-  - `pnpm contracts:gen`, the report, marking progress, commit and push.
-- **Step 3:** carry on with milestones 9 → 18 from `docs/PROGRESS.md`. Milestone 9's Fleet Service must implement the endpoints the edge already calls. HANDOFF.md lists them: `/ingest/intervals|events|reports|tasks` with body `{source, records}`, idempotent by record id, plus `/models/estimation/latest` and `/models/estimation/{version}/files/{name}`.
+- Milestones 1–8 are done. The last commit is `milestone 8: …`.
+- **Step 1:** run the full backend suite, `pnpm test:all` and `pnpm lint:all`, and check they are green before changing anything. The backend suite includes `tests/test_headless.py`, which plays Ravi's whole shift twice (about 45 s).
+- **Step 2:** carry on with milestones 9 → 18 from `docs/PROGRESS.md`. Milestone 9's Fleet Service must implement the endpoints the edge already calls. HANDOFF.md lists them: `/ingest/intervals|events|reports|tasks` with body `{source, records}`, idempotent by record id, plus `/models/estimation/latest` and `/models/estimation/{version}/files/{name}`.
+- `uv run --directory backend shiftmate edge headless` prints Ravi's shift beat by beat; use it to check that later changes still keep every beat working.
 
 ## 6. Golden rules to remember (full list in CLAUDE.md)
 - **Ground truth is sacred.** Only `shiftmate.sim`, `shiftmate.eval` and simulator tests may read `label_*` fields, operator personalities, `data/history/truth/` or `cfg.simulator`. A guard test (`tests/test_ground_truth_guard.py`) enforces this.

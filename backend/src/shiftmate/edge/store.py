@@ -244,13 +244,20 @@ class EdgeStore:
                     "data": json.dumps(data, default=str),
                 },
             )
+            # the fleet ingests idempotently by report_id, so the uploaded record carries it
+            upload = {
+                "report_id": report_id,
+                "operator_id": operator_id,
+                "machine_id": machine_id,
+                **data,
+            }
             c.execute(
                 insert(outbox),
                 {
                     "kind": "report",
                     "record_id": report_id,
                     "ts": iso(ts),
-                    "payload": json.dumps(data, default=str),
+                    "payload": json.dumps(upload, default=str),
                 },
             )
 

@@ -88,17 +88,21 @@ class EdgeResources:
             try:
                 r.use_estimation_from(directory, source)
                 break
-            except (FileNotFoundError, OSError) as exc:
-                log.info("no estimation model in %s: %s", directory, exc)
+            except Exception as exc:  # missing or broken: fall back to the next source
+                log.info("no usable estimation model in %s: %s", directory, exc)
         if r.estimation is None:
             log.warning("no estimation model yet: estimates are off until one is trained")
         return r
 
-    def use_estimation_from(self, directory: Path, source: str) -> None:
-        """Load the LATEST estimation model under `directory/estimation` and use it."""
+    def use_estimation_from(self, directory: Path, source: str, version: str | None = None) -> None:
+        """Load an estimation model under `directory/estimation` (default: LATEST) and use it.
+
+        Raises if it cannot be loaded, and then the model in use is left unchanged.
+        """
         from shiftmate.fleet.training import load_estimation_models
 
-        self.estimation, self.estimation_manifest = load_estimation_models(directory)
+        models, manifest = load_estimation_models(directory, version)
+        self.estimation, self.estimation_manifest = models, manifest
         self.estimation_source = source
 
     # --- helpers used by the runtime -------------------------------------------------------------
