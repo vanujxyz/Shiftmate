@@ -118,7 +118,28 @@ class WorkerCrowd:
                 if a is not None:  # machine gone (engine off): give up
                     w.approach = None
                 if self._walk_to(w, w.target, speed * dt):
-                    w.target = self._random_point()
+                    w.target = self._safe_point(machine_positions)
+                self._keep_clear(w, machine_positions)
+
+    def _safe_point(self, machines: dict[str, Point]) -> Point:
+        """A wander target away from running machines (ground crew keep their distance)."""
+        point = self._random_point()
+        for _ in range(10):
+            if all(
+                math.hypot(point[0] - x, point[1] - y) >= self.p.keep_clear_target_m
+                for x, y in machines.values()
+            ):
+                return point
+            point = self._random_point()
+        return point
+
+    def _keep_clear(self, w: Worker, machines: dict[str, Point]) -> None:
+        """Step back out if a wandering worker drifts too close to a running machine."""
+        for x, y in machines.values():
+            d = math.hypot(w.x - x, w.y - y)
+            if 0 < d < self.p.keep_clear_m:
+                w.x = x + (w.x - x) / d * self.p.keep_clear_m
+                w.y = y + (w.y - y) / d * self.p.keep_clear_m
 
     @staticmethod
     def _walk_to(w: Worker, target: Point, step: float) -> bool:

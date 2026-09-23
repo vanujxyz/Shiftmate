@@ -295,3 +295,52 @@ Context: Details not fixed by the TRD.
 Decision: Alert ids are deterministic (`<machine>-<rule>-<epoch ms>`), no randomness in engines. The ack event records the reaction time. An acknowledged P1 is re-checked 3 s later; if still true it becomes a reduced P1 until cleared. A P3 strip stays until the operator taps Done or Later (Later re-shows it after 10 min if still true); P3s whose condition stopped before the pause go to the feed. Escalation is recorded as an `alert` event with `phase: escalated`, always shared with the supervisor.
 Why: DESIGN behaviour, expressed without inventing new event types.
 Alternatives: New `alert_escalated` event type (not in TRD §5.4).
+
+## D-043 — One engine pipeline for live and history
+Date: 2026-09-23 · Phase: 3 · Requirement(s): TRD §1.1, §6, D-015
+Context: History intervals and events must come from the same logic the edge runs live.
+Decision: `engines/pipeline.py` chains machine state → risk → safety → (alert policy) → idle reason → interval builder for one machine. `edge/replay.py` feeds it the stored 30 s ticks, the dispatch log and the task list, and writes `intervals.parquet`, `events.parquet` and `idle_segments.parquet`; `shiftmate sim generate` runs it after the simulator. The replay reads the tick period from the history manifest, never from the simulator config (the ground-truth guard enforces this).
+Why: One implementation to test and defend.
+Alternatives: A separate batch implementation (two copies of the logic).
+
+## D-044 — Interval building details
+Date: 2026-09-23 · Phase: 3 · Requirement(s): TRD §5.3, §6.5, D-002
+Context: TRD §6.5 says "every 15 machine-minutes and at task start/end".
+Decision: Intervals close at wall-clock quarter hours of site time and when the task id changes; intervals with no engine-on time or no operator are skipped. Counters (engine hours, load cycles, task progress) at the end come from the first tick after the interval, because each tick reports its start-of-step reading. Idle minutes by reason use the segment's final reason if it closed within the interval, else its provisional reason at the interval end. Proximity counts are counts of raised proximity alerts.
+Why: Exact sums (fuel, engine hours, idling) that invariant tests can check against the ticks.
+Alternatives: Fixed 15-minute offsets from engine start.
+
+## D-045 — Idle classification details
+Date: 2026-09-23 · Phase: 3 · Requirement(s): TRD §6.4
+Context: Some §6.4 conditions need an operational definition.
+Decision: "Seat empty for at least 120 s within the segment" is cumulative. "Coolant below ready" is measured at the segment start. "Seat occupied" for truck waits and habit means the seat was empty for less than 120 s, or the seat is not sensed. Machines without a truck sensor use the dispatch log (arrived to departed); a logged arrival without a departure stops counting after 15 minutes (`dispatch_presence_timeout_min`). First match wins, so a truck wait inside a break window is a break.
+Why: Simplest reading of the TRD that works on every tier.
+Alternatives: Continuous seat-empty runs only.
+
+## D-046 — Anomaly direction and baseline window
+Date: 2026-09-23 · Phase: 3 · Requirement(s): TRD §6.6, F-INS-05
+Context: TRD §6.6 says "|z| at least 3". Unusually low fuel or high productivity is not a problem to flag.
+Decision: Each feature has a "worse" direction (`higher_is_worse` in `anomaly.yaml`; only loads per working hour is lower-is-worse). The z-score test and explanations use the worse direction only. The 14-day baseline window ends at the start of the interval's day. Features missing for a tier are dropped, never filled in.
+Why: Coaching points must describe a real problem; no self-comparison within a day.
+Alternatives: Two-sided |z|.
+
+## D-047 — Lesson recommender scoring and offers
+Date: 2026-09-23 · Phase: 3 · Requirement(s): TRD §6.9, F-LRN-02, F-LRN-03
+Context: TRD §6.9 says "trigger count × recency" without a formula.
+Decision: score = sum over the lesson's triggers of count / (1 + days since last seen), from events in the last 7 days; top 3; lessons completed in the last 3 days are skipped. Offers happen only when a pause starts that is expected to be long (waiting for a truck, scheduled break, engine off), at most once per pause and once every 30 minutes. Condition flags (HEAT, RAIN, WET_GROUND, NIGHT) count when that condition scores risk points. Parameters live in `lessons.yaml` under `recommender`.
+Why: Simple, explainable, and never offers during work.
+Alternatives: Exponential decay with a tuned half-life.
+
+## D-048 — Offline report parser
+Date: 2026-09-23 · Phase: 3 · Requirement(s): TRD §6.10, F-REP-01
+Context: Keyword classification needs an order and a default.
+Decision: Keywords from all three languages are matched together (operators mix languages). Type order: near miss, then incident, then equipment problem ("almost hit" is a near miss); nothing matched gives near miss. Severity: high on injury or fire words, medium on people, damage or near-miss words, else low. The summary is the transcript (offline mode cannot translate); the operator confirms or edits every draft.
+Why: Safe defaults; a person confirms.
+Alternatives: Language-specific matching only.
+
+## D-049 — Simulator realism fixes found by the engine replay
+Date: 2026-09-23 · Phase: 3 · Requirement(s): TRD §7.2
+Context: The first replay showed about 23 caution alerts per machine per day, and speed-near-person alerts ten times the true episodes: wandering workers walked through working zones, and simulated operators only slowed down inside the base caution ring.
+Decision: Wandering ground crew pick targets at least 20 m from running machines and step back outside 14 m; deliberate approach episodes still bring people close. Operators slow down once a person is within 1.5 times the caution distance, and speeders do not. These change the simulated world only, not any engine or threshold, and were made before any model was trained or evaluated.
+Why: A realistic site; alerts that mean something.
+Alternatives: Lower the engines' sensitivity (would hide real events).

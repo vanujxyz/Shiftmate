@@ -1,6 +1,6 @@
 # ShiftMate — Build progress
 
-**Next step:** Milestone 5 (engines B: insight core + history pipeline) in progress.
+**Next step:** Milestone 6 (ML training and evaluation) in progress.
 
 **Autonomy note (2026-09-23):** the user authorised continuing through all milestones without waiting for approval, and approved all needed downloads. Each milestone is still tested, committed, and reported in `docs/reports/milestone-N.md`.
 
@@ -82,14 +82,14 @@ Goal: the safety brain — safe rule evaluator, machine state, risk level, safet
 Requirements: F-SAFE-01, 02, 04, 05, 06, 07, 08, F-INS-04, F-FLT-02.
 You will see: pytest output listing each engine test (e.g. hysteresis, pre-emption, cooldown).
 
-### Milestone 5 — Engines B: insight core + history pipeline (Phase 3, second half) · Status: not started
+### Milestone 5 — Engines B: insight core + history pipeline (Phase 3, second half) · Status: done
 Goal: idle reasons, 15-minute interval records, anomaly features, lesson recommendations and offline report parsing.
-- [ ] 1. Idle-reason engine (§6.4) — one test per reason × sensor tier
-- [ ] 2. Interval builder (§6.5)
-- [ ] 3. Anomaly features + personal baselines (§6.6; model training in milestone 6)
-- [ ] 4. Lesson recommender (§6.9)
-- [ ] 5. Report parser offline path (§6.10) with en/hi/ta keywords
-- [ ] 6. Run the engine pipeline over the history ticks → intervals + events; interval invariants (§7.5)
+- [x] 1. Idle-reason engine (§6.4) — one test per reason × sensor tier
+- [x] 2. Interval builder (§6.5)
+- [x] 3. Anomaly features + personal baselines (§6.6; model training in milestone 6)
+- [x] 4. Lesson recommender (§6.9)
+- [x] 5. Report parser offline path (§6.10) with en/hi/ta keywords
+- [x] 6. Run the engine pipeline over the history ticks → intervals + events; interval invariants (§7.5)
 Requirements: F-INS-01, 02, 03, 05, 06, F-LRN-02, 03, F-REP-01 (offline), F-REP-02, P-04.
 You will see: tests passing; history intervals file in the brief's column format.
 

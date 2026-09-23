@@ -102,6 +102,7 @@ def sim_generate(
     seed: int = 7,
     out: Path | None = None,
     workers: int = 4,
+    replay: bool = typer.Option(True, help="Also run the engines over the history (D-015)."),
 ) -> None:
     """Generate fleet history (Parquet + DuckDB) into data/history."""
     import logging
@@ -119,6 +120,16 @@ def sim_generate(
         f"({manifest['tasks_done']} done) for {manifest['machines']} machines over {days} days "
         f"in {time.perf_counter() - started:.0f} s → {out_dir}"
     )
+    if replay:
+        from shiftmate.edge.replay import replay_history
+
+        started = time.perf_counter()
+        counts = replay_history(out_dir, workers=workers, seed=seed)
+        typer.echo(
+            f"Replayed through the engines: {counts['intervals']:,} intervals, "
+            f"{counts['events']:,} events, {counts['idle_segments']:,} idle segments "
+            f"in {time.perf_counter() - started:.0f} s"
+        )
 
 
 @sim_app.command("scale")

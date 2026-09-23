@@ -25,6 +25,7 @@ from shiftmate.schema.config import (
     LessonsConfig,
     MachineProfile,
     PrivacyConfig,
+    ReportKeywords,
     RiskModelConfig,
     SafetyRulesConfig,
     SensorTiersConfig,
@@ -54,9 +55,9 @@ REQUIRED_LESSONS = {
     "L-FATIGUE",
     "D-HAZARD-DRILL-1",
 }
-INTENTS_FILE = (
-    REPO_ROOT / "backend" / "src" / "shiftmate" / "assistant" / "keywords" / "intents.yaml"
-)
+KEYWORDS_DIR = REPO_ROOT / "backend" / "src" / "shiftmate" / "assistant" / "keywords"
+INTENTS_FILE = KEYWORDS_DIR / "intents.yaml"
+REPORTS_FILE = KEYWORDS_DIR / "reports.yaml"
 
 
 class ConfigError(Exception):
@@ -78,6 +79,7 @@ class ShiftMateConfig:
     lessons: LessonsConfig
     checklist: ChecklistConfig
     intents: IntentsConfig
+    report_keywords: ReportKeywords
     simulator: SimulatorConfig  # read only by shiftmate.sim
 
     def lesson_trigger_vocabulary(self) -> set[str]:
@@ -224,6 +226,7 @@ def load_config(config_dir: Path | None = None) -> ShiftMateConfig:
         lessons=_parse(root / "lessons.yaml", LessonsConfig),
         checklist=_parse(root / "checklist.yaml", ChecklistConfig),
         intents=_parse(INTENTS_FILE, IntentsConfig),
+        report_keywords=_parse(REPORTS_FILE, ReportKeywords),
         simulator=_parse(root / "simulator.yaml", SimulatorConfig),
     )
     _cross_check(cfg)

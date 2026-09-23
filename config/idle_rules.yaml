@@ -13,6 +13,7 @@ params:
   truck_absent_min_fraction: 0.7     # WAITING_FOR_TRUCK: no truck for ≥ 70 % of the segment
   provisional_update_s: 10           # open segments are re-classified every 10 s
   truck_dependent_task_types: [truck_loading]
+  dispatch_presence_timeout_min: 15  # a logged arrival with no logged departure stops counting after this
 confidence:                          # per reason (and evidence variant) and sensor tier
   SCHEDULED_BREAK:        {basic: 0.95, standard: 0.95, advanced: 0.95}
   WARM_UP_COOLANT:        {basic: 0.9,  standard: 0.9,  advanced: 0.9}
