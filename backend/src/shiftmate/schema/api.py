@@ -386,6 +386,92 @@ class SiteEntities(BaseModel):
     workers: list[dict[str, Any]]
 
 
+class AlertView(BaseModel):
+    """An alert as the cab draws it (payload of `alert`, `alert_queued`, `alert_feed`,
+    `alert_cleared`; the alert policy engine decides status and presentation)."""
+
+    alert_id: str
+    rule_id: str
+    priority: Literal["P1", "P2", "P3", "P4"]
+    message_key: str
+    category: str
+    raised_at: AwareDatetime
+    status: str  # showing | queued | held | strip | feed | acknowledged | reduced | cleared
+    presentation: Literal["takeover", "banner", "strip", "feed", "reduced"]
+    sound: str
+    speak: bool
+    requires_ack: bool
+    escalated: bool
+    queued_count: int
+    context: dict[str, Any] = {}
+
+
+class AlertsSnapshot(BaseModel):
+    current: AlertView | None
+    strip: AlertView | None
+    reduced: list[AlertView]
+    queue_count: int
+    queue_top_priority: Literal["P1", "P2", "P3", "P4"] | None
+    feed: list[AlertView]
+
+
+class RiskUpdate(BaseModel):
+    score: int
+    band: RiskBand
+    top: list[dict[str, Any]]  # [{component, points}], largest first
+    thresholds: dict[str, float]
+
+
+class CabSnapshot(BaseModel):
+    """`snapshot` on /ws/cab: the full current state, first on connect and after load/seek."""
+
+    loaded: bool
+    machine_id: str | None = None
+    operator_id: str | None = None
+    language: Language | None = None
+    telemetry: Telemetry | None = None
+    mode: CabMode | None = None
+    alerts: AlertsSnapshot | None = None
+    online: bool | None = None
+    sync: SyncUpdate | None = None
+    captions: bool | None = None
+    waiting_for: str | None = None
+    risk: RiskUpdate | None = None  # the last risk_update, so a reconnect shows the breakdown
+
+
+class ModeUpdate(BaseModel):
+    mode: CabMode
+    state: MachineState
+
+
+class LessonOffer(BaseModel):
+    lesson_id: str
+    because: list[str]
+    reason: str
+
+
+class AlertTimings(BaseModel):
+    """The parts of alert_policy.yaml the cab applies itself (sound and speech timing)."""
+
+    p1_speech_repeat_s: float
+    p2_tone_repeat_s: float
+    reduced_p1_repeat_s: float
+    p3_snooze_min: float
+    paused_idle_seconds: float
+
+
+class ChecklistItemView(BaseModel):
+    id: str
+    text: dict[str, str]  # en / hi / ta
+    illustration: str
+
+
+class CabConfig(BaseModel):
+    alerts: AlertTimings
+    checklist: list[ChecklistItemView]
+    languages: list[Language]
+
+
 CabMessageType = Literal[
     "snapshot",  # sent on connect and after load/seek: the full current state
     "telemetry",

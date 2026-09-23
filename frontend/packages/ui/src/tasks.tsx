@@ -188,7 +188,8 @@ export function ConditionsSummary({
         {rows.map((r) => (
           <li key={r.label} className="flex flex-wrap items-center gap-x-3 text-cab-label">
             <span aria-hidden>{r.glyph}</span>
-            <span className="min-w-0 flex-1">{r.label}</span>
+            {/* content-sized basis: a long value wraps to its own line instead of overlapping */}
+            <span className="min-w-0 flex-[1_1_auto]">{r.label}</span>
             <span className="sm-num ml-auto whitespace-nowrap font-bold">{r.value}</span>
           </li>
         ))}

@@ -18,6 +18,26 @@ export type BookingStatus = "booked" | "cancelled";
 export type CabMode = "working" | "paused";
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "MachineState".
+ */
+export type MachineState = "ENGINE_OFF" | "IDLE" | "WORKING" | "TRAVELLING";
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "ProximityTier".
+ */
+export type ProximityTier = "clear" | "caution" | "danger" | "critical";
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "RiskBand".
+ */
+export type RiskBand = "green" | "amber" | "red";
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "SensorTier".
+ */
+export type SensorTier = "basic" | "standard" | "advanced";
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "GroundCondition".
  */
 export type GroundCondition = "dry" | "wet" | "muddy" | "rocky" | "frozen";
@@ -74,11 +94,6 @@ export type YesNo = "Yes" | "No";
 export type MachineType = "excavator" | "wheel_loader" | "dozer";
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
- * via the `definition` "SensorTier".
- */
-export type SensorTier = "basic" | "standard" | "advanced";
-/**
- * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "ZoneType".
  */
 export type ZoneType = "dig" | "loading" | "haul_road" | "stockpile" | "break_area";
@@ -94,19 +109,9 @@ export type LessonFormat = "narrated_cards" | "quiz" | "drill";
 export type QuantityUnit = "loads" | "m" | "m2" | "m3";
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
- * via the `definition` "MachineState".
- */
-export type MachineState = "ENGINE_OFF" | "IDLE" | "WORKING" | "TRAVELLING";
-/**
- * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "ProximitySource".
  */
 export type ProximitySource = "sensor" | "camera";
-/**
- * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
- * via the `definition` "ProximityTier".
- */
-export type ProximityTier = "clear" | "caution" | "danger" | "critical";
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "ReportType".
@@ -117,11 +122,6 @@ export type ReportType = "incident" | "near_miss" | "equipment_problem";
  * via the `definition` "Severity".
  */
 export type Severity = "low" | "medium" | "high";
-/**
- * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
- * via the `definition` "RiskBand".
- */
-export type RiskBand = "green" | "amber" | "red";
 export type TaskStatus = "scheduled" | "active" | "done";
 export type GroundCondition1 = "dry" | "wet" | "muddy" | "rocky" | "frozen";
 /**
@@ -137,6 +137,56 @@ export interface ShiftMateContracts {}
  */
 export interface AckRequest {
   action?: "ack" | "later" | "done";
+}
+/**
+ * The parts of alert_policy.yaml the cab applies itself (sound and speech timing).
+ *
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "AlertTimings".
+ */
+export interface AlertTimings {
+  p1_speech_repeat_s: number;
+  p2_tone_repeat_s: number;
+  reduced_p1_repeat_s: number;
+  p3_snooze_min: number;
+  paused_idle_seconds: number;
+}
+/**
+ * An alert as the cab draws it (payload of `alert`, `alert_queued`, `alert_feed`,
+ * `alert_cleared`; the alert policy engine decides status and presentation).
+ *
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "AlertView".
+ */
+export interface AlertView {
+  alert_id: string;
+  rule_id: string;
+  priority: "P1" | "P2" | "P3" | "P4";
+  message_key: string;
+  category: string;
+  raised_at: string;
+  status: string;
+  presentation: "takeover" | "banner" | "strip" | "feed" | "reduced";
+  sound: string;
+  speak: boolean;
+  requires_ack: boolean;
+  escalated: boolean;
+  queued_count: number;
+  context?: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "AlertsSnapshot".
+ */
+export interface AlertsSnapshot {
+  current: AlertView | null;
+  strip: AlertView | null;
+  reduced: AlertView[];
+  queue_count: number;
+  queue_top_priority: ("P1" | "P2" | "P3" | "P4") | null;
+  feed: AlertView[];
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
@@ -221,6 +271,102 @@ export interface BookingRequest {
 export interface BreakWindow {
   start: string;
   minutes: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "CabConfig".
+ */
+export interface CabConfig {
+  alerts: AlertTimings;
+  checklist: ChecklistItemView[];
+  languages: Language[];
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "ChecklistItemView".
+ */
+export interface ChecklistItemView {
+  id: string;
+  text: {
+    [k: string]: string;
+  };
+  illustration: string;
+}
+/**
+ * `snapshot` on /ws/cab: the full current state, first on connect and after load/seek.
+ *
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "CabSnapshot".
+ */
+export interface CabSnapshot {
+  loaded: boolean;
+  machine_id?: string | null;
+  operator_id?: string | null;
+  language?: Language | null;
+  telemetry?: Telemetry | null;
+  mode?: CabMode | null;
+  alerts?: AlertsSnapshot | null;
+  online?: boolean | null;
+  sync?: SyncUpdate | null;
+  captions?: boolean | null;
+  waiting_for?: string | null;
+  risk?: RiskUpdate | null;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "Telemetry".
+ */
+export interface Telemetry {
+  ts: string;
+  machine_id: string;
+  state: MachineState;
+  mode: CabMode;
+  engine_on: boolean;
+  travel_speed_kmh: number;
+  seatbelt_fastened: boolean;
+  seat_occupied: boolean | null;
+  proximity_m: number | null;
+  proximity_bearing_deg: number | null;
+  proximity_source: string | null;
+  proximity_tier: ProximityTier | null;
+  heat_index_c: number;
+  risk_score: number;
+  risk_band: RiskBand;
+  task_id: string | null;
+  task_progress_qty: number;
+  continuous_operation_min: number;
+  sensor_tier: SensorTier;
+  thresholds: {
+    [k: string]: number;
+  };
+  x_m?: number | null;
+  y_m?: number | null;
+  heading_deg?: number | null;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "SyncUpdate".
+ */
+export interface SyncUpdate {
+  online: boolean;
+  outbox_size: number;
+  last_sync: string | null;
+  last_error?: string | null;
+  synced_now?: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "RiskUpdate".
+ */
+export interface RiskUpdate {
+  score: number;
+  band: RiskBand;
+  top: {
+    [k: string]: unknown;
+  }[];
+  thresholds: {
+    [k: string]: number;
+  };
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
@@ -921,6 +1067,15 @@ export interface LessonCompletion {
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "LessonOffer".
+ */
+export interface LessonOffer {
+  lesson_id: string;
+  because: string[];
+  reason: string;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "LessonSummary".
  */
 export interface LessonSummary {
@@ -1102,6 +1257,14 @@ export interface MachineRisk {
   score: number | null;
   amber_min: number;
   red_min: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "ModeUpdate".
+ */
+export interface ModeUpdate {
+  mode: CabMode;
+  state: MachineState;
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
@@ -1605,17 +1768,6 @@ export interface SyncStatus {
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
- * via the `definition` "SyncUpdate".
- */
-export interface SyncUpdate {
-  online: boolean;
-  outbox_size: number;
-  last_sync: string | null;
-  last_error?: string | null;
-  synced_now?: number;
-}
-/**
- * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "TaskProgress".
  */
 export interface TaskProgress {
@@ -1624,37 +1776,6 @@ export interface TaskProgress {
   done_qty: number;
   planned_qty: number;
   unit: string;
-}
-/**
- * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
- * via the `definition` "Telemetry".
- */
-export interface Telemetry {
-  ts: string;
-  machine_id: string;
-  state: MachineState;
-  mode: CabMode;
-  engine_on: boolean;
-  travel_speed_kmh: number;
-  seatbelt_fastened: boolean;
-  seat_occupied: boolean | null;
-  proximity_m: number | null;
-  proximity_bearing_deg: number | null;
-  proximity_source: string | null;
-  proximity_tier: ProximityTier | null;
-  heat_index_c: number;
-  risk_score: number;
-  risk_band: RiskBand;
-  task_id: string | null;
-  task_progress_qty: number;
-  continuous_operation_min: number;
-  sensor_tier: SensorTier;
-  thresholds: {
-    [k: string]: number;
-  };
-  x_m?: number | null;
-  y_m?: number | null;
-  heading_deg?: number | null;
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema

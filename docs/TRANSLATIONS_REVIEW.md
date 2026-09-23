@@ -9,7 +9,7 @@ To approve a string, add it to `docs/translations-reviewed.json` under `hi` or `
 exact approved text, then run `pnpm i18n:review` again. If the text changes later, it returns
 to the review list.
 
-## Hindi (हिन्दी): 0 of 398 reviewed
+## Hindi (हिन्दी): 0 of 502 reviewed
 
 | Reviewed | Key | English | Hindi (हिन्दी) |
 |---|---|---|---|
@@ -50,6 +50,7 @@ to the review list.
 | **no** | `ui:ui.sync.synced_at` | Synced at {{time}} | {{time}} पर सिंक हुआ |
 | **no** | `ui:ui.sync.waiting` | {{count}} waiting | {{count}} इंतज़ार में |
 | **no** | `ui:ui.sync.offline` | Offline | ऑफ़लाइन |
+| **no** | `ui:ui.sync.synced` | Synced | सिंक हो गया |
 | **no** | `ui:ui.stale` | No update {{seconds}} s | {{seconds}} सेकंड से अपडेट नहीं |
 | **no** | `ui:ui.nav.label` | Sections | हिस्से |
 | **no** | `ui:ui.nav.shift` | My shift | मेरी शिफ़्ट |
@@ -87,6 +88,9 @@ to the review list.
 | **no** | `ui:ui.p1.queue_one` | 1 more alert after this | इसके बाद 1 और चेतावनी |
 | **no** | `ui:ui.p1.person_command` | Stop. | रुकिए। |
 | **no** | `ui:ui.p1.person_where` | Behind you, left side · 2 m | आपके पीछे, बाईं ओर · 2 m |
+| **no** | `ui:ui.p1.command` | Stop. | रुकिए। |
+| **no** | `ui:ui.p1.queue_many` | {{count}} more alerts after this | इसके बाद {{count}} और चेतावनियाँ |
+| **no** | `ui:ui.p1.where` | {{side}} · {{distance}} | {{side}} · {{distance}} |
 | **no** | `ui:ui.p2.person` | Person close on your left. Slow down. | बाईं ओर कोई पास है। धीरे चलाइए। |
 | **no** | `ui:ui.p3.heat` | Water break due at 11:00. | 11:00 बजे पानी का ब्रेक है। |
 | **no** | `ui:ui.task.now` | Now | अभी |
@@ -157,6 +161,10 @@ to the review list.
 | **no** | `ui:ui.cond.fatigue` | Time without a break | बिना ब्रेक का समय |
 | **no** | `ui:ui.cond.clock` | Shift time | शिफ़्ट का समय |
 | **no** | `ui:ui.cond.risk_sentence` | Risk raised, mainly heat. | जोखिम बढ़ा, मुख्य कारण गर्मी। |
+| **no** | `ui:ui.cond.none` | None | नहीं |
+| **no** | `ui:ui.cond.night_value` | Night | रात |
+| **no** | `ui:ui.cond.day_value` | Daylight | दिन का उजाला |
+| **no** | `ui:ui.cond.light` | Light | रोशनी |
 | **no** | `ui:ui.legend.title` | Legend | संकेत |
 | **no** | `ui:ui.legend.machine` | Machine | मशीन |
 | **no** | `ui:ui.legend.truck` | Truck | ट्रक |
@@ -190,6 +198,87 @@ to the review list.
 | **no** | `ui:ui.ks.where_backfill` | 120 m³ | 120 m³ |
 | **no** | `ui:ui.ks.reason_wet` | Wet ground adds 20–40 min. | गीली ज़मीन से 20–40 मिनट ज़्यादा लगेंगे। |
 | **no** | `ui:ui.ks.checklist_item` | Tracks and tyres | ट्रैक और टायर |
+| **no** | `ui:ui.risk.heat` | Heat | गर्मी |
+| **no** | `ui:ui.risk.rain` | Rain | बारिश |
+| **no** | `ui:ui.risk.ground` | Ground | ज़मीन |
+| **no** | `ui:ui.risk.night` | Darkness | अँधेरा |
+| **no** | `ui:ui.risk.visibility` | Poor visibility | कम दिखना |
+| **no** | `ui:ui.risk.fatigue` | Tiredness | थकान |
+| **no** | `ui:ui.risk.proximity` | People nearby | पास में लोग |
+| **no** | `ui:ui.risk.seatbelt` | Seatbelt | सीट बेल्ट |
+| **no** | `ui:ui.risk.near_miss` | Recent near miss | हाल में बाल-बाल बचे |
+| **no** | `ui:ui.risk.mainly` | Mainly {{factor}} | मुख्य कारण {{factor}} |
+| **no** | `ui:ui.risk.sentence` | {{word}}, mainly {{factor}}. | {{word}}, मुख्य कारण {{factor}}। |
+| **no** | `ui:ui.prox.caution` | Person near | कोई पास में |
+| **no** | `ui:ui.prox.danger` | Too close | बहुत पास |
+| **no** | `ui:ui.prox.critical` | Stop | रुकिए |
+| **no** | `ui:ui.prox.sr` | {{word}}: person {{distance}} away, {{side}} | {{word}}: व्यक्ति {{distance}} दूर, {{side}} |
+| **no** | `ui:ui.side.front` | in front | सामने |
+| **no** | `ui:ui.side.right` | on your right | दाईं ओर |
+| **no** | `ui:ui.side.rear` | behind you | पीछे |
+| **no** | `ui:ui.side.left` | on your left | बाईं ओर |
+| **no** | `ui:ui.conn.lost` | No contact with the machine | मशीन से संपर्क नहीं |
+| **no** | `ui:ui.conn.lost_text` | Reconnecting. The last values are shown. | फिर से जोड़ रहा है। आख़िरी जानकारी दिख रही है। |
+| **no** | `ui:ui.queue.sr` | {{count}} more alerts waiting | {{count}} और चेतावनियाँ इंतज़ार में |
+| **no** | `ui:ui.start.title` | Start your shift | अपनी शिफ़्ट शुरू करें |
+| **no** | `ui:ui.start.language` | Choose your language | अपनी भाषा चुनें |
+| **no** | `ui:ui.start.machine` | Machine {{id}} | मशीन {{id}} |
+| **no** | `ui:ui.start.pin_title` | Enter your PIN | अपना पिन डालें |
+| **no** | `ui:ui.start.use_pin` | Use PIN instead | पिन से करें |
+| **no** | `ui:ui.start.use_badge` | Scan badge instead | बैज स्कैन करें |
+| **no** | `ui:ui.start.camera_off` | The camera is not available. Use your PIN. | कैमरा उपलब्ध नहीं है। पिन इस्तेमाल करें। |
+| **no** | `ui:ui.start.badge_unknown` | That badge is not for this site. Use your PIN. | यह बैज इस साइट का नहीं है। पिन इस्तेमाल करें। |
+| **no** | `ui:ui.start.signing_in` | Signing in… | साइन इन हो रहा है… |
+| **no** | `ui:ui.start.welcome` | Welcome, {{name}} | स्वागत है, {{name}} |
+| **no** | `ui:ui.start.checklist_title` | Walkaround check | मशीन के चारों ओर जाँच |
+| **no** | `ui:ui.start.checklist_hint` | Answer every item. A problem becomes a report for your supervisor. | हर बात का जवाब दें। कोई समस्या आपके सुपरवाइज़र को रिपोर्ट बनकर जाएगी। |
+| **no** | `ui:ui.start.checklist_left` | {{count}} left to answer | {{count}} का जवाब बाकी |
+| **no** | `ui:ui.start.all_ok` | All OK | सब ठीक |
+| **no** | `ui:ui.start.begin` | Start work | काम शुरू करें |
+| **no** | `ui:ui.start.problems_saved` | {{count}} problem reported to your supervisor. | {{count}} समस्या सुपरवाइज़र को भेजी गई। |
+| **no** | `ui:ui.start.not_ready_title` | The machine is not ready | मशीन अभी तैयार नहीं है |
+| **no** | `ui:ui.start.not_ready_text` | No shift is loaded on this machine yet. Start the demo from the console. | इस मशीन पर अभी कोई शिफ़्ट लोड नहीं है। कंसोल से डेमो शुरू करें। |
+| **no** | `ui:ui.start.retry` | Try again | फिर कोशिश करें |
+| **no** | `ui:ui.start.failed` | Sign-in did not work. Try again. | साइन इन नहीं हुआ। फिर कोशिश करें। |
+| **no** | `ui:ui.start.back` | Back | वापस |
+| **no** | `ui:ui.start.next` | Next | आगे |
+| **no** | `ui:ui.start.edge_down_text` | Check that the machine gateway is running, then try again. | देखें कि मशीन गेटवे चल रहा है, फिर कोशिश करें। |
+| **no** | `ui:ui.shift.title` | Today's tasks | आज के काम |
+| **no** | `ui:ui.shift.header` | Machine {{id}} · {{name}} | मशीन {{id}} · {{name}} |
+| **no** | `ui:ui.shift.progress` | {{done}} of {{total}} | {{total}} में से {{done}} |
+| **no** | `ui:ui.shift.starts` | Starts {{time}} | {{time}} बजे शुरू |
+| **no** | `ui:ui.shift.left` | About {{time}} left | लगभग {{time}} बाकी |
+| **no** | `ui:ui.shift.no_active` | No task running | कोई काम चालू नहीं |
+| **no** | `ui:ui.shift.estimate_sr` | Likely {{likely}}, between {{low}} and {{high}}. | संभावित {{likely}}, {{low}} से {{high}} के बीच। |
+| **no** | `ui:ui.shift.finish_note` | What could move it: {{reason}} | इसे बदल सकता है: {{reason}} |
+| **no** | `ui:ui.shift.breaks` | Suggested breaks | सुझाए गए ब्रेक |
+| **no** | `ui:ui.shift.break_at` | {{time}} · {{minutes}} min | {{time}} · {{minutes}} मिनट |
+| **no** | `ui:ui.shift.updates` | Updates | अपडेट |
+| **no** | `ui:ui.shift.no_updates` | Nothing new. | कुछ नया नहीं। |
+| **no** | `ui:ui.shift.loading` | Loading your shift… | आपकी शिफ़्ट लोड हो रही है… |
+| **no** | `ui:ui.safety.title` | Safety guard | सुरक्षा |
+| **no** | `ui:ui.safety.proximity` | People near the machine | मशीन के पास लोग |
+| **no** | `ui:ui.safety.prox_clear` | Nobody near the machine. | मशीन के पास कोई नहीं। |
+| **no** | `ui:ui.safety.prox_person` | One person {{distance}} away, {{side}}. | एक व्यक्ति {{distance}} दूर, {{side}}। |
+| **no** | `ui:ui.safety.prox_basic` | This machine has no people sensing. Look around before you swing. | इस मशीन में लोगों का सेंसर नहीं है। घुमाने से पहले चारों ओर देखें। |
+| **no** | `ui:ui.safety.distances` | Warning distances | चेतावनी की दूरी |
+| **no** | `ui:ui.safety.dist_caution` | Caution | सावधानी |
+| **no** | `ui:ui.safety.dist_danger` | Slow down | धीमे चलें |
+| **no** | `ui:ui.safety.dist_critical` | Stop | रुकें |
+| **no** | `ui:ui.safety.wider` | Distances are wider now because risk is raised. | जोखिम बढ़ा है, इसलिए दूरी अभी ज़्यादा रखी गई है। |
+| **no** | `ui:ui.safety.risk` | Risk now | अभी का जोखिम |
+| **no** | `ui:ui.safety.risk_why` | What raises it | किस वजह से बढ़ा |
+| **no** | `ui:ui.safety.risk_none` | Nothing is raising the risk now. | अभी कोई चीज़ जोखिम नहीं बढ़ा रही। |
+| **no** | `ui:ui.safety.break_after` | Break reminder after {{minutes}} min of work | {{minutes}} मिनट काम के बाद ब्रेक की याद |
+| **no** | `ui:ui.safety.working_for` | Working without a break: {{minutes}} min | बिना ब्रेक के काम: {{minutes}} मिनट |
+| **no** | `ui:ui.safety.recent` | Recent alerts | हाल की चेतावनियाँ |
+| **no** | `ui:ui.safety.no_recent` | No alerts yet this shift. | इस शिफ़्ट में अभी कोई चेतावनी नहीं। |
+| **no** | `ui:ui.safety.settings` | Settings | सेटिंग |
+| **no** | `ui:ui.safety.locked` | Can't be switched off while working. | काम के दौरान बंद नहीं हो सकता। |
+| **no** | `ui:ui.safety.sign_out` | Sign out | साइन आउट |
+| **no** | `ui:ui.soon.title` | Not ready yet | अभी तैयार नहीं |
+| **no** | `ui:ui.soon.text` | This section arrives in the next update. Your work is still being recorded. | यह हिस्सा अगले अपडेट में आएगा। आपका काम रिकॉर्ड हो रहा है। |
+| **no** | `ui:ui.stale_min` | No update {{minutes}} min | {{minutes}} मिनट से अपडेट नहीं |
 | **no** | `ui:alert.seatbelt_moving.title` | Seatbelt off while working | काम के दौरान बेल्ट खुली है |
 | **no** | `ui:alert.seatbelt_moving.action` | Stop the machine. Buckle up. | मशीन रोकिए। बेल्ट लगाइए। |
 | **no** | `ui:alert.seatbelt_moving.speak` | Stop. Seatbelt off. | रुकिए। बेल्ट खुली है। |
@@ -268,6 +357,21 @@ to the review list.
 | **no** | `ui:shift.break_scheduled` | Scheduled break | तय ब्रेक |
 | **no** | `ui:shift.break_heat` | Hot today: a water break now helps you finish strong | आज गर्मी है: अभी पानी का ब्रेक आगे के काम में मदद करेगा |
 | **no** | `ui:ask.not_indexed` | The manual is not loaded on this machine yet. | इस मशीन पर मैनुअल अभी लोड नहीं है। |
+| **no** | `ui:task.truck_loading` | Truck loading | ट्रक लोडिंग |
+| **no** | `ui:task.trenching` | Trenching | खाई खुदाई |
+| **no** | `ui:task.backfilling` | Backfilling | गड्ढा भराई |
+| **no** | `ui:task.grading` | Grading | ज़मीन समतल करना |
+| **no** | `ui:task.site_clearing` | Site clearing | साइट सफ़ाई |
+| **no** | `ui:task.stockpile_moving` | Moving stockpile | ढेर हटाना |
+| **no** | `ui:unit.loads` | {{count}} loads | {{count}} लोड |
+| **no** | `ui:unit.m` | {{count}} m | {{count}} मीटर |
+| **no** | `ui:unit.m2` | {{count}} m² | {{count}} वर्ग मीटर |
+| **no** | `ui:unit.m3` | {{count}} m³ | {{count}} घन मीटर |
+| **no** | `ui:ground.dry` | Dry | सूखी |
+| **no** | `ui:ground.wet` | Wet | गीली |
+| **no** | `ui:ground.muddy` | Muddy | कीचड़ |
+| **no** | `ui:ground.rocky` | Rocky | पथरीली |
+| **no** | `ui:ground.frozen` | Frozen | जमी हुई |
 | **no** | `checklist.yaml:items[tracks_tyres].text` | Tracks or tyres: no damage, no loose parts | ट्रैक या टायर: कोई टूट-फूट या ढीला पुर्ज़ा नहीं |
 | **no** | `checklist.yaml:items[leaks].text` | No oil, fuel or coolant leaks under the machine | मशीन के नीचे तेल, ईंधन या कूलेंट का रिसाव नहीं |
 | **no** | `checklist.yaml:items[lights_horn].text` | Lights, beacon and horn work | लाइटें, बीकन और हॉर्न काम कर रहे हैं |
@@ -412,7 +516,7 @@ to the review list.
 | **no** | `machine_profiles/excavator.yaml:display_name` | Excavator | एक्सकेवेटर |
 | **no** | `machine_profiles/wheel_loader.yaml:display_name` | Wheel loader | व्हील लोडर |
 
-## Tamil (தமிழ்): 0 of 398 reviewed
+## Tamil (தமிழ்): 0 of 502 reviewed
 
 | Reviewed | Key | English | Tamil (தமிழ்) |
 |---|---|---|---|
@@ -453,6 +557,7 @@ to the review list.
 | **no** | `ui:ui.sync.synced_at` | Synced at {{time}} | {{time}}-க்கு ஒத்திசைந்தது |
 | **no** | `ui:ui.sync.waiting` | {{count}} waiting | {{count}} காத்திருப்பில் |
 | **no** | `ui:ui.sync.offline` | Offline | இணைப்பு இல்லை |
+| **no** | `ui:ui.sync.synced` | Synced | ஒத்திசைந்தது |
 | **no** | `ui:ui.stale` | No update {{seconds}} s | {{seconds}} வினாடியாகப் புதுப்பிப்பு இல்லை |
 | **no** | `ui:ui.nav.label` | Sections | பகுதிகள் |
 | **no** | `ui:ui.nav.shift` | My shift | என் பணி |
@@ -490,6 +595,9 @@ to the review list.
 | **no** | `ui:ui.p1.queue_one` | 1 more alert after this | இதற்குப் பிறகு இன்னும் 1 எச்சரிக்கை |
 | **no** | `ui:ui.p1.person_command` | Stop. | நிறுத்துங்கள். |
 | **no** | `ui:ui.p1.person_where` | Behind you, left side · 2 m | உங்களுக்குப் பின்னால், இடது பக்கம் · 2 m |
+| **no** | `ui:ui.p1.command` | Stop. | நிறுத்துங்கள். |
+| **no** | `ui:ui.p1.queue_many` | {{count}} more alerts after this | இதற்குப் பிறகு இன்னும் {{count}} எச்சரிக்கைகள் |
+| **no** | `ui:ui.p1.where` | {{side}} · {{distance}} | {{side}} · {{distance}} |
 | **no** | `ui:ui.p2.person` | Person close on your left. Slow down. | இடது பக்கம் அருகில் ஒருவர் இருக்கிறார். மெதுவாக. |
 | **no** | `ui:ui.p3.heat` | Water break due at 11:00. | 11:00-க்கு தண்ணீர் இடைவேளை. |
 | **no** | `ui:ui.task.now` | Now | இப்போது |
@@ -560,6 +668,10 @@ to the review list.
 | **no** | `ui:ui.cond.fatigue` | Time without a break | இடைவேளை இல்லாத நேரம் |
 | **no** | `ui:ui.cond.clock` | Shift time | பணி நேரம் |
 | **no** | `ui:ui.cond.risk_sentence` | Risk raised, mainly heat. | ஆபத்து கூடியது, முக்கியக் காரணம் வெப்பம். |
+| **no** | `ui:ui.cond.none` | None | இல்லை |
+| **no** | `ui:ui.cond.night_value` | Night | இரவு |
+| **no** | `ui:ui.cond.day_value` | Daylight | பகல் வெளிச்சம் |
+| **no** | `ui:ui.cond.light` | Light | வெளிச்சம் |
 | **no** | `ui:ui.legend.title` | Legend | குறிப்பு |
 | **no** | `ui:ui.legend.machine` | Machine | இயந்திரம் |
 | **no** | `ui:ui.legend.truck` | Truck | லாரி |
@@ -593,6 +705,87 @@ to the review list.
 | **no** | `ui:ui.ks.where_backfill` | 120 m³ | 120 m³ |
 | **no** | `ui:ui.ks.reason_wet` | Wet ground adds 20–40 min. | ஈரமான தரையால் 20–40 நிமிடம் கூடுதலாகும். |
 | **no** | `ui:ui.ks.checklist_item` | Tracks and tyres | டிராக் மற்றும் டயர்கள் |
+| **no** | `ui:ui.risk.heat` | Heat | வெப்பம் |
+| **no** | `ui:ui.risk.rain` | Rain | மழை |
+| **no** | `ui:ui.risk.ground` | Ground | தரை |
+| **no** | `ui:ui.risk.night` | Darkness | இருட்டு |
+| **no** | `ui:ui.risk.visibility` | Poor visibility | பார்வை குறைவு |
+| **no** | `ui:ui.risk.fatigue` | Tiredness | களைப்பு |
+| **no** | `ui:ui.risk.proximity` | People nearby | அருகில் ஆட்கள் |
+| **no** | `ui:ui.risk.seatbelt` | Seatbelt | சீட் பெல்ட் |
+| **no** | `ui:ui.risk.near_miss` | Recent near miss | சமீபத்திய நூலிழை தப்புதல் |
+| **no** | `ui:ui.risk.mainly` | Mainly {{factor}} | முக்கியமாக {{factor}} |
+| **no** | `ui:ui.risk.sentence` | {{word}}, mainly {{factor}}. | {{word}}, முக்கியமாக {{factor}}. |
+| **no** | `ui:ui.prox.caution` | Person near | அருகில் ஆள் |
+| **no** | `ui:ui.prox.danger` | Too close | மிக அருகில் |
+| **no** | `ui:ui.prox.critical` | Stop | நிறுத்துங்கள் |
+| **no** | `ui:ui.prox.sr` | {{word}}: person {{distance}} away, {{side}} | {{word}}: ஆள் {{distance}} தொலைவில், {{side}} |
+| **no** | `ui:ui.side.front` | in front | முன்னால் |
+| **no** | `ui:ui.side.right` | on your right | வலது பக்கம் |
+| **no** | `ui:ui.side.rear` | behind you | பின்னால் |
+| **no** | `ui:ui.side.left` | on your left | இடது பக்கம் |
+| **no** | `ui:ui.conn.lost` | No contact with the machine | இயந்திரத்துடன் தொடர்பு இல்லை |
+| **no** | `ui:ui.conn.lost_text` | Reconnecting. The last values are shown. | மீண்டும் இணைக்கிறது. கடைசி மதிப்புகள் காட்டப்படுகின்றன. |
+| **no** | `ui:ui.queue.sr` | {{count}} more alerts waiting | இன்னும் {{count}} எச்சரிக்கைகள் காத்திருக்கின்றன |
+| **no** | `ui:ui.start.title` | Start your shift | உங்கள் பணியைத் தொடங்குங்கள் |
+| **no** | `ui:ui.start.language` | Choose your language | உங்கள் மொழியைத் தேர்வு செய்யுங்கள் |
+| **no** | `ui:ui.start.machine` | Machine {{id}} | இயந்திரம் {{id}} |
+| **no** | `ui:ui.start.pin_title` | Enter your PIN | உங்கள் பின்னை உள்ளிடுங்கள் |
+| **no** | `ui:ui.start.use_pin` | Use PIN instead | பின் மூலம் செய்யுங்கள் |
+| **no** | `ui:ui.start.use_badge` | Scan badge instead | பேட்ஜை ஸ்கேன் செய்யுங்கள் |
+| **no** | `ui:ui.start.camera_off` | The camera is not available. Use your PIN. | கேமரா கிடைக்கவில்லை. பின்னைப் பயன்படுத்துங்கள். |
+| **no** | `ui:ui.start.badge_unknown` | That badge is not for this site. Use your PIN. | இந்த பேட்ஜ் இந்தத் தளத்துக்கானது அல்ல. பின்னைப் பயன்படுத்துங்கள். |
+| **no** | `ui:ui.start.signing_in` | Signing in… | உள்நுழைகிறது… |
+| **no** | `ui:ui.start.welcome` | Welcome, {{name}} | வருக, {{name}} |
+| **no** | `ui:ui.start.checklist_title` | Walkaround check | சுற்றிப் பார்த்துச் சரிபார்த்தல் |
+| **no** | `ui:ui.start.checklist_hint` | Answer every item. A problem becomes a report for your supervisor. | ஒவ்வொன்றுக்கும் பதில் சொல்லுங்கள். பிரச்சினை இருந்தால் மேற்பார்வையாளருக்குப் புகாராகச் செல்லும். |
+| **no** | `ui:ui.start.checklist_left` | {{count}} left to answer | இன்னும் {{count}} பதில் தர வேண்டும் |
+| **no** | `ui:ui.start.all_ok` | All OK | எல்லாம் சரி |
+| **no** | `ui:ui.start.begin` | Start work | வேலையைத் தொடங்கு |
+| **no** | `ui:ui.start.problems_saved` | {{count}} problem reported to your supervisor. | {{count}} பிரச்சினை மேற்பார்வையாளருக்குப் புகார் செய்யப்பட்டது. |
+| **no** | `ui:ui.start.not_ready_title` | The machine is not ready | இயந்திரம் இன்னும் தயாராக இல்லை |
+| **no** | `ui:ui.start.not_ready_text` | No shift is loaded on this machine yet. Start the demo from the console. | இந்த இயந்திரத்தில் இன்னும் பணி ஏற்றப்படவில்லை. கன்சோலில் டெமோவைத் தொடங்குங்கள். |
+| **no** | `ui:ui.start.retry` | Try again | மீண்டும் முயலுங்கள் |
+| **no** | `ui:ui.start.failed` | Sign-in did not work. Try again. | உள்நுழைவு நடக்கவில்லை. மீண்டும் முயலுங்கள். |
+| **no** | `ui:ui.start.back` | Back | பின்செல் |
+| **no** | `ui:ui.start.next` | Next | அடுத்து |
+| **no** | `ui:ui.start.edge_down_text` | Check that the machine gateway is running, then try again. | இயந்திர நுழைவாயில் இயங்குகிறதா எனப் பார்த்து மீண்டும் முயலுங்கள். |
+| **no** | `ui:ui.shift.title` | Today's tasks | இன்றைய வேலைகள் |
+| **no** | `ui:ui.shift.header` | Machine {{id}} · {{name}} | இயந்திரம் {{id}} · {{name}} |
+| **no** | `ui:ui.shift.progress` | {{done}} of {{total}} | {{total}}-ல் {{done}} |
+| **no** | `ui:ui.shift.starts` | Starts {{time}} | {{time}}-க்குத் தொடக்கம் |
+| **no** | `ui:ui.shift.left` | About {{time}} left | சுமார் {{time}} மீதம் |
+| **no** | `ui:ui.shift.no_active` | No task running | எந்த வேலையும் நடக்கவில்லை |
+| **no** | `ui:ui.shift.estimate_sr` | Likely {{likely}}, between {{low}} and {{high}}. | பெரும்பாலும் {{likely}}, {{low}} முதல் {{high}} வரை. |
+| **no** | `ui:ui.shift.finish_note` | What could move it: {{reason}} | இதை மாற்றக்கூடியது: {{reason}} |
+| **no** | `ui:ui.shift.breaks` | Suggested breaks | பரிந்துரைக்கப்பட்ட இடைவேளைகள் |
+| **no** | `ui:ui.shift.break_at` | {{time}} · {{minutes}} min | {{time}} · {{minutes}} நிமிடம் |
+| **no** | `ui:ui.shift.updates` | Updates | புதியவை |
+| **no** | `ui:ui.shift.no_updates` | Nothing new. | புதிதாக எதுவும் இல்லை. |
+| **no** | `ui:ui.shift.loading` | Loading your shift… | உங்கள் பணி ஏற்றப்படுகிறது… |
+| **no** | `ui:ui.safety.title` | Safety guard | பாதுகாப்பு |
+| **no** | `ui:ui.safety.proximity` | People near the machine | இயந்திரம் அருகில் ஆட்கள் |
+| **no** | `ui:ui.safety.prox_clear` | Nobody near the machine. | இயந்திரம் அருகில் யாரும் இல்லை. |
+| **no** | `ui:ui.safety.prox_person` | One person {{distance}} away, {{side}}. | ஒருவர் {{distance}} தொலைவில், {{side}}. |
+| **no** | `ui:ui.safety.prox_basic` | This machine has no people sensing. Look around before you swing. | இந்த இயந்திரத்தில் ஆட்களைக் கண்டறியும் சென்சார் இல்லை. சுழற்றும் முன் சுற்றிப் பாருங்கள். |
+| **no** | `ui:ui.safety.distances` | Warning distances | எச்சரிக்கை தூரங்கள் |
+| **no** | `ui:ui.safety.dist_caution` | Caution | கவனம் |
+| **no** | `ui:ui.safety.dist_danger` | Slow down | மெதுவாக |
+| **no** | `ui:ui.safety.dist_critical` | Stop | நிறுத்து |
+| **no** | `ui:ui.safety.wider` | Distances are wider now because risk is raised. | ஆபத்து கூடியதால் இப்போது தூரங்கள் அதிகம். |
+| **no** | `ui:ui.safety.risk` | Risk now | இப்போதைய ஆபத்து |
+| **no** | `ui:ui.safety.risk_why` | What raises it | எதனால் கூடுகிறது |
+| **no** | `ui:ui.safety.risk_none` | Nothing is raising the risk now. | இப்போது எதுவும் ஆபத்தைக் கூட்டவில்லை. |
+| **no** | `ui:ui.safety.break_after` | Break reminder after {{minutes}} min of work | {{minutes}} நிமிட வேலைக்குப் பிறகு இடைவேளை நினைவூட்டல் |
+| **no** | `ui:ui.safety.working_for` | Working without a break: {{minutes}} min | இடைவேளை இல்லாமல் வேலை: {{minutes}} நிமிடம் |
+| **no** | `ui:ui.safety.recent` | Recent alerts | சமீபத்திய எச்சரிக்கைகள் |
+| **no** | `ui:ui.safety.no_recent` | No alerts yet this shift. | இந்தப் பணியில் இதுவரை எச்சரிக்கை இல்லை. |
+| **no** | `ui:ui.safety.settings` | Settings | அமைப்புகள் |
+| **no** | `ui:ui.safety.locked` | Can't be switched off while working. | வேலை செய்யும்போது அணைக்க முடியாது. |
+| **no** | `ui:ui.safety.sign_out` | Sign out | வெளியேறு |
+| **no** | `ui:ui.soon.title` | Not ready yet | இன்னும் தயாராகவில்லை |
+| **no** | `ui:ui.soon.text` | This section arrives in the next update. Your work is still being recorded. | இந்தப் பகுதி அடுத்த புதுப்பிப்பில் வரும். உங்கள் வேலை பதிவாகிக்கொண்டிருக்கிறது. |
+| **no** | `ui:ui.stale_min` | No update {{minutes}} min | {{minutes}} நிமிடமாகப் புதுப்பிப்பு இல்லை |
 | **no** | `ui:alert.seatbelt_moving.title` | Seatbelt off while working | வேலை செய்யும்போது பெல்ட் போடவில்லை |
 | **no** | `ui:alert.seatbelt_moving.action` | Stop the machine. Buckle up. | இயந்திரத்தை நிறுத்துங்கள். பெல்ட் போடுங்கள். |
 | **no** | `ui:alert.seatbelt_moving.speak` | Stop. Seatbelt off. | நிறுத்துங்கள். பெல்ட் போடவில்லை. |
@@ -671,6 +864,21 @@ to the review list.
 | **no** | `ui:shift.break_scheduled` | Scheduled break | திட்டமிட்ட இடைவேளை |
 | **no** | `ui:shift.break_heat` | Hot today: a water break now helps you finish strong | இன்று வெயில்: இப்போது தண்ணீர் இடைவேளை மீதி வேலைக்கு உதவும் |
 | **no** | `ui:ask.not_indexed` | The manual is not loaded on this machine yet. | இந்த இயந்திரத்தில் கையேடு இன்னும் ஏற்றப்படவில்லை. |
+| **no** | `ui:task.truck_loading` | Truck loading | லாரி ஏற்றுதல் |
+| **no** | `ui:task.trenching` | Trenching | அகழி தோண்டுதல் |
+| **no** | `ui:task.backfilling` | Backfilling | குழி நிரப்புதல் |
+| **no** | `ui:task.grading` | Grading | தரை சமன் செய்தல் |
+| **no** | `ui:task.site_clearing` | Site clearing | தளம் சுத்தம் செய்தல் |
+| **no** | `ui:task.stockpile_moving` | Moving stockpile | குவியல் நகர்த்துதல் |
+| **no** | `ui:unit.loads` | {{count}} loads | {{count}} லோடு |
+| **no** | `ui:unit.m` | {{count}} m | {{count}} மீட்டர் |
+| **no** | `ui:unit.m2` | {{count}} m² | {{count}} சதுர மீட்டர் |
+| **no** | `ui:unit.m3` | {{count}} m³ | {{count}} கன மீட்டர் |
+| **no** | `ui:ground.dry` | Dry | உலர்ந்தது |
+| **no** | `ui:ground.wet` | Wet | ஈரம் |
+| **no** | `ui:ground.muddy` | Muddy | சேறு |
+| **no** | `ui:ground.rocky` | Rocky | பாறை |
+| **no** | `ui:ground.frozen` | Frozen | உறைந்தது |
 | **no** | `checklist.yaml:items[tracks_tyres].text` | Tracks or tyres: no damage, no loose parts | டிராக் அல்லது டயர்: சேதம் இல்லை, தளர்ந்த பாகம் இல்லை |
 | **no** | `checklist.yaml:items[leaks].text` | No oil, fuel or coolant leaks under the machine | இயந்திரத்தின் கீழே எண்ணெய், எரிபொருள், கூலன்ட் கசிவு இல்லை |
 | **no** | `checklist.yaml:items[lights_horn].text` | Lights, beacon and horn work | விளக்குகள், சுழல் விளக்கு, ஹாரன் வேலை செய்கின்றன |

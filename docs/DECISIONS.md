@@ -491,3 +491,45 @@ Context: The DoD asks for a lint rule or test banning hex and font literals outs
 Decision: A vitest test scans `frontend/apps/**` for hex/rgb/hsl colours, font names, raw px values and shadow literals (a line may opt out only with a `token-exempt` comment, which review must see). Another recomputes every contrast pair of DESIGN §2 from tokens.css in all three themes against the DESIGN §12 targets (90 checks). A Playwright test opens `/_kitchen-sink` in the installed Chrome and, for each theme × language, fails if any element in a 1280 px cab frame sticks out of the frame or has content wider than its own box (the push-to-talk listening ring grows on purpose and is skipped). jsdom tests cover roles, labels and missing translations.
 Why: Automatic and repeatable; layout can only be judged in a real browser.
 Alternatives: A custom ESLint rule (more code for the same result); screenshots checked by eye only.
+
+## D-071 — Status rail short forms: stale age, sync count, 1024 × 768 drops
+Date: 2026-09-24 · Phase: 8 · Requirement(s): DESIGN §4 Cab grid 1024 × 768, §10 StatusRail; F-CAB-03
+Context: In the live cab, with stale data, raised risk and reports waiting, the rail was wider than the screen: by 4 px in English at 1280 px, and by up to 90 px in Tamil at 1024 px. The clock was pushed off the screen.
+Decision: The rail always draws the stale mark as the dashed square plus the age ("40 s"; in minutes, "4 min", from 2 minutes on). The full sentence ("No update 40 s") is its accessible name and is written out on the Safety screen. In Tamil and Hindi, and in any language below 1280 px, the sync segment shows only the count beside the mast glyph, which keeps the full words as its label. Below 1280 px the machine segment is dropped in every language (DESIGN §4), Tamil/Hindi rail words wrap at 5.5 em, and the Hindi risk reason is dropped (Tamil already drops it, D-068). The proximity word keeps its tier glyph on one line.
+Why: Nothing in the rail may be cut or pushed off the screen. The dashed mark carries "stale" on its own, and the full words stay available.
+Alternatives: Shrinking text below 24 px (forbidden); an ellipsis (forbidden on safety strings); dropping the stale mark (hides stale data).
+
+## D-072 — The cab snapshot carries the risk breakdown
+Date: 2026-09-24 · Phase: 8 · Requirement(s): F-SAFE-04, TRD §9.1
+Context: `risk_update` is only sent when the score moves by 3 or more or the band changes, so a cab that reconnected had a risk band but no "what raises it" until the next change.
+Decision: `CabSnapshot.risk` holds the last risk payload (score, band, top contributors, thresholds), built by the same `MachineRuntime.risk_payload` as `risk_update`.
+Why: A reconnect never leaves the Safety screen half-empty; a single function builds both.
+Alternatives: The cab fetches the risk over REST after connecting (a second path to keep in step).
+
+## D-073 — The P1 takeover's acknowledge button is always on screen
+Date: 2026-09-24 · Phase: 8 · Requirement(s): F-SAFE-09, DESIGN §10 AlertTakeoverP1
+Context: In Tamil the real "Person inside the swing zone" P1 wrapped to four lines at 72 px and pushed "I've stopped" below the bottom of the screen. The kitchen-sink test only checked horizontal overflow.
+Decision: The message sits in a region that may shrink; the acknowledge button and queue line are fixed below it. The situation line is 72/80 in English and 52 px in Tamil and Hindi (instruction 40 → 32 px), so the whole message fits at 1280 × 800. The kitchen-sink e2e now fails if a P1 message is cut or its button leaves the takeover.
+Why: A P1 that cannot be acknowledged is a safety defect. Script-aware sizes follow DESIGN §3.
+Alternatives: Scroll the whole takeover (the button could still scroll away); cut the text (forbidden).
+
+## D-074 — P3 strip action: "Done" for notices, "Later" for advice
+Date: 2026-09-24 · Phase: 8 · Requirement(s): DESIGN §10 AlertStripP3, alert_policy.yaml
+Context: DESIGN gives a P3 strip one optional action, either "Later" (snooze 10 min) or "Done" (clear), without saying which. A risk-band notice stays on the strip after the band drops, since the edge keeps P3 strips until acted on or replaced.
+Decision: Strips in the `risk` category offer "Done" (the edge files the strip to the feed); all other strips (fatigue, heat and water breaks) offer "Later".
+Why: Advice with time to act can be snoozed; a notice only needs to be seen.
+Alternatives: Always "Later" (a stale risk notice keeps coming back).
+
+## D-075 — Sign-in flow on the cab
+Date: 2026-09-24 · Phase: 8 · Requirement(s): F-START-01…04
+Context: The Start screen must work before the edge answers, and it must not reveal which operator IDs exist.
+Decision: The language choice comes first and always shows; the edge's state (checking, not reachable, no shift loaded) is said under it in the chosen language. Badges read `SHIFTMATE:OP####` (jsQR, camera stays on the tablet); with no camera or no permission the PIN pad opens with a note. The PIN is the operator number (OP1001 → 1001); an unknown operator reads exactly like a wrong PIN. Digits are tracked synchronously, so two quick glove taps both count. The checklist needs an explicit OK or Problem per item ("All OK" fills the rest); problems become reports on the edge.
+Why: Tamil-first operators read the error in Tamil; no user enumeration; glove-proof input.
+Alternatives: Show the language picker only once the edge is up (the old smoke test's flow).
+
+## D-076 — Cab session and edge authority
+Date: 2026-09-24 · Phase: 8 · Requirement(s): F-START-03, F-CAB-01
+Context: A reload should keep the operator signed in, but the edge decides who is at the controls (a new scenario load or another sign-in replaces the session).
+Decision: The cab keeps `{operator, machine, name}`, language, theme and "read alerts aloud" in localStorage (every access guarded). When a snapshot says a different operator, or that nothing is loaded, the cab signs out locally and returns to /start. Going to Working mode is immediate unless a finger is already down, and then it waits for the press to end (DESIGN ModeTransition).
+Why: A reload doesn't cost a sign-in, but stale sessions can't survive a replaced world.
+Alternatives: sessionStorage only (a reload of the tablet loses the session); no edge check (a demo reload keeps showing the previous operator).

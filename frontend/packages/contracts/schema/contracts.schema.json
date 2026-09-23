@@ -20,6 +20,203 @@
       "title": "AckRequest",
       "type": "object"
     },
+    "AlertTimings": {
+      "description": "The parts of alert_policy.yaml the cab applies itself (sound and speech timing).",
+      "properties": {
+        "p1_speech_repeat_s": {
+          "title": "P1 Speech Repeat S",
+          "type": "number"
+        },
+        "p2_tone_repeat_s": {
+          "title": "P2 Tone Repeat S",
+          "type": "number"
+        },
+        "reduced_p1_repeat_s": {
+          "title": "Reduced P1 Repeat S",
+          "type": "number"
+        },
+        "p3_snooze_min": {
+          "title": "P3 Snooze Min",
+          "type": "number"
+        },
+        "paused_idle_seconds": {
+          "title": "Paused Idle Seconds",
+          "type": "number"
+        }
+      },
+      "required": [
+        "p1_speech_repeat_s",
+        "p2_tone_repeat_s",
+        "reduced_p1_repeat_s",
+        "p3_snooze_min",
+        "paused_idle_seconds"
+      ],
+      "title": "AlertTimings",
+      "type": "object"
+    },
+    "AlertView": {
+      "description": "An alert as the cab draws it (payload of `alert`, `alert_queued`, `alert_feed`,\n`alert_cleared`; the alert policy engine decides status and presentation).",
+      "properties": {
+        "alert_id": {
+          "title": "Alert Id",
+          "type": "string"
+        },
+        "rule_id": {
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "priority": {
+          "enum": [
+            "P1",
+            "P2",
+            "P3",
+            "P4"
+          ],
+          "title": "Priority",
+          "type": "string"
+        },
+        "message_key": {
+          "title": "Message Key",
+          "type": "string"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "raised_at": {
+          "format": "date-time",
+          "title": "Raised At",
+          "type": "string"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        },
+        "presentation": {
+          "enum": [
+            "takeover",
+            "banner",
+            "strip",
+            "feed",
+            "reduced"
+          ],
+          "title": "Presentation",
+          "type": "string"
+        },
+        "sound": {
+          "title": "Sound",
+          "type": "string"
+        },
+        "speak": {
+          "title": "Speak",
+          "type": "boolean"
+        },
+        "requires_ack": {
+          "title": "Requires Ack",
+          "type": "boolean"
+        },
+        "escalated": {
+          "title": "Escalated",
+          "type": "boolean"
+        },
+        "queued_count": {
+          "title": "Queued Count",
+          "type": "integer"
+        },
+        "context": {
+          "additionalProperties": true,
+          "default": {},
+          "title": "Context",
+          "type": "object"
+        }
+      },
+      "required": [
+        "alert_id",
+        "rule_id",
+        "priority",
+        "message_key",
+        "category",
+        "raised_at",
+        "status",
+        "presentation",
+        "sound",
+        "speak",
+        "requires_ack",
+        "escalated",
+        "queued_count"
+      ],
+      "title": "AlertView",
+      "type": "object"
+    },
+    "AlertsSnapshot": {
+      "properties": {
+        "current": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AlertView"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "strip": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AlertView"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reduced": {
+          "items": {
+            "$ref": "#/$defs/AlertView"
+          },
+          "title": "Reduced",
+          "type": "array"
+        },
+        "queue_count": {
+          "title": "Queue Count",
+          "type": "integer"
+        },
+        "queue_top_priority": {
+          "anyOf": [
+            {
+              "enum": [
+                "P1",
+                "P2",
+                "P3",
+                "P4"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Queue Top Priority"
+        },
+        "feed": {
+          "items": {
+            "$ref": "#/$defs/AlertView"
+          },
+          "title": "Feed",
+          "type": "array"
+        }
+      },
+      "required": [
+        "current",
+        "strip",
+        "reduced",
+        "queue_count",
+        "queue_top_priority",
+        "feed"
+      ],
+      "title": "AlertsSnapshot",
+      "type": "object"
+    },
     "AskRequest": {
       "properties": {
         "question": {
@@ -284,6 +481,34 @@
       "title": "BreakWindow",
       "type": "object"
     },
+    "CabConfig": {
+      "properties": {
+        "alerts": {
+          "$ref": "#/$defs/AlertTimings"
+        },
+        "checklist": {
+          "items": {
+            "$ref": "#/$defs/ChecklistItemView"
+          },
+          "title": "Checklist",
+          "type": "array"
+        },
+        "languages": {
+          "items": {
+            "$ref": "#/$defs/Language"
+          },
+          "title": "Languages",
+          "type": "array"
+        }
+      },
+      "required": [
+        "alerts",
+        "checklist",
+        "languages"
+      ],
+      "title": "CabConfig",
+      "type": "object"
+    },
     "CabMode": {
       "enum": [
         "working",
@@ -291,6 +516,146 @@
       ],
       "title": "CabMode",
       "type": "string"
+    },
+    "CabSnapshot": {
+      "description": "`snapshot` on /ws/cab: the full current state, first on connect and after load/seek.",
+      "properties": {
+        "loaded": {
+          "title": "Loaded",
+          "type": "boolean"
+        },
+        "machine_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Machine Id"
+        },
+        "operator_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Operator Id"
+        },
+        "language": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Language"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "telemetry": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Telemetry"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "mode": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CabMode"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "alerts": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AlertsSnapshot"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "online": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Online"
+        },
+        "sync": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SyncUpdate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "captions": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Captions"
+        },
+        "waiting_for": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Waiting For"
+        },
+        "risk": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RiskUpdate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "loaded"
+      ],
+      "title": "CabSnapshot",
+      "type": "object"
     },
     "CameraReading": {
       "properties": {
@@ -439,6 +804,32 @@
         "illustration"
       ],
       "title": "ChecklistItem",
+      "type": "object"
+    },
+    "ChecklistItemView": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "text": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Text",
+          "type": "object"
+        },
+        "illustration": {
+          "title": "Illustration",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "illustration"
+      ],
+      "title": "ChecklistItemView",
       "type": "object"
     },
     "ChecklistResult": {
@@ -2746,6 +3137,32 @@
       "title": "LessonFormat",
       "type": "string"
     },
+    "LessonOffer": {
+      "properties": {
+        "lesson_id": {
+          "title": "Lesson Id",
+          "type": "string"
+        },
+        "because": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Because",
+          "type": "array"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "lesson_id",
+        "because",
+        "reason"
+      ],
+      "title": "LessonOffer",
+      "type": "object"
+    },
     "LessonSummary": {
       "properties": {
         "id": {
@@ -3239,6 +3656,22 @@
         "max"
       ],
       "title": "MinMax",
+      "type": "object"
+    },
+    "ModeUpdate": {
+      "properties": {
+        "mode": {
+          "$ref": "#/$defs/CabMode"
+        },
+        "state": {
+          "$ref": "#/$defs/MachineState"
+        }
+      },
+      "required": [
+        "mode",
+        "state"
+      ],
+      "title": "ModeUpdate",
       "type": "object"
     },
     "ModelRef": {
@@ -3891,6 +4324,40 @@
       ],
       "title": "RiskBand",
       "type": "string"
+    },
+    "RiskUpdate": {
+      "properties": {
+        "score": {
+          "title": "Score",
+          "type": "integer"
+        },
+        "band": {
+          "$ref": "#/$defs/RiskBand"
+        },
+        "top": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Top",
+          "type": "array"
+        },
+        "thresholds": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Thresholds",
+          "type": "object"
+        }
+      },
+      "required": [
+        "score",
+        "band",
+        "top",
+        "thresholds"
+      ],
+      "title": "RiskUpdate",
+      "type": "object"
     },
     "RpmLevels": {
       "additionalProperties": false,

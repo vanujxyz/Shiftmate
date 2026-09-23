@@ -162,15 +162,7 @@ class MachineRuntime:
             self.last_mode = step.state.mode
             self.push("mode", {"mode": step.state.mode.value, "state": step.state.state.value})
         if step.risk.publish:
-            self.push(
-                "risk_update",
-                {
-                    "score": step.risk.score,
-                    "band": step.risk.band.value,
-                    "top": [{"component": k, "points": v} for k, v in step.risk.top],
-                    "thresholds": vars(step.risk.thresholds),
-                },
-            )
+            self.push("risk_update", self.risk_payload(step))
         if step.idle.provisional is not None:
             self.push("idle_segment", step.idle.provisional.payload())
         self._truck_shortage_notice(step)
@@ -197,6 +189,15 @@ class MachineRuntime:
             self.timeline[-1][2] = end
         else:
             self.timeline.append([kind, ts, end])
+
+    @staticmethod
+    def risk_payload(step: PipelineStep) -> dict[str, Any]:
+        return {
+            "score": step.risk.score,
+            "band": step.risk.band.value,
+            "top": [{"component": k, "points": v} for k, v in step.risk.top],
+            "thresholds": vars(step.risk.thresholds),
+        }
 
     def telemetry(self, step: PipelineStep, tick: dict[str, Any]) -> dict[str, Any]:
         has_prox = (

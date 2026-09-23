@@ -307,3 +307,11 @@ def test_demo_controls(client) -> None:
     whl = client.get("/machines/WHL014").json()
     assert whl["machine"]["sensor_tier"] == "basic" and whl["low_confidence"]
     client.post("/demo/scenario/load", json={"name": "ravi_shift"})
+
+
+def test_cab_config(client) -> None:
+    c = client.get("/cab/config").json()
+    assert c["alerts"]["p1_speech_repeat_s"] == 4 and c["alerts"]["p2_tone_repeat_s"] == 20
+    assert c["alerts"]["paused_idle_seconds"] == 30
+    assert len(c["checklist"]) == 7 and set(c["checklist"][0]["text"]) == {"en", "hi", "ta"}
+    assert c["languages"] == ["en", "hi", "ta"]

@@ -197,7 +197,7 @@ export function KitchenSink() {
           <CabFrame gap={false}>
             <StatusRail
               mode="working"
-              proximity={{ tier: "caution", bearing: 135, word: t("ui.rail.one_near"), label: t("ui.rail.prox_caution_label"), stale: t("ui.stale", { seconds: 40 }) }}
+              proximity={{ tier: "caution", bearing: 135, word: t("ui.rail.one_near"), label: t("ui.rail.prox_caution_label"), stale: t("ui.stale", { seconds: 40 }), staleShort: "40 s" }}
               risk={{ band: "red", word: t("ui.rail.risk_high"), label: t("ui.rail.risk_high") }}
               belt={{ fastened: false, word: t("ui.rail.belt_off") }}
               sync={{ state: "synced", label: t("ui.sync.synced_at", { time: "10:42" }) }}

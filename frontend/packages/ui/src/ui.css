@@ -139,6 +139,13 @@
 .sm-glyph [stroke="none"] { stroke-width: 0; }
 
 /* ---- In-between text sizes named by DESIGN components, with script line-heights ---- */
+/* P1 takeover: situation 72/80 and instruction 40/50 (DESIGN AlertTakeoverP1); Tamil and Hindi
+   words run long, so the situation steps down to 52 px there to keep the whole message in view */
+.sm-t-p1 { font-size: 72px; line-height: 80px; font-weight: calc(700 + var(--sm-text-weight-shift)); }
+.sm-t-p1-do { font-size: 40px; line-height: 50px; font-weight: calc(600 + var(--sm-text-weight-shift)); }
+:lang(ta) .sm-t-p1, :lang(ta).sm-t-p1 { font-size: 52px; line-height: 68px; }
+:lang(hi) .sm-t-p1, :lang(hi).sm-t-p1 { font-size: 52px; line-height: 66px; }
+:lang(ta) .sm-t-p1-do, :lang(hi) .sm-t-p1-do { font-size: 32px; line-height: 44px; }
 .sm-t-p2 { font-size: 44px; line-height: 52px; font-weight: calc(700 + var(--sm-text-weight-shift)); }
 .sm-t-p3 { font-size: 32px; line-height: 38px; font-weight: calc(600 + var(--sm-text-weight-shift)); }
 .sm-t-row { font-size: 30px; line-height: 38px; font-weight: calc(600 + var(--sm-text-weight-shift)); }
@@ -167,8 +174,32 @@
  * 24 px and wrap to two lines; the risk reason is dropped from the rail (the risk line carries it). */
 :lang(ta) .sm-rail-word, :lang(hi) .sm-rail-word { font-size: 24px; line-height: 30px; max-width: 7em; }
 :lang(ta) .sm-rail-reason { display: none; }
+/* the proximity word carries its tier glyph on the same line: it takes the room it needs */
+.sm-rail .sm-rail-word.sm-rail-prox { max-width: none; white-space: nowrap; }
 /* the machine's state word repeats its glyph (which carries it as its label): dropped in ta/hi */
 :lang(ta) .sm-rail-repeat, :lang(hi) .sm-rail-repeat { display: none; }
 /* Tamil runs 30–50 % longer: like the 1024 × 768 layout, the rail drops the machine segment and the
  * cab shows the machine ID in the Paused content header instead (D-068). */
 :lang(ta) .sm-rail-machine { display: none; }
+/* D-071: the rail's stale mark is the dashed square and the age ("40 s") in every language; the
+ * full sentence is its accessible name and is written out on the Safety screen */
+.sm-stale-short { display: none; }
+.sm-rail .sm-stale-long { display: none; }
+.sm-rail .sm-stale-short { display: inline; }
+/* where the rail has no room for words (Tamil and Hindi; any language at 1024 px), the sync
+ * segment keeps the count ("48"); the full words stay the mast glyph's label */
+.sm-rail-short { display: none; }
+@media (max-width: 1279px) {
+  /* DESIGN §4 Cab grid 1024 × 768: no machine segment (its ID is in the Paused content header) */
+  .sm-rail-machine { display: none; }
+  .sm-rail .sm-rail-long { display: none; }
+  .sm-rail .sm-rail-short { display: inline; }
+}
+:lang(ta) .sm-rail .sm-rail-long, :lang(hi) .sm-rail .sm-rail-long { display: none; }
+:lang(ta) .sm-rail .sm-rail-short, :lang(hi) .sm-rail .sm-rail-short { display: inline; }
+/* at 1024 px the Tamil and Hindi rail words wrap sooner (two short lines, never cut) */
+@media (max-width: 1279px) {
+  :lang(ta) .sm-rail-word, :lang(hi) .sm-rail-word { max-width: 5.5em; }
+  :lang(hi) .sm-rail-reason { display: none; }
+  .sm-rail-seg { padding-inline: 10px; }
+}
