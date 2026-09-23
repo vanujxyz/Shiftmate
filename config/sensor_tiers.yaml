@@ -1,0 +1,16 @@
+# Sensor tiers (TRD §4.2). Features check the machine's tier and degrade gracefully (golden rule 6).
+tiers:
+  basic:      # exactly the brief's sample columns + GPS
+    signals: [engine_on, engine_hours, fuel_rate, hydraulic_active, travel_speed_kmh, seatbelt_fastened, gps]
+  standard:
+    inherits: basic
+    signals: [seat_occupied, engine_rpm, coolant_temp_c]
+  advanced:
+    inherits: standard
+    signals: [proximity_m, truck_in_loading_zone]
+feature_availability:
+  seatbelt_alert: [basic, standard, advanced]
+  unattended_running: [standard, advanced]        # needs seat_occupied
+  warm_up_by_coolant: [standard, advanced]        # basic uses time-based warm-up
+  proximity_sensor: [advanced]                    # camera add-on available for any tier
+  truck_presence: [advanced]                      # others use site dispatch log (lower confidence)

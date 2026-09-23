@@ -1,0 +1,21 @@
+# Working-conditions risk model (TRD §4.5, §6.3). Score = min(max_score, sum of component points).
+components:
+  heat_index_c: [{lt: 32, points: 0}, {lt: 40, points: 10}, {lt: 52, points: 25}, {gte: 52, points: 40}]
+  precipitation_mm_h: [{lt: 0.5, points: 0}, {lt: 4, points: 10}, {gte: 4, points: 20}]
+  ground_condition: {dry: 0, rocky: 5, wet: 8, muddy: 15, frozen: 20}
+  is_night: {true: 10, false: 0}
+  visibility_m: [{lt: 200, points: 15}, {lt: 1000, points: 5}, {gte: 1000, points: 0}]
+  continuous_operation_min: [{lt: 120, points: 0}, {lt: 180, points: 10}, {lt: 240, points: 20}, {gte: 240, points: 30}]
+  proximity_state: {clear: 0, caution: 10, danger: 25, critical: 35}
+  seatbelt_unfastened_while_working: {true: 25, false: 0}
+  near_miss_last_24h: {per_event: 5, max: 15}
+bands: {green: [0, 39], amber: [40, 69], red: [70, 100]}
+threshold_scaling:          # multiplies profile proximity distances; divides fatigue minutes
+  green: {proximity: 1.0, fatigue: 1.0}
+  amber: {proximity: 1.25, fatigue: 1.2}
+  red:   {proximity: 1.5, fatigue: 1.5}
+heat_fatigue_override: {heat_index_gte: 41, fatigue_divisor: 1.5}
+max_score: 100
+hysteresis_down_s: 120      # a band change down needs the score below the band floor for this long
+publish_min_delta: 3        # publish risk_update when the score moves by at least this much
+top_contributors: 3         # components shown in the UI ("Heat +25, Fatigue +10")

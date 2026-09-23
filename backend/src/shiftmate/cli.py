@@ -73,7 +73,27 @@ def schema_export(out: Path = DEFAULT_SCHEMA_DIR) -> None:
 @config_app.command("validate")
 def config_validate() -> None:
     """Load and validate every file in config/."""
-    _not_yet("config validate", 2)
+    from shiftmate.config_loader import ConfigError, load_config
+
+    try:
+        cfg = load_config()
+    except ConfigError as exc:
+        typer.echo(f"Config is NOT valid.\n{exc}", err=True)
+        raise typer.Exit(code=1) from exc
+    rules_by_priority: dict[str, int] = {}
+    for rule in cfg.safety_rules.rules:
+        rules_by_priority[rule.priority] = rules_by_priority.get(rule.priority, 0) + 1
+    machines = sum(sum(s.fleet.count(t) for t in cfg.profiles) for s in cfg.sites.values())
+    typer.echo("Config is valid.")
+    typer.echo(f"  machine profiles : {', '.join(sorted(cfg.profiles))}")
+    typer.echo(f"  sites            : {', '.join(sorted(cfg.sites))} ({machines} machines)")
+    typer.echo(
+        f"  safety rules     : {len(cfg.safety_rules.rules)} "
+        f"({', '.join(f'{p} {n}' for p, n in sorted(rules_by_priority.items()))})"
+    )
+    typer.echo(f"  lessons          : {len(cfg.lessons.lessons)}")
+    typer.echo(f"  checklist items  : {len(cfg.checklist.items)}")
+    typer.echo(f"  voice intents    : {len(cfg.intents.intents)}")
 
 
 @sim_app.command("generate")

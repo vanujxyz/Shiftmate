@@ -1,0 +1,311 @@
+# Lessons for Learn & Grow (TRD §4.9, PRD F-LRN-01..03). Team-written; not copied from any manual.
+# Trigger vocabulary: idle reasons, safety rule ids, anomaly feature codes (config/anomaly.yaml) and
+# condition flags (HEAT, RAIN, NIGHT, WET_GROUND). Hindi and Tamil are listed for native review in
+# docs/TRANSLATIONS_REVIEW.md.
+lessons:
+  - id: L-SHUTDOWN
+    title: {en: "Shut down before you step out", hi: "उतरने से पहले इंजन बंद करें", ta: "இறங்கும் முன் இன்ஜினை அணையுங்கள்"}
+    format: narrated_cards
+    duration_s: 90
+    triggers: [UNATTENDED_RUNNING, idle_unattended_min]
+    cards:
+      - text: {en: "Before you leave the seat, lower the bucket to the ground.", hi: "सीट छोड़ने से पहले बकेट ज़मीन पर रखिए।", ta: "இருக்கையை விட்டு எழும் முன் பக்கெட்டைத் தரையில் இறக்குங்கள்."}
+        illustration: bucket-lowered
+      - text: {en: "Lock the controls, then turn the engine off.", hi: "कंट्रोल लॉक कीजिए, फिर इंजन बंद कीजिए।", ta: "கட்டுப்பாடுகளைப் பூட்டி, பிறகு இன்ஜினை அணையுங்கள்."}
+        illustration: controls-locked
+      - text: {en: "With the cab empty and the engine on, a bumped lever can move the machine.", hi: "केबिन खाली और इंजन चालू हो तो लीवर छूने भर से मशीन हिल सकती है।", ta: "கேபின் காலியாக இன்ஜின் ஓடினால், லீவர் தட்டுப்பட்டாலே இயந்திரம் நகரலாம்."}
+        illustration: cab-exit-idle
+      - text: {en: "Every 10 minutes of idling uses about half a litre of fuel.", hi: "हर 10 मिनट के ठहराव में करीब आधा लीटर ईंधन जलता है।", ta: "ஒவ்வொரு 10 நிமிட நிறுத்தத்திலும் சுமார் அரை லிட்டர் எரிபொருள் செலவாகும்."}
+        illustration: fuel-saved
+    quiz:
+      - q: {en: "You need to step out for 5 minutes. What do you do first?", hi: "आपको 5 मिनट के लिए उतरना है। पहले क्या करेंगे?", ta: "5 நிமிடம் இறங்க வேண்டும். முதலில் என்ன செய்வீர்கள்?"}
+        options:
+          - {en: "Leave the engine running", hi: "इंजन चालू छोड़ देंगे", ta: "இன்ஜினை ஓடவிடுவேன்"}
+          - {en: "Lower the bucket, lock the controls, switch off", hi: "बकेट नीचे, कंट्रोल लॉक, इंजन बंद", ta: "பக்கெட்டை இறக்கி, கட்டுப்பாட்டைப் பூட்டி, அணைப்பேன்"}
+          - {en: "Keep the bucket raised", hi: "बकेट ऊपर ही रहने देंगे", ta: "பக்கெட்டை உயர்த்தியே வைப்பேன்"}
+        answer: 1
+        explain: {en: "A lowered bucket and a stopped engine mean the machine cannot move while you are away.", hi: "बकेट नीचे और इंजन बंद हो तो आपके न रहने पर मशीन हिल नहीं सकती।", ta: "பக்கெட் கீழே, இன்ஜின் அணைந்திருந்தால் நீங்கள் இல்லாதபோது இயந்திரம் நகராது."}
+
+  - id: L-IDLE-FUEL
+    title: {en: "Short stops, less fuel", hi: "कम ठहराव, कम ईंधन", ta: "குறைந்த நிறுத்தம், குறைந்த எரிபொருள்"}
+    format: narrated_cards
+    duration_s: 90
+    triggers: [HABIT, idle_habit_min, idle_ratio, fuel_per_load_cycle_l]
+    cards:
+      - text: {en: "An idling engine still burns about 3 litres of fuel an hour.", hi: "खड़ा इंजन भी हर घंटे करीब 3 लीटर ईंधन जलाता है।", ta: "நின்றபடி ஓடும் இன்ஜினும் மணிக்கு சுமார் 3 லிட்டர் எரிபொருள் செலவழிக்கும்."}
+        illustration: engine-idle
+      - text: {en: "If you expect to wait more than 5 minutes, switch off.", hi: "5 मिनट से ज़्यादा रुकना हो तो इंजन बंद कर दीजिए।", ta: "5 நிமிடத்துக்கு மேல் காத்திருக்க வேண்டுமென்றால் இன்ஜினை அணையுங்கள்."}
+        illustration: key-off
+      - text: {en: "Use the wait to plan your next cut or check your mirrors.", hi: "रुकने के समय में अगली खुदाई की योजना बनाइए या शीशे देख लीजिए।", ta: "காத்திருக்கும் நேரத்தில் அடுத்த வெட்டைத் திட்டமிடுங்கள் அல்லது கண்ணாடிகளைப் பாருங்கள்."}
+        illustration: plan-next-cut
+    quiz:
+      - q: {en: "Trucks are 10 minutes away. What saves the most fuel?", hi: "ट्रक 10 मिनट दूर है। सबसे ज़्यादा ईंधन कैसे बचेगा?", ta: "லாரி வர 10 நிமிடம் ஆகும். எது அதிக எரிபொருளை மிச்சப்படுத்தும்?"}
+        options:
+          - {en: "Keep the engine at high idle", hi: "इंजन तेज़ आइडल पर रखेंगे", ta: "இன்ஜினை அதிக வேகத்தில் ஓடவிடுவேன்"}
+          - {en: "Switch off and restart when the truck arrives", hi: "इंजन बंद करेंगे, ट्रक आने पर चालू करेंगे", ta: "அணைத்து, லாரி வந்ததும் இயக்குவேன்"}
+          - {en: "Keep revving to stay warm", hi: "गर्म रखने के लिए रेस देते रहेंगे", ta: "சூடாக இருக்க ரேஸ் கொடுத்துக்கொண்டே இருப்பேன்"}
+        answer: 1
+        explain: {en: "A warm engine restarts easily. Ten minutes off saves about half a litre.", hi: "गर्म इंजन आसानी से चालू हो जाता है। 10 मिनट बंद रखने से करीब आधा लीटर बचता है।", ta: "சூடான இன்ஜின் எளிதாக மீண்டும் இயங்கும். 10 நிமிடம் அணைத்தால் சுமார் அரை லிட்டர் மிச்சம்."}
+
+  - id: L-SEATBELT
+    title: {en: "Belt on before the machine moves", hi: "मशीन चलने से पहले बेल्ट लगाएँ", ta: "இயந்திரம் நகரும் முன் பெல்ட் போடுங்கள்"}
+    format: narrated_cards
+    duration_s: 90
+    triggers: [SEATBELT_MOVING, seatbelt_unfastened_working_s]
+    cards:
+      - text: {en: "Buckle up before you start the engine.", hi: "इंजन चालू करने से पहले बेल्ट लगाइए।", ta: "இன்ஜினை இயக்கும் முன் பெல்ட் போடுங்கள்."}
+        illustration: belt-buckle
+      - text: {en: "If the machine tips, the belt keeps you inside the cab frame, where you are protected.", hi: "मशीन पलटे तो बेल्ट आपको केबिन के सुरक्षा फ्रेम के अंदर रखती है।", ta: "இயந்திரம் சாய்ந்தால், பெல்ட் உங்களைக் கேபினின் பாதுகாப்புச் சட்டத்துக்குள் வைத்திருக்கும்."}
+        illustration: rops-frame
+      - text: {en: "Never jump out of a tipping machine. Stay buckled and hold on.", hi: "पलटती मशीन से कभी मत कूदिए। बेल्ट लगाए रखिए और पकड़े रहिए।", ta: "சாயும் இயந்திரத்திலிருந்து ஒருபோதும் குதிக்காதீர்கள். பெல்ட் போட்டபடி இறுக்கமாகப் பிடித்துக்கொள்ளுங்கள்."}
+        illustration: hold-on
+      - text: {en: "Check the belt for cuts and a firm latch every morning.", hi: "हर सुबह बेल्ट में कटाव और बकल की पकड़ जाँचिए।", ta: "ஒவ்வொரு காலையும் பெல்ட்டில் கிழிசல் இருக்கிறதா, கொக்கி இறுக்கமாக மாட்டுகிறதா என்று பாருங்கள்."}
+        illustration: belt-check
+    quiz:
+      - q: {en: "The machine starts to tip. What should you do?", hi: "मशीन पलटने लगे तो क्या करेंगे?", ta: "இயந்திரம் சாயத் தொடங்கினால் என்ன செய்ய வேண்டும்?"}
+        options:
+          - {en: "Jump out quickly", hi: "जल्दी से कूद जाएँगे", ta: "வேகமாகக் குதிப்பேன்"}
+          - {en: "Stay buckled in the seat and hold on", hi: "बेल्ट लगाकर सीट पर बैठे रहेंगे और पकड़े रहेंगे", ta: "பெல்ட் போட்டபடி இருக்கையில் இருந்து பிடித்துக்கொள்வேன்"}
+          - {en: "Unbuckle and open the door", hi: "बेल्ट खोलकर दरवाज़ा खोलेंगे", ta: "பெல்ட்டைக் கழற்றிக் கதவைத் திறப்பேன்"}
+        answer: 1
+        explain: {en: "The cab frame protects you only if you stay inside it.", hi: "केबिन का फ्रेम तभी बचाता है जब आप उसके अंदर रहें।", ta: "நீங்கள் உள்ளே இருந்தால்தான் கேபின் சட்டம் உங்களைக் காக்கும்."}
+
+  - id: L-SWING-ZONE
+    title: {en: "Keep the swing zone clear", hi: "घुमाव का दायरा ख़ाली रखें", ta: "சுழலும் பகுதியைக் காலியாக வையுங்கள்"}
+    format: narrated_cards
+    duration_s: 120
+    triggers: [PROXIMITY_DANGER, PROXIMITY_CRITICAL, SPEED_NEAR_PERSON, proximity_close_count]
+    cards:
+      - text: {en: "The swing zone is everywhere the back of the machine can reach when it turns.", hi: "मशीन का पिछला हिस्सा घूमते समय जहाँ तक पहुँचता है, वह पूरा घुमाव का दायरा है।", ta: "இயந்திரத்தின் பின்பகுதி சுழலும்போது எட்டும் இடம் முழுவதும் சுழலும் பகுதி."}
+        illustration: swing-radius
+      - text: {en: "Before every swing, check your mirrors and the side you are turning to.", hi: "हर बार घुमाने से पहले शीशे और घुमाने वाली तरफ़ देखिए।", ta: "ஒவ்வொரு முறை சுழற்றும் முன்பும் கண்ணாடிகளையும் சுழலும் பக்கத்தையும் பாருங்கள்."}
+        illustration: mirror-check
+      - text: {en: "If someone walks in, stop and wait until they are well clear.", hi: "कोई अंदर आ जाए तो रुकिए और उसके पूरी तरह दूर जाने तक इंतज़ार कीजिए।", ta: "யாராவது உள்ளே வந்தால் நிறுத்துங்கள்; அவர் நன்றாக விலகும் வரை காத்திருங்கள்."}
+        illustration: person-in-zone
+      - text: {en: "Mark the zone with cones and agree it with the team at the start of the day.", hi: "दिन की शुरुआत में कोन लगाकर दायरा चिह्नित कीजिए और टीम को बताइए।", ta: "நாள் தொடக்கத்தில் கூம்புகளால் பகுதியைக் குறித்து, குழுவுடன் பேசி ஒப்புக்கொள்ளுங்கள்."}
+        illustration: cones-zone
+    quiz:
+      - q: {en: "A worker walks behind the machine while you are loading. What do you do?", hi: "लोडिंग के समय कोई मज़दूर मशीन के पीछे से गुज़रता है। क्या करेंगे?", ta: "லோடு செய்யும்போது ஒரு தொழிலாளி இயந்திரத்தின் பின்னால் நடக்கிறார். என்ன செய்வீர்கள்?"}
+        options:
+          - {en: "Keep swinging, they will see you", hi: "घुमाते रहेंगे, वह देख लेगा", ta: "சுழற்றிக்கொண்டே இருப்பேன், அவர் பார்த்துக்கொள்வார்"}
+          - {en: "Stop swinging and wait until they are clear", hi: "घुमाना रोकेंगे और उसके दूर जाने तक रुकेंगे", ta: "சுழற்றுவதை நிறுத்தி, அவர் விலகும் வரை காத்திருப்பேன்"}
+          - {en: "Sound the horn and keep going", hi: "हॉर्न बजाकर चलते रहेंगे", ta: "ஹாரன் அடித்துத் தொடர்வேன்"}
+        answer: 1
+        explain: {en: "Stopping costs seconds. A strike from the back of the machine can kill.", hi: "रुकने में कुछ सेकंड लगते हैं। मशीन के पिछले हिस्से की टक्कर जानलेवा हो सकती है।", ta: "நிறுத்த சில வினாடிகள் போதும். இயந்திரத்தின் பின்பகுதி மோதினால் உயிருக்கே ஆபத்து."}
+
+  - id: L-SPOTTER-SIGNALS
+    title: {en: "Hand signals with your spotter", hi: "स्पॉटर के हाथ के इशारे", ta: "சைகை காட்டுபவரின் கைச் சைகைகள்"}
+    format: quiz
+    duration_s: 120
+    triggers: [PROXIMITY_CAUTION, PROXIMITY_DANGER]
+    cards:
+      - text: {en: "Agree on the signals with your spotter before work starts.", hi: "काम शुरू होने से पहले स्पॉटर के साथ इशारे तय कर लीजिए।", ta: "வேலை தொடங்கும் முன் சைகை காட்டுபவருடன் சைகைகளை ஒப்புக்கொள்ளுங்கள்."}
+        illustration: spotter-meet
+      - text: {en: "If you cannot see your spotter, stop.", hi: "स्पॉटर दिखाई न दे तो रुक जाइए।", ta: "சைகை காட்டுபவர் தெரியவில்லை என்றால் நிறுத்துங்கள்."}
+        illustration: spotter-lost
+    quiz:
+      - q: {en: "Your spotter raises one hand, palm facing you. What does it mean?", hi: "स्पॉटर एक हाथ उठाकर हथेली आपकी ओर दिखाता है। इसका मतलब क्या है?", ta: "சைகை காட்டுபவர் ஒரு கையை உயர்த்தி உள்ளங்கையை உங்கள் பக்கம் காட்டுகிறார். இதன் அர்த்தம் என்ன?"}
+        options:
+          - {en: "Stop", hi: "रुकिए", ta: "நிறுத்து"}
+          - {en: "Move closer", hi: "पास आइए", ta: "அருகில் வா"}
+          - {en: "Swing left", hi: "बाईं ओर घुमाइए", ta: "இடது பக்கம் சுழற்று"}
+        answer: 0
+        explain: {en: "An open palm towards you means stop.", hi: "आपकी ओर खुली हथेली का मतलब है रुकिए।", ta: "உங்களை நோக்கிய திறந்த உள்ளங்கை என்றால் நிறுத்து."}
+      - q: {en: "Your spotter crosses both arms above the head. What does it mean?", hi: "स्पॉटर दोनों हाथ सिर के ऊपर क्रॉस करता है। इसका मतलब क्या है?", ta: "சைகை காட்டுபவர் இரு கைகளையும் தலைக்கு மேல் குறுக்காக வைக்கிறார். இதன் அர்த்தம் என்ன?"}
+        options:
+          - {en: "Emergency stop", hi: "आपातकालीन रोक", ta: "அவசர நிறுத்தம்"}
+          - {en: "Load complete", hi: "लोड पूरा", ta: "லோடு முடிந்தது"}
+          - {en: "Take a break", hi: "ब्रेक लीजिए", ta: "இடைவேளை எடுங்கள்"}
+        answer: 0
+        explain: {en: "Both arms crossed overhead means stop everything now.", hi: "सिर के ऊपर दोनों हाथ क्रॉस का मतलब है तुरंत सब रोकिए।", ta: "தலைக்கு மேல் குறுக்கிய இரு கைகள் என்றால் உடனே எல்லாவற்றையும் நிறுத்து."}
+      - q: {en: "The spotter walks out of your view. What do you do?", hi: "स्पॉटर आपकी नज़र से बाहर चला जाता है। क्या करेंगे?", ta: "சைகை காட்டுபவர் உங்கள் பார்வையிலிருந்து மறைகிறார். என்ன செய்வீர்கள்?"}
+        options:
+          - {en: "Keep working slowly", hi: "धीरे-धीरे काम करते रहेंगे", ta: "மெதுவாக வேலை செய்வேன்"}
+          - {en: "Stop until you can see them again", hi: "उसके फिर दिखने तक रुकेंगे", ta: "அவர் மீண்டும் தெரியும் வரை நிறுத்துவேன்"}
+          - {en: "Sound the horn and continue", hi: "हॉर्न बजाकर चलते रहेंगे", ta: "ஹாரன் அடித்துத் தொடர்வேன்"}
+        answer: 1
+        explain: {en: "No spotter in view means no movement.", hi: "स्पॉटर न दिखे तो मशीन नहीं चलनी चाहिए।", ta: "சைகை காட்டுபவர் தெரியவில்லை என்றால் இயக்கம் கூடாது."}
+
+  - id: L-HEAT-STRESS
+    title: {en: "Working safely in the heat", hi: "गर्मी में सुरक्षित काम", ta: "வெயிலில் பாதுகாப்பாக வேலை"}
+    format: narrated_cards
+    duration_s: 90
+    triggers: [HEAT, HEAT_NO_BREAK]
+    cards:
+      - text: {en: "Drink a cup of water every 15 to 20 minutes, even if you are not thirsty.", hi: "प्यास न हो तब भी हर 15–20 मिनट में एक कप पानी पीजिए।", ta: "தாகம் இல்லாவிட்டாலும் 15–20 நிமிடத்துக்கு ஒருமுறை ஒரு கப் தண்ணீர் குடியுங்கள்."}
+        illustration: water-cup
+      - text: {en: "Keep the cab air conditioning on and the door closed.", hi: "केबिन का एसी चालू और दरवाज़ा बंद रखिए।", ta: "கேபின் ஏசியை இயக்கி, கதவை மூடி வையுங்கள்."}
+        illustration: cab-cool
+      - text: {en: "Headache, dizziness or cramps are warning signs. Park safely and rest in the shade.", hi: "सिरदर्द, चक्कर या ऐंठन चेतावनी हैं। मशीन सुरक्षित खड़ी करके छाँव में आराम कीजिए।", ta: "தலைவலி, மயக்கம், தசைப்பிடிப்பு எச்சரிக்கை அறிகுறிகள். இயந்திரத்தைப் பாதுகாப்பாக நிறுத்தி நிழலில் ஓய்வெடுங்கள்."}
+        illustration: shade-rest
+      - text: {en: "When the heat index is above 41 °C, take a short break every hour.", hi: "हीट इंडेक्स 41 °C से ऊपर हो तो हर घंटे छोटा ब्रेक लीजिए।", ta: "வெப்பக் குறியீடு 41 °C-க்கு மேல் இருந்தால் மணிக்கு ஒருமுறை சிறிய இடைவேளை எடுங்கள்."}
+        illustration: heat-break
+    quiz:
+      - q: {en: "You feel dizzy in the afternoon heat. What is the right step?", hi: "दोपहर की गर्मी में चक्कर आ रहा है। सही कदम क्या है?", ta: "மதிய வெயிலில் மயக்கமாக இருக்கிறது. சரியான செயல் எது?"}
+        options:
+          - {en: "Finish the load first", hi: "पहले लोड पूरा करेंगे", ta: "முதலில் லோடை முடிப்பேன்"}
+          - {en: "Park safely, rest in the shade and drink water", hi: "मशीन सुरक्षित खड़ी करके छाँव में आराम करेंगे और पानी पिएँगे", ta: "பாதுகாப்பாக நிறுத்தி, நிழலில் ஓய்வெடுத்து, தண்ணீர் குடிப்பேன்"}
+          - {en: "Turn the AC off to save fuel", hi: "ईंधन बचाने के लिए एसी बंद करेंगे", ta: "எரிபொருள் மிச்சத்துக்கு ஏசியை அணைப்பேன்"}
+        answer: 1
+        explain: {en: "Dizziness can come before heat illness. Rest now, then tell your supervisor.", hi: "चक्कर गर्मी से होने वाली बीमारी की शुरुआत हो सकता है। अभी आराम कीजिए, फिर सुपरवाइज़र को बताइए।", ta: "மயக்கம் வெப்ப நோயின் தொடக்கமாக இருக்கலாம். இப்போதே ஓய்வெடுத்து, மேற்பார்வையாளரிடம் சொல்லுங்கள்."}
+
+  - id: L-WET-GROUND
+    title: {en: "Working on wet and muddy ground", hi: "गीली और कीचड़ वाली ज़मीन पर काम", ta: "ஈரமான, சேறான தரையில் வேலை"}
+    format: narrated_cards
+    duration_s: 120
+    triggers: [WET_GROUND, RAIN]
+    cards:
+      - text: {en: "Wet ground is softer. Keep the tracks well back from trench edges.", hi: "गीली ज़मीन नरम होती है। ट्रैक खाई के किनारे से अच्छी दूरी पर रखिए।", ta: "ஈரமான தரை மென்மையானது. பள்ளத்தின் விளிம்பிலிருந்து டிராக்குகளை நன்றாக விலக்கி வையுங்கள்."}
+        illustration: trench-edge
+      - text: {en: "Slow down on slopes. Mud can make the machine slide sideways.", hi: "ढलान पर धीरे चलाइए। कीचड़ में मशीन बगल में फिसल सकती है।", ta: "சரிவில் மெதுவாகச் செல்லுங்கள். சேற்றில் இயந்திரம் பக்கவாட்டில் வழுக்கலாம்."}
+        illustration: slope-slow
+      - text: {en: "Clean mud off the steps and handholds before you climb.", hi: "चढ़ने से पहले सीढ़ी और पकड़ने की जगह से कीचड़ साफ़ कीजिए।", ta: "ஏறும் முன் படிகளிலும் பிடிகளிலும் உள்ள சேற்றைச் சுத்தம் செய்யுங்கள்."}
+        illustration: clean-steps
+      - text: {en: "Expect each task to take longer. That time is counted as a ground condition, not against you.", hi: "हर काम में ज़्यादा समय लगेगा। यह समय ज़मीन की हालत में गिना जाता है, आपके ख़िलाफ़ नहीं।", ta: "ஒவ்வொரு வேலைக்கும் அதிக நேரம் ஆகும். அது தரையின் நிலையாகக் கணக்கிடப்படும், உங்களுக்கு எதிராக அல்ல."}
+        illustration: clock-wet
+    quiz:
+      - q: {en: "It rained all night. Where should the excavator stand next to a trench?", hi: "रात भर बारिश हुई। खाई के पास एक्सकेवेटर कहाँ खड़ा होना चाहिए?", ta: "இரவு முழுவதும் மழை பெய்தது. பள்ளத்துக்கு அருகில் அகழ்வு இயந்திரம் எங்கே நிற்க வேண்டும்?"}
+        options:
+          - {en: "Right at the edge to reach further", hi: "ज़्यादा पहुँच के लिए ठीक किनारे पर", ta: "அதிக எட்டுக்காக விளிம்பிலேயே"}
+          - {en: "Well back from the edge, on firm ground", hi: "किनारे से दूर, पक्की ज़मीन पर", ta: "விளிம்பிலிருந்து விலகி, உறுதியான தரையில்"}
+          - {en: "Across the trench", hi: "खाई के ऊपर आर-पार", ta: "பள்ளத்தின் குறுக்கே"}
+        answer: 1
+        explain: {en: "Soaked trench walls can collapse under the machine's weight.", hi: "भीगी खाई की दीवारें मशीन के वज़न से धँस सकती हैं।", ta: "நனைந்த பள்ளச் சுவர்கள் இயந்திரத்தின் எடையில் இடிந்து விழலாம்."}
+
+  - id: L-NIGHT-WORK
+    title: {en: "Working at night", hi: "रात में काम", ta: "இரவில் வேலை"}
+    format: narrated_cards
+    duration_s: 90
+    triggers: [NIGHT]
+    cards:
+      - text: {en: "Walk around the machine with a torch before you start.", hi: "शुरू करने से पहले टॉर्च लेकर मशीन के चारों ओर घूमिए।", ta: "தொடங்கும் முன் டார்ச் எடுத்துக்கொண்டு இயந்திரத்தைச் சுற்றி நடந்து பாருங்கள்."}
+        illustration: torch-walk
+      - text: {en: "Check that all work lights and the beacon are working.", hi: "सभी काम की लाइटें और बीकन चल रहे हैं, यह जाँचिए।", ta: "எல்லா வேலை விளக்குகளும் சுழல் விளக்கும் எரிகிறதா என்று பாருங்கள்."}
+        illustration: work-lights
+      - text: {en: "People are harder to see at night. Slow down and look twice before you swing.", hi: "रात में लोग कम दिखते हैं। धीरे चलाइए और घुमाने से पहले दो बार देखिए।", ta: "இரவில் ஆட்கள் சரியாகத் தெரியமாட்டார்கள். மெதுவாக இயக்குங்கள், சுழற்றும் முன் இருமுறை பாருங்கள்."}
+        illustration: night-look
+      - text: {en: "Tiredness grows at night. Take your breaks on time.", hi: "रात में थकान जल्दी होती है। ब्रेक समय पर लीजिए।", ta: "இரவில் சோர்வு சீக்கிரம் வரும். இடைவேளைகளை நேரத்துக்கு எடுங்கள்."}
+        illustration: night-break
+    quiz:
+      - q: {en: "One work light is broken at the start of a night shift. What do you do?", hi: "रात की शिफ़्ट की शुरुआत में एक लाइट ख़राब है। क्या करेंगे?", ta: "இரவுப் பணி தொடக்கத்தில் ஒரு வேலை விளக்கு பழுதாக உள்ளது. என்ன செய்வீர்கள்?"}
+        options:
+          - {en: "Work anyway", hi: "फिर भी काम करेंगे", ta: "அப்படியே வேலை செய்வேன்"}
+          - {en: "Report it and wait for a repair or a light tower", hi: "रिपोर्ट करेंगे और ठीक होने या लाइट टावर आने तक रुकेंगे", ta: "தெரிவித்து, சரிசெய்யும் வரை அல்லது விளக்குக் கோபுரம் வரும் வரை காத்திருப்பேன்"}
+          - {en: "Use the cab light instead", hi: "केबिन की लाइट से काम चलाएँगे", ta: "கேபின் விளக்கைப் பயன்படுத்துவேன்"}
+        answer: 1
+        explain: {en: "Good lighting lets you and others see hazards.", hi: "अच्छी रोशनी में आप और दूसरे ख़तरे देख पाते हैं।", ta: "நல்ல வெளிச்சம் இருந்தால் நீங்களும் மற்றவர்களும் ஆபத்தைப் பார்க்க முடியும்."}
+
+  - id: L-TRUCK-LOADING-FLOW
+    title: {en: "A smooth truck loading rhythm", hi: "ट्रक लोडिंग की सही लय", ta: "லாரி ஏற்றுவதில் சீரான தாளம்"}
+    format: narrated_cards
+    duration_s: 120
+    triggers: [WAITING_FOR_TRUCK, load_cycles_per_working_h]
+    cards:
+      - text: {en: "Ask trucks to park so you swing less than 90°.", hi: "ट्रक ऐसे लगवाइए कि 90° से कम घुमाना पड़े।", ta: "90°-க்குக் குறைவாகச் சுழலும்படி லாரியை நிறுத்தச் சொல்லுங்கள்."}
+        illustration: truck-angle
+      - text: {en: "Load from the front of the truck body to the back, spreading the load evenly.", hi: "ट्रक की बॉडी में आगे से पीछे तक बराबर माल भरिए।", ta: "லாரியின் முன்பக்கத்திலிருந்து பின்பக்கம் வரை சமமாக ஏற்றுங்கள்."}
+        illustration: even-load
+      - text: {en: "Never swing the bucket over the truck cab or the driver.", hi: "बकेट को ट्रक के केबिन या ड्राइवर के ऊपर से कभी मत घुमाइए।", ta: "பக்கெட்டை லாரியின் கேபின் அல்லது ஓட்டுநர் மேல் ஒருபோதும் சுழற்றாதீர்கள்."}
+        illustration: no-cab-swing
+      - text: {en: "While you wait for the next truck, prepare the pile so the first pass is full.", hi: "अगले ट्रक का इंतज़ार करते समय ढेर तैयार रखिए ताकि पहला बकेट भरा हो।", ta: "அடுத்த லாரிக்குக் காத்திருக்கும்போது, முதல் அள்ளலே நிறையும்படி குவியலைத் தயார் செய்யுங்கள்."}
+        illustration: prep-pile
+    quiz:
+      - q: {en: "Where should the truck stand for the fastest loading?", hi: "ट्रक कहाँ खड़ा हो तो लोडिंग सबसे तेज़ होगी?", ta: "லாரி எங்கே நின்றால் ஏற்றுவது வேகமாக இருக்கும்?"}
+        options:
+          - {en: "Behind the excavator", hi: "एक्सकेवेटर के पीछे", ta: "அகழ்வு இயந்திரத்தின் பின்னால்"}
+          - {en: "Beside the excavator, so the swing is less than 90°", hi: "एक्सकेवेटर के बगल में, ताकि 90° से कम घुमाना पड़े", ta: "பக்கத்தில், 90°-க்குக் குறைவாகச் சுழலும்படி"}
+          - {en: "Far away on the haul road", hi: "हॉल रोड पर दूर", ta: "சாலையில் தொலைவில்"}
+        answer: 1
+        explain: {en: "A shorter swing saves a few seconds on every pass.", hi: "कम घुमाव से हर बार कुछ सेकंड बचते हैं।", ta: "குறைந்த சுழற்சியால் ஒவ்வொரு அள்ளலிலும் சில வினாடிகள் மிச்சம்."}
+
+  - id: L-WALKAROUND
+    title: {en: "The two-minute walkaround", hi: "दो मिनट की चक्कर जाँच", ta: "இரண்டு நிமிடச் சுற்றுப் பார்வை"}
+    format: quiz
+    duration_s: 90
+    triggers: []                  # offered from the catalogue and after a checklist problem
+    cards:
+      - text: {en: "Walk all the way around the machine before you climb in.", hi: "चढ़ने से पहले मशीन के चारों ओर पूरा चक्कर लगाइए।", ta: "ஏறும் முன் இயந்திரத்தை முழுமையாகச் சுற்றி நடந்து பாருங்கள்."}
+        illustration: walkaround
+      - text: {en: "Look under the machine for leaks, and for anyone resting in the shade.", hi: "मशीन के नीचे रिसाव देखिए, और यह भी कि कोई छाँव में आराम तो नहीं कर रहा।", ta: "இயந்திரத்தின் கீழே கசிவு இருக்கிறதா, யாராவது நிழலில் ஓய்வெடுக்கிறார்களா என்று பாருங்கள்."}
+        illustration: under-check
+    quiz:
+      - q: {en: "You see a small oil puddle under the machine. What do you do?", hi: "मशीन के नीचे तेल का छोटा धब्बा दिखता है। क्या करेंगे?", ta: "இயந்திரத்தின் கீழே சிறிய எண்ணெய்த் தேக்கம் தெரிகிறது. என்ன செய்வீர்கள்?"}
+        options:
+          - {en: "Ignore it if it is small", hi: "छोटा है तो अनदेखा करेंगे", ta: "சிறியது என்பதால் விட்டுவிடுவேன்"}
+          - {en: "Mark it as a problem in the checklist", hi: "चेकलिस्ट में समस्या के रूप में दर्ज करेंगे", ta: "சரிபார்ப்புப் பட்டியலில் பிரச்சினை எனக் குறிப்பேன்"}
+          - {en: "Wipe it and start work", hi: "पोंछकर काम शुरू करेंगे", ta: "துடைத்துவிட்டு வேலை தொடங்குவேன்"}
+        answer: 1
+        explain: {en: "Small leaks grow. Reporting early keeps the machine safe and working.", hi: "छोटा रिसाव बढ़ता है। जल्दी बताने से मशीन सुरक्षित और चालू रहती है।", ta: "சிறிய கசிவு பெரிதாகும். சீக்கிரம் தெரிவித்தால் இயந்திரம் பாதுகாப்பாக இயங்கும்."}
+      - q: {en: "When is the best time for the walkaround?", hi: "चक्कर लगाकर जाँचने का सबसे अच्छा समय कब है?", ta: "சுற்றிப் பார்க்கச் சிறந்த நேரம் எது?"}
+        options:
+          - {en: "Before starting the engine", hi: "इंजन चालू करने से पहले", ta: "இன்ஜினை இயக்கும் முன்"}
+          - {en: "After the first hour", hi: "पहले घंटे के बाद", ta: "முதல் ஒரு மணி நேரத்துக்குப் பிறகு"}
+          - {en: "Only when something feels wrong", hi: "सिर्फ़ जब कुछ गड़बड़ लगे", ta: "ஏதாவது சரியில்லை என்று தோன்றும்போது மட்டும்"}
+        answer: 0
+        explain: {en: "Problems are easiest to spot before the machine moves.", hi: "मशीन चलने से पहले ख़राबी सबसे आसानी से दिखती है।", ta: "இயந்திரம் நகரும் முன்பே பிரச்சினைகளை எளிதாகக் கண்டுபிடிக்கலாம்."}
+      - q: {en: "The fire extinguisher gauge needle is outside the green zone. What does it mean?", hi: "अग्निशामक के गेज की सुई हरे हिस्से से बाहर है। इसका मतलब क्या है?", ta: "தீயணைப்பானின் அளவுமானி முள் பச்சைப் பகுதிக்கு வெளியே உள்ளது. இதன் அர்த்தம் என்ன?"}
+        options:
+          - {en: "It is ready to use", hi: "इस्तेमाल के लिए तैयार है", ta: "பயன்படுத்தத் தயார்"}
+          - {en: "It needs checking, then recharging or replacing", hi: "इसकी जाँच करवाकर दोबारा भरवाना या बदलना है", ta: "சரிபார்த்து மீண்டும் நிரப்ப அல்லது மாற்ற வேண்டும்"}
+          - {en: "Nothing, gauges are often wrong", hi: "कुछ नहीं, गेज अक्सर ग़लत होते हैं", ta: "ஒன்றுமில்லை, அளவுமானிகள் அடிக்கடி தவறும்"}
+        answer: 1
+        explain: {en: "Report it before work. An empty extinguisher will not help in a fire.", hi: "काम से पहले बताइए। खाली अग्निशामक आग में काम नहीं आएगा।", ta: "வேலைக்கு முன் தெரிவியுங்கள். காலியான தீயணைப்பான் தீயில் உதவாது."}
+
+  - id: L-FATIGUE
+    title: {en: "Spot tiredness early", hi: "थकान जल्दी पहचानें", ta: "சோர்வை முன்பே கண்டறியுங்கள்"}
+    format: narrated_cards
+    duration_s: 90
+    triggers: [FATIGUE_WARN, FATIGUE_LIMIT]
+    cards:
+      - text: {en: "Heavy eyelids, yawning and missed signals are early signs of tiredness.", hi: "भारी पलकें, बार-बार जम्हाई और इशारे चूकना थकान के शुरुआती संकेत हैं।", ta: "கனமான இமைகள், அடிக்கடி கொட்டாவி, சைகைகளைத் தவறவிடுதல் சோர்வின் ஆரம்ப அறிகுறிகள்."}
+        illustration: tired-eyes
+      - text: {en: "Take your scheduled breaks, even on a busy day.", hi: "काम ज़्यादा हो तब भी तय ब्रेक लीजिए।", ta: "வேலை அதிகமான நாளிலும் திட்டமிட்ட இடைவேளைகளை எடுங்கள்."}
+        illustration: break-clock
+      - text: {en: "A short walk and a drink of water help more than pushing through.", hi: "थकान में काम खींचने से बेहतर है थोड़ा टहलना और पानी पीना।", ta: "சோர்வைப் பொறுத்துக்கொண்டு வேலை செய்வதை விட, சிறிது நடந்து தண்ணீர் குடிப்பது நல்லது."}
+        illustration: walk-water
+    quiz:
+      - q: {en: "You notice you missed a spotter signal. What is the safest step?", hi: "आपको लगता है कि आपसे स्पॉटर का इशारा छूट गया। सबसे सुरक्षित कदम क्या है?", ta: "சைகை காட்டுபவரின் சைகையைத் தவறவிட்டதை உணர்கிறீர்கள். பாதுகாப்பான செயல் எது?"}
+        options:
+          - {en: "Drink tea and keep going", hi: "चाय पीकर चलते रहेंगे", ta: "டீ குடித்துவிட்டுத் தொடர்வேன்"}
+          - {en: "Stop, tell the spotter, and take a short break", hi: "रुकेंगे, स्पॉटर को बताएँगे और छोटा ब्रेक लेंगे", ta: "நிறுத்தி, சைகை காட்டுபவரிடம் சொல்லி, சிறிய இடைவேளை எடுப்பேன்"}
+          - {en: "Work faster to finish early", hi: "जल्दी ख़त्म करने के लिए तेज़ काम करेंगे", ta: "சீக்கிரம் முடிக்க வேகமாக வேலை செய்வேன்"}
+        answer: 1
+        explain: {en: "A missed signal is a sign to rest before a mistake happens.", hi: "इशारा छूटना संकेत है कि ग़लती होने से पहले आराम कर लें।", ta: "சைகையைத் தவறவிடுவது, தவறு நடக்கும் முன் ஓய்வெடுக்க வேண்டும் என்பதற்கான அறிகுறி."}
+
+  - id: D-HAZARD-DRILL-1
+    title: {en: "Hazard drill: spot and stop", hi: "ख़तरा अभ्यास: देखें और रोकें", ta: "ஆபத்துப் பயிற்சி: கண்டு நிறுத்துங்கள்"}
+    format: drill
+    duration_s: 120
+    triggers: [PROXIMITY_CRITICAL, PROXIMITY_DANGER, SPEED_NEAR_PERSON]
+    cards:
+      - text: {en: "Watch each scene. Tap STOP or say ‘stop’ as soon as you see a hazard. Some scenes are safe.", hi: "हर दृश्य देखिए। ख़तरा दिखते ही STOP दबाइए या ‘रुको’ बोलिए। कुछ दृश्य सुरक्षित होते हैं।", ta: "ஒவ்வொரு காட்சியையும் பாருங்கள். ஆபத்து தெரிந்தவுடன் STOP அழுத்துங்கள் அல்லது ‘நிறுத்து’ என்று சொல்லுங்கள். சில காட்சிகள் பாதுகாப்பானவை."}
+        illustration: drill-intro
+    hazards:
+      - id: worker_swing_zone
+        is_hazard: true
+        scene: swing-worker
+        text: {en: "A worker walks into the swing zone.", hi: "एक मज़दूर घुमाव के दायरे में आ जाता है।", ta: "ஒரு தொழிலாளி சுழலும் பகுதிக்குள் நுழைகிறார்."}
+      - id: truck_reversing
+        is_hazard: true
+        scene: truck-reversing
+        text: {en: "A truck reverses towards the bucket without a signal.", hi: "एक ट्रक बिना इशारे के बकेट की ओर पीछे आता है।", ta: "ஒரு லாரி சைகை இல்லாமல் பக்கெட்டை நோக்கிப் பின்னோக்கி வருகிறது."}
+      - id: ground_edge
+        is_hazard: true
+        scene: ground-edge
+        text: {en: "The tracks are close to a crumbling trench edge.", hi: "ट्रैक टूटते हुए खाई के किनारे के पास हैं।", ta: "டிராக்குகள் இடிந்துகொண்டிருக்கும் பள்ள விளிம்புக்கு அருகில் உள்ளன."}
+      - id: overhead_line
+        is_hazard: true
+        scene: overhead-line
+        text: {en: "The boom is rising towards a power line.", hi: "बूम बिजली के तार की ओर उठ रहा है।", ta: "பூம் மின் கம்பியை நோக்கி உயர்கிறது."}
+      - id: worker_behind_travel
+        is_hazard: true
+        scene: worker-behind
+        text: {en: "A worker is standing behind the machine as you start to travel.", hi: "आप चलना शुरू करते हैं और एक मज़दूर मशीन के पीछे खड़ा है।", ta: "நீங்கள் நகரத் தொடங்கும்போது ஒரு தொழிலாளி இயந்திரத்தின் பின்னால் நிற்கிறார்."}
+      - id: safe_truck_parked
+        is_hazard: false
+        scene: truck-parked
+        text: {en: "A truck is parked in the loading bay, driver in the cab.", hi: "एक ट्रक लोडिंग की जगह पर खड़ा है, ड्राइवर केबिन में है।", ta: "ஒரு லாரி ஏற்றும் இடத்தில் நிற்கிறது, ஓட்டுநர் கேபினில் இருக்கிறார்."}
+      - id: safe_spotter_clear
+        is_hazard: false
+        scene: spotter-clear
+        text: {en: "Your spotter stands well outside the swing zone and signals go ahead.", hi: "आपका स्पॉटर दायरे से काफ़ी बाहर खड़ा है और आगे बढ़ने का इशारा करता है।", ta: "உங்கள் சைகை காட்டுபவர் சுழலும் பகுதிக்கு நன்றாக வெளியே நின்று, தொடரச் சைகை காட்டுகிறார்."}

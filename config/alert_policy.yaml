@@ -1,0 +1,18 @@
+# Alert discipline (TRD §4.6, §6.8; DESIGN AlertQueue).
+priorities:
+  P1: {presentation: takeover, sound: critical_tone, speak: true, requires_ack: true, escalate_after_s: 20}
+  P2: {presentation: banner,   sound: urgent_tone,   speak: true, requires_ack: true}
+  P3: {presentation: strip,    sound: none,          speak: false, requires_ack: false, deliver_when: paused}
+  P4: {presentation: feed,     sound: none,          speak: false, requires_ack: false, deliver_when: paused}
+max_interrupting_alerts: 1       # P1/P2 on screen at once; higher priority pre-empts, lower queues
+default_cooldown_s: 300
+dedupe_window_s: 30
+paused_definition: {idle_seconds: 30}
+supervisor_share: [P1, P2]       # plus incidents, near-misses (P-03)
+ack_recheck_s: 3                 # P1 returns (reduced) if still true this long after acknowledge
+reduced_p1_repeat_s: 5           # reduced P1: tone every 5 s until the condition clears
+queue_reevaluate_s: 30           # nothing waits behind a P1 longer than this without re-checking
+p1_speech_repeat_s: 4            # P1 spoken line repeats once after 4 s if not acknowledged
+p2_tone_repeat_s: 20             # P2 tone plays again after 20 s if not seen
+p3_snooze_min: 10                # "Later" on a P3 strip
+live_in_rail_while_working: [PROXIMITY_CAUTION]   # D-007: shown on the Reach, never a late strip

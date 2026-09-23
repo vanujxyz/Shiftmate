@@ -1,0 +1,5 @@
+# Privacy rules (TRD §4.8, PRD §8). Configurable per site/country (P-06).
+supervisor_sees_operator_detail_for: [P1, P2, incident, near_miss, UNATTENDED_RUNNING]
+supervisor_aggregates_min_group_size: 3   # trends only for groups of ≥3 operators
+truck_wait_attribution: site
+fleet_upload: [interval_summaries, task_summaries, events_shared]   # never raw ticks

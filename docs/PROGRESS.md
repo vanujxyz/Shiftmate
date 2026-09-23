@@ -1,6 +1,8 @@
 # ShiftMate — Build progress
 
-**Next step:** Milestone 1 is done and waiting for review. Next is milestone 2 (config and schemas); start only when the user writes "Proceed to milestone 2".
+**Next step:** Milestone 3 (simulator and history data) in progress.
+
+**Autonomy note (2026-09-23):** the user authorised continuing through all milestones without waiting for approval, and approved all needed downloads. Each milestone is still tested, committed, and reported in `docs/reports/milestone-N.md`.
 
 Rules: one milestone at a time. Never start milestone N until the user writes "Proceed to milestone N". Each milestone ends with tests + lint passing, a git commit `milestone N: <summary>`, a milestone report, and an update to this file.
 
@@ -30,7 +32,7 @@ Approved by the user (2026-09-23): uv (not conda); install uv, pnpm and the mile
 
 ## B. Milestones
 
-### Milestone 1 — Scaffold (CLAUDE Phase 0) · Status: done (waiting for your review)
+### Milestone 1 — Scaffold (CLAUDE Phase 0) · Status: done
 Goal: an empty but working project skeleton where every command runs.
 - [x] 1. Move `DESIGN.md` → `docs/DESIGN.md`, `tokens.css` → `frontend/packages/ui/src/tokens.css`, `SUMMARY.md` → `docs/DESIGN_SUMMARY.md`
 - [x] 2. Repository layout per TRD §3 (folders with placeholders)
@@ -45,15 +47,15 @@ Goal: an empty but working project skeleton where every command runs.
 Requirements: groundwork for all. You will see: `pnpm dev:all` starting four servers; two blank pages at localhost:5173 and :5174; `/health` JSON at :8100 and :8200.
 Downloads: uv, pnpm, Python packages (~450 MB download, ~1.8 GB installed incl. CPU PyTorch), Node packages (~500 MB).
 
-### Milestone 2 — Config and schemas (Phase 1) · Status: not started
+### Milestone 2 — Config and schemas (Phase 1) · Status: done
 Goal: every rule, threshold, site, machine and lesson lives in validated config, and backend data types are shared with the frontend.
-- [ ] 1. `config/` files per TRD §4: 3 machine profiles, sensor tiers, 4 sites, safety rules, risk model, alert policy, idle rules, privacy
-- [ ] 2. `lessons.yaml` — 12 lessons, en/hi/ta text, cards and quizzes; `checklist.yaml` — 7 items en/hi/ta
-- [ ] 3. `config_loader.py` with pydantic validation (fails fast with clear messages)
-- [ ] 4. Pydantic schemas TRD §5 (machines, operators, tasks, SignalTick, IntervalRecord, Event, IdleSegment, training)
-- [ ] 5. `shiftmate schema export` → JSON Schema → `packages/contracts` TS types; `contracts:check`
-- [ ] 6. `shiftmate config validate`
-- [ ] 7. Tests: load all configs; parse `sample_rows.csv` into `IntervalRecord`; lesson/checklist i18n completeness
+- [x] 1. `config/` files per TRD §4: 3 machine profiles, sensor tiers, 4 sites, safety rules, risk model, alert policy, idle rules, privacy
+- [x] 2. `lessons.yaml` — 12 lessons, en/hi/ta text, cards and quizzes; `checklist.yaml` — 7 items en/hi/ta
+- [x] 3. `config_loader.py` with pydantic validation (fails fast with clear messages)
+- [x] 4. Pydantic schemas TRD §5 (machines, operators, tasks, SignalTick, IntervalRecord, Event, IdleSegment, training)
+- [x] 5. `shiftmate schema export` → JSON Schema → `packages/contracts` TS types; `contracts:check`
+- [x] 6. `shiftmate config validate`
+- [x] 7. Tests: load all configs; parse `sample_rows.csv` into `IntervalRecord`; lesson/checklist i18n completeness
 Requirements: F-FLT-01, F-FLT-02, F-FLT-06, F-START-04 (content), F-LRN-01 (content), P-06.
 You will see: `shiftmate config validate` printing a pass summary; generated TS types.
 

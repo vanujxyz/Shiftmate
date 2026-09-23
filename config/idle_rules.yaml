@@ -1,0 +1,23 @@
+# Idle-reason classification (TRD §4.7, §6.4). Ordered; first match wins.
+order: [SCHEDULED_BREAK, WARM_UP, UNATTENDED_RUNNING, WAITING_FOR_TRUCK, HABIT, UNKNOWN]
+responses:
+  WARM_UP:            {operator: none, supervisor: none}
+  SCHEDULED_BREAK:    {operator: none, supervisor: none}
+  WAITING_FOR_TRUCK:  {operator: offer_lesson, supervisor: site_issue_truck_supply}
+  UNATTENDED_RUNNING: {operator: safety_reminder_on_return, supervisor: safety_event, lesson: L-SHUTDOWN}
+  HABIT:              {operator: coach_after_segment, supervisor: aggregate_only, lesson: L-IDLE-FUEL}
+  UNKNOWN:            {operator: none, supervisor: aggregate_only}
+params:
+  break_overlap_min_fraction: 0.5    # SCHEDULED_BREAK: segment overlaps a break window by ≥ 50 %
+  warmup_start_window_s: 120         # WARM_UP: segment starts within 2 min of engine start
+  truck_absent_min_fraction: 0.7     # WAITING_FOR_TRUCK: no truck for ≥ 70 % of the segment
+  provisional_update_s: 10           # open segments are re-classified every 10 s
+  truck_dependent_task_types: [truck_loading]
+confidence:                          # per reason (and evidence variant) and sensor tier
+  SCHEDULED_BREAK:        {basic: 0.95, standard: 0.95, advanced: 0.95}
+  WARM_UP_COOLANT:        {basic: 0.9,  standard: 0.9,  advanced: 0.9}
+  WARM_UP_TIME:           {basic: 0.7,  standard: 0.7,  advanced: 0.7}
+  UNATTENDED_RUNNING:     {basic: 0.0,  standard: 0.95, advanced: 0.95}
+  WAITING_FOR_TRUCK:      {basic: 0.7,  standard: 0.8,  advanced: 0.95}
+  HABIT:                  {basic: 0.6,  standard: 0.85, advanced: 0.85}
+  UNKNOWN:                {basic: 0.5,  standard: 0.5,  advanced: 0.5}

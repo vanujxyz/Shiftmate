@@ -183,3 +183,52 @@ Context: `tokens.css` names the fonts "Anek Latin", "Anek Tamil", "Anek Devanaga
 Decision: `--sm-font-sans` now lists the "… Variable" names first, keeping the original names and fallbacks after them; the duplicate Latin `wght.css` import is removed (`wdth.css` carries both axes, as DESIGN §3 says). A Playwright smoke test checks that Anek Tamil actually loads.
 Why: Genuine bug fix; no visual change from what DESIGN.md intends.
 Alternatives: Static `@fontsource/*` packages (lose the width axis the design uses).
+
+## D-027 — Ground-truth labels in a separate table
+Date: 2026-09-23 · Phase: 1 · Requirement(s): Golden rule 5, TRD §5.3, §7, §7.4
+Context: TRD §5.3 lists `label_*` as columns of the interval record, while §7 lists `labels` as a separate Parquet output.
+Decision: `IntervalRecord` has no label fields. The simulator writes labels to a separate `labels` table keyed by record id / segment id; only `shiftmate.eval` and simulator tests join them. A test asserts `IntervalRecord` has no `label*` field.
+Why: Makes golden rule 5 structural rather than a convention.
+Alternatives: Label columns on the record, guarded only by a grep test.
+
+## D-028 — Config files and fields beyond TRD §4
+Date: 2026-09-23 · Phase: 1 · Requirement(s): Golden rule 3, TRD §4, §6.6, §6.7, §7
+Context: The TRD mentions thresholds for anomaly detection, estimation, simulator productivity, idle confidence and site layout that have no config file or field.
+Decision: Added `config/anomaly.yaml` and `config/estimation.yaml` (TRD §6.6/§6.7 values). Added fields: machine profile `tasks` (unit, base rate, truck dependency, typical quantity); site `latitude`, `history_seasons` (D-016), `fleet`, `operators`, `operator_names`, `ground_baseline`, `training_centre`, per-month `rain_mean_mm_h`/`wind_mean_kmh`/`dust_event_prob`/`fog_prob`, truck shortage parameters, worker swing-entry probability; safety rule `category` and `trigger` (level/edge); alert policy timing knobs from DESIGN (ack re-check 3 s, reduced P1 every 5 s, queue re-evaluation 30 s, P1 speech repeat 4 s, P2 tone repeat 20 s, P3 snooze 10 min); idle `params` and per-tier `confidence`. All values are the TRD/DESIGN numbers where given.
+Why: No magic numbers in engines; everything validated at start-up.
+Alternatives: Constants in code.
+
+## D-029 — Schema additions
+Date: 2026-09-23 · Phase: 1 · Requirement(s): TRD §5.2, §5.3, DESIGN Reach
+Context: The Reach needs a bearing for the person; fleet ingest needs an idempotency key; anomaly features need the task type and quantity progress per interval.
+Decision: `SignalTick.proximity_bearing_deg` (0 = boom forward, clockwise); `IntervalRecord.record_id`, `task_type`, `task_progress_qty`. Operator `personality` is not in the `Operator` model at all (simulator-only type). `ReportDraft.parser` records online/offline.
+Why: Needed by later requirements; each is optional so the brief's rows still parse.
+Alternatives: Derive bearing in the UI (it has no geometry).
+
+## D-030 — Idle-reason confidences not given by the TRD
+Date: 2026-09-23 · Phase: 1 · Requirement(s): F-INS-02, TRD §6.4
+Context: TRD §6.4 gives confidences only for WAITING_FOR_TRUCK and HABIT.
+Decision: SCHEDULED_BREAK 0.95; WARM_UP 0.9 by coolant, 0.7 time-based (basic); UNATTENDED_RUNNING 0.95 (standard/advanced; not available on basic); UNKNOWN 0.5. In `idle_rules.yaml`.
+Why: Honest intelligence: time-based evidence is weaker than a sensor.
+Alternatives: A single confidence for all.
+
+## D-031 — Site layouts, climates and fleets
+Date: 2026-09-23 · Phase: 1 · Requirement(s): TRD §4.3, §7.1
+Context: The TRD gives the Chennai layout for one loading zone and only names the other three sites.
+Decision: Chennai keeps the TRD zones and adds DIG-B/DIG-C, LOAD-B/LOAD-C and connecting haul roads so its 24 history machines can load in parallel. Pune, Pilbara and Tromsø layouts, month profiles and truck/worker counts were written to match their descriptions (moderate / extreme heat and dust / sub-zero and dark). Fleet per site: Chennai 12/6/6, Pune 8/3/3, Pilbara 5/7/2, Tromsø 5/2/1 (excavator/loader/dozer) = 30/18/12 and 24/14/14/8 as TRD §7.1; operators 32/19/18/11 = 80. WHL014 falls in Pilbara by numbering order. Operator names are common local names; OP1001 is Ravi Kumar.
+Why: The TRD totals are kept exactly; the rest is the simplest consistent choice.
+Alternatives: One loading zone per site (would force most Chennai machines into non-truck tasks).
+
+## D-032 — Lesson content choices
+Date: 2026-09-23 · Phase: 1 · Requirement(s): F-LRN-01, F-LRN-04, TRD §4.9
+Context: The TRD lists the lesson ids and format but not content.
+Decision: L-SPOTTER-SIGNALS and L-WALKAROUND are quizzes (3 questions); the drill D-HAZARD-DRILL-1 has 7 scenes (5 hazards + 2 safe scenes, so "correct decisions" includes not stopping); all other lessons are 3–4 narrated cards plus one quiz question. L-WALKAROUND has no automatic trigger (offered from the catalogue). Fuel facts use our profile numbers (idle 3.2 L/h ⇒ about half a litre per 10 minutes) rather than the DESIGN example of "about 1 L", which our model would not support. Hand signals are generic sample content, labelled as such with the knowledge base.
+Why: Honest numbers; drills that test decisions, not reflexes only.
+Alternatives: All lessons as cards.
+
+## D-033 — Alert text structure
+Date: 2026-09-23 · Phase: 1 · Requirement(s): F-SAFE-09, DESIGN §8, §11
+Context: DESIGN's P1/P2 layout has a situation line, an instruction and a spoken line with a word budget.
+Decision: Each rule's `message_key` points to `{title, action, speak}` in every locale. Reason chips are plain phrases; the minutes effect is added by the UI as a separate value.
+Why: One structure serves takeover, banner, strip and speech; no sentence concatenation (TRD §11.4).
+Alternatives: One string per alert.

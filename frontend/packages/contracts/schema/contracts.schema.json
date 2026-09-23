@@ -4,6 +4,182 @@
   "type": "object",
   "additionalProperties": false,
   "$defs": {
+    "Booking": {
+      "properties": {
+        "booking_id": {
+          "title": "Booking Id",
+          "type": "string"
+        },
+        "operator_id": {
+          "title": "Operator Id",
+          "type": "string"
+        },
+        "slot_id": {
+          "title": "Slot Id",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/BookingStatus"
+        }
+      },
+      "required": [
+        "booking_id",
+        "operator_id",
+        "slot_id",
+        "status"
+      ],
+      "title": "Booking",
+      "type": "object"
+    },
+    "BookingStatus": {
+      "enum": [
+        "booked",
+        "cancelled"
+      ],
+      "title": "BookingStatus",
+      "type": "string"
+    },
+    "BreakWindow": {
+      "additionalProperties": false,
+      "properties": {
+        "start": {
+          "format": "time",
+          "title": "Start",
+          "type": "string"
+        },
+        "minutes": {
+          "exclusiveMinimum": 0,
+          "title": "Minutes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "start",
+        "minutes"
+      ],
+      "title": "BreakWindow",
+      "type": "object"
+    },
+    "ChecklistItem": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z0-9_]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "text": {
+          "$ref": "#/$defs/LocalizedText"
+        },
+        "illustration": {
+          "pattern": "^[a-z0-9-]+$",
+          "title": "Illustration",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "illustration"
+      ],
+      "title": "ChecklistItem",
+      "type": "object"
+    },
+    "Climate": {
+      "additionalProperties": false,
+      "properties": {
+        "month_profiles": {
+          "additionalProperties": {
+            "$ref": "#/$defs/MonthProfile"
+          },
+          "title": "Month Profiles",
+          "type": "object"
+        },
+        "history_seasons": {
+          "items": {
+            "$ref": "#/$defs/SeasonSpan"
+          },
+          "minItems": 1,
+          "title": "History Seasons",
+          "type": "array"
+        }
+      },
+      "required": [
+        "month_profiles",
+        "history_seasons"
+      ],
+      "title": "Climate",
+      "type": "object"
+    },
+    "DrillHazard": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z0-9_]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "text": {
+          "$ref": "#/$defs/LocalizedText"
+        },
+        "is_hazard": {
+          "title": "Is Hazard",
+          "type": "boolean"
+        },
+        "scene": {
+          "pattern": "^[a-z0-9-]+$",
+          "title": "Scene",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "is_hazard",
+        "scene"
+      ],
+      "title": "DrillHazard",
+      "type": "object"
+    },
+    "DrillResult": {
+      "properties": {
+        "operator_id": {
+          "title": "Operator Id",
+          "type": "string"
+        },
+        "drill_id": {
+          "title": "Drill Id",
+          "type": "string"
+        },
+        "ts": {
+          "format": "date-time",
+          "title": "Ts",
+          "type": "string"
+        },
+        "hazards": {
+          "items": {
+            "$ref": "#/$defs/HazardResult"
+          },
+          "title": "Hazards",
+          "type": "array"
+        },
+        "score": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "operator_id",
+        "drill_id",
+        "ts",
+        "hazards",
+        "score"
+      ],
+      "title": "DrillResult",
+      "type": "object"
+    },
     "ErrorBody": {
       "properties": {
         "code": {
@@ -33,6 +209,218 @@
         "error"
       ],
       "title": "ErrorResponse",
+      "type": "object"
+    },
+    "Event": {
+      "properties": {
+        "event_id": {
+          "title": "Event Id",
+          "type": "string"
+        },
+        "ts": {
+          "format": "date-time",
+          "title": "Ts",
+          "type": "string"
+        },
+        "machine_id": {
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "operator_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Operator Id"
+        },
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/EventType"
+        },
+        "priority": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Priority"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "payload": {
+          "additionalProperties": true,
+          "default": {},
+          "title": "Payload",
+          "type": "object"
+        },
+        "shared_with_supervisor": {
+          "default": false,
+          "title": "Shared With Supervisor",
+          "type": "boolean"
+        },
+        "synced": {
+          "default": false,
+          "title": "Synced",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "event_id",
+        "ts",
+        "machine_id",
+        "site_id",
+        "type",
+        "code"
+      ],
+      "title": "Event",
+      "type": "object"
+    },
+    "EventType": {
+      "enum": [
+        "alert",
+        "alert_ack",
+        "alert_cleared",
+        "idle_segment",
+        "anomaly",
+        "incident",
+        "near_miss",
+        "lesson_offered",
+        "lesson_completed",
+        "drill_result",
+        "booking",
+        "checklist",
+        "risk_band_change",
+        "connectivity"
+      ],
+      "title": "EventType",
+      "type": "string"
+    },
+    "FleetMix": {
+      "additionalProperties": false,
+      "properties": {
+        "excavator": {
+          "minimum": 0,
+          "title": "Excavator",
+          "type": "integer"
+        },
+        "wheel_loader": {
+          "minimum": 0,
+          "title": "Wheel Loader",
+          "type": "integer"
+        },
+        "dozer": {
+          "minimum": 0,
+          "title": "Dozer",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "excavator",
+        "wheel_loader",
+        "dozer"
+      ],
+      "title": "FleetMix",
+      "type": "object"
+    },
+    "FuelRates": {
+      "additionalProperties": false,
+      "properties": {
+        "idle": {
+          "exclusiveMinimum": 0,
+          "title": "Idle",
+          "type": "number"
+        },
+        "working": {
+          "exclusiveMinimum": 0,
+          "title": "Working",
+          "type": "number"
+        },
+        "travel": {
+          "exclusiveMinimum": 0,
+          "title": "Travel",
+          "type": "number"
+        }
+      },
+      "required": [
+        "idle",
+        "working",
+        "travel"
+      ],
+      "title": "FuelRates",
+      "type": "object"
+    },
+    "Gps": {
+      "description": "Local site coordinates in metres (site layout frame).",
+      "properties": {
+        "x_m": {
+          "title": "X M",
+          "type": "number"
+        },
+        "y_m": {
+          "title": "Y M",
+          "type": "number"
+        }
+      },
+      "required": [
+        "x_m",
+        "y_m"
+      ],
+      "title": "Gps",
+      "type": "object"
+    },
+    "GroundCondition": {
+      "enum": [
+        "dry",
+        "wet",
+        "muddy",
+        "rocky",
+        "frozen"
+      ],
+      "title": "GroundCondition",
+      "type": "string"
+    },
+    "HazardResult": {
+      "properties": {
+        "hazard_id": {
+          "title": "Hazard Id",
+          "type": "string"
+        },
+        "reaction_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reaction Ms"
+        },
+        "correct": {
+          "title": "Correct",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "hazard_id",
+        "correct"
+      ],
+      "title": "HazardResult",
       "type": "object"
     },
     "HealthResponse": {
@@ -87,6 +475,2206 @@
       ],
       "title": "HealthResponse",
       "type": "object"
+    },
+    "IdleReason": {
+      "enum": [
+        "SCHEDULED_BREAK",
+        "WARM_UP",
+        "UNATTENDED_RUNNING",
+        "WAITING_FOR_TRUCK",
+        "HABIT",
+        "UNKNOWN"
+      ],
+      "title": "IdleReason",
+      "type": "string"
+    },
+    "IdleSegmentPayload": {
+      "properties": {
+        "start": {
+          "format": "date-time",
+          "title": "Start",
+          "type": "string"
+        },
+        "end": {
+          "format": "date-time",
+          "title": "End",
+          "type": "string"
+        },
+        "duration_s": {
+          "minimum": 0,
+          "title": "Duration S",
+          "type": "number"
+        },
+        "reason": {
+          "$ref": "#/$defs/IdleReason"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "evidence": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "fuel_l": {
+          "minimum": 0,
+          "title": "Fuel L",
+          "type": "number"
+        },
+        "response_taken": {
+          "title": "Response Taken",
+          "type": "string"
+        },
+        "provisional": {
+          "default": false,
+          "title": "Provisional",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "start",
+        "end",
+        "duration_s",
+        "reason",
+        "confidence",
+        "evidence",
+        "fuel_l",
+        "response_taken"
+      ],
+      "title": "IdleSegmentPayload",
+      "type": "object"
+    },
+    "IdleThresholds": {
+      "additionalProperties": false,
+      "properties": {
+        "segment_min_seconds": {
+          "exclusiveMinimum": 0,
+          "title": "Segment Min Seconds",
+          "type": "number"
+        },
+        "habit_threshold_minutes": {
+          "exclusiveMinimum": 0,
+          "title": "Habit Threshold Minutes",
+          "type": "number"
+        },
+        "unattended_seat_empty_seconds": {
+          "exclusiveMinimum": 0,
+          "title": "Unattended Seat Empty Seconds",
+          "type": "number"
+        }
+      },
+      "required": [
+        "segment_min_seconds",
+        "habit_threshold_minutes",
+        "unattended_seat_empty_seconds"
+      ],
+      "title": "IdleThresholds",
+      "type": "object"
+    },
+    "IntervalRecord": {
+      "properties": {
+        "timestamp": {
+          "format": "date-time",
+          "title": "Timestamp",
+          "type": "string"
+        },
+        "machine_id": {
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "operator_id": {
+          "title": "Operator Id",
+          "type": "string"
+        },
+        "engine_hours": {
+          "minimum": 0,
+          "title": "Engine Hours",
+          "type": "number"
+        },
+        "fuel_used_l": {
+          "minimum": 0,
+          "title": "Fuel Used L",
+          "type": "number"
+        },
+        "load_cycles": {
+          "minimum": 0,
+          "title": "Load Cycles",
+          "type": "integer"
+        },
+        "idling_time_min": {
+          "minimum": 0,
+          "title": "Idling Time Min",
+          "type": "integer"
+        },
+        "seatbelt_status": {
+          "$ref": "#/$defs/SeatbeltStatus"
+        },
+        "safety_alert_triggered": {
+          "$ref": "#/$defs/YesNo"
+        },
+        "record_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Record Id"
+        },
+        "interval_start": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Interval Start"
+        },
+        "interval_minutes": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Interval Minutes"
+        },
+        "site_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Site Id"
+        },
+        "machine_type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MachineType"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "sensor_tier": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SensorTier"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "task_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task Id"
+        },
+        "task_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task Type"
+        },
+        "engine_on_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Engine On Min"
+        },
+        "working_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Working Min"
+        },
+        "travel_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Travel Min"
+        },
+        "seat_occupied_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seat Occupied Min"
+        },
+        "seatbelt_unfastened_working_s": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seatbelt Unfastened Working S"
+        },
+        "avg_engine_rpm": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Avg Engine Rpm"
+        },
+        "max_travel_speed_kmh": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Travel Speed Kmh"
+        },
+        "truck_present_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Truck Present Min"
+        },
+        "truck_wait_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Truck Wait Min"
+        },
+        "min_proximity_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Min Proximity M"
+        },
+        "proximity_caution_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Proximity Caution Count"
+        },
+        "proximity_danger_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Proximity Danger Count"
+        },
+        "proximity_critical_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Proximity Critical Count"
+        },
+        "ambient_temp_c": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ambient Temp C"
+        },
+        "relative_humidity_pct": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Relative Humidity Pct"
+        },
+        "heat_index_c": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Heat Index C"
+        },
+        "precipitation_mm": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Precipitation Mm"
+        },
+        "wind_kmh": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wind Kmh"
+        },
+        "visibility_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Visibility M"
+        },
+        "is_night": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Is Night"
+        },
+        "ground_condition": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/GroundCondition"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "continuous_operation_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Continuous Operation Min"
+        },
+        "coolant_temp_c": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Coolant Temp C"
+        },
+        "incident_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Incident Count"
+        },
+        "near_miss_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Near Miss Count"
+        },
+        "idle_warmup_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Idle Warmup Min"
+        },
+        "idle_break_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Idle Break Min"
+        },
+        "idle_truck_wait_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Idle Truck Wait Min"
+        },
+        "idle_unattended_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Idle Unattended Min"
+        },
+        "idle_habit_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Idle Habit Min"
+        },
+        "idle_unknown_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Idle Unknown Min"
+        },
+        "fuel_per_load_cycle_l": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fuel Per Load Cycle L"
+        },
+        "task_progress_qty": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task Progress Qty"
+        },
+        "risk_score_max": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Risk Score Max"
+        }
+      },
+      "required": [
+        "timestamp",
+        "machine_id",
+        "operator_id",
+        "engine_hours",
+        "fuel_used_l",
+        "load_cycles",
+        "idling_time_min",
+        "seatbelt_status",
+        "safety_alert_triggered"
+      ],
+      "title": "IntervalRecord",
+      "type": "object"
+    },
+    "Language": {
+      "enum": [
+        "en",
+        "hi",
+        "ta"
+      ],
+      "title": "Language",
+      "type": "string"
+    },
+    "Layout": {
+      "additionalProperties": false,
+      "properties": {
+        "size": {
+          "$ref": "#/$defs/Size"
+        },
+        "zones": {
+          "items": {
+            "$ref": "#/$defs/Zone"
+          },
+          "title": "Zones",
+          "type": "array"
+        }
+      },
+      "required": [
+        "size",
+        "zones"
+      ],
+      "title": "Layout",
+      "type": "object"
+    },
+    "Lesson": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[LD]-[A-Z0-9-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "title": {
+          "$ref": "#/$defs/LocalizedText"
+        },
+        "format": {
+          "$ref": "#/$defs/LessonFormat"
+        },
+        "duration_s": {
+          "maximum": 180,
+          "minimum": 60,
+          "title": "Duration S",
+          "type": "integer"
+        },
+        "triggers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Triggers",
+          "type": "array"
+        },
+        "cards": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/LessonCard"
+          },
+          "title": "Cards",
+          "type": "array"
+        },
+        "quiz": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/QuizQuestion"
+          },
+          "title": "Quiz",
+          "type": "array"
+        },
+        "hazards": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/DrillHazard"
+          },
+          "title": "Hazards",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "format",
+        "duration_s",
+        "triggers"
+      ],
+      "title": "Lesson",
+      "type": "object"
+    },
+    "LessonCard": {
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "$ref": "#/$defs/LocalizedText"
+        },
+        "illustration": {
+          "pattern": "^[a-z0-9-]+$",
+          "title": "Illustration",
+          "type": "string"
+        }
+      },
+      "required": [
+        "text",
+        "illustration"
+      ],
+      "title": "LessonCard",
+      "type": "object"
+    },
+    "LessonCompletion": {
+      "properties": {
+        "operator_id": {
+          "title": "Operator Id",
+          "type": "string"
+        },
+        "lesson_id": {
+          "title": "Lesson Id",
+          "type": "string"
+        },
+        "ts": {
+          "format": "date-time",
+          "title": "Ts",
+          "type": "string"
+        },
+        "score": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Score",
+          "type": "number"
+        },
+        "duration_s": {
+          "minimum": 0,
+          "title": "Duration S",
+          "type": "number"
+        },
+        "language": {
+          "$ref": "#/$defs/Language"
+        }
+      },
+      "required": [
+        "operator_id",
+        "lesson_id",
+        "ts",
+        "score",
+        "duration_s",
+        "language"
+      ],
+      "title": "LessonCompletion",
+      "type": "object"
+    },
+    "LessonFormat": {
+      "enum": [
+        "narrated_cards",
+        "quiz",
+        "drill"
+      ],
+      "title": "LessonFormat",
+      "type": "string"
+    },
+    "LocalizedText": {
+      "additionalProperties": false,
+      "description": "A user-facing string in all three languages (golden rule 10).",
+      "properties": {
+        "en": {
+          "minLength": 1,
+          "title": "En",
+          "type": "string"
+        },
+        "hi": {
+          "minLength": 1,
+          "title": "Hi",
+          "type": "string"
+        },
+        "ta": {
+          "minLength": 1,
+          "title": "Ta",
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "hi",
+        "ta"
+      ],
+      "title": "LocalizedText",
+      "type": "object"
+    },
+    "Machine": {
+      "properties": {
+        "machine_id": {
+          "examples": [
+            "EXC001"
+          ],
+          "pattern": "^[A-Z]{3}\\d{3}$",
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "machine_type": {
+          "$ref": "#/$defs/MachineType"
+        },
+        "model": {
+          "title": "Model",
+          "type": "string"
+        },
+        "model_year": {
+          "maximum": 2026,
+          "minimum": 2010,
+          "title": "Model Year",
+          "type": "integer"
+        },
+        "sensor_tier": {
+          "$ref": "#/$defs/SensorTier"
+        },
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        },
+        "engine_hours_start": {
+          "minimum": 0,
+          "title": "Engine Hours Start",
+          "type": "number"
+        }
+      },
+      "required": [
+        "machine_id",
+        "machine_type",
+        "model",
+        "model_year",
+        "sensor_tier",
+        "site_id",
+        "engine_hours_start"
+      ],
+      "title": "Machine",
+      "type": "object"
+    },
+    "MachineProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "machine_type": {
+          "$ref": "#/$defs/MachineType"
+        },
+        "display_name": {
+          "$ref": "#/$defs/LocalizedText"
+        },
+        "id_prefix": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Id Prefix",
+          "type": "string"
+        },
+        "example_models": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Example Models",
+          "type": "array"
+        },
+        "load_cycle_definition": {
+          "title": "Load Cycle Definition",
+          "type": "string"
+        },
+        "passes_per_load": {
+          "$ref": "#/$defs/MinMax"
+        },
+        "seconds_per_pass": {
+          "$ref": "#/$defs/MeanSd"
+        },
+        "fuel_lph": {
+          "$ref": "#/$defs/FuelRates"
+        },
+        "rpm": {
+          "$ref": "#/$defs/RpmLevels"
+        },
+        "max_travel_speed_kmh": {
+          "exclusiveMinimum": 0,
+          "title": "Max Travel Speed Kmh",
+          "type": "number"
+        },
+        "warm_up": {
+          "$ref": "#/$defs/WarmUp"
+        },
+        "idle": {
+          "$ref": "#/$defs/IdleThresholds"
+        },
+        "proximity_m": {
+          "$ref": "#/$defs/ProximityDistances"
+        },
+        "unsafe": {
+          "$ref": "#/$defs/UnsafeThresholds"
+        },
+        "task_types": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Task Types",
+          "type": "array"
+        },
+        "tasks": {
+          "additionalProperties": {
+            "$ref": "#/$defs/TaskProfile"
+          },
+          "title": "Tasks",
+          "type": "object"
+        }
+      },
+      "required": [
+        "machine_type",
+        "display_name",
+        "id_prefix",
+        "example_models",
+        "load_cycle_definition",
+        "passes_per_load",
+        "seconds_per_pass",
+        "fuel_lph",
+        "rpm",
+        "max_travel_speed_kmh",
+        "warm_up",
+        "idle",
+        "proximity_m",
+        "unsafe",
+        "task_types",
+        "tasks"
+      ],
+      "title": "MachineProfile",
+      "type": "object"
+    },
+    "MachineType": {
+      "enum": [
+        "excavator",
+        "wheel_loader",
+        "dozer"
+      ],
+      "title": "MachineType",
+      "type": "string"
+    },
+    "MeanSd": {
+      "additionalProperties": false,
+      "properties": {
+        "mean": {
+          "exclusiveMinimum": 0,
+          "title": "Mean",
+          "type": "number"
+        },
+        "sd": {
+          "minimum": 0,
+          "title": "Sd",
+          "type": "number"
+        }
+      },
+      "required": [
+        "mean",
+        "sd"
+      ],
+      "title": "MeanSd",
+      "type": "object"
+    },
+    "MinMax": {
+      "additionalProperties": false,
+      "properties": {
+        "min": {
+          "title": "Min",
+          "type": "number"
+        },
+        "max": {
+          "title": "Max",
+          "type": "number"
+        }
+      },
+      "required": [
+        "min",
+        "max"
+      ],
+      "title": "MinMax",
+      "type": "object"
+    },
+    "MonthProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "temp_mean_c": {
+          "title": "Temp Mean C",
+          "type": "number"
+        },
+        "temp_amp_c": {
+          "minimum": 0,
+          "title": "Temp Amp C",
+          "type": "number"
+        },
+        "rh_mean": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Rh Mean",
+          "type": "number"
+        },
+        "rain_prob": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Rain Prob",
+          "type": "number"
+        },
+        "rain_mean_mm_h": {
+          "default": 3.0,
+          "exclusiveMinimum": 0,
+          "title": "Rain Mean Mm H",
+          "type": "number"
+        },
+        "wind_mean_kmh": {
+          "default": 10.0,
+          "minimum": 0,
+          "title": "Wind Mean Kmh",
+          "type": "number"
+        },
+        "dust_event_prob": {
+          "default": 0.0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Dust Event Prob",
+          "type": "number"
+        },
+        "fog_prob": {
+          "default": 0.0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Fog Prob",
+          "type": "number"
+        }
+      },
+      "required": [
+        "temp_mean_c",
+        "temp_amp_c",
+        "rh_mean",
+        "rain_prob"
+      ],
+      "title": "MonthProfile",
+      "type": "object"
+    },
+    "Operator": {
+      "properties": {
+        "operator_id": {
+          "examples": [
+            "OP1001"
+          ],
+          "pattern": "^OP\\d{4}$",
+          "title": "Operator Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "preferred_language": {
+          "$ref": "#/$defs/Language"
+        },
+        "experience_years": {
+          "minimum": 0,
+          "title": "Experience Years",
+          "type": "number"
+        },
+        "home_site_id": {
+          "title": "Home Site Id",
+          "type": "string"
+        },
+        "certifications": {
+          "items": {
+            "$ref": "#/$defs/MachineType"
+          },
+          "title": "Certifications",
+          "type": "array"
+        }
+      },
+      "required": [
+        "operator_id",
+        "name",
+        "preferred_language",
+        "experience_years",
+        "home_site_id",
+        "certifications"
+      ],
+      "title": "Operator",
+      "type": "object"
+    },
+    "Priority": {
+      "enum": [
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "title": "Priority",
+      "type": "string"
+    },
+    "ProximityDistances": {
+      "additionalProperties": false,
+      "properties": {
+        "caution": {
+          "exclusiveMinimum": 0,
+          "title": "Caution",
+          "type": "number"
+        },
+        "danger": {
+          "exclusiveMinimum": 0,
+          "title": "Danger",
+          "type": "number"
+        },
+        "critical": {
+          "exclusiveMinimum": 0,
+          "title": "Critical",
+          "type": "number"
+        }
+      },
+      "required": [
+        "caution",
+        "danger",
+        "critical"
+      ],
+      "title": "ProximityDistances",
+      "type": "object"
+    },
+    "ProximitySource": {
+      "enum": [
+        "sensor",
+        "camera"
+      ],
+      "title": "ProximitySource",
+      "type": "string"
+    },
+    "QuantityUnit": {
+      "enum": [
+        "loads",
+        "m",
+        "m2",
+        "m3"
+      ],
+      "title": "QuantityUnit",
+      "type": "string"
+    },
+    "QuizQuestion": {
+      "additionalProperties": false,
+      "properties": {
+        "q": {
+          "$ref": "#/$defs/LocalizedText"
+        },
+        "options": {
+          "items": {
+            "$ref": "#/$defs/LocalizedText"
+          },
+          "maxItems": 4,
+          "minItems": 2,
+          "title": "Options",
+          "type": "array"
+        },
+        "answer": {
+          "minimum": 0,
+          "title": "Answer",
+          "type": "integer"
+        },
+        "explain": {
+          "$ref": "#/$defs/LocalizedText"
+        }
+      },
+      "required": [
+        "q",
+        "options",
+        "answer",
+        "explain"
+      ],
+      "title": "QuizQuestion",
+      "type": "object"
+    },
+    "ReportDraft": {
+      "description": "Structured incident / near-miss report (TRD §6.10).",
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/ReportType"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity"
+        },
+        "summary_en": {
+          "title": "Summary En",
+          "type": "string"
+        },
+        "summary_local": {
+          "title": "Summary Local",
+          "type": "string"
+        },
+        "people_involved": {
+          "title": "People Involved",
+          "type": "boolean"
+        },
+        "injury": {
+          "title": "Injury",
+          "type": "boolean"
+        },
+        "parser": {
+          "description": "online | offline",
+          "title": "Parser",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "severity",
+        "summary_en",
+        "summary_local",
+        "people_involved",
+        "injury",
+        "parser"
+      ],
+      "title": "ReportDraft",
+      "type": "object"
+    },
+    "ReportType": {
+      "enum": [
+        "incident",
+        "near_miss",
+        "equipment_problem"
+      ],
+      "title": "ReportType",
+      "type": "string"
+    },
+    "RpmLevels": {
+      "additionalProperties": false,
+      "properties": {
+        "idle": {
+          "exclusiveMinimum": 0,
+          "title": "Idle",
+          "type": "number"
+        },
+        "working": {
+          "exclusiveMinimum": 0,
+          "title": "Working",
+          "type": "number"
+        }
+      },
+      "required": [
+        "idle",
+        "working"
+      ],
+      "title": "RpmLevels",
+      "type": "object"
+    },
+    "SeasonSpan": {
+      "additionalProperties": false,
+      "description": "History days [first, last] (1-based, inclusive) use this month's climate and daylight.",
+      "properties": {
+        "days": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Days",
+          "type": "array"
+        },
+        "month": {
+          "maximum": 12,
+          "minimum": 1,
+          "title": "Month",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "days",
+        "month"
+      ],
+      "title": "SeasonSpan",
+      "type": "object"
+    },
+    "SeatbeltStatus": {
+      "description": "Brief column `Seatbelt Status` (exact text from the sample).",
+      "enum": [
+        "Fastened",
+        "Unfastened"
+      ],
+      "title": "SeatbeltStatus",
+      "type": "string"
+    },
+    "SensorTier": {
+      "enum": [
+        "basic",
+        "standard",
+        "advanced"
+      ],
+      "title": "SensorTier",
+      "type": "string"
+    },
+    "Severity": {
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "Shift": {
+      "additionalProperties": false,
+      "properties": {
+        "start": {
+          "format": "time",
+          "title": "Start",
+          "type": "string"
+        },
+        "end": {
+          "format": "time",
+          "title": "End",
+          "type": "string"
+        },
+        "breaks": {
+          "items": {
+            "$ref": "#/$defs/BreakWindow"
+          },
+          "title": "Breaks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "start",
+        "end",
+        "breaks"
+      ],
+      "title": "Shift",
+      "type": "object"
+    },
+    "ShortageWindow": {
+      "additionalProperties": false,
+      "properties": {
+        "day": {
+          "minimum": 1,
+          "title": "Day",
+          "type": "integer"
+        },
+        "start": {
+          "format": "time",
+          "title": "Start",
+          "type": "string"
+        },
+        "minutes": {
+          "exclusiveMinimum": 0,
+          "title": "Minutes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "day",
+        "start",
+        "minutes"
+      ],
+      "title": "ShortageWindow",
+      "type": "object"
+    },
+    "SignalTick": {
+      "properties": {
+        "ts": {
+          "format": "date-time",
+          "title": "Ts",
+          "type": "string"
+        },
+        "machine_id": {
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "operator_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Operator Id"
+        },
+        "engine_on": {
+          "title": "Engine On",
+          "type": "boolean"
+        },
+        "engine_hours": {
+          "minimum": 0,
+          "title": "Engine Hours",
+          "type": "number"
+        },
+        "fuel_rate_lph": {
+          "minimum": 0,
+          "title": "Fuel Rate Lph",
+          "type": "number"
+        },
+        "hydraulic_active": {
+          "title": "Hydraulic Active",
+          "type": "boolean"
+        },
+        "travel_speed_kmh": {
+          "minimum": 0,
+          "title": "Travel Speed Kmh",
+          "type": "number"
+        },
+        "seatbelt_fastened": {
+          "title": "Seatbelt Fastened",
+          "type": "boolean"
+        },
+        "gps": {
+          "$ref": "#/$defs/Gps"
+        },
+        "heading_deg": {
+          "exclusiveMaximum": 360,
+          "minimum": 0,
+          "title": "Heading Deg",
+          "type": "number"
+        },
+        "seat_occupied": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seat Occupied"
+        },
+        "engine_rpm": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Engine Rpm"
+        },
+        "coolant_temp_c": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Coolant Temp C"
+        },
+        "proximity_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Proximity M"
+        },
+        "proximity_bearing_deg": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Proximity Bearing Deg"
+        },
+        "proximity_source": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ProximitySource"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "truck_in_loading_zone": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Truck In Loading Zone"
+        },
+        "ambient_temp_c": {
+          "title": "Ambient Temp C",
+          "type": "number"
+        },
+        "relative_humidity_pct": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Relative Humidity Pct",
+          "type": "number"
+        },
+        "heat_index_c": {
+          "title": "Heat Index C",
+          "type": "number"
+        },
+        "precipitation_mm_h": {
+          "minimum": 0,
+          "title": "Precipitation Mm H",
+          "type": "number"
+        },
+        "wind_kmh": {
+          "minimum": 0,
+          "title": "Wind Kmh",
+          "type": "number"
+        },
+        "visibility_m": {
+          "minimum": 0,
+          "title": "Visibility M",
+          "type": "number"
+        },
+        "is_night": {
+          "title": "Is Night",
+          "type": "boolean"
+        },
+        "ground_condition": {
+          "$ref": "#/$defs/GroundCondition"
+        },
+        "task_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task Id"
+        },
+        "task_progress_qty": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Task Progress Qty",
+          "type": "number"
+        }
+      },
+      "required": [
+        "ts",
+        "machine_id",
+        "engine_on",
+        "engine_hours",
+        "fuel_rate_lph",
+        "hydraulic_active",
+        "travel_speed_kmh",
+        "seatbelt_fastened",
+        "gps",
+        "heading_deg",
+        "ambient_temp_c",
+        "relative_humidity_pct",
+        "heat_index_c",
+        "precipitation_mm_h",
+        "wind_kmh",
+        "visibility_m",
+        "is_night",
+        "ground_condition"
+      ],
+      "title": "SignalTick",
+      "type": "object"
+    },
+    "Site": {
+      "additionalProperties": false,
+      "properties": {
+        "site_id": {
+          "pattern": "^[A-Z]{3}-[A-Z]{2,3}-\\d{2}$",
+          "title": "Site Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "country": {
+          "pattern": "^[A-Z]{2}$",
+          "title": "Country",
+          "type": "string"
+        },
+        "timezone": {
+          "title": "Timezone",
+          "type": "string"
+        },
+        "latitude": {
+          "maximum": 90,
+          "minimum": -90,
+          "title": "Latitude",
+          "type": "number"
+        },
+        "locale_default": {
+          "$ref": "#/$defs/Language"
+        },
+        "languages": {
+          "items": {
+            "$ref": "#/$defs/Language"
+          },
+          "minItems": 1,
+          "title": "Languages",
+          "type": "array"
+        },
+        "units": {
+          "const": "metric",
+          "title": "Units",
+          "type": "string"
+        },
+        "climate": {
+          "$ref": "#/$defs/Climate"
+        },
+        "shift": {
+          "$ref": "#/$defs/Shift"
+        },
+        "layout": {
+          "$ref": "#/$defs/Layout"
+        },
+        "trucks": {
+          "$ref": "#/$defs/Trucks"
+        },
+        "workers": {
+          "$ref": "#/$defs/Workers"
+        },
+        "fleet": {
+          "$ref": "#/$defs/FleetMix"
+        },
+        "operators": {
+          "exclusiveMinimum": 0,
+          "title": "Operators",
+          "type": "integer"
+        },
+        "ground_baseline": {
+          "$ref": "#/$defs/GroundCondition",
+          "default": "dry"
+        },
+        "training_centre": {
+          "title": "Training Centre",
+          "type": "string"
+        },
+        "operator_names": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Operator Names",
+          "type": "array"
+        },
+        "safety_overrides": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "default": {},
+          "title": "Safety Overrides",
+          "type": "object"
+        }
+      },
+      "required": [
+        "site_id",
+        "name",
+        "country",
+        "timezone",
+        "latitude",
+        "locale_default",
+        "languages",
+        "units",
+        "climate",
+        "shift",
+        "layout",
+        "trucks",
+        "workers",
+        "fleet",
+        "operators",
+        "training_centre",
+        "operator_names"
+      ],
+      "title": "Site",
+      "type": "object"
+    },
+    "Size": {
+      "additionalProperties": false,
+      "properties": {
+        "w": {
+          "exclusiveMinimum": 0,
+          "title": "W",
+          "type": "number"
+        },
+        "h": {
+          "exclusiveMinimum": 0,
+          "title": "H",
+          "type": "number"
+        }
+      },
+      "required": [
+        "w",
+        "h"
+      ],
+      "title": "Size",
+      "type": "object"
+    },
+    "Task": {
+      "properties": {
+        "task_id": {
+          "examples": [
+            "T-CHN-HWY-01-20260924-1"
+          ],
+          "title": "Task Id",
+          "type": "string"
+        },
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        },
+        "machine_id": {
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "operator_id": {
+          "title": "Operator Id",
+          "type": "string"
+        },
+        "task_type": {
+          "title": "Task Type",
+          "type": "string"
+        },
+        "zone_id": {
+          "title": "Zone Id",
+          "type": "string"
+        },
+        "planned_quantity": {
+          "exclusiveMinimum": 0,
+          "title": "Planned Quantity",
+          "type": "number"
+        },
+        "quantity_unit": {
+          "$ref": "#/$defs/QuantityUnit"
+        },
+        "scheduled_start": {
+          "format": "date-time",
+          "title": "Scheduled Start",
+          "type": "string"
+        },
+        "actual_start": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Actual Start"
+        },
+        "actual_end": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Actual End"
+        },
+        "actual_duration_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Actual Duration Min"
+        },
+        "status": {
+          "$ref": "#/$defs/TaskStatus",
+          "default": "scheduled"
+        },
+        "conditions_at_start": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TaskConditions"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "task_id",
+        "site_id",
+        "machine_id",
+        "operator_id",
+        "task_type",
+        "zone_id",
+        "planned_quantity",
+        "quantity_unit",
+        "scheduled_start"
+      ],
+      "title": "Task",
+      "type": "object"
+    },
+    "TaskConditions": {
+      "properties": {
+        "ground_condition": {
+          "$ref": "#/$defs/GroundCondition"
+        },
+        "heat_index_c": {
+          "title": "Heat Index C",
+          "type": "number"
+        },
+        "precipitation_mm_h": {
+          "minimum": 0,
+          "title": "Precipitation Mm H",
+          "type": "number"
+        },
+        "is_night": {
+          "title": "Is Night",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "ground_condition",
+        "heat_index_c",
+        "precipitation_mm_h",
+        "is_night"
+      ],
+      "title": "TaskConditions",
+      "type": "object"
+    },
+    "TaskProfile": {
+      "additionalProperties": false,
+      "description": "How a task type behaves for this machine type (used by the simulator and estimation).",
+      "properties": {
+        "quantity_unit": {
+          "$ref": "#/$defs/QuantityUnit"
+        },
+        "base_rate_per_h": {
+          "exclusiveMinimum": 0,
+          "title": "Base Rate Per H",
+          "type": "number"
+        },
+        "truck_dependent": {
+          "default": false,
+          "title": "Truck Dependent",
+          "type": "boolean"
+        },
+        "typical_quantity": {
+          "$ref": "#/$defs/MinMax"
+        }
+      },
+      "required": [
+        "quantity_unit",
+        "base_rate_per_h",
+        "typical_quantity"
+      ],
+      "title": "TaskProfile",
+      "type": "object"
+    },
+    "TaskStatus": {
+      "enum": [
+        "scheduled",
+        "active",
+        "done"
+      ],
+      "title": "TaskStatus",
+      "type": "string"
+    },
+    "TrainingSlot": {
+      "properties": {
+        "slot_id": {
+          "title": "Slot Id",
+          "type": "string"
+        },
+        "dealer_centre": {
+          "title": "Dealer Centre",
+          "type": "string"
+        },
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        },
+        "start": {
+          "format": "date-time",
+          "title": "Start",
+          "type": "string"
+        },
+        "topic": {
+          "title": "Topic",
+          "type": "string"
+        },
+        "seats_left": {
+          "minimum": 0,
+          "title": "Seats Left",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "slot_id",
+        "dealer_centre",
+        "site_id",
+        "start",
+        "topic",
+        "seats_left"
+      ],
+      "title": "TrainingSlot",
+      "type": "object"
+    },
+    "Trucks": {
+      "additionalProperties": false,
+      "properties": {
+        "count": {
+          "minimum": 0,
+          "title": "Count",
+          "type": "integer"
+        },
+        "dispatch_mean_interval_min": {
+          "exclusiveMinimum": 0,
+          "title": "Dispatch Mean Interval Min",
+          "type": "number"
+        },
+        "shortage_windows": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ShortageWindow"
+          },
+          "title": "Shortage Windows",
+          "type": "array"
+        },
+        "random_shortages_per_week": {
+          "$ref": "#/$defs/MinMax",
+          "default": {
+            "min": 1.0,
+            "max": 2.0
+          }
+        },
+        "random_shortage_minutes": {
+          "$ref": "#/$defs/MinMax",
+          "default": {
+            "min": 20.0,
+            "max": 90.0
+          }
+        },
+        "shortage_interval_multiplier": {
+          "default": 3.0,
+          "minimum": 1,
+          "title": "Shortage Interval Multiplier",
+          "type": "number"
+        }
+      },
+      "required": [
+        "count",
+        "dispatch_mean_interval_min"
+      ],
+      "title": "Trucks",
+      "type": "object"
+    },
+    "UnsafeThresholds": {
+      "additionalProperties": false,
+      "properties": {
+        "speed_near_person_kmh": {
+          "exclusiveMinimum": 0,
+          "title": "Speed Near Person Kmh",
+          "type": "number"
+        },
+        "continuous_operation_warn_min": {
+          "exclusiveMinimum": 0,
+          "title": "Continuous Operation Warn Min",
+          "type": "number"
+        },
+        "continuous_operation_limit_min": {
+          "exclusiveMinimum": 0,
+          "title": "Continuous Operation Limit Min",
+          "type": "number"
+        }
+      },
+      "required": [
+        "speed_near_person_kmh",
+        "continuous_operation_warn_min",
+        "continuous_operation_limit_min"
+      ],
+      "title": "UnsafeThresholds",
+      "type": "object"
+    },
+    "WarmUp": {
+      "additionalProperties": false,
+      "properties": {
+        "coolant_ready_c": {
+          "title": "Coolant Ready C",
+          "type": "number"
+        },
+        "max_minutes_normal": {
+          "exclusiveMinimum": 0,
+          "title": "Max Minutes Normal",
+          "type": "number"
+        },
+        "max_minutes_below_0c": {
+          "exclusiveMinimum": 0,
+          "title": "Max Minutes Below 0C",
+          "type": "number"
+        }
+      },
+      "required": [
+        "coolant_ready_c",
+        "max_minutes_normal",
+        "max_minutes_below_0c"
+      ],
+      "title": "WarmUp",
+      "type": "object"
+    },
+    "Workers": {
+      "additionalProperties": false,
+      "properties": {
+        "count": {
+          "minimum": 0,
+          "title": "Count",
+          "type": "integer"
+        },
+        "swing_entry_prob_per_h": {
+          "default": 0.05,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Swing Entry Prob Per H",
+          "type": "number"
+        }
+      },
+      "required": [
+        "count"
+      ],
+      "title": "Workers",
+      "type": "object"
+    },
+    "YesNo": {
+      "description": "Brief column `Safety Alert Triggered` (exact text from the sample).",
+      "enum": [
+        "Yes",
+        "No"
+      ],
+      "title": "YesNo",
+      "type": "string"
+    },
+    "Zone": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Z0-9-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/ZoneType"
+        },
+        "polygon": {
+          "anyOf": [
+            {
+              "items": {
+                "maxItems": 2,
+                "minItems": 2,
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Polygon"
+        },
+        "polyline": {
+          "anyOf": [
+            {
+              "items": {
+                "maxItems": 2,
+                "minItems": 2,
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Polyline"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ],
+      "title": "Zone",
+      "type": "object"
+    },
+    "ZoneType": {
+      "enum": [
+        "dig",
+        "loading",
+        "haul_road",
+        "stockpile",
+        "break_area"
+      ],
+      "title": "ZoneType",
+      "type": "string"
     }
   }
 }
