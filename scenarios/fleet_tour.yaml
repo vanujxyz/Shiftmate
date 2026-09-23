@@ -1,0 +1,18 @@
+# Fleet tour (PRD §9 beat 12, TRD §8): a basic-sensor wheel loader at an Australian mine, then
+# the 10,000-machine scale demonstration.
+name: fleet_tour
+title: {en: "Fleet tour", hi: "फ़्लीट दौरा", ta: "ஃப்ளீட் சுற்றுப்பயணம்"}
+site_id: PIL-MIN-01
+date: "2026-09-24"
+start: "07:30"
+seed: 12
+focus_machine: WHL014
+operator: null                   # the site's usual operator for WHL014
+language: en
+background_machines: 6
+background_machine_ids: [EXC021, EXC022, WHL010, WHL011, WHL012, DOZ010]
+tasks: []                        # WHL014 keeps its planned day
+weather_script: []
+beats:
+  - {id: basic_tier, at: "07:31", action: note, caption: {en: "WHL014: a 2013 wheel loader with basic sensors. Fewer features, lower confidence, still working.", hi: "WHL014: 2013 का व्हील लोडर, बेसिक सेंसर। कम सुविधाएँ, कम भरोसा, फिर भी काम करता है।", ta: "WHL014: 2013 சக்கர லோடர், அடிப்படை சென்சார்கள். குறைந்த வசதிகள், குறைந்த நம்பகத்தன்மை, இருந்தும் வேலை செய்கிறது."}}
+  - {id: scale,      at: "07:45", action: scale_demo, params: {machines: 10000, sim_minutes: 60}, caption: {en: "10,000 simulated machines stream summaries to the fleet service", hi: "10,000 सिम्युलेटेड मशीनें फ़्लीट सेवा को सारांश भेजती हैं", ta: "10,000 உருவகப்படுத்தப்பட்ட இயந்திரங்கள் ஃப்ளீட் சேவைக்குச் சுருக்கங்களை அனுப்புகின்றன"}}

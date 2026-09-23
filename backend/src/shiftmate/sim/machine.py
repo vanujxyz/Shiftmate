@@ -240,6 +240,9 @@ class MachineAgent:
             self._start("done", None, dt, seated=False)
             return
         if kind == "off":
+            if self.overrides.get("hold"):
+                self._start("off", None, dt, seated=False)  # scenario: waiting for sign-in
+                return
             if now >= plan.arrival:
                 self._start(
                     "walkaround",
@@ -497,7 +500,8 @@ class MachineAgent:
         )
         if task and counts_as_task_time and task.task.actual_start is not None:
             task.work_seconds += dt
-        if kind == "work" and task:
+        truck_task = bool(task and profile.tasks[task.task.task_type].truck_dependent)
+        if kind == "work" and task and not truck_task:
             rate = profile.tasks[task.task.task_type].base_rate_per_h * factor
             task.progress += rate * dt / 3600
             # Load cycles (D-001): dozers count every push; excavators and loaders on tasks
@@ -550,3 +554,33 @@ class MachineAgent:
     def end_day(self) -> None:
         """Close unfinished tasks for the day (they stay active, with no duration)."""
         self.activity = Activity("off", None, seated=False)
+
+    # --- scenario hooks (live mode, TRD §8) -------------------------------------------------
+    def hold(self) -> None:
+        """Keep the machine parked with the engine off until `start_engine` (awaiting sign-in)."""
+        self.overrides["hold"] = True
+
+    def start_engine(self, now: datetime, dt: float, coolant_c: float | None = None) -> None:
+        """The operator climbs in and starts the engine now (a cold start if coolant is given)."""
+        self.overrides.pop("hold", None)
+        if coolant_c is not None:
+            self.coolant_c = coolant_c
+        self._now = now
+        self.activity = Activity("board", dt)
+
+    def force(self, now: datetime, kind: str, seconds: float, dt: float) -> None:
+        """Make the machine do `kind` for `seconds` from now (e.g. step_out, work)."""
+        self._now = now
+        seated = kind != "step_out"
+        if kind == "step_out":
+            self.belt_fastened = False
+        self.activity = Activity(kind, _ceil_steps(seconds, dt), seated=seated)
+
+    def unbelt_for(self, now: datetime, seconds: float) -> None:
+        self.belt_off_until = now + timedelta(seconds=seconds)
+
+    def skip_break_at(self, start: datetime) -> None:
+        if self.plan:
+            for b in self.plan.breaks:
+                if b.start == start:
+                    b.decided, b.skip = True, True

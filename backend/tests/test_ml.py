@@ -66,8 +66,9 @@ def test_predictions_are_ordered_ranges_with_reasons(tiny_models) -> None:
     for e in (muddy, dry):
         assert e.p10 <= e.p50 <= e.p90
     assert muddy.p50 > dry.p50 * 1.2
-    wet = [r for r in muddy.reasons if r.feature == "ground_condition"]
-    assert wet and wet[0].key == "reason.wet_ground_slower" and wet[0].minutes > 0
+    # D-054: the ground reason names the actual ground and is measured against dry ground.
+    ground = [r for r in muddy.reasons if r.feature == "ground_condition"]
+    assert ground and ground[0].key == "reason.ground_muddy_slower" and ground[0].minutes > 0
 
 
 def test_remaining_time_blends_model_and_observed_rate() -> None:

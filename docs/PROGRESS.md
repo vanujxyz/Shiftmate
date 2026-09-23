@@ -1,6 +1,6 @@
 # ShiftMate — Build progress
 
-**Next step:** Milestone 7 (Edge Gateway A: runtime, REST, scenario player) in progress.
+**Next step:** Milestone 8 (Edge Gateway B: live channels, sync, headless demo) in progress.
 
 **Autonomy note (2026-09-23):** the user authorised continuing through all milestones without waiting for approval, and approved all needed downloads. Each milestone is still tested, committed, and reported in `docs/reports/milestone-N.md`.
 
@@ -103,12 +103,12 @@ Goal: train the anomaly and time-estimation models and write honest results to `
 Requirements: F-SHIFT-02, 03, F-INS-05, F-FLT-04, 05, PRD §10 metrics.
 You will see: `docs/EVAL.md` with real numbers.
 
-### Milestone 7 — Edge Gateway A: runtime, REST, scenario player (Phase 5, first half) · Status: not started
+### Milestone 7 — Edge Gateway A: runtime, REST, scenario player (Phase 5, first half) · Status: done
 Goal: the machine-side server runs live simulated machines and plays Ravi's shift.
-- [ ] 1. `MachineRuntime` wiring all engines; live world clock (1×–60×)
-- [ ] 2. Scenario player with seek; `ravi_shift.yaml` and `fleet_tour.yaml`
-- [ ] 3. SQLite local store; all REST endpoints (TRD §9.1) incl. demo control
-- [ ] 4. API tests for every endpoint
+- [x] 1. `MachineRuntime` wiring all engines; live world clock (1×–60×)
+- [x] 2. Scenario player with seek; `ravi_shift.yaml` and `fleet_tour.yaml`
+- [x] 3. SQLite local store; all REST endpoints (TRD §9.1) incl. demo control
+- [x] 4. API tests for every endpoint
 Requirements: F-START-01, 02, 03, F-SHIFT-01, 04, 05, 06, F-FLT-03.
 You will see: interactive API docs at http://localhost:8100/docs; scenario control by HTTP.
 

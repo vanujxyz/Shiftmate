@@ -12,7 +12,7 @@ the real geometric distance to the nearest person.
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import numpy as np
 
@@ -40,6 +40,8 @@ class Worker:
     y: float
     target: Point
     approach: Approach | None = None
+    script: list[tuple[Point, float]] = field(default_factory=list)  # scenario path
+    script_elapsed: float = 0.0
 
 
 def draw_min_distance(distances: ProximityDistances, rng: np.random.Generator) -> float:
@@ -86,9 +88,39 @@ class WorkerCrowd:
         )
         return True
 
+    def script_path(
+        self,
+        worker_id: str,
+        points: list[Point],
+        seconds_per_step: float,
+        start: Point,
+    ) -> None:
+        """Scenario hook: a person who stands at each world point in turn, then walks away.
+
+        Added as an extra worker so the other workers' random streams are untouched.
+        """
+        w = Worker(worker_id, start[0], start[1], start)
+        w.script = [(p, seconds_per_step) for p in points]
+        self.workers.append(w)
+
+    def _step_script(self, w: Worker, dt: float) -> bool:
+        if not w.script:
+            return False
+        w.script_elapsed += dt
+        (x, y), hold = w.script[0]
+        w.x, w.y = x, y
+        if w.script_elapsed >= hold:
+            w.script.pop(0)
+            w.script_elapsed = 0.0
+            if not w.script:
+                w.target = self._random_point()
+        return True
+
     def step(self, dt: float, machine_positions: dict[str, Point]) -> None:
         speed = self.p.walk_speed_mps
         for w in self.workers:
+            if self._step_script(w, dt):
+                continue
             a = w.approach
             if a is not None and a.machine_id in machine_positions:
                 mx, my = machine_positions[a.machine_id]

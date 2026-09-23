@@ -1,0 +1,30 @@
+# Milestone 7 strings: estimate reasons by ground type, edge insights, shift, assistant notice.
+reason.wet_ground_slower: null
+reason.dry_ground_faster: null
+reason.daylight_faster: null
+reason.quantity_small: null
+reason.task_type_slower: null
+reason.task_type_faster: null
+reason.machine_slower: null
+reason.machine_faster: null
+reason.site_slower: null
+reason.site_faster: null
+reason.time_of_day_slower: null
+reason.time_of_day_faster: null
+reason.ground_dry_slower: {en: "Ground conditions add time", hi: "ज़मीन की हालत से समय बढ़ेगा", ta: "தரையின் நிலையால் நேரம் கூடும்"}
+reason.ground_wet_slower: {en: "Wet ground adds time", hi: "गीली ज़मीन से समय बढ़ेगा", ta: "ஈரமான தரையால் நேரம் கூடும்"}
+reason.ground_muddy_slower: {en: "Muddy ground adds time", hi: "कीचड़ से समय बढ़ेगा", ta: "சேற்றால் நேரம் கூடும்"}
+reason.ground_rocky_slower: {en: "Rocky ground adds time", hi: "पथरीली ज़मीन से समय बढ़ेगा", ta: "பாறைத் தரையால் நேரம் கூடும்"}
+reason.ground_frozen_slower: {en: "Frozen ground adds time", hi: "जमी हुई ज़मीन से समय बढ़ेगा", ta: "உறைந்த தரையால் நேரம் கூடும்"}
+insight.coach_short_stop: {en: "A {{minutes}} min stop with the engine on used {{fuel_l}} L. Switching off saves fuel.", hi: "इंजन चालू रखकर {{minutes}} मिनट रुकने में {{fuel_l}} लीटर ईंधन गया। बंद करने से ईंधन बचता है।", ta: "இன்ஜின் ஓடியபடி {{minutes}} நிமிடம் நின்றதில் {{fuel_l}} லிட்டர் செலவானது. அணைத்தால் எரிபொருள் மிச்சம்."}
+insight.reminder_cab_empty: {en: "The engine ran {{minutes}} min with the cab empty. Switch off before you step out.", hi: "केबिन खाली था और इंजन {{minutes}} मिनट चला। उतरने से पहले इंजन बंद कीजिए।", ta: "கேபின் காலியாக இருந்தபோது இன்ஜின் {{minutes}} நிமிடம் ஓடியது. இறங்கும் முன் அணையுங்கள்."}
+insight.truck_wait_not_you: {en: "Waited {{minutes}} min for a truck. Logged as a site delay, not your idle time.", hi: "{{minutes}} मिनट ट्रक का इंतज़ार किया। यह साइट की देरी में गिना गया, आपके खाली समय में नहीं।", ta: "லாரிக்காக {{minutes}} நிமிடம் காத்திருந்தீர்கள். இது தளத் தாமதமாகப் பதிவானது, உங்கள் சும்மா நேரமாக அல்ல."}
+insight.unusual_interval: {en: "Something was different from your usual in the last 15 minutes.", hi: "पिछले 15 मिनट में कुछ आपके आम दिनों से अलग था।", ta: "கடந்த 15 நிமிடத்தில் உங்கள் வழக்கத்திலிருந்து ஏதோ வேறுபட்டது."}
+insight.idea_shutdown: {en: "The engine ran {{minutes}} min with the cab empty today. Switching off before stepping out saves fuel and keeps the machine still.", hi: "आज केबिन खाली था और इंजन {{minutes}} मिनट चला। उतरने से पहले इंजन बंद करने से ईंधन बचता है और मशीन स्थिर रहती है।", ta: "இன்று கேபின் காலியாக இருந்தபோது இன்ஜின் {{minutes}} நிமிடம் ஓடியது. இறங்கும் முன் அணைத்தால் எரிபொருள் மிச்சம், இயந்திரமும் அசையாது."}
+insight.idea_short_stops: {en: "Short stops added up to {{minutes}} min today. For stops over 5 minutes, switching off saves fuel.", hi: "आज छोटे ठहराव कुल {{minutes}} मिनट रहे। 5 मिनट से लंबे ठहराव पर इंजन बंद करने से ईंधन बचता है।", ta: "இன்று சிறு நிறுத்தங்கள் மொத்தம் {{minutes}} நிமிடம். 5 நிமிடத்துக்கு மேல் நின்றால் அணைத்தால் எரிபொருள் மிச்சம்."}
+insight.good_task_done: {en: "{{done}} of {{planned}} {{unit}} done.", hi: "{{planned}} में से {{done}} {{unit}} पूरे।", ta: "{{planned}}-ல் {{done}} {{unit}} முடிந்தது."}
+insight.good_fuel_per_load: {en: "Fuel per load {{value}} L, better than your usual {{usual}} L.", hi: "हर लोड पर ईंधन {{value}} लीटर, आपके आम {{usual}} लीटर से बेहतर।", ta: "ஒவ்வொரு லோடுக்கும் எரிபொருள் {{value}} லிட்டர், வழக்கமான {{usual}} லிட்டரை விட நல்லது."}
+insight.good_seatbelt: {en: "Seatbelt on the whole time you worked.", hi: "काम के पूरे समय बेल्ट लगी रही।", ta: "வேலை செய்த முழு நேரமும் பெல்ட் போட்டிருந்தீர்கள்."}
+shift.break_scheduled: {en: "Scheduled break", hi: "तय ब्रेक", ta: "திட்டமிட்ட இடைவேளை"}
+shift.break_heat: {en: "Hot today: a water break now helps you finish strong", hi: "आज गर्मी है: अभी पानी का ब्रेक आगे के काम में मदद करेगा", ta: "இன்று வெயில்: இப்போது தண்ணீர் இடைவேளை மீதி வேலைக்கு உதவும்"}
+ask.not_indexed: {en: "The manual is not loaded on this machine yet.", hi: "इस मशीन पर मैनुअल अभी लोड नहीं है।", ta: "இந்த இயந்திரத்தில் கையேடு இன்னும் ஏற்றப்படவில்லை."}

@@ -358,3 +358,31 @@ Context: After D-050, three targets remain unmet: anomaly precision (67 %) and r
 Decision: Report them as measured, with causes, and change nothing. Causes: (a) Anomaly recall is capped by the TRD rule itself: the model may flag only its top 5 % of intervals while about 10 % of test intervals are truly anomalous; habitual behaviour is part of an operator's own baseline, so it is not "unusual" for them; machines without proximity or seat sensors cannot see speeding near people or an empty cab; abnormal fuel and low productivity are diluted in whole-interval features. (b) Anomaly precision loses to P1 safety rules (e.g. a worker entering the swing radius, which is not an operator anomaly in the labels) and to IsolationForest-only flags. (c) The estimation range is too narrow on validation too (66 %), a known property of quantile regression under shift; truck-loading tasks are the least predictable (truck supply). Options for the owner, not applied: calibrate the p10/p90 range on the validation days (conformal adjustment, no test data used); make the model's flag rate match the anomaly prevalence (contamination) or add task-progress-rate features; restrict the hard rule to operator-controlled P1 rules. Each would change TRD-specified behaviour, so each needs the owner's decision.
 Why: CLAUDE.md: fix genuine bugs once, then report honestly.
 Alternatives: Tune thresholds until the targets pass (forbidden).
+
+## D-052 — Background machines run in the world only
+Date: 2026-09-23 · Phase: 5 · Requirement(s): TRD §1.1, §8, F-FLT-03
+Context: The live site has the focus machine (Ravi's EXC001) plus background machines for the map, trucks and workers. Running a full `MachineRuntime` (all engines, estimation, anomaly, alerts, store) for every machine at 1 s ticks is not needed for any demo beat.
+Decision: Only the scenario's focus machine runs a `MachineRuntime`. Background machines are simulated in the world (position, state, trucks, workers) and appear on `/machines` and the map, but produce no engine events at the edge. Fleet-wide numbers come from the history replay and the fleet service.
+Why: Every PRD beat is about the cab of one machine; keeps the live loop fast (about 1,300× real time) and deterministic.
+Alternatives: A runtime per machine (slower, more events nobody sees in the cab demo).
+
+## D-053 — A lesson about the current pause is offered first
+Date: 2026-09-23 · Phase: 5 · Requirement(s): F-TRAIN-02, TRD §6.9
+Context: The recommender ranks lessons by the operator's recent history. During a pause, a history-ranked lesson can outrank one about what is happening right now (e.g. waiting for a truck, engine off before stepping out).
+Decision: When the offer happens during a pause with a known provisional reason, lessons whose triggers include that reason (and were not completed recently) are placed first; the history-ranked list follows without duplicates. Nothing is offered while working (unchanged).
+Why: PRD principle — the right help at the right moment; supports the truck-delay and step-out beats (CLAUDE Phase 12 DoD).
+Alternatives: Add a large weight to the scoring formula (hides the rule inside numbers).
+
+## D-054 — Estimate reasons are what-if effects on recognisable conditions
+Date: 2026-09-23 · Phase: 5 · Requirement(s): F-SHIFT-03, TRD §6.7
+Context: Using raw `pred_contrib` for every feature produced reasons operators cannot act on or recognise ("machine faster", "site slower", "time of day") and mixed up direction for categorical features: contributions are relative to the training average, not to a normal day.
+Decision: Only recognisable conditions are reasons (`reason_keys` trimmed: ground, rain, heat, night, operator skill/experience, quantity, truck supply). Where a natural reference exists (`reference_values`: dry ground, no rain, daytime, 30 °C, average operator), the effect is the p50 now minus the p50 with that condition at its reference. Ground reasons name today's ground (`reason.ground_wet_slower`, …). Quantity and truck supply keep the `pred_contrib` effect. Under one minute: no chip. The model and its evaluation are unchanged; this only affects the explanation.
+Why: Honest, understandable reasons ("Wet ground adds time: +15 min").
+Alternatives: SHAP values against a background set (heavier, same idea); keep all features (confusing chips).
+
+## D-055 — Demo PIN is the operator number
+Date: 2026-09-23 · Phase: 5 · Requirement(s): F-START-01, D-010
+Context: D-010 adds a PIN fallback to the QR badge, but PRD §3 excludes login systems, so there is no PIN store.
+Decision: The demo PIN is the numeric part of the operator ID (OP1001 → 1001). A wrong PIN returns 401 "That PIN didn't match." It is documented as a demo convenience, not security.
+Why: No login system (non-goal); easy to demonstrate; still exercises the fallback flow.
+Alternatives: PINs in config (adds a credential-looking file for no benefit).

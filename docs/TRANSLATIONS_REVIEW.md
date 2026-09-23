@@ -9,7 +9,7 @@ To approve a string, add it to `docs/translations-reviewed.json` under `hi` or `
 exact approved text, then run `pnpm i18n:review` again. If the text changes later, it returns
 to the review list.
 
-## Hindi (हिन्दी): 0 of 228 reviewed
+## Hindi (हिन्दी): 0 of 233 reviewed
 
 | Reviewed | Key | English | Hindi (हिन्दी) |
 |---|---|---|---|
@@ -77,8 +77,15 @@ to the review list.
 | **no** | `ui:insight.short_stops_high` | Short stops added up to {{value}}, your usual is {{usual}}. | छोटे ठहराव कुल {{value}} रहे, आम तौर पर {{usual}} रहते हैं। |
 | **no** | `ui:insight.cab_empty_engine_on` | Engine ran {{value}} with the cab empty. | केबिन खाली था और इंजन {{value}} चला। |
 | **no** | `ui:insight.rpm_high` | Engine speed averaged {{value}}, your usual is {{usual}}. | इंजन की औसत रफ़्तार {{value}} रही, आम तौर पर {{usual}} रहती है। |
-| **no** | `ui:reason.wet_ground_slower` | Wet ground adds time | गीली ज़मीन से समय बढ़ेगा |
-| **no** | `ui:reason.dry_ground_faster` | Firm ground saves time | पक्की ज़मीन से समय बचेगा |
+| **no** | `ui:insight.coach_short_stop` | A {{minutes}} min stop with the engine on used {{fuel_l}} L. Switching off saves fuel. | इंजन चालू रखकर {{minutes}} मिनट रुकने में {{fuel_l}} लीटर ईंधन गया। बंद करने से ईंधन बचता है। |
+| **no** | `ui:insight.reminder_cab_empty` | The engine ran {{minutes}} min with the cab empty. Switch off before you step out. | केबिन खाली था और इंजन {{minutes}} मिनट चला। उतरने से पहले इंजन बंद कीजिए। |
+| **no** | `ui:insight.truck_wait_not_you` | Waited {{minutes}} min for a truck. Logged as a site delay, not your idle time. | {{minutes}} मिनट ट्रक का इंतज़ार किया। यह साइट की देरी में गिना गया, आपके खाली समय में नहीं। |
+| **no** | `ui:insight.unusual_interval` | Something was different from your usual in the last 15 minutes. | पिछले 15 मिनट में कुछ आपके आम दिनों से अलग था। |
+| **no** | `ui:insight.idea_shutdown` | The engine ran {{minutes}} min with the cab empty today. Switching off before stepping out saves fuel and keeps the machine still. | आज केबिन खाली था और इंजन {{minutes}} मिनट चला। उतरने से पहले इंजन बंद करने से ईंधन बचता है और मशीन स्थिर रहती है। |
+| **no** | `ui:insight.idea_short_stops` | Short stops added up to {{minutes}} min today. For stops over 5 minutes, switching off saves fuel. | आज छोटे ठहराव कुल {{minutes}} मिनट रहे। 5 मिनट से लंबे ठहराव पर इंजन बंद करने से ईंधन बचता है। |
+| **no** | `ui:insight.good_task_done` | {{done}} of {{planned}} {{unit}} done. | {{planned}} में से {{done}} {{unit}} पूरे। |
+| **no** | `ui:insight.good_fuel_per_load` | Fuel per load {{value}} L, better than your usual {{usual}} L. | हर लोड पर ईंधन {{value}} लीटर, आपके आम {{usual}} लीटर से बेहतर। |
+| **no** | `ui:insight.good_seatbelt` | Seatbelt on the whole time you worked. | काम के पूरे समय बेल्ट लगी रही। |
 | **no** | `ui:reason.rain_slower` | Rain adds time | बारिश से समय बढ़ेगा |
 | **no** | `ui:reason.experience_slower` | Less practice on this task, allow more time | यह काम कम बार किया है, समय ज़्यादा लग सकता है |
 | **no** | `ui:reason.experience_faster` | Your experience saves time | आपके अनुभव से समय बचेगा |
@@ -87,17 +94,15 @@ to the review list.
 | **no** | `ui:reason.heat_slower` | Heat adds time | गर्मी से समय बढ़ेगा |
 | **no** | `ui:reason.cool_faster` | Cool weather saves time | ठंडे मौसम से समय बचेगा |
 | **no** | `ui:reason.night_slower` | Working in the dark adds time | अँधेरे में काम से समय बढ़ेगा |
-| **no** | `ui:reason.daylight_faster` | Daylight saves time | दिन की रोशनी से समय बचेगा |
 | **no** | `ui:reason.quantity_large` | Large quantity | मात्रा ज़्यादा है |
-| **no** | `ui:reason.quantity_small` | Small quantity | मात्रा कम है |
-| **no** | `ui:reason.task_type_slower` | This kind of task takes longer | इस तरह के काम में ज़्यादा समय लगता है |
-| **no** | `ui:reason.task_type_faster` | This kind of task is quicker | इस तरह का काम जल्दी होता है |
-| **no** | `ui:reason.machine_slower` | This machine is slower for this task | इस काम के लिए यह मशीन धीमी है |
-| **no** | `ui:reason.machine_faster` | This machine suits the task | यह मशीन इस काम के लिए सही है |
-| **no** | `ui:reason.site_slower` | Site conditions add time | साइट की हालत से समय बढ़ेगा |
-| **no** | `ui:reason.site_faster` | Site conditions save time | साइट की हालत से समय बचेगा |
-| **no** | `ui:reason.time_of_day_slower` | Time of day adds time | दिन के इस समय काम धीमा होता है |
-| **no** | `ui:reason.time_of_day_faster` | Good time of day for this task | इस काम के लिए यह अच्छा समय है |
+| **no** | `ui:reason.ground_dry_slower` | Ground conditions add time | ज़मीन की हालत से समय बढ़ेगा |
+| **no** | `ui:reason.ground_wet_slower` | Wet ground adds time | गीली ज़मीन से समय बढ़ेगा |
+| **no** | `ui:reason.ground_muddy_slower` | Muddy ground adds time | कीचड़ से समय बढ़ेगा |
+| **no** | `ui:reason.ground_rocky_slower` | Rocky ground adds time | पथरीली ज़मीन से समय बढ़ेगा |
+| **no** | `ui:reason.ground_frozen_slower` | Frozen ground adds time | जमी हुई ज़मीन से समय बढ़ेगा |
+| **no** | `ui:shift.break_scheduled` | Scheduled break | तय ब्रेक |
+| **no** | `ui:shift.break_heat` | Hot today: a water break now helps you finish strong | आज गर्मी है: अभी पानी का ब्रेक आगे के काम में मदद करेगा |
+| **no** | `ui:ask.not_indexed` | The manual is not loaded on this machine yet. | इस मशीन पर मैनुअल अभी लोड नहीं है। |
 | **no** | `checklist.yaml:items[tracks_tyres].text` | Tracks or tyres: no damage, no loose parts | ट्रैक या टायर: कोई टूट-फूट या ढीला पुर्ज़ा नहीं |
 | **no** | `checklist.yaml:items[leaks].text` | No oil, fuel or coolant leaks under the machine | मशीन के नीचे तेल, ईंधन या कूलेंट का रिसाव नहीं |
 | **no** | `checklist.yaml:items[lights_horn].text` | Lights, beacon and horn work | लाइटें, बीकन और हॉर्न काम कर रहे हैं |
@@ -242,7 +247,7 @@ to the review list.
 | **no** | `machine_profiles/excavator.yaml:display_name` | Excavator | एक्सकेवेटर |
 | **no** | `machine_profiles/wheel_loader.yaml:display_name` | Wheel loader | व्हील लोडर |
 
-## Tamil (தமிழ்): 0 of 228 reviewed
+## Tamil (தமிழ்): 0 of 233 reviewed
 
 | Reviewed | Key | English | Tamil (தமிழ்) |
 |---|---|---|---|
@@ -310,8 +315,15 @@ to the review list.
 | **no** | `ui:insight.short_stops_high` | Short stops added up to {{value}}, your usual is {{usual}}. | சிறு நிறுத்தங்கள் மொத்தம் {{value}}, வழக்கமாக {{usual}}. |
 | **no** | `ui:insight.cab_empty_engine_on` | Engine ran {{value}} with the cab empty. | கேபின் காலியாக இருந்தபோது இன்ஜின் {{value}} ஓடியது. |
 | **no** | `ui:insight.rpm_high` | Engine speed averaged {{value}}, your usual is {{usual}}. | இன்ஜின் சராசரி வேகம் {{value}}, வழக்கமாக {{usual}}. |
-| **no** | `ui:reason.wet_ground_slower` | Wet ground adds time | ஈரமான தரையால் நேரம் கூடும் |
-| **no** | `ui:reason.dry_ground_faster` | Firm ground saves time | உறுதியான தரையால் நேரம் மிச்சம் |
+| **no** | `ui:insight.coach_short_stop` | A {{minutes}} min stop with the engine on used {{fuel_l}} L. Switching off saves fuel. | இன்ஜின் ஓடியபடி {{minutes}} நிமிடம் நின்றதில் {{fuel_l}} லிட்டர் செலவானது. அணைத்தால் எரிபொருள் மிச்சம். |
+| **no** | `ui:insight.reminder_cab_empty` | The engine ran {{minutes}} min with the cab empty. Switch off before you step out. | கேபின் காலியாக இருந்தபோது இன்ஜின் {{minutes}} நிமிடம் ஓடியது. இறங்கும் முன் அணையுங்கள். |
+| **no** | `ui:insight.truck_wait_not_you` | Waited {{minutes}} min for a truck. Logged as a site delay, not your idle time. | லாரிக்காக {{minutes}} நிமிடம் காத்திருந்தீர்கள். இது தளத் தாமதமாகப் பதிவானது, உங்கள் சும்மா நேரமாக அல்ல. |
+| **no** | `ui:insight.unusual_interval` | Something was different from your usual in the last 15 minutes. | கடந்த 15 நிமிடத்தில் உங்கள் வழக்கத்திலிருந்து ஏதோ வேறுபட்டது. |
+| **no** | `ui:insight.idea_shutdown` | The engine ran {{minutes}} min with the cab empty today. Switching off before stepping out saves fuel and keeps the machine still. | இன்று கேபின் காலியாக இருந்தபோது இன்ஜின் {{minutes}} நிமிடம் ஓடியது. இறங்கும் முன் அணைத்தால் எரிபொருள் மிச்சம், இயந்திரமும் அசையாது. |
+| **no** | `ui:insight.idea_short_stops` | Short stops added up to {{minutes}} min today. For stops over 5 minutes, switching off saves fuel. | இன்று சிறு நிறுத்தங்கள் மொத்தம் {{minutes}} நிமிடம். 5 நிமிடத்துக்கு மேல் நின்றால் அணைத்தால் எரிபொருள் மிச்சம். |
+| **no** | `ui:insight.good_task_done` | {{done}} of {{planned}} {{unit}} done. | {{planned}}-ல் {{done}} {{unit}} முடிந்தது. |
+| **no** | `ui:insight.good_fuel_per_load` | Fuel per load {{value}} L, better than your usual {{usual}} L. | ஒவ்வொரு லோடுக்கும் எரிபொருள் {{value}} லிட்டர், வழக்கமான {{usual}} லிட்டரை விட நல்லது. |
+| **no** | `ui:insight.good_seatbelt` | Seatbelt on the whole time you worked. | வேலை செய்த முழு நேரமும் பெல்ட் போட்டிருந்தீர்கள். |
 | **no** | `ui:reason.rain_slower` | Rain adds time | மழையால் நேரம் கூடும் |
 | **no** | `ui:reason.experience_slower` | Less practice on this task, allow more time | இந்த வேலையில் பயிற்சி குறைவு, நேரம் அதிகம் ஆகலாம் |
 | **no** | `ui:reason.experience_faster` | Your experience saves time | உங்கள் அனுபவத்தால் நேரம் மிச்சம் |
@@ -320,17 +332,15 @@ to the review list.
 | **no** | `ui:reason.heat_slower` | Heat adds time | வெயிலால் நேரம் கூடும் |
 | **no** | `ui:reason.cool_faster` | Cool weather saves time | குளிர்ந்த வானிலையால் நேரம் மிச்சம் |
 | **no** | `ui:reason.night_slower` | Working in the dark adds time | இருட்டில் வேலை செய்வதால் நேரம் கூடும் |
-| **no** | `ui:reason.daylight_faster` | Daylight saves time | பகல் வெளிச்சத்தால் நேரம் மிச்சம் |
 | **no** | `ui:reason.quantity_large` | Large quantity | அளவு அதிகம் |
-| **no** | `ui:reason.quantity_small` | Small quantity | அளவு குறைவு |
-| **no** | `ui:reason.task_type_slower` | This kind of task takes longer | இந்த வகை வேலைக்கு அதிக நேரம் ஆகும் |
-| **no** | `ui:reason.task_type_faster` | This kind of task is quicker | இந்த வகை வேலை விரைவாக முடியும் |
-| **no** | `ui:reason.machine_slower` | This machine is slower for this task | இந்த வேலைக்கு இந்த இயந்திரம் மெதுவானது |
-| **no** | `ui:reason.machine_faster` | This machine suits the task | இந்த இயந்திரம் இந்த வேலைக்கு ஏற்றது |
-| **no** | `ui:reason.site_slower` | Site conditions add time | தள நிலைமையால் நேரம் கூடும் |
-| **no** | `ui:reason.site_faster` | Site conditions save time | தள நிலைமையால் நேரம் மிச்சம் |
-| **no** | `ui:reason.time_of_day_slower` | Time of day adds time | இந்த நேரத்தில் வேலை மெதுவாக நடக்கும் |
-| **no** | `ui:reason.time_of_day_faster` | Good time of day for this task | இந்த வேலைக்கு இது நல்ல நேரம் |
+| **no** | `ui:reason.ground_dry_slower` | Ground conditions add time | தரையின் நிலையால் நேரம் கூடும் |
+| **no** | `ui:reason.ground_wet_slower` | Wet ground adds time | ஈரமான தரையால் நேரம் கூடும் |
+| **no** | `ui:reason.ground_muddy_slower` | Muddy ground adds time | சேற்றால் நேரம் கூடும் |
+| **no** | `ui:reason.ground_rocky_slower` | Rocky ground adds time | பாறைத் தரையால் நேரம் கூடும் |
+| **no** | `ui:reason.ground_frozen_slower` | Frozen ground adds time | உறைந்த தரையால் நேரம் கூடும் |
+| **no** | `ui:shift.break_scheduled` | Scheduled break | திட்டமிட்ட இடைவேளை |
+| **no** | `ui:shift.break_heat` | Hot today: a water break now helps you finish strong | இன்று வெயில்: இப்போது தண்ணீர் இடைவேளை மீதி வேலைக்கு உதவும் |
+| **no** | `ui:ask.not_indexed` | The manual is not loaded on this machine yet. | இந்த இயந்திரத்தில் கையேடு இன்னும் ஏற்றப்படவில்லை. |
 | **no** | `checklist.yaml:items[tracks_tyres].text` | Tracks or tyres: no damage, no loose parts | டிராக் அல்லது டயர்: சேதம் இல்லை, தளர்ந்த பாகம் இல்லை |
 | **no** | `checklist.yaml:items[leaks].text` | No oil, fuel or coolant leaks under the machine | இயந்திரத்தின் கீழே எண்ணெய், எரிபொருள், கூலன்ட் கசிவு இல்லை |
 | **no** | `checklist.yaml:items[lights_horn].text` | Lights, beacon and horn work | விளக்குகள், சுழல் விளக்கு, ஹாரன் வேலை செய்கின்றன |
