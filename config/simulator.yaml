@@ -53,6 +53,7 @@ behaviour:                        # rates are per engine-on hour for a trait val
   break_engine_off_prob: 0.6
   break_seat_occupied_prob: 0.8   # when the engine stays on during a break
   slow_near_person_kmh: 1.5
+  slow_near_person_radius_factor: 1.5   # operators slow down once a person is within 1.5 × the caution distance
 
 warm_up:
   coolant_rise_c_per_min: 8.0
@@ -91,6 +92,8 @@ workers:
   approach_s: {min: 30, max: 90}
   start_distance_m: 18
   sensor_range_m: 30
+  keep_clear_m: 14                # wandering ground crew keep outside the widest caution ring (12 m × 1.25 at amber is 15 m; red can still catch them)
+  keep_clear_target_m: 20
 
 anomalies:
   fuel_abnormal_per_h: 0.012      # ≈ 0.5 % of 15-min intervals get a fuel episode

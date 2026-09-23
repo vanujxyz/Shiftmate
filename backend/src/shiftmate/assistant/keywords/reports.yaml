@@ -1,0 +1,33 @@
+# Offline report parser keywords (TRD §6.10). Case-insensitive substring match on the transcript.
+# Type is decided in this order: near_miss, incident, equipment_problem (so "almost hit" is a near
+# miss). Nothing matched → near_miss, and the operator confirms or edits (F-REP-03).
+type:
+  near_miss:
+    en: ["near miss", "nearly", "almost", "close call", "just missed", "narrowly"]
+    hi: ["बाल-बाल", "बाल बाल", "लगभग", "करीब-करीब", "बच गया", "बच गई", "बचे"]
+    ta: ["நூலிழை", "கிட்டத்தட்ட", "தப்பின", "தப்பினோம்", "நெருக்கமாக", "தப்பித்த"]
+  incident:
+    en: ["hit", "crash", "collided", "accident", "injured", "hurt", "fell", "damaged", "struck"]
+    hi: ["टकरा", "दुर्घटना", "चोट", "गिर गया", "गिर गई", "नुकसान", "घायल"]
+    ta: ["மோதி", "மோதிய", "விபத்து", "காயம்", "விழுந்த", "சேதம்", "அடிபட்ட"]
+  equipment_problem:
+    en: ["leak", "not working", "broken", "warning light", "noise", "smoke", "brake", "won't start", "overheat", "puncture", "flat tyre"]
+    hi: ["रिसाव", "लीक", "काम नहीं", "खराब", "ख़राब", "चेतावनी लाइट", "आवाज़", "धुआँ", "ब्रेक"]
+    ta: ["கசிவு", "வேலை செய்யவில்லை", "பழுது", "எச்சரிக்கை விளக்கு", "சத்தம்", "புகை", "பிரேக்"]
+severity:
+  high:
+    en: ["injured", "hurt", "blood", "bleeding", "hospital", "fire", "unconscious", "ambulance", "rollover", "tipped"]
+    hi: ["घायल", "खून", "अस्पताल", "आग", "बेहोश", "पलट"]
+    ta: ["காயம்", "ரத்தம்", "மருத்துவமனை", "தீ", "மயக்கம்", "கவிழ்ந்த"]
+  medium:
+    en: ["damage", "hit", "person", "worker", "people", "someone", "child", "almost", "nearly"]
+    hi: ["नुकसान", "टकरा", "आदमी", "मज़दूर", "कोई", "व्यक्ति", "लगभग", "बाल-बाल"]
+    ta: ["சேதம்", "மோதி", "ஆள்", "தொழிலாளி", "யாரோ", "நபர்", "கிட்டத்தட்ட", "நூலிழை"]
+people:
+  en: ["worker", "person", "man ", "woman", "someone", "helper", "spotter", "driver", "people", "child"]
+  hi: ["मज़दूर", "आदमी", "औरत", "कोई", "हेल्पर", "ड्राइवर", "लोग", "व्यक्ति", "बच्चा"]
+  ta: ["தொழிலாளி", "ஆள்", "பெண்", "யாரோ", "உதவியாளர்", "ஓட்டுநர்", "மக்கள்", "நபர்", "குழந்தை"]
+injury:
+  en: ["injured", "hurt", "blood", "bleeding", "hospital", "broke his", "broke her"]
+  hi: ["घायल", "चोट", "खून", "अस्पताल"]
+  ta: ["காயம்", "ரத்தம்", "அடிபட்ட", "மருத்துவமனை"]

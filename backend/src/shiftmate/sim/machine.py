@@ -364,7 +364,11 @@ class MachineAgent:
 
         # --- people nearby (geometric truth; the sensor sees it only on advanced machines) ---
         nearest = crowd.nearest((self.x, self.y), self.heading)
-        person_near = nearest is not None and nearest[0] <= profile.proximity_m.caution
+        # Operators notice people a little before the caution ring (they slow down early).
+        near_radius = (
+            profile.proximity_m.caution * self.sim.behaviour.slow_near_person_radius_factor
+        )
+        person_near = nearest is not None and nearest[0] <= near_radius
 
         # --- motion for this step ---
         speed_kmh = 0.0

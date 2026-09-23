@@ -2,6 +2,12 @@
 # Trigger vocabulary: idle reasons, safety rule ids, anomaly feature codes (config/anomaly.yaml) and
 # condition flags (HEAT, RAIN, NIGHT, WET_GROUND). Hindi and Tamil are listed for native review in
 # docs/TRANSLATIONS_REVIEW.md.
+recommender:                  # TRD §6.9
+  window_days: 7              # trigger counts from events in the last 7 days
+  max_recommendations: 3
+  exclude_completed_days: 3   # lessons completed in the last 3 days are not offered again
+  min_expected_pause_s: 90    # offer only when the pause is expected to last at least this long
+  offer_min_gap_min: 30       # at most one offer per 30 minutes
 lessons:
   - id: L-SHUTDOWN
     title: {en: "Shut down before you step out", hi: "उतरने से पहले इंजन बंद करें", ta: "இறங்கும் முன் இன்ஜினை அணையுங்கள்"}

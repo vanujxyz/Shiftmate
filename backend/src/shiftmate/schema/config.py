@@ -21,6 +21,7 @@ from shiftmate.schema.enums import (
     Priority,
     ProximityTier,
     QuantityUnit,
+    ReportType,
     RiskBand,
     SensorTier,
     ZoneType,
@@ -487,6 +488,7 @@ class IdleParams(Strict):
     truck_absent_min_fraction: float = Field(gt=0, le=1)
     provisional_update_s: float = Field(gt=0)
     truck_dependent_task_types: list[str]
+    dispatch_presence_timeout_min: float = Field(default=15, gt=0)
 
 
 class IdleRulesConfig(Strict):
@@ -630,7 +632,16 @@ class Lesson(Strict):
         return self
 
 
+class RecommenderParams(Strict):
+    window_days: int = Field(gt=0)
+    max_recommendations: int = Field(ge=1)
+    exclude_completed_days: int = Field(ge=0)
+    min_expected_pause_s: float = Field(ge=0)
+    offer_min_gap_min: float = Field(ge=0)
+
+
 class LessonsConfig(Strict):
+    recommender: RecommenderParams
     lessons: list[Lesson]
 
     def lesson(self, lesson_id: str) -> Lesson:
@@ -648,6 +659,22 @@ class ChecklistItem(Strict):
 
 class ChecklistConfig(Strict):
     items: list[ChecklistItem] = Field(min_length=6, max_length=8)
+
+
+# --- report parser keywords (§6.10) --------------------------------------------------------
+
+
+class ReportKeywords(Strict):
+    type: dict[ReportType, dict[Language, list[str]]]
+    severity: dict[Literal["high", "medium"], dict[Language, list[str]]]
+    people: dict[Language, list[str]]
+    injury: dict[Language, list[str]]
+
+    @model_validator(mode="after")
+    def _complete(self) -> ReportKeywords:
+        if set(self.type) != set(ReportType):
+            raise ValueError("report keywords must cover every report type")
+        return self
 
 
 # --- assistant intents (§10.5) -------------------------------------------------------------

@@ -100,6 +100,7 @@ class BehaviourParams(Strict):
     break_engine_off_prob: float = Field(ge=0, le=1)
     break_seat_occupied_prob: float = Field(ge=0, le=1)
     slow_near_person_kmh: float = Field(gt=0)
+    slow_near_person_radius_factor: float = Field(ge=1)
 
 
 class WarmUpParams(Strict):
@@ -144,6 +145,8 @@ class WorkerParams(Strict):
     approach_s: MinMax
     start_distance_m: float = Field(gt=0)
     sensor_range_m: float = Field(gt=0)
+    keep_clear_m: float = Field(gt=0)  # wandering workers stay at least this far from machines
+    keep_clear_target_m: float = Field(gt=0)
 
 
 class AnomalyParams(Strict):
