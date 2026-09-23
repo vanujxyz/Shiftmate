@@ -5,7 +5,7 @@ Last updated: 2026-09-23 (after milestone 8).
 ## Read first
 1. `CLAUDE.md` (process rules, golden rules). The repo uses **milestones** (see `docs/PROGRESS.md`), not the "phases" named in CLAUDE.md; PROGRESS.md maps each milestone to its phase.
 2. `docs/PROGRESS.md` — milestone list with checkboxes and status.
-3. `docs/DECISIONS.md` — D-001…D-067. Log new decisions in the same format (next number: **D-068**).
+3. `docs/DECISIONS.md` — D-001…D-070. Log new decisions in the same format (next number: **D-071**).
 4. `docs/reports/milestone-N.md` — one report per finished milestone (same format for new ones).
 5. `docs/TRD.md` §8 (scenarios), §9 (APIs, sync) for the current milestone.
 
@@ -27,8 +27,8 @@ Last updated: 2026-09-23 (after milestone 8).
 - New UI strings: add a YAML batch to `scripts/i18n/` (en/hi/ta; `null` removes a key), then run `uv run --directory backend python ../scripts/i18n_merge.py ../scripts/i18n/<file>.yaml` and `pnpm i18n:review`.
 
 ## Status
-- Milestones 1–9: **done and committed** (the last is `milestone 9: fleet service …`). Reports: `docs/reports/milestone-N.md`.
-- Next: **milestone 10 (design system in code)**. Decisions continue at **D-068**.
+- Milestones 1–10: **done and committed** (the last is `milestone 10: design system …`). Reports: `docs/reports/milestone-N.md`.
+- Next: **milestone 10 (design system in code)**. Decisions continue at **D-071**.
 - `shiftmate edge headless` plays Ravi's shift at 60× and prints it beat by beat; `tests/test_headless.py` asserts every beat and determinism, and `tests/test_fleet_scale.py` uploads the same shift into a real Fleet Service. Keep both green.
 - Fleet Service: `shiftmate fleet` (:8200). Its DuckDB file `data/fleet/fleet.duckdb` is seeded from history on first start (delete `data/fleet/` to reset). Only one process can open it at a time.
 

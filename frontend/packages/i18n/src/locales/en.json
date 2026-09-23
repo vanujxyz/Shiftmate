@@ -5,7 +5,8 @@
       "label": "Language",
       "en": "English",
       "hi": "हिन्दी",
-      "ta": "தமிழ்"
+      "ta": "தமிழ்",
+      "segment_label": "Narration language"
     },
     "scaffold": {
       "cab": "The cab app is being built. Nothing to do here yet.",
@@ -17,6 +18,218 @@
       "edge_down": "Machine gateway not reachable yet",
       "fleet_ok": "Connected to the fleet service",
       "fleet_down": "Fleet service not reachable yet"
+    },
+    "theme": {
+      "label": "Theme",
+      "day": "Day",
+      "sunlight": "Sunlight",
+      "night": "Night"
+    },
+    "rail": {
+      "clear": "Clear",
+      "one_near": "1 near",
+      "stop": "Stop",
+      "no_sensing": "No sensing",
+      "risk_low": "Risk low",
+      "risk_raised": "Risk raised",
+      "risk_high": "Risk high",
+      "belt_on": "Belt on",
+      "belt_off": "Belt off",
+      "prox_clear_label": "Proximity: clear",
+      "prox_caution_label": "One person, caution ring, right rear, 7 metres",
+      "risk_label": "Risk raised, mainly heat",
+      "queue_label": "One more alert waiting: warning"
+    },
+    "machine": {
+      "working": "Working",
+      "idle": "Idle",
+      "travel": "Moving",
+      "off": "Engine off"
+    },
+    "sync": {
+      "synced_at": "Synced at {{time}}",
+      "waiting": "{{count}} waiting",
+      "offline": "Offline"
+    },
+    "stale": "No update {{seconds}} s",
+    "nav": {
+      "label": "Sections",
+      "shift": "My shift",
+      "safety": "Safety",
+      "report": "Report",
+      "day": "My day",
+      "learn": "Learn"
+    },
+    "ptt": {
+      "idle": "Hold to talk",
+      "listening": "Listening…",
+      "transcribing": "Writing it down",
+      "thinking": "Checking the manual",
+      "tap_again": "Tap again to stop",
+      "helper": "Nothing is sent until you check it",
+      "error": "Didn't catch that. Try again, or use the buttons below."
+    },
+    "btn": {
+      "seen": "Seen",
+      "stopped": "I've stopped",
+      "later": "Later",
+      "done": "Done",
+      "ok": "OK",
+      "problem": "Problem",
+      "edit": "Edit",
+      "send_report": "Send report",
+      "send_offline": "Send when online",
+      "delete_draft": "Delete draft",
+      "start": "Start",
+      "not_now": "Not now",
+      "stop_drill": "STOP",
+      "again": "Again",
+      "play": "Play",
+      "pause": "Pause",
+      "read_again": "Read it again"
+    },
+    "toggle": {
+      "on": "ON",
+      "off": "OFF",
+      "read_aloud": "Read alerts aloud"
+    },
+    "p1": {
+      "queue_one": "1 more alert after this",
+      "person_command": "Stop.",
+      "person_where": "Behind you, left side · 2 m"
+    },
+    "p2": {
+      "person": "Person close on your left. Slow down."
+    },
+    "p3": {
+      "heat": "Water break due at 11:00."
+    },
+    "task": {
+      "now": "Now",
+      "low_confidence": "Estimated from limited data.",
+      "unknown": "Not enough data yet",
+      "likely_finish": "Likely finish",
+      "estimate_sr": "Likely 1 h 05 m, between 55 m and 1 h 25 m.",
+      "loads": "{{done}} of {{total}} loads",
+      "finish_note": "Rain after 14:00 could move this."
+    },
+    "pin": {
+      "progress": "{{entered}} of 4 digits",
+      "wrong": "That PIN didn't match. Try again.",
+      "backspace": "Delete last digit"
+    },
+    "badge": {
+      "title": "Scan your badge",
+      "hint": "Hold it up to the camera, or use your PIN"
+    },
+    "state": {
+      "empty_title": "No tasks yet",
+      "empty_text": "Your supervisor's plan usually arrives before 07:00.",
+      "offline_text": "Everything still works. {{count}} reports will send when the signal is back.",
+      "error_title": "This screen could not load",
+      "error_text": "Your work is still being recorded.",
+      "stale_title": "No update for 40 s",
+      "stale_text": "Showing the last values received. Look around before you swing."
+    },
+    "report": {
+      "type": "Type",
+      "where_when": "Where and when",
+      "what": "What happened",
+      "people": "People involved",
+      "offline_tag": "Will send when back online",
+      "check": "Check this",
+      "near_miss": "Near miss",
+      "sample_what": "A worker walked behind the bucket",
+      "people_one": "One person, not named"
+    },
+    "coach": {
+      "went_well": "Went well",
+      "idea": "One idea for tomorrow",
+      "went_well_text": "18 of 18 loads. Loading cycle 21 s, 2 s faster than last week.",
+      "idle_why_truck": "Trucks were late 10:10–10:40",
+      "idle_why_cab": "The engine ran 10 min with the cab empty. Switching off for stops over 5 min saves about 1 L.",
+      "idle_why_unknown": "The sensors could not tell why",
+      "split_summary": "Working 5 h 10 m, idle 2 h 45 m, engine off 35 m"
+    },
+    "learn": {
+      "recommended": "Recommended",
+      "done": "Done",
+      "full": "Full",
+      "minutes": "{{minutes}} min · narrated",
+      "paused_only": "Drills run only while the machine is parked.",
+      "lesson_sentence": "Park the truck so you swing less than 90°.",
+      "lesson_fact": "Each 90° less saves about 3 s a load.",
+      "progress": "Card {{card}} of {{cards}}",
+      "quiz_right": "Stop, then buckle up before you move again",
+      "quiz_wrong": "Keep working and buckle up at the break",
+      "quiz_why": "The belt only helps if it is on when something goes wrong.",
+      "slot_who": "Cat dealer training centre",
+      "slot_where": "Chennai, Ambattur",
+      "slot_day": "Saturday",
+      "skill": "Loading trucks",
+      "skill_next": "Next: park trucks on your swing side",
+      "skill_label": "Level {{level}} of {{levels}}",
+      "hazard": "Hazard"
+    },
+    "ask": {
+      "you_asked": "You asked: {{question}}",
+      "offline_tag": "Offline answer, from the manual saved on 18 Sep.",
+      "dont_know": "I don't know. It isn't in the manuals on this machine, and I won't guess.",
+      "sample_question": "How often do I check the seatbelt?",
+      "sample_answer": "Check it at every walkaround, before you start the engine.",
+      "sample_source": "Operator guide",
+      "sample_section": "Daily checks"
+    },
+    "cond": {
+      "heat": "Heat index",
+      "rain": "Rain",
+      "wet": "Ground",
+      "wet_value": "Wet",
+      "dark": "Dark",
+      "fatigue": "Time without a break",
+      "clock": "Shift time",
+      "risk_sentence": "Risk raised, mainly heat."
+    },
+    "legend": {
+      "title": "Legend",
+      "machine": "Machine",
+      "truck": "Truck",
+      "worker": "Person",
+      "zone": "Work zone",
+      "rings": "Swing rings"
+    },
+    "demo": {
+      "label": "Demo mode · simulated data"
+    },
+    "fleet": {
+      "active": "{{active}} of {{total}} machines active",
+      "bands": "{{green}} low, {{amber}} raised, {{red}} high",
+      "spark_last": "Now {{value}}/s",
+      "spark_peak": "Peak {{value}}/s",
+      "spark_label": "Records ingested per second, last 10 minutes"
+    },
+    "ks": {
+      "title": "Kitchen sink",
+      "intro": "Every ShiftMate component in the chosen theme and language.",
+      "glyphs": "Glyphs",
+      "reach": "Reach",
+      "rail": "Status rail and navigation",
+      "alerts": "Alerts",
+      "tasks": "Tasks and estimates",
+      "controls": "Controls",
+      "insights": "My day",
+      "learn": "Learn",
+      "voice": "Voice",
+      "states": "States",
+      "console": "Console",
+      "task_load": "Load trucks",
+      "task_trench": "Trench",
+      "task_backfill": "Backfill",
+      "where_load": "18 loads · 7 done",
+      "where_trench": "60 m",
+      "where_backfill": "120 m³",
+      "reason_wet": "Wet ground adds 20–40 min.",
+      "checklist_item": "Tracks and tyres"
     }
   },
   "alert": {

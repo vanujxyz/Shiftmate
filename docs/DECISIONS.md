@@ -470,3 +470,24 @@ Context: In the live demo only the focus machine runs a MachineRuntime (D-052), 
 Decision: Accept this: the summary lists every machine on the site roster, and those with no uploads today show as not started with no hours. Site views default to the latest day with data; the console can pick earlier days, which have all machines (history).
 Why: Honest — the fleet only shows what machines sent (golden rule 6: never fake data). Running runtimes for every background machine would slow the live demo.
 Alternatives: Fill today from the history generator (fake data for the live day).
+
+## D-068 — Tamil and Hindi status rail: wrap, and drop repeated details
+Date: 2026-09-23 · Phase: 7 · Requirement(s): DESIGN §3, §10 StatusRail, review row 11; PRD §5 principle 7
+Context: With a queued alert, items waiting and the machine segment, the Paused rail in Tamil was about 330 px wider than 1280 px; letting segments shrink made words overlap.
+Decision: In Tamil and Hindi, rail labels step down to 24 px and wrap to two lines within a 7 em budget (DESIGN §10 StatusRail). The machine's state word is dropped (its glyph carries the state as its accessible label). In Tamil only, the risk reason is dropped from the rail (as in the DESIGN review; the risk line carries it) and, as in the 1024 × 768 layout, the machine segment is hidden; the cab app shows the machine ID in the Paused content header instead. Segments never shrink below their content.
+Why: Wrap, don't truncate, never overlap; Tamil first (DESIGN principle 7); the same drops DESIGN already made for Tamil and for the smaller screen.
+Alternatives: Shrink Tamil below 24 px (forbidden); ellipsis (forbidden on safety strings).
+
+## D-069 — Components carry no words; a component layer next to the delivered tokens
+Date: 2026-09-23 · Phase: 7 · Requirement(s): golden rules 9 and 10, DESIGN "Using this system"
+Context: tokens.css is the delivered design file. Components need a few things tokens alone do not give (the Sunlight/Night weight shift, script line-heights, the hatch, idle patterns, motion, focus ring), and every visible word must exist in three languages.
+Decision: `packages/ui/src/ui.css` (imported after tokens.css) holds that layer; tokens.css is not edited. Components take every word through props, so apps translate with `t()` and the same component renders in en, hi and ta; the design vocabulary (rail words, navigation, push-to-talk states, buttons, states) is in the i18n files under `ui.*` (165 keys, DESIGN §11 lines used as written). Glyph strokes use `vector-effect: non-scaling-stroke`, so the stroke stays at `--sm-icon-stroke` at every size.
+Why: One source of visual truth; no hard-coded English in shared components; the design file stays diffable against its source.
+Alternatives: Default English labels in components (breaks golden rule 10 silently); editing tokens.css (loses the link to its generator).
+
+## D-070 — How "tokens only" and "no overflow" are enforced
+Date: 2026-09-23 · Phase: 7 · Requirement(s): CLAUDE.md Phase 7 DoD
+Context: The DoD asks for a lint rule or test banning hex and font literals outside packages/ui, contrast checks, and a kitchen sink without overflow in 3 themes × 3 languages.
+Decision: A vitest test scans `frontend/apps/**` for hex/rgb/hsl colours, font names, raw px values and shadow literals (a line may opt out only with a `token-exempt` comment, which review must see). Another recomputes every contrast pair of DESIGN §2 from tokens.css in all three themes against the DESIGN §12 targets (90 checks). A Playwright test opens `/_kitchen-sink` in the installed Chrome and, for each theme × language, fails if any element in a 1280 px cab frame sticks out of the frame or has content wider than its own box (the push-to-talk listening ring grows on purpose and is skipped). jsdom tests cover roles, labels and missing translations.
+Why: Automatic and repeatable; layout can only be judged in a real browser.
+Alternatives: A custom ESLint rule (more code for the same result); screenshots checked by eye only.
