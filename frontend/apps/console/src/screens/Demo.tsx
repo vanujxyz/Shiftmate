@@ -2,6 +2,8 @@
  * Demo control (TRD §11.3 /demo, §8 scenarios; DESIGN §10 DemoControlBar): load a scenario,
  * play or pause, change speed, jump to a story beat, take the site's internet away and back,
  * and turn the cab's captions on. Beat captions come from the scenario in the chosen language.
+ * Reset demo returns everything to the start of the story (records cleared, 1×, captions off).
+ * The fleet tour's scale beat points to the measured 10,000-machine run on the Fleet page.
  * The removed demo buttons (night shift, send a truck, voice note) stay removed (owner decision).
  */
 import type { DemoState } from "@shiftmate/contracts";
@@ -9,6 +11,7 @@ import { Button, SegmentedControl, SystemState } from "@shiftmate/ui";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 
 import { edge } from "../api";
 
@@ -16,6 +19,7 @@ const SPEEDS = [1, 5, 15, 30, 60];
 
 export function Demo() {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const state = useQuery({ queryKey: ["demo-state"], queryFn: edge.demoState, retry: false, refetchInterval: 1000 });
   const scenarios = useQuery({ queryKey: ["scenarios"], queryFn: edge.scenarios, retry: false });
@@ -57,6 +61,9 @@ export function Demo() {
               {s.name === d.scenario ? `${t("ui.dm.reload")}: ${s.title[lang] ?? s.title.en}` : `${t("ui.dm.load")}: ${s.title[lang] ?? s.title.en}`}
             </Button>
           ))}
+          <Button size="console" variant="quiet" disabled={busy} onClick={() => void act(edge.reset)}>
+            {t("ui.dm.reset")}
+          </Button>
         </div>
         {d.scenario ? (
           <>
@@ -103,6 +110,14 @@ export function Demo() {
               />
             </div>
             <p className="text-con-body">{t("ui.dm.signed_in", { who: d.signed_in ?? t("ui.dm.nobody") })}</p>
+            {d.beats.some((b) => b.action === "scale_demo" && b.done) && (
+              <div className="sm-rule flex flex-wrap items-center gap-4 bg-surface-sunk p-3">
+                <p className="min-w-0 flex-1 text-con-body">{t("ui.dm.scale_note")}</p>
+                <Button size="console" variant="secondary" onClick={() => void navigate("/fleet")}>
+                  {t("ui.dm.scale_open")}
+                </Button>
+              </div>
+            )}
             {d.waiting_for && (
               <p className="text-con-heading">
                 {t("ui.dm.waiting", { beat: caption(d.beats.find((b) => b.id === d.waiting_for)?.caption ?? null) || d.waiting_for })}

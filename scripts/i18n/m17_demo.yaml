@@ -1,0 +1,4 @@
+# Milestone 17 strings: demo reset and the fleet tour's scale beat.
+ui.dm.reset: {en: "Reset demo", hi: "डेमो रीसेट करें", ta: "டெமோவை மீட்டமை"}
+ui.dm.scale_note: {en: "The 10,000-machine run was measured with shiftmate sim scale. Its numbers are on the Fleet page.", hi: "10,000 मशीनों का रन shiftmate sim scale से मापा गया। उसके आँकड़े फ़्लीट पेज पर हैं।", ta: "10,000 இயந்திர ஓட்டம் shiftmate sim scale மூலம் அளக்கப்பட்டது. அதன் எண்கள் ஃப்ளீட் பக்கத்தில் உள்ளன."}
+ui.dm.scale_open: {en: "Open the scale results", hi: "स्केल के नतीजे खोलें", ta: "அளவு முடிவுகளைத் திற"}

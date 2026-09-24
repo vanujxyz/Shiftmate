@@ -58,12 +58,18 @@ class WeatherStep(BaseModel):
     ground: str | None = None
 
 
+MAX_CATCH_UP_S = 1.0  # wall seconds the clock may make up at once
+
+
 class Beat(BaseModel):
     id: str
     at: time
     action: str
     params: dict[str, Any] = {}
     caption: dict[str, str] | None = None
+    # play speed from this beat on (a live P1 lasts seconds: at 30× the audience would miss it);
+    # the presenter can speed up again from the console
+    speed: float | None = Field(default=None, gt=0)
 
 
 class Scenario(BaseModel):
@@ -333,6 +339,7 @@ class ScenarioPlayer:
         self.playing = False
         self.speed = 1.0
         self.captions = False
+        self.beat_speeds = True  # beats may set the play speed (headless runs keep their own)
         self.online = True
         self.waiting_for: str | None = None
         self.fired: set[str] = set()
@@ -382,11 +389,15 @@ class ScenarioPlayer:
         """Run up to `seconds` world seconds; stops early at an await beat. Returns seconds run."""
         assert self.site and self.scenario
         done = 0
+        speed = self.speed
         for _ in range(seconds):
             if self.waiting_for and not self._wait_satisfied(auto):
                 break
             self._fire_due_beats(auto)
             if self.waiting_for and not self._wait_satisfied(auto):
+                break
+            if self.speed != speed:  # a beat set a new speed: the rest of this batch waits
+                self._carry = 0.0
                 break
             self._apply_weather_script()
             self.site.step(wall)
@@ -398,7 +409,8 @@ class ScenarioPlayer:
         if not self.playing or self.site is None:
             return 0
         self._check_camera_fallback(wall)
-        self._carry += self.speed * wall_dt
+        # a long gap (a seek or load blocking the loop) is not caught up in one jump
+        self._carry += self.speed * min(wall_dt, MAX_CATCH_UP_S)
         n = int(self._carry)
         self._carry -= n
         return self.advance(n, wall) if n else 0
@@ -454,6 +466,8 @@ class ScenarioPlayer:
         p = beat.params
         if beat.caption:
             self.emit("scenario_caption", {"beat": beat.id, "caption": beat.caption})
+        if beat.speed is not None and not auto and self.beat_speeds:
+            self.speed = beat.speed
         if beat.action == "await_operator_sign_in":
             if not site.runtime.operator_id:
                 self.waiting_for = beat.id

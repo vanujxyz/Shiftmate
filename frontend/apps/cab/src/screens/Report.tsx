@@ -12,7 +12,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import type { TFunction } from "i18next";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 import { api, EdgeError } from "../api";
 import { useLive } from "../live/store";
@@ -120,6 +120,8 @@ function RecentReports({ pending }: { pending: PendingReport[] }) {
   );
 }
 
+const DONE_SHOWN_MS = 3000;
+
 export function Report() {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
@@ -158,6 +160,7 @@ export function Report() {
 
   // a report spoken through push-to-talk (F-REP-01): the words become the draft to check
   const location = useLocation();
+  const navigate = useNavigate();
   const spoken = (location.state as { transcript?: string } | null)?.transcript;
   const handled = useRef<string | null>(null);
   const fromSpeech = async (transcript: string) => {
@@ -233,6 +236,8 @@ export function Report() {
       void clearDraft();
       setMessage(t(sent.queued ? "ui.report.queued" : "ui.report.sent"));
       setStep("done");
+      // a report spoken while working: back to the task line once it has been confirmed
+      if (spoken) window.setTimeout(() => void navigate("/", { replace: true }), DONE_SHOWN_MS);
       void queryClient.invalidateQueries({ queryKey: ["reports"] });
       void pending.refetch();
     } catch {

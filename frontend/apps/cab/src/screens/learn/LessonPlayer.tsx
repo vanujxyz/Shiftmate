@@ -72,6 +72,9 @@ function CardsAndQuiz({ lesson }: { lesson: Lesson }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- once per card shown
   }, [phase, card, playing]);
 
+  // leaving the lesson (or the machine starting to work, which hides it) stops the narration
+  useEffect(() => () => window.speechSynthesis?.cancel(), []);
+
   const right = quiz.filter((q, i) => chosen[i] === q.answer).length;
 
   const save = async () => {

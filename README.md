@@ -2,7 +2,9 @@
 
 An operator-first, in-cab companion for Caterpillar machines, built for a Caterpillar hiring hackathon ("Smart Operator Assistant for CAT machinery"). It looks out for the operator; it does not watch them.
 
-> **Status:** under construction. See [docs/PROGRESS.md](docs/PROGRESS.md) for what is built so far.
+> **Status:** working prototype. See [docs/PROGRESS.md](docs/PROGRESS.md) for the build log and [docs/EVAL.md](docs/EVAL.md) for measured results.
+
+![ShiftMate architecture: machine side (simulator, edge gateway, cab app) and fleet side (fleet service, console)](docs/architecture.svg)
 
 > Sample manual content written for this prototype. A production system would use official Cat Operation & Maintenance Manuals. "Cat" is used only descriptively (for example "Cat 320"); no logos or trade dress.
 
@@ -89,4 +91,43 @@ pnpm i18n:review   # rewrite docs/TRANSLATIONS_REVIEW.md
 - **Speech needs real internet.** Chrome's speech recognition sends audio to Google, so voice input needs a working internet connection at the venue. This is separate from the demo's simulated network toggle, which only cuts the edge gateway off from the fleet service and the LLM. Every voice action also has a button.
 - For spoken alerts in Tamil and Hindi, install the Windows Tamil and Hindi speech packs (Settings → Time & language → Language & region → add the language → include speech).
 
-Demo instructions are completed in milestone 17.
+## First run: data and models
+
+A clean clone has no simulated history or trained models. Build them once (about 10–20 minutes on a laptop; the multilingual embedder, about 470 MB, downloads on the first run):
+
+```powershell
+pnpm setup:data
+```
+
+This generates 42 days of simulated fleet history, trains the anomaly and estimation models, indexes the manuals for Ask Cat and writes `docs/EVAL.md`.
+
+## Running the demo
+
+1. `pnpm dev:all`, then open the **console** at http://localhost:5174 and the **cab** at http://localhost:5173 (Chrome, ideally a 1280 × 800 window or a tablet).
+2. Console → **Demo control** → **Load: Ravi's shift**. The cab shows *Start your shift*.
+3. On the cab: choose **தமிழ்** (or English), then scan the badge or tap **Use PIN** and enter **1001** (Ravi Kumar). Answer the walkaround (**All OK**) and tap **Start work**.
+4. Console: turn **Captions on the cab** on if the audience should read each story beat, pick a speed (**30×** is a good pace) and press **Play**.
+5. The story plays by itself; **Go here** jumps to any beat:
+
+| Time | Beat | What to show |
+|---|---|---|
+| 07:02 | Cold start | Warm-up is classified as a reason, not idle time |
+| 08:10 | Truck delay | Waiting for trucks is a site issue, not the operator's; a short lesson is offered during the pause |
+| 09:30 | Worker in the swing zone | Caution → danger → **P1 takeover**; tap **I've stopped**. The story slows to 1× so the P1 can be seen; speed up again from the console |
+| 10:20 | Seatbelt off while working | **P1** again (also slowed to 1×) |
+| 10:30–11:00 | Skipped break, heat | Heat and fatigue warnings, risk band raised |
+| 11:40 | Engine left running | **P2** banner, then an idle segment with a lesson suggestion |
+| 12:10 | Near miss | The story waits: hold the push-to-talk disc and describe it, check the draft, **Send report** (Play in the console skips the wait) |
+| 13:00–13:08 | Site loses internet | The rail shows *offline*; reports queue, then sync when it returns |
+| 14:00 | End of shift | The cab opens Ravi's private **My Day** |
+
+6. **Fleet tour:** Console → Demo control → **Load: Fleet tour** shows a 2013 basic-sensor wheel loader (fewer features, lower confidence), and its scale beat opens the measured 10,000-machine run on the **Fleet** page.
+7. **Reset demo** (console) returns everything to the start: records cleared, paused at 1×, captions off, internet on.
+
+Other things worth showing: **Ask Cat** (push-to-talk, a question in Tamil), **Learn** (a narrated lesson, the hazard drill: tap or say "stop"), the **Safety** screen's rear camera (needs a webcam), and the console's **Evaluation** page.
+
+## Troubleshooting
+
+- **Windows "An Application Control policy has blocked this file"**: Smart App Control can block the compiled parts of Python packages (pandas, scikit-learn) so the gateway fails to start. Turn it off in Windows Security → App & browser control → Smart App Control, or run on a machine without it.
+- **Nothing on the cab after loading a scenario**: the cab signs out when the world is replaced; sign in again.
+- **Voice does nothing**: Chrome's speech recognition needs real internet and microphone permission; every voice action also has a button.

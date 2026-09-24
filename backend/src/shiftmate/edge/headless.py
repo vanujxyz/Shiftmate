@@ -155,6 +155,7 @@ async def run_headless(
         try:
             feeds.pump(wall)  # first pump: snapshots to both channels
             player.speed = speed
+            player.beat_speeds = False  # a headless run keeps its speed through every beat
             player.playing = True
             while True:
                 wall += WALL_STEP_S
