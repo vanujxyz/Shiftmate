@@ -11,6 +11,7 @@ import type {
   DemoState,
   HealthResponse,
   InsightsResponse,
+  IntentResponse,
   Language,
   MachineInfo,
   ReportParseResponse,
@@ -75,6 +76,8 @@ export const api = {
   saveReport: (body: ReportSaveRequest) => post<SavedReport>("/reports", body),
   reports: (operatorId: string) =>
     call<SavedReport[]>(`/reports?operator_id=${encodeURIComponent(operatorId)}`),
+  intent: (utterance: string, language: Language) =>
+    post<IntentResponse>("/assistant/intent", { utterance, language }),
   ask: (question: string, language: Language) =>
     post<AskResponse>("/assistant/ask", { question, language }),
   insights: (operatorId: string, range: "shift" | "week") =>

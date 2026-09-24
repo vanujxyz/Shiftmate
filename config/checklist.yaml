@@ -22,3 +22,9 @@ items:
   - id: area_clear
     illustration: check-area
     text: {en: "Area around the machine is clear of people", hi: "मशीन के आसपास कोई व्यक्ति नहीं है", ta: "இயந்திரத்தைச் சுற்றி யாரும் இல்லை"}
+# Answering by voice (F-START-04): the words that answer the current item, in each language.
+# "all OK" answers every remaining item OK after they are read back. Longer phrases win.
+voice:
+  ok: {en: ["ok", "okay", "done", "fine", "good", "yes"], hi: ["ठीक", "सही", "हो गया", "हाँ"], ta: ["சரி", "ஆச்சு", "முடிந்தது", "ஆம்"]}
+  problem: {en: ["problem", "issue", "broken", "fault", "not ok"], hi: ["समस्या", "ख़राब", "दिक्कत", "गड़बड़"], ta: ["பிரச்சினை", "கோளாறு", "பழுது", "சரியில்லை"]}
+  all_ok: {en: ["all ok", "all okay", "all good", "everything ok", "everything is ok"], hi: ["सब ठीक", "सब सही"], ta: ["எல்லாம் சரி", "அனைத்தும் சரி"]}

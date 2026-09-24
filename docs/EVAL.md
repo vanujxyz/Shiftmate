@@ -166,6 +166,12 @@ Citation accuracy counts a refusal as a miss. Targets (TRD §12): citation accur
 Offline answers return the best-matching manual passage as written, and only when it scores at least 0.55 (TRD §10.4), so offline mode refuses more often: it prefers saying it does not know to guessing.
 <!-- END assistant -->
 
+<!-- BEGIN camera -->
+## Camera proximity (F-SAFE-03)
+
+Not measured yet. The protocol needs a webcam and a helper: open Safety on the cab, turn the camera on, calibrate at 3 m, then use **Test accuracy** at 2, 3, 4, 5 and 6 m (20 readings each). The readings go to the gateway and `shiftmate eval camera` writes this section. Target: mean absolute error ≤ 1.0 m.
+<!-- END camera -->
+
 <!-- BEGIN scale -->
 ## Scale (F-FLT-07)
 

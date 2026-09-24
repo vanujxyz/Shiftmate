@@ -72,7 +72,10 @@ export function BadgeScanner({
         }
         frame = requestAnimationFrame(scan);
       })
-      .catch(() => handlers.current.onNoCamera());
+      .catch(() => {
+        // a refusal that arrives after the scanner has gone (PIN chosen, signed in) changes nothing
+        if (!stopped) handlers.current.onNoCamera();
+      });
 
     return () => {
       stopped = true;

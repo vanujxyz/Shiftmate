@@ -315,6 +315,18 @@ class CameraReading(BaseModel):
     ts: AwareDatetime | None = None
 
 
+class CameraProtocolReading(BaseModel):
+    true_m: float = Field(gt=0)
+    estimate_m: float = Field(gt=0)
+
+
+class CameraProtocolRun(BaseModel):
+    """POST /eval/camera-protocol: one session of the TRD §12 camera protocol from the cab."""
+
+    calibrated: bool
+    readings: list[CameraProtocolReading] = Field(min_length=1)
+
+
 class SyncStatus(BaseModel):
     online: bool
     outbox_size: int
@@ -469,9 +481,27 @@ class ChecklistItemView(BaseModel):
     illustration: str
 
 
+class CameraSettings(BaseModel):
+    """What the cab's in-browser person detector needs (config/edge.yaml camera.detect)."""
+
+    fps: float
+    score_min: float
+    person_height_m: float
+    calibration_m: float
+    ema_alpha: float
+    post_hz: float
+    fov_deg: float
+    facing_deg: float
+    protocol_distances_m: list[float]
+    protocol_readings: int
+
+
 class CabConfig(BaseModel):
     alerts: AlertTimings
     checklist: list[ChecklistItemView]
+    # answer words for the checklist by voice: {"ok"|"problem"|"all_ok": {language: [words]}}
+    checklist_voice: dict[str, dict[str, list[str]]]
+    camera: CameraSettings
     languages: list[Language]
 
 

@@ -84,13 +84,4 @@ describe("Ask Cat", () => {
     expect(await screen.findByText(/I can't help with switching off or getting round a safety system/)).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /Sources/ })).not.toBeInTheDocument();
   });
-
-  it("the push-to-talk disc opens Ask Cat", async () => {
-    fakeEdge(base);
-    paused();
-    renderAt(<App />, "/");
-    const disc = await screen.findByRole("button", { name: "Hold to talk" });
-    fireEvent.pointerUp(disc);
-    expect(await screen.findByText("Ask about the machine and working safely. Answers come only from the manuals on this machine.")).toBeInTheDocument();
-  });
 });

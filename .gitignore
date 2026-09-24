@@ -1,6 +1,8 @@
 # Generated data and trained models (rebuilt by `pnpm setup:data`)
 data/
 models/
+# the cab vendors its person-detector model (D-092) so a clean clone works offline
+!frontend/apps/cab/public/models/
 
 # Secrets
 .env

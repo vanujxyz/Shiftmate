@@ -333,6 +333,10 @@ def test_cab_config(client) -> None:
     assert c["alerts"]["paused_idle_seconds"] == 30
     assert len(c["checklist"]) == 7 and set(c["checklist"][0]["text"]) == {"en", "hi", "ta"}
     assert c["languages"] == ["en", "hi", "ta"]
+    assert (
+        "சரி" in c["checklist_voice"]["ok"]["ta"]
+        and "all ok" in c["checklist_voice"]["all_ok"]["en"]
+    )
 
 
 def test_site_layout_and_scenarios(client) -> None:

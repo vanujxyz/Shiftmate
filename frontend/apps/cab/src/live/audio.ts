@@ -6,12 +6,14 @@
  *   critical (P1): three rising pulses 1400 → 1800 → 2400 Hz, 120 ms each, 60 ms apart
  *   urgent (P2):   two level pulses at 1600 Hz, 150 ms each, 100 ms apart
  *   confirm:       a falling pair 2400 → 1400 Hz, 150 ms each (after a P1 is acknowledged)
+ *   listen_tick:   one short 880 Hz tick when push-to-talk starts listening
+ *   error_tick:    a low double tick (440 Hz) when speech was not understood
  * Speech uses the operator's language (en-IN, hi-IN, ta-IN); if the tablet has no voice for it,
  * the English line is spoken instead and the words stay on screen.
  */
 type Pulse = { hz: number; ms: number; gapMs: number };
 
-const PATTERNS: Record<"critical_tone" | "urgent_tone" | "ack_confirm", Pulse[]> = {
+const PATTERNS: Record<"critical_tone" | "urgent_tone" | "ack_confirm" | "listen_tick" | "error_tick", Pulse[]> = {
   critical_tone: [
     { hz: 1400, ms: 120, gapMs: 60 },
     { hz: 1800, ms: 120, gapMs: 60 },
@@ -25,7 +27,21 @@ const PATTERNS: Record<"critical_tone" | "urgent_tone" | "ack_confirm", Pulse[]>
     { hz: 2400, ms: 150, gapMs: 0 },
     { hz: 1400, ms: 150, gapMs: 0 },
   ],
+  listen_tick: [{ hz: 880, ms: 60, gapMs: 0 }],
+  error_tick: [
+    { hz: 440, ms: 70, gapMs: 70 },
+    { hz: 440, ms: 70, gapMs: 0 },
+  ],
 };
+
+let lastSpoken: { text: string; language: string; english: string } | null = null;
+
+/** The last line said aloud, for "repeat" (F-ASK-04). */
+export function repeatLast(): boolean {
+  if (!lastSpoken) return false;
+  speak(lastSpoken.text, lastSpoken.language, lastSpoken.english);
+  return true;
+}
 
 const SPEECH_LANG: Record<string, string> = { en: "en-IN", hi: "hi-IN", ta: "ta-IN" };
 
@@ -53,6 +69,7 @@ export function playTone(name: keyof typeof PATTERNS): void {
 
 /** Speak `text` in `language`; fall back to `english` if there is no voice for the language. */
 export function speak(text: string, language: string, english: string): void {
+  lastSpoken = { text, language, english };
   const synth = window.speechSynthesis;
   if (!synth) return;
   const want = SPEECH_LANG[language] ?? "en-IN";

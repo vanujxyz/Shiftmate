@@ -1,6 +1,6 @@
 # ShiftMate — Build progress
 
-**Next step:** Milestone 15 (Voice and camera) in progress.
+**Next step:** Milestone 16 (Training hub) in progress.
 
 **Autonomy note (2026-09-23):** the user authorised continuing through all milestones without waiting for approval, and approved all needed downloads. Each milestone is still tested, committed, and reported in `docs/reports/milestone-N.md`.
 
@@ -176,12 +176,12 @@ Goal: a multilingual assistant answering only from the team-written knowledge ba
 Requirements: F-ASK-01…06, F-REP-01 (online).
 Downloads (ask first): `google-genai` SDK, sentence-transformers model (~470 MB). LLM: Gemini via `assistant/llm.py` with offline fallback on missing key / 429 / timeout; eval paces calls and caches responses (D-021).
 
-### Milestone 15 — Voice and camera (Phase 11) · Status: not started
+### Milestone 15 — Voice and camera (Phase 11) · Status: done
 Goal: push-to-talk in three languages, spoken alerts, and live webcam proximity.
-- [ ] 1. Push-to-talk + transcript sheet (en-IN / hi-IN / ta-IN); voice intents; voice report flow (no "call supervisor" intent, D-009)
-- [ ] 2. Spoken P1/P2 alerts with tones
-- [ ] 3. Camera proximity panel: MediaPipe person detection, calibration, smoothing, posting
-- [ ] 4. `worker_near` beat uses the camera when active; camera protocol results in EVAL.md
+- [x] 1. Push-to-talk + transcript sheet (en-IN / hi-IN / ta-IN); voice intents; voice report flow (no "call supervisor" intent, D-009)
+- [x] 2. Spoken P1/P2 alerts with tones
+- [x] 3. Camera proximity panel: MediaPipe person detection, calibration, smoothing, posting
+- [x] 4. `worker_near` beat uses the camera when active; camera protocol results in EVAL.md
 Requirements: F-SAFE-03, 09, F-ASK-01, 04, F-REP-01, F-START-04 (voice).
 Downloads: MediaPipe `efficientdet_lite0` model (~7 MB, vendored). You will need: a webcam and a helper to walk towards it.
 

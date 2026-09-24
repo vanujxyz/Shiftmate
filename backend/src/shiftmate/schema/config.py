@@ -530,10 +530,24 @@ class FeedsConfig(Strict):
     estimate_update_sim_s: int = Field(gt=0)
 
 
+class CameraDetectConfig(Strict):
+    fps: float = Field(gt=0, le=30)
+    score_min: float = Field(ge=0, le=1)
+    person_height_m: float = Field(gt=0)
+    calibration_m: float = Field(gt=0)
+    ema_alpha: float = Field(gt=0, le=1)
+    post_hz: float = Field(gt=0, le=10)
+    fov_deg: float = Field(gt=0, lt=180)
+    facing_deg: float = Field(ge=0, lt=360)
+
+
 class CameraConfig(Strict):
     fresh_s: float = Field(gt=0)
     active_s: float = Field(gt=0)
     wait_s: float = Field(ge=0)
+    detect: CameraDetectConfig
+    protocol_distances_m: list[float] = Field(min_length=1)
+    protocol_readings: int = Field(gt=0)
 
 
 class SyncConfig(Strict):
@@ -758,8 +772,23 @@ class ChecklistItem(Strict):
     illustration: str = Field(pattern=r"^[a-z0-9-]+$")
 
 
+class ChecklistVoice(Strict):
+    ok: dict[Language, list[str]]
+    problem: dict[Language, list[str]]
+    all_ok: dict[Language, list[str]]
+
+    @model_validator(mode="after")
+    def _complete(self) -> ChecklistVoice:
+        for name in ("ok", "problem", "all_ok"):
+            words = getattr(self, name)
+            if set(words) != set(Language) or any(not v for v in words.values()):
+                raise ValueError(f"checklist voice words '{name}' are needed in en, hi and ta")
+        return self
+
+
 class ChecklistConfig(Strict):
     items: list[ChecklistItem] = Field(min_length=6, max_length=8)
+    voice: ChecklistVoice
 
 
 # --- report parser keywords (§6.10) --------------------------------------------------------

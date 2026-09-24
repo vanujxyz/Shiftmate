@@ -354,6 +354,12 @@ def _run_eval(which: list[str]) -> None:
             typer.echo(
                 f"estimation: median error {t['median_ape']:.3f}, coverage {t['coverage']:.3f}"
             )
+        elif name == "camera":
+            from shiftmate.edge.app import camera_protocol_path
+            from shiftmate.eval.camera import evaluate_camera
+
+            metrics, md = evaluate_camera(camera_protocol_path(get_settings()))
+            typer.echo(f"camera: {metrics}")
         elif name == "assistant":
             from shiftmate.assistant.provider import llm_from_settings
             from shiftmate.eval.assistant import evaluate_assistant
@@ -380,7 +386,7 @@ def _run_eval(which: list[str]) -> None:
 @eval_app.command("all")
 def eval_all() -> None:
     """Run every evaluation and rewrite docs/EVAL.md."""
-    _run_eval(["idle", "anomaly", "estimation", "assistant"])
+    _run_eval(["idle", "anomaly", "estimation", "assistant", "camera"])
 
 
 @eval_app.command("idle")
@@ -399,6 +405,12 @@ def eval_anomaly() -> None:
 def eval_estimation() -> None:
     """Task time estimation error and range coverage."""
     _run_eval(["estimation"])
+
+
+@eval_app.command("camera")
+def eval_camera() -> None:
+    """Webcam distance accuracy from the recorded protocol sessions (TRD §12)."""
+    _run_eval(["camera"])
 
 
 @eval_app.command("assistant")
