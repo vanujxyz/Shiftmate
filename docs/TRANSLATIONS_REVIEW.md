@@ -9,7 +9,7 @@ To approve a string, add it to `docs/translations-reviewed.json` under `hi` or `
 exact approved text, then run `pnpm i18n:review` again. If the text changes later, it returns
 to the review list.
 
-## Hindi (हिन्दी): 0 of 786 reviewed
+## Hindi (हिन्दी): 0 of 861 reviewed
 
 | Reviewed | Key | English | Hindi (हिन्दी) |
 |---|---|---|---|
@@ -171,6 +171,81 @@ to the review list.
 | **no** | `ui:ui.learn.skill_next` | Next: park trucks on your swing side | अगला: ट्रक अपनी घुमाव वाली तरफ़ लगवाएँ |
 | **no** | `ui:ui.learn.skill_label` | Level {{level}} of {{levels}} | {{levels}} में से स्तर {{level}} |
 | **no** | `ui:ui.learn.hazard` | Hazard | ख़तरा |
+| **no** | `ui:ui.learn.title` | Learn | सीखें |
+| **no** | `ui:ui.learn.intro` | Short lessons for pauses, one to three minutes each. | रुकने के समय के लिए छोटे पाठ, हर एक एक से तीन मिनट का। |
+| **no** | `ui:ui.learn.progress_button` | My progress | मेरी प्रगति |
+| **no** | `ui:ui.learn.book_button` | Book an instructor | प्रशिक्षक बुक करें |
+| **no** | `ui:ui.learn.none_suggested` | No suggestions right now. Pick any lesson below. | अभी कोई सुझाव नहीं। नीचे से कोई भी पाठ चुनें। |
+| **no** | `ui:ui.learn.all` | All lessons | सभी पाठ |
+| **no** | `ui:ui.learn.load_failed` | The lessons could not be loaded. Try again in a moment. | पाठ लोड नहीं हो सके। थोड़ी देर में फिर कोशिश करें। |
+| **no** | `ui:ui.learn.new` | New | नया |
+| **no** | `ui:ui.learn.why` | Suggested because: {{reason}} | सुझाव का कारण: {{reason}} |
+| **no** | `ui:ui.learn.why_engine_left` | engine left running | इंजन चालू छोड़ा गया |
+| **no** | `ui:ui.learn.why_long_idle` | long stops with the engine on | इंजन चालू रखकर लंबे ठहराव |
+| **no** | `ui:ui.learn.why_belt` | moving without the seatbelt | बिना सीट बेल्ट के चलाना |
+| **no** | `ui:ui.learn.why_people_close` | people close to the machine | मशीन के पास लोग |
+| **no** | `ui:ui.learn.why_heat` | hot weather | गर्म मौसम |
+| **no** | `ui:ui.learn.why_wet` | wet ground or rain | गीली ज़मीन या बारिश |
+| **no** | `ui:ui.learn.why_night` | night work | रात का काम |
+| **no** | `ui:ui.learn.why_trucks` | waiting for trucks | ट्रकों का इंतज़ार |
+| **no** | `ui:ui.learn.why_tired` | long hours without a break | बिना ब्रेक के लंबे घंटे |
+| **no** | `ui:ui.learn.fmt_cards` | {{minutes}} min · narrated | {{minutes}} मिनट · सुनकर सीखें |
+| **no** | `ui:ui.learn.fmt_quiz` | {{minutes}} min · quiz | {{minutes}} मिनट · प्रश्नोत्तरी |
+| **no** | `ui:ui.learn.fmt_drill` | {{minutes}} min · hazard drill | {{minutes}} मिनट · ख़तरा अभ्यास |
+| **no** | `ui:ui.learn.not_found` | This lesson is not on this machine. | यह पाठ इस मशीन पर नहीं है। |
+| **no** | `ui:ui.learn.play` | Play | चलाएँ |
+| **no** | `ui:ui.learn.pause` | Pause | रोकें |
+| **no** | `ui:ui.learn.again` | Read again | फिर से सुनें |
+| **no** | `ui:ui.learn.next` | Next | आगे |
+| **no** | `ui:ui.learn.question` | Question {{n}} of {{total}} | प्रश्न {{n}} / {{total}} |
+| **no** | `ui:ui.learn.quiz_is_right` | Right. | सही। |
+| **no** | `ui:ui.learn.quiz_is_wrong` | Not quite. The right answer is marked. | पूरी तरह सही नहीं। सही जवाब पर निशान है। |
+| **no** | `ui:ui.learn.finish` | Finish lesson | पाठ पूरा करें |
+| **no** | `ui:ui.learn.finished` | Lesson finished | पाठ पूरा हुआ |
+| **no** | `ui:ui.learn.result` | {{right}} of {{total}} answers right | {{total}} में से {{right}} जवाब सही |
+| **no** | `ui:ui.learn.saved` | Saved to your progress. | आपकी प्रगति में सहेजा गया। |
+| **no** | `ui:ui.learn.save_failed` | The result could not be saved. Try again. | नतीजा सहेजा नहीं जा सका। फिर कोशिश करें। |
+| **no** | `ui:ui.learn.back` | Back to lessons | पाठों पर वापस |
+| **no** | `ui:ui.learn.open_lesson` | Open the lesson | पाठ खोलें |
+| **no** | `ui:ui.learn.drill_intro` | Site pictures appear one at a time. If you see danger, tap STOP or say “Stop” at once. If the scene is safe, wait. | साइट की तस्वीरें एक-एक करके आएँगी। ख़तरा दिखे तो तुरंत STOP दबाएँ या “रुको” कहें। अगर दृश्य सुरक्षित है, तो रुकिए मत, इंतज़ार कीजिए। |
+| **no** | `ui:ui.learn.drill_start` | Start drill | अभ्यास शुरू करें |
+| **no** | `ui:ui.learn.drill_scene` | Scene {{n}} of {{total}} | दृश्य {{n}} / {{total}} |
+| **no** | `ui:ui.learn.drill_stop` | STOP | STOP |
+| **no** | `ui:ui.learn.drill_voice` | You can also say “Stop”. | आप “रुको” भी कह सकते हैं। |
+| **no** | `ui:ui.learn.drill_stopped` | Right: stop. {{seconds}} | सही: रुकना था। {{seconds}} |
+| **no** | `ui:ui.learn.drill_missed` | Missed: this was a danger. | छूट गया: यह ख़तरा था। |
+| **no** | `ui:ui.learn.drill_safe_waited` | Right: this one was safe. | सही: यह सुरक्षित था। |
+| **no** | `ui:ui.learn.drill_safe_stopped` | No danger here: this one was safe. | यहाँ ख़तरा नहीं था: यह सुरक्षित था। |
+| **no** | `ui:ui.learn.drill_done` | Drill finished | अभ्यास पूरा हुआ |
+| **no** | `ui:ui.learn.drill_decisions` | {{right}} of {{total}} right decisions | {{total}} में से {{right}} सही फ़ैसले |
+| **no** | `ui:ui.learn.drill_reaction` | Average time to stop: {{seconds}} | रुकने का औसत समय: {{seconds}} |
+| **no** | `ui:ui.learn.drill_right` | Right | सही |
+| **no** | `ui:ui.learn.drill_wrong` | Missed | छूटा |
+| **no** | `ui:ui.learn.drill_again` | Do the drill again | अभ्यास फिर करें |
+| **no** | `ui:ui.learn.book_title` | Instructor sessions | प्रशिक्षक सत्र |
+| **no** | `ui:ui.learn.book_intro` | Book a session with an instructor at the Cat dealer training centre. | Cat dealer training centre में प्रशिक्षक के साथ सत्र बुक करें। |
+| **no** | `ui:ui.learn.book_none` | No sessions are listed yet. | अभी कोई सत्र सूची में नहीं है। |
+| **no** | `ui:ui.learn.book_confirm` | Book this session | यह सत्र बुक करें |
+| **no** | `ui:ui.learn.booked` | Booked: {{day}}, {{time}}, {{topic}}. | बुक हो गया: {{day}}, {{time}}, {{topic}}। |
+| **no** | `ui:ui.learn.book_failed` | That session is full now. Pick another. | यह सत्र अब भर गया है। कोई दूसरा चुनें। |
+| **no** | `ui:ui.learn.seats` | {{count}} seats left | {{count}} सीटें बाकी |
+| **no** | `ui:ui.learn.booked_mark` | Booked | बुक किया |
+| **no** | `ui:ui.learn.progress_title` | My progress | मेरी प्रगति |
+| **no** | `ui:ui.learn.lessons_done` | Lessons finished | पूरे किए पाठ |
+| **no** | `ui:ui.learn.of` | {{done}} of {{total}} | {{total}} में से {{done}} |
+| **no** | `ui:ui.learn.streak` | Days in a row | लगातार दिन |
+| **no** | `ui:ui.learn.drills_done` | Hazard drills done | किए गए ख़तरा अभ्यास |
+| **no** | `ui:ui.learn.habits` | Habits the lessons target | पाठ जिन आदतों पर हैं |
+| **no** | `ui:ui.learn.no_habits` | Finish a lesson to follow its habit here. | किसी पाठ को पूरा करें, फिर उसकी आदत यहाँ देखें। |
+| **no** | `ui:ui.learn.habit_row` | Seen {{before}} times the week before, {{now}} this week | पिछले हफ़्ते {{before}} बार, इस हफ़्ते {{now}} बार |
+| **no** | `ui:ui.learn.drills` | Hazard drills | ख़तरा अभ्यास |
+| **no** | `ui:ui.learn.no_drills` | No drills yet. | अभी कोई अभ्यास नहीं। |
+| **no** | `ui:ui.learn.your_bookings` | Your bookings | आपकी बुकिंग |
+| **no** | `ui:ui.learn.no_bookings` | No sessions booked. | कोई सत्र बुक नहीं। |
+| **no** | `ui:ui.learn.offer_title` | A short lesson for this pause | इस ठहराव के लिए एक छोटा पाठ |
+| **no** | `ui:ui.learn.offer_start` | Start lesson | पाठ शुरू करें |
+| **no** | `ui:ui.learn.offer_later` | Not now | अभी नहीं |
+| **no** | `ui:ui.learn.drill_not_needed` | Stopped, not needed | रुके, ज़रूरत नहीं थी |
 | **no** | `ui:ui.ask.you_asked` | You asked: {{question}} | आपने पूछा: {{question}} |
 | **no** | `ui:ui.ask.offline_tag` | Offline answer, from the manual saved on 18 Sep. | ऑफ़लाइन जवाब, 18 सितंबर को सेव की गई मैनुअल से। |
 | **no** | `ui:ui.ask.dont_know` | I don't know. It isn't in the manuals on this machine, and I won't guess. | मुझे नहीं पता। यह इस मशीन की मैनुअल में नहीं है, और मैं अंदाज़ा नहीं लगाऊँगा। |
@@ -800,7 +875,7 @@ to the review list.
 | **no** | `machine_profiles/excavator.yaml:display_name` | Excavator | एक्सकेवेटर |
 | **no** | `machine_profiles/wheel_loader.yaml:display_name` | Wheel loader | व्हील लोडर |
 
-## Tamil (தமிழ்): 0 of 786 reviewed
+## Tamil (தமிழ்): 0 of 861 reviewed
 
 | Reviewed | Key | English | Tamil (தமிழ்) |
 |---|---|---|---|
@@ -962,6 +1037,81 @@ to the review list.
 | **no** | `ui:ui.learn.skill_next` | Next: park trucks on your swing side | அடுத்து: லாரிகளை உங்கள் சுழலும் பக்கம் நிறுத்துங்கள் |
 | **no** | `ui:ui.learn.skill_label` | Level {{level}} of {{levels}} | {{levels}}-ல் நிலை {{level}} |
 | **no** | `ui:ui.learn.hazard` | Hazard | ஆபத்து |
+| **no** | `ui:ui.learn.title` | Learn | கற்றல் |
+| **no** | `ui:ui.learn.intro` | Short lessons for pauses, one to three minutes each. | இடைவேளைகளுக்கான சிறு பாடங்கள், ஒவ்வொன்றும் ஒன்று முதல் மூன்று நிமிடம். |
+| **no** | `ui:ui.learn.progress_button` | My progress | என் முன்னேற்றம் |
+| **no** | `ui:ui.learn.book_button` | Book an instructor | பயிற்சியாளரை முன்பதிவு செய் |
+| **no** | `ui:ui.learn.none_suggested` | No suggestions right now. Pick any lesson below. | இப்போது பரிந்துரை இல்லை. கீழே எந்தப் பாடத்தையும் தேர்ந்தெடுங்கள். |
+| **no** | `ui:ui.learn.all` | All lessons | எல்லாப் பாடங்களும் |
+| **no** | `ui:ui.learn.load_failed` | The lessons could not be loaded. Try again in a moment. | பாடங்களை ஏற்ற முடியவில்லை. சிறிது நேரத்தில் மீண்டும் முயலுங்கள். |
+| **no** | `ui:ui.learn.new` | New | புதியது |
+| **no** | `ui:ui.learn.why` | Suggested because: {{reason}} | பரிந்துரைக்குக் காரணம்: {{reason}} |
+| **no** | `ui:ui.learn.why_engine_left` | engine left running | இன்ஜின் ஓடவிடப்பட்டது |
+| **no** | `ui:ui.learn.why_long_idle` | long stops with the engine on | இன்ஜின் ஓடியபடி நீண்ட நிறுத்தங்கள் |
+| **no** | `ui:ui.learn.why_belt` | moving without the seatbelt | சீட் பெல்ட் இல்லாமல் நகர்ந்தது |
+| **no** | `ui:ui.learn.why_people_close` | people close to the machine | இயந்திரத்துக்கு அருகில் ஆட்கள் |
+| **no** | `ui:ui.learn.why_heat` | hot weather | வெப்பமான வானிலை |
+| **no** | `ui:ui.learn.why_wet` | wet ground or rain | ஈரமான தரை அல்லது மழை |
+| **no** | `ui:ui.learn.why_night` | night work | இரவு வேலை |
+| **no** | `ui:ui.learn.why_trucks` | waiting for trucks | லாரிகளுக்காகக் காத்திருப்பு |
+| **no** | `ui:ui.learn.why_tired` | long hours without a break | இடைவேளை இல்லாமல் நீண்ட நேரம் |
+| **no** | `ui:ui.learn.fmt_cards` | {{minutes}} min · narrated | {{minutes}} நிமி · கேட்டுக் கற்க |
+| **no** | `ui:ui.learn.fmt_quiz` | {{minutes}} min · quiz | {{minutes}} நிமி · வினாடி வினா |
+| **no** | `ui:ui.learn.fmt_drill` | {{minutes}} min · hazard drill | {{minutes}} நிமி · ஆபத்துப் பயிற்சி |
+| **no** | `ui:ui.learn.not_found` | This lesson is not on this machine. | இந்தப் பாடம் இந்த இயந்திரத்தில் இல்லை. |
+| **no** | `ui:ui.learn.play` | Play | இயக்கு |
+| **no** | `ui:ui.learn.pause` | Pause | இடைநிறுத்து |
+| **no** | `ui:ui.learn.again` | Read again | மீண்டும் கேள் |
+| **no** | `ui:ui.learn.next` | Next | அடுத்து |
+| **no** | `ui:ui.learn.question` | Question {{n}} of {{total}} | கேள்வி {{n}} / {{total}} |
+| **no** | `ui:ui.learn.quiz_is_right` | Right. | சரி. |
+| **no** | `ui:ui.learn.quiz_is_wrong` | Not quite. The right answer is marked. | சரியில்லை. சரியான விடை குறிக்கப்பட்டுள்ளது. |
+| **no** | `ui:ui.learn.finish` | Finish lesson | பாடத்தை முடி |
+| **no** | `ui:ui.learn.finished` | Lesson finished | பாடம் முடிந்தது |
+| **no** | `ui:ui.learn.result` | {{right}} of {{total}} answers right | {{total}}-ல் {{right}} விடைகள் சரி |
+| **no** | `ui:ui.learn.saved` | Saved to your progress. | உங்கள் முன்னேற்றத்தில் சேமிக்கப்பட்டது. |
+| **no** | `ui:ui.learn.save_failed` | The result could not be saved. Try again. | முடிவைச் சேமிக்க முடியவில்லை. மீண்டும் முயலுங்கள். |
+| **no** | `ui:ui.learn.back` | Back to lessons | பாடங்களுக்குத் திரும்பு |
+| **no** | `ui:ui.learn.open_lesson` | Open the lesson | பாடத்தைத் திற |
+| **no** | `ui:ui.learn.drill_intro` | Site pictures appear one at a time. If you see danger, tap STOP or say “Stop” at once. If the scene is safe, wait. | தளத்தின் படங்கள் ஒவ்வொன்றாக வரும். ஆபத்து தெரிந்தால் உடனே STOP-ஐத் தொடுங்கள் அல்லது “நிறுத்து” என்று சொல்லுங்கள். காட்சி பாதுகாப்பானது என்றால் காத்திருங்கள். |
+| **no** | `ui:ui.learn.drill_start` | Start drill | பயிற்சியைத் தொடங்கு |
+| **no** | `ui:ui.learn.drill_scene` | Scene {{n}} of {{total}} | காட்சி {{n}} / {{total}} |
+| **no** | `ui:ui.learn.drill_stop` | STOP | STOP |
+| **no** | `ui:ui.learn.drill_voice` | You can also say “Stop”. | “நிறுத்து” என்றும் சொல்லலாம். |
+| **no** | `ui:ui.learn.drill_stopped` | Right: stop. {{seconds}} | சரி: நிறுத்த வேண்டும். {{seconds}} |
+| **no** | `ui:ui.learn.drill_missed` | Missed: this was a danger. | தவறியது: இது ஆபத்து. |
+| **no** | `ui:ui.learn.drill_safe_waited` | Right: this one was safe. | சரி: இது பாதுகாப்பானது. |
+| **no** | `ui:ui.learn.drill_safe_stopped` | No danger here: this one was safe. | இங்கே ஆபத்து இல்லை: இது பாதுகாப்பானது. |
+| **no** | `ui:ui.learn.drill_done` | Drill finished | பயிற்சி முடிந்தது |
+| **no** | `ui:ui.learn.drill_decisions` | {{right}} of {{total}} right decisions | {{total}}-ல் {{right}} சரியான முடிவுகள் |
+| **no** | `ui:ui.learn.drill_reaction` | Average time to stop: {{seconds}} | நிறுத்த எடுத்த சராசரி நேரம்: {{seconds}} |
+| **no** | `ui:ui.learn.drill_right` | Right | சரி |
+| **no** | `ui:ui.learn.drill_wrong` | Missed | தவறியது |
+| **no** | `ui:ui.learn.drill_again` | Do the drill again | பயிற்சியை மீண்டும் செய் |
+| **no** | `ui:ui.learn.book_title` | Instructor sessions | பயிற்சியாளர் அமர்வுகள் |
+| **no** | `ui:ui.learn.book_intro` | Book a session with an instructor at the Cat dealer training centre. | Cat dealer training centre-இல் பயிற்சியாளருடன் ஒரு அமர்வை முன்பதிவு செய்யுங்கள். |
+| **no** | `ui:ui.learn.book_none` | No sessions are listed yet. | இன்னும் அமர்வுகள் பட்டியலில் இல்லை. |
+| **no** | `ui:ui.learn.book_confirm` | Book this session | இந்த அமர்வை முன்பதிவு செய் |
+| **no** | `ui:ui.learn.booked` | Booked: {{day}}, {{time}}, {{topic}}. | முன்பதிவு ஆனது: {{day}}, {{time}}, {{topic}}. |
+| **no** | `ui:ui.learn.book_failed` | That session is full now. Pick another. | அந்த அமர்வு இப்போது நிரம்பிவிட்டது. வேறொன்றைத் தேர்ந்தெடுங்கள். |
+| **no** | `ui:ui.learn.seats` | {{count}} seats left | {{count}} இடங்கள் மீதம் |
+| **no** | `ui:ui.learn.booked_mark` | Booked | முன்பதிவு ஆனது |
+| **no** | `ui:ui.learn.progress_title` | My progress | என் முன்னேற்றம் |
+| **no** | `ui:ui.learn.lessons_done` | Lessons finished | முடித்த பாடங்கள் |
+| **no** | `ui:ui.learn.of` | {{done}} of {{total}} | {{total}}-ல் {{done}} |
+| **no** | `ui:ui.learn.streak` | Days in a row | தொடர்ச்சியான நாட்கள் |
+| **no** | `ui:ui.learn.drills_done` | Hazard drills done | செய்த ஆபத்துப் பயிற்சிகள் |
+| **no** | `ui:ui.learn.habits` | Habits the lessons target | பாடங்கள் குறிவைக்கும் பழக்கங்கள் |
+| **no** | `ui:ui.learn.no_habits` | Finish a lesson to follow its habit here. | ஒரு பாடத்தை முடித்தால் அதன் பழக்கத்தை இங்கே பார்க்கலாம். |
+| **no** | `ui:ui.learn.habit_row` | Seen {{before}} times the week before, {{now}} this week | முந்தைய வாரம் {{before}} முறை, இந்த வாரம் {{now}} முறை |
+| **no** | `ui:ui.learn.drills` | Hazard drills | ஆபத்துப் பயிற்சிகள் |
+| **no** | `ui:ui.learn.no_drills` | No drills yet. | இன்னும் பயிற்சி இல்லை. |
+| **no** | `ui:ui.learn.your_bookings` | Your bookings | உங்கள் முன்பதிவுகள் |
+| **no** | `ui:ui.learn.no_bookings` | No sessions booked. | எந்த அமர்வும் முன்பதிவு செய்யவில்லை. |
+| **no** | `ui:ui.learn.offer_title` | A short lesson for this pause | இந்த இடைவேளைக்கு ஒரு சிறு பாடம் |
+| **no** | `ui:ui.learn.offer_start` | Start lesson | பாடத்தைத் தொடங்கு |
+| **no** | `ui:ui.learn.offer_later` | Not now | இப்போது வேண்டாம் |
+| **no** | `ui:ui.learn.drill_not_needed` | Stopped, not needed | நிறுத்தினீர்கள், தேவையில்லை |
 | **no** | `ui:ui.ask.you_asked` | You asked: {{question}} | நீங்கள் கேட்டது: {{question}} |
 | **no** | `ui:ui.ask.offline_tag` | Offline answer, from the manual saved on 18 Sep. | இணைப்பில்லாத பதில் — 18 செப்டம்பர் அன்று சேமித்த கையேட்டிலிருந்து. |
 | **no** | `ui:ui.ask.dont_know` | I don't know. It isn't in the manuals on this machine, and I won't guess. | எனக்குத் தெரியாது. இந்த இயந்திரத்தின் கையேட்டில் இல்லை; நான் ஊகிக்க மாட்டேன். |

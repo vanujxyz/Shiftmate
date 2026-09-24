@@ -735,6 +735,8 @@ class Lesson(Strict):
     cards: list[LessonCard] = []
     quiz: list[QuizQuestion] = []
     hazards: list[DrillHazard] = []
+    # the picture on the lesson's card in the catalogue; defaults to its first card's illustration
+    art: str | None = Field(default=None, pattern=r"^[a-z0-9-]+$")
 
     @model_validator(mode="after")
     def _shape_matches_format(self) -> Lesson:

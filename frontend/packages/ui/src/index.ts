@@ -14,6 +14,7 @@ export * from "./console";
 export * from "./controls";
 export * from "./format";
 export * from "./glyphs";
+export * from "./illustrations";
 export * from "./insights";
 export * from "./learn";
 export * from "./rail";

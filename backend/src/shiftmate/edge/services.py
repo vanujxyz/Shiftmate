@@ -10,6 +10,7 @@
   per day from the machine's stored intervals.
 - **Profile** (F-START-03): experience, skill index per task type, lesson and drill history.
 - **Instructor slots** (F-LRN-05): a deterministic schedule at the site's training centre.
+- **Training progress** (F-LRN-06): lessons finished, streak, drill facts, bookings, habit trends.
 """
 
 from __future__ import annotations
@@ -26,10 +27,15 @@ from shiftmate.edge.resources import EdgeResources
 from shiftmate.edge.runtime import MachineRuntime
 from shiftmate.edge.store import EdgeStore
 from shiftmate.engines.estimation import Estimate, predict, remaining
+from shiftmate.engines.lessons import TriggerEvent, habit_codes, habit_counts, streak_days
 from shiftmate.schema.api import (
+    BookingView,
+    CompletionView,
     Conditions,
+    DrillView,
     EstimateReason,
     FuelMetrics,
+    HabitTrend,
     IdleSegmentView,
     InsightNote,
     InsightsResponse,
@@ -39,6 +45,7 @@ from shiftmate.schema.api import (
     SuggestedBreak,
     TaskEstimate,
     TimeSplitSegment,
+    TrainingProgress,
 )
 from shiftmate.schema.enums import IdleReason, Language, SensorTier, TaskStatus
 from shiftmate.schema.reference import Operator
@@ -425,3 +432,78 @@ def training_slots(cfg: ShiftMateConfig, site_id: str, start_day: datetime) -> l
                 }
             )
     return out
+
+
+def build_progress(
+    cfg: ShiftMateConfig, res: EdgeResources, store: EdgeStore, site: LiveSite, operator_id: str
+) -> TrainingProgress:
+    """Training progress (F-LRN-06): lessons finished, streak, drill facts over time, bookings,
+    and how often each finished lesson's habits were seen last week and this week."""
+    now = site.now
+
+    def local(ts: str) -> datetime:  # the store keeps UTC; the cab shows site time
+        return datetime.fromisoformat(ts).astimezone(now.tzinfo)
+
+    completions = store.list_completions(operator_id)
+    drills = store.list_drills(operator_id)
+    days = [local(c["ts"]).date() for c in completions] + [local(d["ts"]).date() for d in drills]
+
+    events: list[TriggerEvent] = []
+    hist = res.history_events
+    if not hist.empty:
+        for r in hist[hist.operator_id == operator_id].itertuples():
+            events.append(TriggerEvent(r.ts.to_pydatetime(), r.code))
+    for e in store.list_events(operator_id=operator_id, since=now - timedelta(days=14)):
+        events.append(TriggerEvent(datetime.fromisoformat(e["ts"]), e["code"] or ""))
+    habits = []
+    for lesson_id in dict.fromkeys(c["lesson_id"] for c in completions):
+        codes = habit_codes(cfg.lessons, lesson_id)
+        if codes:
+            previous, this = habit_counts(events, codes, now)
+            habits.append(
+                HabitTrend(lesson_id=lesson_id, codes=codes, previous_week=previous, this_week=this)
+            )
+
+    slots = {s["slot_id"]: s for s in store.list_slots(site.site.site_id)}
+    bookings = []
+    for b in store.list_bookings(operator_id):
+        slot = slots.get(b["slot_id"], {})
+        bookings.append(
+            BookingView(
+                booking_id=b["booking_id"],
+                slot_id=b["slot_id"],
+                dealer_centre=slot.get("dealer_centre"),
+                start=slot.get("start"),
+                topic=slot.get("topic"),
+                status=b["status"],
+            )
+        )
+    bookings.sort(key=lambda b: (b.start is None, b.start or now))
+
+    return TrainingProgress(
+        operator_id=operator_id,
+        lessons_done=len({c["lesson_id"] for c in completions}),
+        lessons_total=len(cfg.lessons.lessons),
+        streak_days=streak_days(days, now.date()),
+        completed=[
+            CompletionView(
+                lesson_id=c["lesson_id"],
+                ts=local(c["ts"]),
+                score=c["score"],
+                duration_s=c["duration_s"],
+            )
+            for c in completions
+        ],
+        drills=[
+            DrillView(
+                drill_id=d["drill_id"],
+                ts=local(d["ts"]),
+                correct=d["data"]["correct"],
+                total=d["data"]["total"],
+                mean_reaction_ms=d["data"].get("mean_reaction_ms"),
+            )
+            for d in drills
+        ],
+        bookings=bookings,
+        habits=habits,
+    )

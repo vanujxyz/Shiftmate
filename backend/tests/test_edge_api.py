@@ -245,6 +245,20 @@ def test_training_slots_and_booking(client) -> None:
     assert client.get("/training/slots?site_id=NOPE").status_code == 404
 
 
+def test_training_progress(client) -> None:
+    # after the lesson, drill and booking above
+    p = client.get("/training/progress?operator_id=OP1001").json()
+    assert p["lessons_done"] >= 1 and p["lessons_total"] == 12
+    assert p["streak_days"] == 1
+    assert p["drills"][-1]["correct"] == 2 and p["drills"][-1]["total"] == 3
+    assert p["drills"][-1]["ts"].endswith("+05:30")  # site time, as the cab shows it
+    booking = p["bookings"][0]
+    assert booking["dealer_centre"].startswith("Cat dealer training centre") and booking["start"]
+    habit = next(h for h in p["habits"] if h["lesson_id"] == "L-SHUTDOWN")
+    assert habit["codes"] == ["UNATTENDED_RUNNING", "idle_unattended_min"]
+    assert client.get("/training/progress?operator_id=OP1002").status_code == 403
+
+
 def test_assistant_endpoints(client) -> None:
     r = client.post(
         "/assistant/ask", json={"question": "How do I check the seatbelt?", "language": "en"}

@@ -1,0 +1,76 @@
+# Milestone 16 strings: Learn (lessons, quiz, hazard drill, instructor booking, progress, offers).
+ui.learn.title: {en: "Learn", hi: "सीखें", ta: "கற்றல்"}
+ui.learn.intro: {en: "Short lessons for pauses, one to three minutes each.", hi: "रुकने के समय के लिए छोटे पाठ, हर एक एक से तीन मिनट का।", ta: "இடைவேளைகளுக்கான சிறு பாடங்கள், ஒவ்வொன்றும் ஒன்று முதல் மூன்று நிமிடம்."}
+ui.learn.progress_button: {en: "My progress", hi: "मेरी प्रगति", ta: "என் முன்னேற்றம்"}
+ui.learn.book_button: {en: "Book an instructor", hi: "प्रशिक्षक बुक करें", ta: "பயிற்சியாளரை முன்பதிவு செய்"}
+ui.learn.none_suggested: {en: "No suggestions right now. Pick any lesson below.", hi: "अभी कोई सुझाव नहीं। नीचे से कोई भी पाठ चुनें।", ta: "இப்போது பரிந்துரை இல்லை. கீழே எந்தப் பாடத்தையும் தேர்ந்தெடுங்கள்."}
+ui.learn.all: {en: "All lessons", hi: "सभी पाठ", ta: "எல்லாப் பாடங்களும்"}
+ui.learn.load_failed: {en: "The lessons could not be loaded. Try again in a moment.", hi: "पाठ लोड नहीं हो सके। थोड़ी देर में फिर कोशिश करें।", ta: "பாடங்களை ஏற்ற முடியவில்லை. சிறிது நேரத்தில் மீண்டும் முயலுங்கள்."}
+ui.learn.new: {en: "New", hi: "नया", ta: "புதியது"}
+ui.learn.why: {en: "Suggested because: {{reason}}", hi: "सुझाव का कारण: {{reason}}", ta: "பரிந்துரைக்குக் காரணம்: {{reason}}"}
+ui.learn.why_engine_left: {en: "engine left running", hi: "इंजन चालू छोड़ा गया", ta: "இன்ஜின் ஓடவிடப்பட்டது"}
+ui.learn.why_long_idle: {en: "long stops with the engine on", hi: "इंजन चालू रखकर लंबे ठहराव", ta: "இன்ஜின் ஓடியபடி நீண்ட நிறுத்தங்கள்"}
+ui.learn.why_belt: {en: "moving without the seatbelt", hi: "बिना सीट बेल्ट के चलाना", ta: "சீட் பெல்ட் இல்லாமல் நகர்ந்தது"}
+ui.learn.why_people_close: {en: "people close to the machine", hi: "मशीन के पास लोग", ta: "இயந்திரத்துக்கு அருகில் ஆட்கள்"}
+ui.learn.why_heat: {en: "hot weather", hi: "गर्म मौसम", ta: "வெப்பமான வானிலை"}
+ui.learn.why_wet: {en: "wet ground or rain", hi: "गीली ज़मीन या बारिश", ta: "ஈரமான தரை அல்லது மழை"}
+ui.learn.why_night: {en: "night work", hi: "रात का काम", ta: "இரவு வேலை"}
+ui.learn.why_trucks: {en: "waiting for trucks", hi: "ट्रकों का इंतज़ार", ta: "லாரிகளுக்காகக் காத்திருப்பு"}
+ui.learn.why_tired: {en: "long hours without a break", hi: "बिना ब्रेक के लंबे घंटे", ta: "இடைவேளை இல்லாமல் நீண்ட நேரம்"}
+ui.learn.fmt_cards: {en: "{{minutes}} min · narrated", hi: "{{minutes}} मिनट · सुनकर सीखें", ta: "{{minutes}} நிமி · கேட்டுக் கற்க"}
+ui.learn.fmt_quiz: {en: "{{minutes}} min · quiz", hi: "{{minutes}} मिनट · प्रश्नोत्तरी", ta: "{{minutes}} நிமி · வினாடி வினா"}
+ui.learn.fmt_drill: {en: "{{minutes}} min · hazard drill", hi: "{{minutes}} मिनट · ख़तरा अभ्यास", ta: "{{minutes}} நிமி · ஆபத்துப் பயிற்சி"}
+ui.learn.not_found: {en: "This lesson is not on this machine.", hi: "यह पाठ इस मशीन पर नहीं है।", ta: "இந்தப் பாடம் இந்த இயந்திரத்தில் இல்லை."}
+ui.learn.play: {en: "Play", hi: "चलाएँ", ta: "இயக்கு"}
+ui.learn.pause: {en: "Pause", hi: "रोकें", ta: "இடைநிறுத்து"}
+ui.learn.again: {en: "Read again", hi: "फिर से सुनें", ta: "மீண்டும் கேள்"}
+ui.learn.next: {en: "Next", hi: "आगे", ta: "அடுத்து"}
+ui.learn.question: {en: "Question {{n}} of {{total}}", hi: "प्रश्न {{n}} / {{total}}", ta: "கேள்வி {{n}} / {{total}}"}
+ui.learn.quiz_is_right: {en: "Right.", hi: "सही।", ta: "சரி."}
+ui.learn.quiz_is_wrong: {en: "Not quite. The right answer is marked.", hi: "पूरी तरह सही नहीं। सही जवाब पर निशान है।", ta: "சரியில்லை. சரியான விடை குறிக்கப்பட்டுள்ளது."}
+ui.learn.finish: {en: "Finish lesson", hi: "पाठ पूरा करें", ta: "பாடத்தை முடி"}
+ui.learn.finished: {en: "Lesson finished", hi: "पाठ पूरा हुआ", ta: "பாடம் முடிந்தது"}
+ui.learn.result: {en: "{{right}} of {{total}} answers right", hi: "{{total}} में से {{right}} जवाब सही", ta: "{{total}}-ல் {{right}} விடைகள் சரி"}
+ui.learn.saved: {en: "Saved to your progress.", hi: "आपकी प्रगति में सहेजा गया।", ta: "உங்கள் முன்னேற்றத்தில் சேமிக்கப்பட்டது."}
+ui.learn.save_failed: {en: "The result could not be saved. Try again.", hi: "नतीजा सहेजा नहीं जा सका। फिर कोशिश करें।", ta: "முடிவைச் சேமிக்க முடியவில்லை. மீண்டும் முயலுங்கள்."}
+ui.learn.back: {en: "Back to lessons", hi: "पाठों पर वापस", ta: "பாடங்களுக்குத் திரும்பு"}
+ui.learn.open_lesson: {en: "Open the lesson", hi: "पाठ खोलें", ta: "பாடத்தைத் திற"}
+ui.learn.drill_intro: {en: "Site pictures appear one at a time. If you see danger, tap STOP or say “Stop” at once. If the scene is safe, wait.", hi: "साइट की तस्वीरें एक-एक करके आएँगी। ख़तरा दिखे तो तुरंत STOP दबाएँ या “रुको” कहें। अगर दृश्य सुरक्षित है, तो रुकिए मत, इंतज़ार कीजिए।", ta: "தளத்தின் படங்கள் ஒவ்வொன்றாக வரும். ஆபத்து தெரிந்தால் உடனே STOP-ஐத் தொடுங்கள் அல்லது “நிறுத்து” என்று சொல்லுங்கள். காட்சி பாதுகாப்பானது என்றால் காத்திருங்கள்."}
+ui.learn.drill_start: {en: "Start drill", hi: "अभ्यास शुरू करें", ta: "பயிற்சியைத் தொடங்கு"}
+ui.learn.drill_scene: {en: "Scene {{n}} of {{total}}", hi: "दृश्य {{n}} / {{total}}", ta: "காட்சி {{n}} / {{total}}"}
+ui.learn.drill_stop: {en: "STOP", hi: "STOP", ta: "STOP"}
+ui.learn.drill_voice: {en: "You can also say “Stop”.", hi: "आप “रुको” भी कह सकते हैं।", ta: "“நிறுத்து” என்றும் சொல்லலாம்."}
+ui.learn.drill_stopped: {en: "Right: stop. {{seconds}}", hi: "सही: रुकना था। {{seconds}}", ta: "சரி: நிறுத்த வேண்டும். {{seconds}}"}
+ui.learn.drill_missed: {en: "Missed: this was a danger.", hi: "छूट गया: यह ख़तरा था।", ta: "தவறியது: இது ஆபத்து."}
+ui.learn.drill_safe_waited: {en: "Right: this one was safe.", hi: "सही: यह सुरक्षित था।", ta: "சரி: இது பாதுகாப்பானது."}
+ui.learn.drill_safe_stopped: {en: "No danger here: this one was safe.", hi: "यहाँ ख़तरा नहीं था: यह सुरक्षित था।", ta: "இங்கே ஆபத்து இல்லை: இது பாதுகாப்பானது."}
+ui.learn.drill_done: {en: "Drill finished", hi: "अभ्यास पूरा हुआ", ta: "பயிற்சி முடிந்தது"}
+ui.learn.drill_decisions: {en: "{{right}} of {{total}} right decisions", hi: "{{total}} में से {{right}} सही फ़ैसले", ta: "{{total}}-ல் {{right}} சரியான முடிவுகள்"}
+ui.learn.drill_reaction: {en: "Average time to stop: {{seconds}}", hi: "रुकने का औसत समय: {{seconds}}", ta: "நிறுத்த எடுத்த சராசரி நேரம்: {{seconds}}"}
+ui.learn.drill_right: {en: "Right", hi: "सही", ta: "சரி"}
+ui.learn.drill_wrong: {en: "Missed", hi: "छूटा", ta: "தவறியது"}
+ui.learn.drill_again: {en: "Do the drill again", hi: "अभ्यास फिर करें", ta: "பயிற்சியை மீண்டும் செய்"}
+ui.learn.book_title: {en: "Instructor sessions", hi: "प्रशिक्षक सत्र", ta: "பயிற்சியாளர் அமர்வுகள்"}
+ui.learn.book_intro: {en: "Book a session with an instructor at the Cat dealer training centre.", hi: "Cat dealer training centre में प्रशिक्षक के साथ सत्र बुक करें।", ta: "Cat dealer training centre-இல் பயிற்சியாளருடன் ஒரு அமர்வை முன்பதிவு செய்யுங்கள்."}
+ui.learn.book_none: {en: "No sessions are listed yet.", hi: "अभी कोई सत्र सूची में नहीं है।", ta: "இன்னும் அமர்வுகள் பட்டியலில் இல்லை."}
+ui.learn.book_confirm: {en: "Book this session", hi: "यह सत्र बुक करें", ta: "இந்த அமர்வை முன்பதிவு செய்"}
+ui.learn.booked: {en: "Booked: {{day}}, {{time}}, {{topic}}.", hi: "बुक हो गया: {{day}}, {{time}}, {{topic}}।", ta: "முன்பதிவு ஆனது: {{day}}, {{time}}, {{topic}}."}
+ui.learn.book_failed: {en: "That session is full now. Pick another.", hi: "यह सत्र अब भर गया है। कोई दूसरा चुनें।", ta: "அந்த அமர்வு இப்போது நிரம்பிவிட்டது. வேறொன்றைத் தேர்ந்தெடுங்கள்."}
+ui.learn.seats: {en: "{{count}} seats left", hi: "{{count}} सीटें बाकी", ta: "{{count}} இடங்கள் மீதம்"}
+ui.learn.booked_mark: {en: "Booked", hi: "बुक किया", ta: "முன்பதிவு ஆனது"}
+ui.learn.progress_title: {en: "My progress", hi: "मेरी प्रगति", ta: "என் முன்னேற்றம்"}
+ui.learn.lessons_done: {en: "Lessons finished", hi: "पूरे किए पाठ", ta: "முடித்த பாடங்கள்"}
+ui.learn.of: {en: "{{done}} of {{total}}", hi: "{{total}} में से {{done}}", ta: "{{total}}-ல் {{done}}"}
+ui.learn.streak: {en: "Days in a row", hi: "लगातार दिन", ta: "தொடர்ச்சியான நாட்கள்"}
+ui.learn.drills_done: {en: "Hazard drills done", hi: "किए गए ख़तरा अभ्यास", ta: "செய்த ஆபத்துப் பயிற்சிகள்"}
+ui.learn.habits: {en: "Habits the lessons target", hi: "पाठ जिन आदतों पर हैं", ta: "பாடங்கள் குறிவைக்கும் பழக்கங்கள்"}
+ui.learn.no_habits: {en: "Finish a lesson to follow its habit here.", hi: "किसी पाठ को पूरा करें, फिर उसकी आदत यहाँ देखें।", ta: "ஒரு பாடத்தை முடித்தால் அதன் பழக்கத்தை இங்கே பார்க்கலாம்."}
+ui.learn.habit_row: {en: "Seen {{before}} times the week before, {{now}} this week", hi: "पिछले हफ़्ते {{before}} बार, इस हफ़्ते {{now}} बार", ta: "முந்தைய வாரம் {{before}} முறை, இந்த வாரம் {{now}} முறை"}
+ui.learn.drills: {en: "Hazard drills", hi: "ख़तरा अभ्यास", ta: "ஆபத்துப் பயிற்சிகள்"}
+ui.learn.no_drills: {en: "No drills yet.", hi: "अभी कोई अभ्यास नहीं।", ta: "இன்னும் பயிற்சி இல்லை."}
+ui.learn.your_bookings: {en: "Your bookings", hi: "आपकी बुकिंग", ta: "உங்கள் முன்பதிவுகள்"}
+ui.learn.no_bookings: {en: "No sessions booked.", hi: "कोई सत्र बुक नहीं।", ta: "எந்த அமர்வும் முன்பதிவு செய்யவில்லை."}
+ui.learn.offer_title: {en: "A short lesson for this pause", hi: "इस ठहराव के लिए एक छोटा पाठ", ta: "இந்த இடைவேளைக்கு ஒரு சிறு பாடம்"}
+ui.learn.offer_start: {en: "Start lesson", hi: "पाठ शुरू करें", ta: "பாடத்தைத் தொடங்கு"}
+ui.learn.offer_later: {en: "Not now", hi: "अभी नहीं", ta: "இப்போது வேண்டாம்"}
+ui.learn.drill_not_needed: {en: "Stopped, not needed", hi: "रुके, ज़रूरत नहीं थी", ta: "நிறுத்தினீர்கள், தேவையில்லை"}

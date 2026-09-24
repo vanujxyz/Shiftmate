@@ -2,7 +2,7 @@
  * The cab frame (F-CAB-01, 03; DESIGN §4 Cab grid, §10 StatusRail, ModeTransition, BottomNav,
  * PushToTalk). The rail is always on top; Working mode shows only the rail, the active task line
  * and alerts; Paused mode unlocks the screens and the bottom nav. Push-to-talk sits in the same
- * place in both modes (the voice flow itself arrives in milestone 15).
+ * place in both modes. A lesson offered for this pause shows above the screen (F-LRN-03).
  *
  * The edge is the authority on who is signed in: once a snapshot says a different operator (or
  * nobody), the tablet returns to /start.
@@ -28,6 +28,7 @@ import { flushPending } from "../offline/reports";
 import { useCabConfig } from "../queries";
 import { useSession } from "../session";
 import { WorkingLine } from "../screens/MyShift";
+import { LessonOfferCard } from "../screens/learn/Offer";
 import { AlertBottom, AlertTop } from "./AlertLayer";
 import { VoiceControl } from "../voice/VoiceControl";
 import { railProps } from "./railProps";
@@ -108,8 +109,10 @@ export function CabShell() {
 
   const rail = railProps({ ...live, mode }, t, now, signedIn.machineId);
   const lost = !live.connected && live.lastMessageAt != null && now - live.lastMessageAt > LOST_AFTER_MS;
-  // Ask Cat (behind push-to-talk) is not a tab: no tab is marked while it is open
-  const current = (TABS as readonly string[]).includes(location.pathname) ? location.pathname : "";
+  // Ask Cat (behind push-to-talk) is not a tab: no tab is marked while it is open; a lesson,
+  // booking or progress page keeps Learn marked
+  const current =
+    TABS.find((tab) => tab === location.pathname || (tab !== "/" && location.pathname.startsWith(`${tab}/`))) ?? "";
   const working = mode === "working";
 
   return (
@@ -128,7 +131,14 @@ export function CabShell() {
               />
             </div>
           )}
-          {working ? <WorkingLine /> : <div className="sm-rise-in"><Outlet /></div>}
+          {working ? (
+            <WorkingLine />
+          ) : (
+            <div className="sm-rise-in">
+              <LessonOfferCard />
+              <Outlet />
+            </div>
+          )}
         </main>
         <AlertBottom />
       </div>
@@ -143,16 +153,6 @@ export function CabShell() {
       )}
       {/* push-to-talk: same place in both modes; hidden behind a P1 takeover (DESIGN) */}
       <VoiceControl hidden={live.alerts.current?.priority === "P1"} />
-    </div>
-  );
-}
-
-/** Learn arrives in milestone 16. */
-export function NotYet() {
-  const { t } = useTranslation();
-  return (
-    <div className="p-6">
-      <SystemState kind="empty" heading={t("ui.soon.title")} text={t("ui.soon.text")} />
     </div>
   );
 }

@@ -460,6 +460,66 @@
       "title": "BookingStatus",
       "type": "string"
     },
+    "BookingView": {
+      "properties": {
+        "booking_id": {
+          "title": "Booking Id",
+          "type": "string"
+        },
+        "slot_id": {
+          "title": "Slot Id",
+          "type": "string"
+        },
+        "dealer_centre": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dealer Centre"
+        },
+        "start": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start"
+        },
+        "topic": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Topic"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "booking_id",
+        "slot_id",
+        "status"
+      ],
+      "title": "BookingView",
+      "type": "object"
+    },
     "BreakWindow": {
       "additionalProperties": false,
       "properties": {
@@ -1056,6 +1116,35 @@
       "title": "Climate",
       "type": "object"
     },
+    "CompletionView": {
+      "properties": {
+        "lesson_id": {
+          "title": "Lesson Id",
+          "type": "string"
+        },
+        "ts": {
+          "format": "date-time",
+          "title": "Ts",
+          "type": "string"
+        },
+        "score": {
+          "title": "Score",
+          "type": "number"
+        },
+        "duration_s": {
+          "title": "Duration S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "lesson_id",
+        "ts",
+        "score",
+        "duration_s"
+      ],
+      "title": "CompletionView",
+      "type": "object"
+    },
     "Conditions": {
       "properties": {
         "ambient_temp_c": {
@@ -1342,6 +1431,48 @@
         "hazards"
       ],
       "title": "DrillResultRequest",
+      "type": "object"
+    },
+    "DrillView": {
+      "description": "A drill result as facts (\"5 of 7\", \"0.8 s\"), never a single score (D-013).",
+      "properties": {
+        "drill_id": {
+          "title": "Drill Id",
+          "type": "string"
+        },
+        "ts": {
+          "format": "date-time",
+          "title": "Ts",
+          "type": "string"
+        },
+        "correct": {
+          "title": "Correct",
+          "type": "integer"
+        },
+        "total": {
+          "title": "Total",
+          "type": "integer"
+        },
+        "mean_reaction_ms": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mean Reaction Ms"
+        }
+      },
+      "required": [
+        "drill_id",
+        "ts",
+        "correct",
+        "total"
+      ],
+      "title": "DrillView",
       "type": "object"
     },
     "ErrorBody": {
@@ -1879,6 +2010,38 @@
       ],
       "title": "GroundCondition",
       "type": "string"
+    },
+    "HabitTrend": {
+      "description": "How often a finished lesson's habits were seen: the week before this one, and this week.",
+      "properties": {
+        "lesson_id": {
+          "title": "Lesson Id",
+          "type": "string"
+        },
+        "codes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Codes",
+          "type": "array"
+        },
+        "previous_week": {
+          "title": "Previous Week",
+          "type": "integer"
+        },
+        "this_week": {
+          "title": "This Week",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "lesson_id",
+        "codes",
+        "previous_week",
+        "this_week"
+      ],
+      "title": "HabitTrend",
+      "type": "object"
     },
     "HazardAnswer": {
       "properties": {
@@ -3149,6 +3312,19 @@
           },
           "title": "Hazards",
           "type": "array"
+        },
+        "art": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z0-9-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Art"
         }
       },
       "required": [
@@ -3318,6 +3494,18 @@
           "default": false,
           "title": "Completed",
           "type": "boolean"
+        },
+        "art": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Art"
         }
       },
       "required": [
@@ -6565,6 +6753,67 @@
         "minutes"
       ],
       "title": "TimeSplitSegment",
+      "type": "object"
+    },
+    "TrainingProgress": {
+      "description": "GET /training/progress (PRD F-LRN-06): private to the signed-in operator.",
+      "properties": {
+        "operator_id": {
+          "title": "Operator Id",
+          "type": "string"
+        },
+        "lessons_done": {
+          "title": "Lessons Done",
+          "type": "integer"
+        },
+        "lessons_total": {
+          "title": "Lessons Total",
+          "type": "integer"
+        },
+        "streak_days": {
+          "title": "Streak Days",
+          "type": "integer"
+        },
+        "completed": {
+          "items": {
+            "$ref": "#/$defs/CompletionView"
+          },
+          "title": "Completed",
+          "type": "array"
+        },
+        "drills": {
+          "items": {
+            "$ref": "#/$defs/DrillView"
+          },
+          "title": "Drills",
+          "type": "array"
+        },
+        "bookings": {
+          "items": {
+            "$ref": "#/$defs/BookingView"
+          },
+          "title": "Bookings",
+          "type": "array"
+        },
+        "habits": {
+          "items": {
+            "$ref": "#/$defs/HabitTrend"
+          },
+          "title": "Habits",
+          "type": "array"
+        }
+      },
+      "required": [
+        "operator_id",
+        "lessons_done",
+        "lessons_total",
+        "streak_days",
+        "completed",
+        "drills",
+        "bookings",
+        "habits"
+      ],
+      "title": "TrainingProgress",
       "type": "object"
     },
     "TrainingSlot": {

@@ -15,7 +15,15 @@ from shiftmate.engines.anomaly import (
     z_scores,
 )
 from shiftmate.engines.intervals import IntervalBuilder, IntervalTick
-from shiftmate.engines.lessons import LessonOfferer, TriggerEvent, condition_flags, recommend
+from shiftmate.engines.lessons import (
+    LessonOfferer,
+    TriggerEvent,
+    condition_flags,
+    habit_codes,
+    habit_counts,
+    recommend,
+    streak_days,
+)
 from shiftmate.engines.reports import auto_fill, parse_offline
 from shiftmate.schema.enums import (
     IdleReason,
@@ -406,3 +414,23 @@ def test_auto_fill_finds_zone_from_position() -> None:
         language=Language.EN,
     )
     assert road.zone_id == "HAUL"
+
+
+def test_training_progress_helpers() -> None:
+    today = datetime(2026, 9, 24).date()
+    d = [today - timedelta(days=n) for n in (0, 1, 2, 4)]
+    assert streak_days(d, today) == 3
+    assert streak_days(d[1:], today) == 2  # nothing yet today: the streak is kept until tomorrow
+    assert streak_days([today - timedelta(days=3)], today) == 0
+    assert streak_days([], today) == 0
+    lessons = get_config().lessons
+    assert "HEAT" not in habit_codes(lessons, "L-HEAT-STRESS")
+    now = datetime(2026, 9, 24, 12, tzinfo=UTC)
+    events = [
+        TriggerEvent(now - timedelta(days=1), "UNATTENDED_RUNNING"),
+        TriggerEvent(now - timedelta(days=9), "UNATTENDED_RUNNING"),
+        TriggerEvent(now - timedelta(days=10), "UNATTENDED_RUNNING"),
+        TriggerEvent(now - timedelta(days=20), "UNATTENDED_RUNNING"),
+        TriggerEvent(now - timedelta(days=1), "HABIT"),
+    ]
+    assert habit_counts(events, ["UNATTENDED_RUNNING"], now) == (2, 1)

@@ -673,3 +673,48 @@ Date: 2026-09-24 · Phase: 11 · Requirement(s): TRD §12
 Decision: "Test accuracy" on the Safety camera panel records 20 readings at each chosen true distance (2–6 m) and sends them to `POST /eval/camera-protocol`, which appends to `data/eval/camera_protocol.jsonl`. `shiftmate eval camera` (part of `eval all`) writes the mean absolute error by distance to EVAL.md, or "Not measured yet" with the steps if there are no readings. The protocol needs a webcam and a helper, so it was not run during development, and EVAL.md says so.
 Why: Golden rule 11: only measured numbers.
 Alternatives: A synthetic video test (would not measure the real camera).
+
+## D-094 — Training progress: facts, streak and habit trend
+Date: 2026-09-24 · Phase: 12 · Requirement(s): F-LRN-06
+Decision: `GET /training/progress` (private to the signed-in operator) returns:
+- lessons finished (distinct) out of all lessons;
+- days in a row with a lesson or drill, counted back from today, or from yesterday when today has none yet (so the streak survives until the operator's next pause);
+- each drill as right decisions out of scenes, plus the mean stop time;
+- booked instructor sessions;
+- for every finished lesson, how often its habit triggers were seen in the 7 days before this week and in this week.
+
+Condition flags (HEAT, RAIN, NIGHT, WET_GROUND) are not habits and are left out. Events come from the operator's history plus the gateway's store. Times are shown in site time. The pure helpers live in `engines/lessons.py`.
+Why: "Improvement in the habits the lessons target" measured the simplest honest way, with no scores or leaderboard (D-013).
+Alternatives: Before and after the completion date (too few days after a demo completion to mean anything).
+
+## D-095 — Lesson player behaviour
+Date: 2026-09-24 · Phase: 12 · Requirement(s): F-LRN-01
+Decision:
+- **Narrated cards** are read aloud in the operator's language and move on by themselves while playing, each staying up for max(5 s, 0.45 s a word + 1.5 s). Pause, Read again and Next are always shown.
+- **The quiz** marks the right answer with its explanation (also spoken), whether or not the operator picked it.
+- **Finishing** saves the result: the share of right answers (1 for a lesson without questions), the seconds taken and the language. Quiz-only lessons skip the cards.
+- A catalogue picture comes from the lesson's new optional `art:` field, or its first card.
+Why: Hands-free for gloved operators, with every step also a big button.
+Alternatives: Advancing on the speech engine's end event (unreliable across browsers and missing voices).
+
+## D-096 — Hazard drill timing and voice stop
+Date: 2026-09-24 · Phase: 12 · Requirement(s): F-LRN-04
+Decision:
+- **Timing:** each scene stays up for 4 s; the verdict and the scene's description then show for 2.5 s.
+- **Scoring:** STOP on a hazard is right, with its reaction time; no STOP is a miss. On a safe scene, waiting is right and STOP is "not needed".
+- **Voice:** while the drill runs, speech recognition listens in the operator's language, and any of the stop words (stop, रुको, रुकें, रोको, स्टॉप, நிறுத்து, நில்லு, ஸ்டாப்) counts as STOP. It restarts after silence. Without speech support the button alone works.
+- **Results** are saved once, at the end, and shown as facts.
+Why: Tests decisions as well as reflexes (D-032); every language, both input modes.
+Alternatives: A shorter scene time (too hard with speech-recognition latency).
+
+## D-097 — Lesson offers in the cab
+Date: 2026-09-24 · Phase: 12 · Requirement(s): F-LRN-03
+Decision: A `lesson_offer` from the gateway shows as a quiet card above the current screen in Paused mode, with the lesson, its length, why it was suggested, and Start lesson / Not now. It is hidden on lesson pages. Going back to work (a `mode` or `telemetry` message saying working) or a new snapshot removes it, so an offer never survives the pause it was made for.
+Why: P4 is informational and must never interrupt work.
+Alternatives: A P4 row in the alerts feed (hard to act on from there).
+
+## D-098 — Illustrations built from plan-view parts
+Date: 2026-09-24 · Phase: 12 · Requirement(s): DESIGN §6, D-014
+Decision: `packages/ui/src/illustrations.tsx` draws all 53 lesson, checklist and drill pictures on a 160 × 100 grid. They are composed from about 20 parts (machine, truck, person, swing ring, clock, water, sun, moon, lamp, trench edge, power line…) in the glyph style (`currentColor`, square caps). A person in danger is the only filled shape. A test checks that every `illustration`, `scene` and `art` name in config has a drawing.
+Why: Consistent, light, themeable art with no copyrighted material.
+Alternatives: Hand-drawn SVG files per picture (53 files to keep consistent).

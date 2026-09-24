@@ -191,10 +191,12 @@ export function reduce(state: LiveState, env: WsEnvelope, now: number): LiveStat
     }
     case "telemetry": {
       const t = p as unknown as Telemetry;
-      return { ...s, telemetry: t, mode: t.mode, lastTelemetryAt: now };
+      const lessonOffer = t.mode === "working" ? null : s.lessonOffer;
+      return { ...s, telemetry: t, mode: t.mode, lastTelemetryAt: now, lessonOffer };
     }
     case "mode":
-      return { ...s, mode: p.mode as CabMode };
+      // a lesson offer belongs to the pause it was made in (F-LRN-03): work ends it
+      return { ...s, mode: p.mode as CabMode, lessonOffer: p.mode === "working" ? null : s.lessonOffer };
     case "risk_update":
       return { ...s, risk: p as unknown as RiskUpdate };
     case "alert":
@@ -234,6 +236,7 @@ type LiveStore = LiveState & {
   apply: (env: WsEnvelope) => void;
   setConnected: (connected: boolean) => void;
   reset: () => void;
+  dismissOffer: () => void;
 };
 
 export const useLive = create<LiveStore>((set) => ({
@@ -241,4 +244,5 @@ export const useLive = create<LiveStore>((set) => ({
   apply: (env) => set((s) => reduce(s, env, Date.now())),
   setConnected: (connected) => set({ connected }),
   reset: () => set(initialLive()),
+  dismissOffer: () => set({ lessonOffer: null }),
 }));

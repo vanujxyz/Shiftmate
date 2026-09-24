@@ -13,7 +13,11 @@ import { Report } from "./screens/Report";
 import { Safety } from "./screens/Safety";
 import { Start } from "./screens/Start";
 import { useSession } from "./session";
-import { CabShell, NotYet } from "./shell/CabShell";
+import { Booking } from "./screens/learn/Booking";
+import { Learn } from "./screens/learn/Learn";
+import { LessonPlayer } from "./screens/learn/LessonPlayer";
+import { Progress } from "./screens/learn/Progress";
+import { CabShell } from "./shell/CabShell";
 
 export function App() {
   const { i18n } = useTranslation();
@@ -36,7 +40,10 @@ export function App() {
         <Route path="safety" element={<Safety />} />
         <Route path="report" element={<Report />} />
         <Route path="insights" element={<MyDay />} />
-        <Route path="learn" element={<NotYet />} />
+        <Route path="learn" element={<Learn />} />
+        <Route path="learn/book" element={<Booking />} />
+        <Route path="learn/progress" element={<Progress />} />
+        <Route path="learn/:lessonId" element={<LessonPlayer />} />
         <Route path="ask" element={<Ask />} />
         <Route path="*" element={<MyShift />} />
       </Route>

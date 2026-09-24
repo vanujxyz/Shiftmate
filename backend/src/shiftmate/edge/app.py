@@ -30,7 +30,13 @@ from shiftmate.config_loader import ShiftMateConfig, load_config
 from shiftmate.edge.channels import Feeds, Subscriber, cab_channel, site_channel
 from shiftmate.edge.live import SCENARIO_DIR, Scenario, ScenarioPlayer
 from shiftmate.edge.resources import EdgeResources
-from shiftmate.edge.services import build_insights, build_profile, build_shift, training_slots
+from shiftmate.edge.services import (
+    build_insights,
+    build_profile,
+    build_progress,
+    build_shift,
+    training_slots,
+)
 from shiftmate.edge.store import EdgeStore
 from shiftmate.edge.sync import SyncWorker
 from shiftmate.engines.reports import auto_fill
@@ -78,6 +84,7 @@ from shiftmate.schema.api import (
     SpeedRequest,
     SyncStatus,
     TaskEstimate,
+    TrainingProgress,
 )
 from shiftmate.schema.config import Lesson
 from shiftmate.schema.enums import EventType, Language, ReportType, SensorTier
@@ -270,6 +277,7 @@ def lesson_summary(
         duration_s=lesson.duration_s,
         triggers=lesson.triggers,
         completed=done,
+        art=lesson.art or (lesson.cards[0].illustration if lesson.cards else None),
     )
 
 
@@ -597,6 +605,13 @@ def _routes(app: FastAPI, ctx: EdgeContext) -> None:
             )
             for s in ctx.store.list_slots(sid)
         ]
+
+    @app.get("/training/progress", response_model=TrainingProgress)
+    async def progress(operator_id: str) -> TrainingProgress:
+        site = ctx.site
+        if operator_id != site.runtime.operator_id:
+            raise HTTPException(403, "Training progress is private to the signed-in operator.")
+        return build_progress(cfg, ctx.resources, ctx.store, site, operator_id)
 
     @app.post("/training/bookings")
     async def bookings(body: BookingRequest) -> dict[str, Any]:

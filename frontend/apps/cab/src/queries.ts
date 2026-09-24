@@ -64,3 +64,49 @@ export function useReports() {
     refetchInterval: 15_000,
   });
 }
+
+/** The lesson catalogue, with which ones this operator has finished (kept for offline use). */
+export function useLessons() {
+  const operatorId = useSession((s) => s.signedIn?.operatorId ?? null);
+  return useQuery({
+    queryKey: ["lessons", operatorId],
+    queryFn: () => withCache(`lessons:${operatorId}`, () => api.lessons(operatorId!)),
+    enabled: operatorId != null,
+  });
+}
+
+/** Up to three lessons suggested by what the operator's machine has seen (F-LRN-02). */
+export function useRecommended() {
+  const operatorId = useSession((s) => s.signedIn?.operatorId ?? null);
+  return useQuery({
+    queryKey: ["recommended", operatorId],
+    queryFn: () => withCache(`recommended:${operatorId}`, () => api.recommended(operatorId!)),
+    enabled: operatorId != null,
+    refetchInterval: 60_000,
+  });
+}
+
+/** One lesson's cards, quiz or drill scenes (kept on the tablet once opened). */
+export function useLesson(lessonId: string | undefined) {
+  return useQuery({
+    queryKey: ["lesson", lessonId],
+    queryFn: () => withCache(`lesson:${lessonId}`, () => api.lesson(lessonId!)),
+    enabled: lessonId != null,
+    staleTime: Infinity,
+  });
+}
+
+/** Training progress, private to the signed-in operator (F-LRN-06). */
+export function useProgress() {
+  const operatorId = useSession((s) => s.signedIn?.operatorId ?? null);
+  return useQuery({
+    queryKey: ["progress", operatorId],
+    queryFn: () => withCache(`progress:${operatorId}`, () => api.progress(operatorId!)),
+    enabled: operatorId != null,
+  });
+}
+
+/** Instructor sessions at the site's training centre (F-LRN-05). */
+export function useSlots() {
+  return useQuery({ queryKey: ["slots"], queryFn: () => withCache("slots", api.slots) });
+}
