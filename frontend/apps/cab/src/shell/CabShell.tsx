@@ -13,7 +13,6 @@ import {
   IdleGlyph,
   NetGlyph,
   PriorityGlyph,
-  PushToTalk,
   SensorGlyph,
   StatusRail,
   SystemState,
@@ -30,6 +29,7 @@ import { useCabConfig } from "../queries";
 import { useSession } from "../session";
 import { WorkingLine } from "../screens/MyShift";
 import { AlertBottom, AlertTop } from "./AlertLayer";
+import { VoiceControl } from "../voice/VoiceControl";
 import { railProps } from "./railProps";
 import { useNow } from "./useNow";
 
@@ -141,10 +141,8 @@ export function CabShell() {
           ptt={<span className="block h-34 w-34" />}
         />
       )}
-      <div className="fixed right-10 bottom-5.5 z-(--sm-layer-sheet)">
-        {/* milestone 14: a tap opens Ask Cat; speaking arrives in milestone 15 */}
-        <PushToTalk state="idle" label={t("ui.ptt.idle")} onRelease={() => void navigate("/ask")} />
-      </div>
+      {/* push-to-talk: same place in both modes; hidden behind a P1 takeover (DESIGN) */}
+      <VoiceControl hidden={live.alerts.current?.priority === "P1"} />
     </div>
   );
 }

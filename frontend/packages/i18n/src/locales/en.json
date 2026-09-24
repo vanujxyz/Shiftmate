@@ -564,6 +564,46 @@
     "ev": {
       "title": "Evaluation",
       "source": "Results from docs/EVAL.md, written by \"shiftmate eval all\" on held-out test days. They are shown as written, in English."
+    },
+    "voice": {
+      "next_task": "Next: {{task}} at {{zone}}, starting {{time}}.",
+      "no_next": "No more tasks today.",
+      "time_left": "About {{time}} left on {{task}}.",
+      "no_estimate": "No estimate yet. It comes once the task has started.",
+      "break_start": "Park safely and switch off. Your break counts while the engine is off.",
+      "break_end": "Welcome back. Look around the machine before you start.",
+      "help": "You can say: next task, how long left, report a problem, repeat, or ask a question.",
+      "acked": "Done.",
+      "no_alert": "There is no alert to acknowledge.",
+      "nothing_to_repeat": "Nothing to repeat yet.",
+      "not_supported": "Voice is not available in this browser. Use the buttons.",
+      "no_mic": "The microphone is blocked. Allow it in the browser, or use the buttons.",
+      "checklist_button": "Answer by voice",
+      "checklist_hint": "The item is read out. Say OK or Problem, or All OK for the rest."
+    },
+    "cam": {
+      "title": "Rear camera",
+      "intro": "See who is behind the machine. The camera finds people on this tablet; only the distance is sent, never pictures.",
+      "turn_on": "Turn on camera",
+      "turn_off": "Turn off camera",
+      "starting": "Starting the camera…",
+      "no_permission": "The camera is blocked. Allow it in the browser, then turn it on again.",
+      "no_camera": "No camera was found on this tablet.",
+      "failed": "The person detector could not start. The machine's own sensors still work.",
+      "person": "One person {{distance}} from the camera.",
+      "nobody": "Nobody in view.",
+      "calibrated": "Calibrated on this tablet.",
+      "not_calibrated": "Not calibrated: distances are approximate.",
+      "calibrate": "Calibrate (stand at {{distance}} m)",
+      "measuring": "Measuring… stand still {{distance}} m from the camera.",
+      "test": "Test accuracy",
+      "test_hint": "Stand at the chosen distance and record {{count}} readings. Repeat at each distance, then send the results.",
+      "true_distance": "True distance",
+      "record": "Record {{count}} readings",
+      "recording": "Recording {{done}} of {{total}}…",
+      "send": "Send {{count}} readings",
+      "sent": "{{count}} readings saved on the gateway.",
+      "send_failed": "The readings could not be sent. Try again."
     }
   },
   "alert": {

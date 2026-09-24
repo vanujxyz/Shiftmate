@@ -642,3 +642,34 @@ Decision:
 - **What is reported:** both modes, as measured. Online met every target (93.3 % citations and key facts, 100 % refusals). Offline did not (66.7 % citations, 70 % key facts, 100 % refusals), because it answers only above the 0.55 bar.
 Why: Golden rule 11: report what was measured, including targets not met.
 Alternatives: A separate judge model (not available on the free tier here).
+
+## D-090 — Voice commands: the gateway names the intent, the cab acts
+Date: 2026-09-24 · Phase: 11 · Requirement(s): F-ASK-01, F-ASK-04, F-REP-01, TRD §10.5, §11.2
+Decision:
+- **Recognition** uses the browser's Web Speech API in en-IN, hi-IN or ta-IN, with live partial words in the transcript sheet. Hold the disc for 400 ms or more and release to finish, or tap once for a 6 s window ("Tap again to stop") for gloved hands.
+- **Routing:** the transcript goes to `/assistant/intent` (keyword rules, then the model when online). `planAction` (pure) turns the intent into one action. A question opens Ask Cat and reads the answer aloud. "Report…" opens a report draft from the words, which the operator checks before sending. Next task, time left, repeat, acknowledge, breaks and help are answered in speech. With no gateway the words are treated as a question.
+- **No "call supervisor" intent** (D-009). Every voice action also has a big button. Where speech is missing or the microphone is blocked, a calm message says to use the buttons. The disc hides behind a P1 takeover.
+Why: One routing path for every language, with the model optional, and nothing sent without the operator's check.
+Alternatives: On-device keyword spotting (no Tamil or Hindi models small enough); sending audio to a cloud recognizer (not offline).
+
+## D-091 — Checklist answers by voice
+Date: 2026-09-24 · Phase: 11 · Requirement(s): F-START-04
+Decision: "Answer by voice" reads the next unanswered item aloud and listens. OK, problem and all-OK words for each language live in `config/checklist.yaml` (`voice:`) and reach the cab through `/cab/config`. The longest matching phrase wins, so "not ok" is a problem and "all ok" answers the rest (after reading them back). Anything else says "didn't catch that" and changes nothing.
+Why: Configurable words the team can extend without code; a misheard answer never ticks an item.
+Alternatives: Routing checklist answers through the intent endpoint (slower, and needs the gateway).
+
+## D-092 — Camera proximity runs in the cab, only distances leave the tablet
+Date: 2026-09-24 · Phase: 11 · Requirement(s): F-SAFE-03, TRD §11.2
+Decision:
+- **The detector** is MediaPipe ObjectDetector with EfficientDet-Lite0. The model (`public/models/efficientdet_lite0.tflite`, 4.6 MB) and its WASM are vendored and precached by the PWA, so the detector works offline. It is loaded only when the camera is turned on, runs at about 10 fps and keeps only people scoring at least 0.5.
+- **Distance** is a monocular estimate: d = f_px × 1.7 m / box height. f_px comes from calibration (the helper stands at 3 m, averaged over 10 frames, stored on the device) or, until then, from a 60° field of view, and the panel says "approximate". The distance is smoothed with an EMA (α 0.4). Bearing uses the rear-facing mirror rule.
+- **Posting:** readings go to `/proximity/camera` at most 5 times a second as distance, bearing and confidence. Frames are never sent or stored. The edge's existing `camera_or_sim_person` beat uses them and falls back to the scripted person if the camera stops.
+- All numbers are in `config/edge.yaml` `camera.detect`.
+Why: Privacy and offline operation; the same proximity warnings as the machine's sensors.
+Alternatives: Server-side detection (sends images); depth estimation models (too heavy for the tablet).
+
+## D-093 — Camera accuracy protocol is recorded in the cab, never invented
+Date: 2026-09-24 · Phase: 11 · Requirement(s): TRD §12
+Decision: "Test accuracy" on the Safety camera panel records 20 readings at each chosen true distance (2–6 m) and sends them to `POST /eval/camera-protocol`, which appends to `data/eval/camera_protocol.jsonl`. `shiftmate eval camera` (part of `eval all`) writes the mean absolute error by distance to EVAL.md, or "Not measured yet" with the steps if there are no readings. The protocol needs a webcam and a helper, so it was not run during development, and EVAL.md says so.
+Why: Golden rule 11: only measured numbers.
+Alternatives: A synthetic video test (would not measure the real camera).

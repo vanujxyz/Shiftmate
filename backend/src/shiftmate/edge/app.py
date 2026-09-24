@@ -11,10 +11,12 @@ from __future__ import annotations
 
 import asyncio
 import contextlib
+import json
 import logging
 import time as _time
 from collections.abc import AsyncIterator
 from dataclasses import dataclass, field
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -42,7 +44,9 @@ from shiftmate.schema.api import (
     BeatView,
     BookingRequest,
     CabConfig,
+    CameraProtocolRun,
     CameraReading,
+    CameraSettings,
     Capability,
     CaptionsRequest,
     ChecklistItemView,
@@ -80,7 +84,7 @@ from shiftmate.schema.enums import EventType, Language, ReportType, SensorTier
 from shiftmate.schema.events import ReportDraft
 from shiftmate.schema.reference import Machine
 from shiftmate.schema.training import TrainingSlot
-from shiftmate.settings import get_settings
+from shiftmate.settings import Settings, get_settings
 from shiftmate.util.api import install_common
 from shiftmate.util.ids import uuid7_from
 
@@ -106,6 +110,11 @@ class EdgeContext:
 
     def wall(self) -> float:
         return _time.monotonic()
+
+
+def camera_protocol_path(settings: Settings) -> Path:
+    """Where camera protocol sessions are kept (read by `shiftmate eval camera`)."""
+    return settings.resolve(settings.data_dir) / "eval" / "camera_protocol.jsonl"
 
 
 def pin_for(operator_id: str) -> str:
@@ -138,6 +147,12 @@ def create_app(
     ctx = EdgeContext(cfg, resources, store, player)
     provider = AssistantProvider(cfg, models_dir, llm_from_settings(cfg, settings))
     ctx.extra["get_assistant"] = (lambda: assistant) if assistant is not None else provider.get
+    # beside the edge database, so a test's temporary gateway keeps its own sessions
+    ctx.extra["camera_protocol_path"] = (
+        camera_protocol_path(settings)
+        if db_path is None
+        else db_path.parent / "eval" / "camera_protocol.jsonl"
+    )
     ctx.feeds = Feeds(ctx)
     ctx.sync = SyncWorker(ctx, fleet_url or settings.fleet_url, cache_dir, fleet_transport)
     if scenario:
@@ -365,6 +380,15 @@ def _routes(app: FastAPI, ctx: EdgeContext) -> None:
                 ChecklistItemView(id=i.id, text=i.text.model_dump(), illustration=i.illustration)
                 for i in cfg.checklist.items
             ],
+            checklist_voice={
+                k: {lang.value: words for lang, words in getattr(cfg.checklist.voice, k).items()}
+                for k in ("ok", "problem", "all_ok")
+            },
+            camera=CameraSettings(
+                **cfg.edge.camera.detect.model_dump(),
+                protocol_distances_m=cfg.edge.camera.protocol_distances_m,
+                protocol_readings=cfg.edge.camera.protocol_readings,
+            ),
             languages=list(Language),
         )
 
@@ -606,6 +630,16 @@ def _routes(app: FastAPI, ctx: EdgeContext) -> None:
             raise HTTPException(404, f"No camera runtime for {body.machine_id}.")
         site.runtime.camera_reading(body.distance_m, body.confidence, body.bearing_deg, ctx.wall())
         return {"ok": True}
+
+    @app.post("/eval/camera-protocol")
+    async def camera_protocol(body: CameraProtocolRun) -> dict[str, int]:
+        """Store a camera protocol session (TRD §12) for `shiftmate eval camera`."""
+        path: Path = ctx.extra["camera_protocol_path"]
+        path.parent.mkdir(parents=True, exist_ok=True)
+        row = {"saved_at": datetime.now(UTC).isoformat(timespec="seconds"), **body.model_dump()}
+        with path.open("a", encoding="utf-8") as f:
+            print(json.dumps(row), file=f)
+        return {"saved": len(body.readings)}
 
     @app.get("/sync/status", response_model=SyncStatus)
     async def sync_status() -> SyncStatus:

@@ -10,8 +10,9 @@ import type { ReportContextModel, ReportDraft, ReportType, SavedReport, Severity
 import { Button, NetGlyph, PriorityGlyph, ReportDraftCard, SegmentedControl, SystemState } from "@shiftmate/ui";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import type { TFunction } from "i18next";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router";
 
 import { api, EdgeError } from "../api";
 import { useLive } from "../live/store";
@@ -155,12 +156,43 @@ export function Report() {
     };
   }, []);
 
+  // a report spoken through push-to-talk (F-REP-01): the words become the draft to check
+  const location = useLocation();
+  const spoken = (location.state as { transcript?: string } | null)?.transcript;
+  const handled = useRef<string | null>(null);
+  const fromSpeech = async (transcript: string) => {
+    setBusy(true);
+    setMessage(null);
+    setText(transcript);
+    try {
+      const parsed = await api.parseReport(transcript, language);
+      const d = { ...parsed.draft, summary_local: parsed.draft.summary_local || transcript };
+      setType(d.type);
+      setPeople(d.people_involved);
+      setInjury(d.injury);
+      keep(d, parsed.context);
+    } catch {
+      // the gateway is unreachable: keep the words; place and time are added on arrival
+      keep(mergeDraft(null, { type: "near_miss", text: transcript, people: false, injury: false }), null);
+    } finally {
+      setBusy(false);
+      setStep("check");
+    }
+  };
+
   const keep = (d: ReportDraft, c: ReportContextModel | null) => {
     setDraft(d);
     setContext(c);
     const row: Draft = { draft: d, text: d.summary_local, context: c };
     void saveDraft(row);
   };
+
+  useEffect(() => {
+    if (!spoken || handled.current === location.key) return;
+    handled.current = location.key;
+    void fromSpeech(spoken);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- once per arrival
+  }, [spoken, location.key]);
 
   const check = async () => {
     setBusy(true);

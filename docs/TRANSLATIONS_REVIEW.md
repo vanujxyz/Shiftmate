@@ -9,7 +9,7 @@ To approve a string, add it to `docs/translations-reviewed.json` under `hi` or `
 exact approved text, then run `pnpm i18n:review` again. If the text changes later, it returns
 to the review list.
 
-## Hindi (हिन्दी): 0 of 750 reviewed
+## Hindi (हिन्दी): 0 of 786 reviewed
 
 | Reviewed | Key | English | Hindi (हिन्दी) |
 |---|---|---|---|
@@ -476,6 +476,42 @@ to the review list.
 | **no** | `ui:ui.dm.nobody` | nobody | कोई नहीं |
 | **no** | `ui:ui.ev.title` | Evaluation | मूल्यांकन |
 | **no** | `ui:ui.ev.source` | Results from docs/EVAL.md, written by "shiftmate eval all" on held-out test days. They are shown as written, in English. | नतीजे docs/EVAL.md से, जिसे "shiftmate eval all" अलग रखे गए टेस्ट दिनों पर लिखता है। ये जैसे लिखे गए हैं वैसे, अंग्रेज़ी में दिखाए गए हैं। |
+| **no** | `ui:ui.voice.next_task` | Next: {{task}} at {{zone}}, starting {{time}}. | अगला: {{zone}} पर {{task}}, {{time}} बजे से। |
+| **no** | `ui:ui.voice.no_next` | No more tasks today. | आज और कोई काम नहीं। |
+| **no** | `ui:ui.voice.time_left` | About {{time}} left on {{task}}. | {{task}} में लगभग {{time}} बाकी। |
+| **no** | `ui:ui.voice.no_estimate` | No estimate yet. It comes once the task has started. | अभी अनुमान नहीं। काम शुरू होने पर आएगा। |
+| **no** | `ui:ui.voice.break_start` | Park safely and switch off. Your break counts while the engine is off. | सुरक्षित खड़ी करें और इंजन बंद करें। इंजन बंद रहने तक ब्रेक गिना जाएगा। |
+| **no** | `ui:ui.voice.break_end` | Welcome back. Look around the machine before you start. | वापसी पर स्वागत। शुरू करने से पहले मशीन के चारों ओर देखें। |
+| **no** | `ui:ui.voice.help` | You can say: next task, how long left, report a problem, repeat, or ask a question. | आप कह सकते हैं: अगला काम, कितना समय बाकी, समस्या बताओ, दोहराओ, या कोई सवाल पूछें। |
+| **no** | `ui:ui.voice.acked` | Done. | हो गया। |
+| **no** | `ui:ui.voice.no_alert` | There is no alert to acknowledge. | मानने के लिए कोई चेतावनी नहीं है। |
+| **no** | `ui:ui.voice.nothing_to_repeat` | Nothing to repeat yet. | अभी दोहराने को कुछ नहीं। |
+| **no** | `ui:ui.voice.not_supported` | Voice is not available in this browser. Use the buttons. | इस ब्राउज़र में आवाज़ उपलब्ध नहीं है। बटन इस्तेमाल करें। |
+| **no** | `ui:ui.voice.no_mic` | The microphone is blocked. Allow it in the browser, or use the buttons. | माइक्रोफ़ोन बंद है। ब्राउज़र में अनुमति दें, या बटन इस्तेमाल करें। |
+| **no** | `ui:ui.voice.checklist_button` | Answer by voice | बोलकर जवाब दें |
+| **no** | `ui:ui.voice.checklist_hint` | The item is read out. Say OK or Problem, or All OK for the rest. | बात पढ़कर सुनाई जाएगी। ठीक या समस्या कहें, या बाकी सबके लिए सब ठीक। |
+| **no** | `ui:ui.cam.title` | Rear camera | पीछे का कैमरा |
+| **no** | `ui:ui.cam.intro` | See who is behind the machine. The camera finds people on this tablet; only the distance is sent, never pictures. | देखें मशीन के पीछे कौन है। कैमरा इसी टैबलेट पर लोगों को पहचानता है; सिर्फ़ दूरी भेजी जाती है, तस्वीरें कभी नहीं। |
+| **no** | `ui:ui.cam.turn_on` | Turn on camera | कैमरा चालू करें |
+| **no** | `ui:ui.cam.turn_off` | Turn off camera | कैमरा बंद करें |
+| **no** | `ui:ui.cam.starting` | Starting the camera… | कैमरा चालू हो रहा है… |
+| **no** | `ui:ui.cam.no_permission` | The camera is blocked. Allow it in the browser, then turn it on again. | कैमरा बंद है। ब्राउज़र में अनुमति दें, फिर चालू करें। |
+| **no** | `ui:ui.cam.no_camera` | No camera was found on this tablet. | इस टैबलेट पर कोई कैमरा नहीं मिला। |
+| **no** | `ui:ui.cam.failed` | The person detector could not start. The machine's own sensors still work. | व्यक्ति पहचानने वाला सिस्टम शुरू नहीं हो सका। मशीन के अपने सेंसर काम कर रहे हैं। |
+| **no** | `ui:ui.cam.person` | One person {{distance}} from the camera. | कैमरे से {{distance}} दूर एक व्यक्ति। |
+| **no** | `ui:ui.cam.nobody` | Nobody in view. | कोई दिखाई नहीं दे रहा। |
+| **no** | `ui:ui.cam.calibrated` | Calibrated on this tablet. | इस टैबलेट पर कैलिब्रेट किया गया। |
+| **no** | `ui:ui.cam.not_calibrated` | Not calibrated: distances are approximate. | कैलिब्रेट नहीं: दूरियाँ अंदाज़न हैं। |
+| **no** | `ui:ui.cam.calibrate` | Calibrate (stand at {{distance}} m) | कैलिब्रेट करें ({{distance}} मीटर पर खड़े हों) |
+| **no** | `ui:ui.cam.measuring` | Measuring… stand still {{distance}} m from the camera. | माप रहा है… कैमरे से {{distance}} मीटर पर स्थिर खड़े रहें। |
+| **no** | `ui:ui.cam.test` | Test accuracy | सटीकता जाँचें |
+| **no** | `ui:ui.cam.test_hint` | Stand at the chosen distance and record {{count}} readings. Repeat at each distance, then send the results. | चुनी गई दूरी पर खड़े होकर {{count}} माप लें। हर दूरी पर दोहराएँ, फिर नतीजे भेजें। |
+| **no** | `ui:ui.cam.true_distance` | True distance | असली दूरी |
+| **no** | `ui:ui.cam.record` | Record {{count}} readings | {{count}} माप लें |
+| **no** | `ui:ui.cam.recording` | Recording {{done}} of {{total}}… | {{total}} में से {{done}} ले रहा है… |
+| **no** | `ui:ui.cam.send` | Send {{count}} readings | {{count}} माप भेजें |
+| **no** | `ui:ui.cam.sent` | {{count}} readings saved on the gateway. | {{count}} माप गेटवे पर सहेजे गए। |
+| **no** | `ui:ui.cam.send_failed` | The readings could not be sent. Try again. | माप भेजे नहीं जा सके। फिर कोशिश करें। |
 | **no** | `ui:alert.seatbelt_moving.title` | Seatbelt off while working | काम के दौरान बेल्ट खुली है |
 | **no** | `ui:alert.seatbelt_moving.action` | Stop the machine. Buckle up. | मशीन रोकिए। बेल्ट लगाइए। |
 | **no** | `ui:alert.seatbelt_moving.speak` | Stop. Seatbelt off. | रुकिए। बेल्ट खुली है। |
@@ -764,7 +800,7 @@ to the review list.
 | **no** | `machine_profiles/excavator.yaml:display_name` | Excavator | एक्सकेवेटर |
 | **no** | `machine_profiles/wheel_loader.yaml:display_name` | Wheel loader | व्हील लोडर |
 
-## Tamil (தமிழ்): 0 of 750 reviewed
+## Tamil (தமிழ்): 0 of 786 reviewed
 
 | Reviewed | Key | English | Tamil (தமிழ்) |
 |---|---|---|---|
@@ -1231,6 +1267,42 @@ to the review list.
 | **no** | `ui:ui.dm.nobody` | nobody | யாருமில்லை |
 | **no** | `ui:ui.ev.title` | Evaluation | மதிப்பீடு |
 | **no** | `ui:ui.ev.source` | Results from docs/EVAL.md, written by "shiftmate eval all" on held-out test days. They are shown as written, in English. | முடிவுகள் docs/EVAL.md-இலிருந்து; "shiftmate eval all" தனியாக வைத்த சோதனை நாட்களில் எழுதியவை. எழுதியபடியே ஆங்கிலத்தில் காட்டப்படுகின்றன. |
+| **no** | `ui:ui.voice.next_task` | Next: {{task}} at {{zone}}, starting {{time}}. | அடுத்து: {{zone}}-இல் {{task}}, {{time}}-க்குத் தொடக்கம். |
+| **no** | `ui:ui.voice.no_next` | No more tasks today. | இன்று வேறு வேலை இல்லை. |
+| **no** | `ui:ui.voice.time_left` | About {{time}} left on {{task}}. | {{task}}-இல் சுமார் {{time}} மீதம். |
+| **no** | `ui:ui.voice.no_estimate` | No estimate yet. It comes once the task has started. | இன்னும் மதிப்பீடு இல்லை. வேலை தொடங்கியதும் வரும். |
+| **no** | `ui:ui.voice.break_start` | Park safely and switch off. Your break counts while the engine is off. | பாதுகாப்பாக நிறுத்தி இன்ஜினை அணையுங்கள். இன்ஜின் அணைந்திருக்கும் வரை இடைவேளையாகக் கணக்கிடப்படும். |
+| **no** | `ui:ui.voice.break_end` | Welcome back. Look around the machine before you start. | மீண்டும் வருக. தொடங்கும் முன் இயந்திரத்தைச் சுற்றிப் பாருங்கள். |
+| **no** | `ui:ui.voice.help` | You can say: next task, how long left, report a problem, repeat, or ask a question. | நீங்கள் சொல்லலாம்: அடுத்த வேலை, எவ்வளவு நேரம், பிரச்சினை, மீண்டும் சொல், அல்லது ஒரு கேள்வி கேளுங்கள். |
+| **no** | `ui:ui.voice.acked` | Done. | முடிந்தது. |
+| **no** | `ui:ui.voice.no_alert` | There is no alert to acknowledge. | ஒப்புக்கொள்ள எச்சரிக்கை எதுவும் இல்லை. |
+| **no** | `ui:ui.voice.nothing_to_repeat` | Nothing to repeat yet. | இன்னும் மீண்டும் சொல்ல எதுவும் இல்லை. |
+| **no** | `ui:ui.voice.not_supported` | Voice is not available in this browser. Use the buttons. | இந்த உலாவியில் குரல் வசதி இல்லை. பட்டன்களைப் பயன்படுத்துங்கள். |
+| **no** | `ui:ui.voice.no_mic` | The microphone is blocked. Allow it in the browser, or use the buttons. | மைக்ரோஃபோன் தடுக்கப்பட்டுள்ளது. உலாவியில் அனுமதியுங்கள், அல்லது பட்டன்களைப் பயன்படுத்துங்கள். |
+| **no** | `ui:ui.voice.checklist_button` | Answer by voice | குரல் மூலம் பதில் |
+| **no** | `ui:ui.voice.checklist_hint` | The item is read out. Say OK or Problem, or All OK for the rest. | ஒவ்வொன்றும் படிக்கப்படும். சரி அல்லது பிரச்சினை என்று சொல்லுங்கள், மீதிக்கு எல்லாம் சரி. |
+| **no** | `ui:ui.cam.title` | Rear camera | பின் கேமரா |
+| **no** | `ui:ui.cam.intro` | See who is behind the machine. The camera finds people on this tablet; only the distance is sent, never pictures. | இயந்திரத்துக்குப் பின்னால் யார் இருக்கிறார்கள் எனப் பாருங்கள். இந்த டேப்லெட்டிலேயே கேமரா ஆட்களைக் கண்டறிகிறது; தூரம் மட்டுமே அனுப்பப்படும், படங்கள் ஒருபோதும் இல்லை. |
+| **no** | `ui:ui.cam.turn_on` | Turn on camera | கேமராவை இயக்கு |
+| **no** | `ui:ui.cam.turn_off` | Turn off camera | கேமராவை அணை |
+| **no** | `ui:ui.cam.starting` | Starting the camera… | கேமரா தொடங்குகிறது… |
+| **no** | `ui:ui.cam.no_permission` | The camera is blocked. Allow it in the browser, then turn it on again. | கேமரா தடுக்கப்பட்டுள்ளது. உலாவியில் அனுமதித்து மீண்டும் இயக்குங்கள். |
+| **no** | `ui:ui.cam.no_camera` | No camera was found on this tablet. | இந்த டேப்லெட்டில் கேமரா இல்லை. |
+| **no** | `ui:ui.cam.failed` | The person detector could not start. The machine's own sensors still work. | ஆட்களைக் கண்டறியும் அமைப்பு தொடங்கவில்லை. இயந்திரத்தின் சொந்த சென்சார்கள் வேலை செய்கின்றன. |
+| **no** | `ui:ui.cam.person` | One person {{distance}} from the camera. | கேமராவிலிருந்து {{distance}} தொலைவில் ஒருவர். |
+| **no** | `ui:ui.cam.nobody` | Nobody in view. | யாரும் தெரியவில்லை. |
+| **no** | `ui:ui.cam.calibrated` | Calibrated on this tablet. | இந்த டேப்லெட்டில் அளவீடு செய்யப்பட்டது. |
+| **no** | `ui:ui.cam.not_calibrated` | Not calibrated: distances are approximate. | அளவீடு செய்யவில்லை: தூரங்கள் தோராயமானவை. |
+| **no** | `ui:ui.cam.calibrate` | Calibrate (stand at {{distance}} m) | அளவீடு செய் ({{distance}} மீட்டரில் நில்லுங்கள்) |
+| **no** | `ui:ui.cam.measuring` | Measuring… stand still {{distance}} m from the camera. | அளக்கிறது… கேமராவிலிருந்து {{distance}} மீட்டரில் அசையாமல் நில்லுங்கள். |
+| **no** | `ui:ui.cam.test` | Test accuracy | துல்லியத்தைச் சோதி |
+| **no** | `ui:ui.cam.test_hint` | Stand at the chosen distance and record {{count}} readings. Repeat at each distance, then send the results. | தேர்ந்தெடுத்த தூரத்தில் நின்று {{count}} அளவீடுகளைப் பதிவு செய்யுங்கள். ஒவ்வொரு தூரத்திலும் மீண்டும் செய்து முடிவுகளை அனுப்புங்கள். |
+| **no** | `ui:ui.cam.true_distance` | True distance | உண்மையான தூரம் |
+| **no** | `ui:ui.cam.record` | Record {{count}} readings | {{count}} அளவீடுகளைப் பதிவு செய் |
+| **no** | `ui:ui.cam.recording` | Recording {{done}} of {{total}}… | {{total}}-ல் {{done}} பதிவாகிறது… |
+| **no** | `ui:ui.cam.send` | Send {{count}} readings | {{count}} அளவீடுகளை அனுப்பு |
+| **no** | `ui:ui.cam.sent` | {{count}} readings saved on the gateway. | {{count}} அளவீடுகள் நுழைவாயிலில் சேமிக்கப்பட்டன. |
+| **no** | `ui:ui.cam.send_failed` | The readings could not be sent. Try again. | அளவீடுகளை அனுப்ப முடியவில்லை. மீண்டும் முயலுங்கள். |
 | **no** | `ui:alert.seatbelt_moving.title` | Seatbelt off while working | வேலை செய்யும்போது பெல்ட் போடவில்லை |
 | **no** | `ui:alert.seatbelt_moving.action` | Stop the machine. Buckle up. | இயந்திரத்தை நிறுத்துங்கள். பெல்ட் போடுங்கள். |
 | **no** | `ui:alert.seatbelt_moving.speak` | Stop. Seatbelt off. | நிறுத்துங்கள். பெல்ட் போடவில்லை. |

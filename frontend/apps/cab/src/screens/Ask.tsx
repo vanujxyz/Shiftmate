@@ -1,14 +1,15 @@
 /**
- * Ask Cat (F-ASK-01…06; TRD §11.2 /ask). Type a question (push-to-talk comes in milestone 15),
- * or tap an example. Answers come only from the manuals on this machine: online answers show
+ * Ask Cat (F-ASK-01…06; TRD §11.2 /ask). Speak through push-to-talk (the answer is read aloud),
+ * type a question, or tap an example. Answers come only from the manuals on this machine: online answers show
  * their sources; offline answers are the manual's own passage, labelled as such; when the manuals
  * have no answer, the assistant says so and does not guess. The sample-content banner is always
  * shown (TRD §10.1).
  */
 import type { AskResponse } from "@shiftmate/contracts";
 import { AssistantAnswer, Button, SourceChip } from "@shiftmate/ui";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router";
 
 import { api } from "../api";
 import { speak } from "../live/audio";
@@ -28,21 +29,39 @@ export function Ask() {
   const [busy, setBusy] = useState(false);
   const [failed, setFailed] = useState(false);
 
-  const ask = async (q: string) => {
+  const ask = async (q: string, aloud = false) => {
     const text = q.trim();
     if (!text || busy) return;
     setBusy(true);
     setFailed(false);
+    setQuestion(text);
     setAsked(text);
     setReply(null);
     try {
-      setReply(await api.ask(text, language));
+      const r = await api.ask(text, language);
+      setReply(r);
+      // a spoken question gets a spoken answer (DESIGN PushToTalk: "answer sheet opens, read aloud")
+      if (aloud) {
+        const words = answerText(t, r);
+        speak(words, i18n.language, language === "en" ? words : "");
+      }
     } catch {
       setFailed(true);
     } finally {
       setBusy(false);
     }
   };
+
+  // arriving from push-to-talk with the question already heard
+  const location = useLocation();
+  const spoken = (location.state as { question?: string } | null)?.question;
+  const handled = useRef<string | null>(null);
+  useEffect(() => {
+    if (!spoken || handled.current === location.key) return;
+    handled.current = location.key;
+    void ask(spoken, true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- once per arrival
+  }, [spoken, location.key]);
 
   const shown = reply ? answerText(t, reply) : "";
   // a note that is not the answer itself (e.g. "this part is only in English")

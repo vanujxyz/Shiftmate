@@ -280,6 +280,12 @@ export interface BreakWindow {
 export interface CabConfig {
   alerts: AlertTimings;
   checklist: ChecklistItemView[];
+  checklist_voice: {
+    [k: string]: {
+      [k: string]: string[];
+    };
+  };
+  camera: CameraSettings;
   languages: Language[];
 }
 /**
@@ -292,6 +298,24 @@ export interface ChecklistItemView {
     [k: string]: string;
   };
   illustration: string;
+}
+/**
+ * What the cab's in-browser person detector needs (config/edge.yaml camera.detect).
+ *
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "CameraSettings".
+ */
+export interface CameraSettings {
+  fps: number;
+  score_min: number;
+  person_height_m: number;
+  calibration_m: number;
+  ema_alpha: number;
+  post_hz: number;
+  fov_deg: number;
+  facing_deg: number;
+  protocol_distances_m: number[];
+  protocol_readings: number;
 }
 /**
  * `snapshot` on /ws/cab: the full current state, first on connect and after load/seek.
@@ -368,6 +392,27 @@ export interface RiskUpdate {
   thresholds: {
     [k: string]: number;
   };
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "CameraProtocolReading".
+ */
+export interface CameraProtocolReading {
+  true_m: number;
+  estimate_m: number;
+}
+/**
+ * POST /eval/camera-protocol: one session of the TRD §12 camera protocol from the cab.
+ *
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "CameraProtocolRun".
+ */
+export interface CameraProtocolRun {
+  calibrated: boolean;
+  /**
+   * @minItems 1
+   */
+  readings: [CameraProtocolReading, ...CameraProtocolReading[]];
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema

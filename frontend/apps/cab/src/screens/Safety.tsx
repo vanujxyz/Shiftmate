@@ -24,6 +24,8 @@ import { useNavigate } from "react-router";
 import { api } from "../api";
 import { forget } from "../offline/db";
 import { useLive } from "../live/store";
+import { CameraPanel } from "../camera/CameraPanel";
+import { useCabConfig } from "../queries";
 import { useSession } from "../session";
 import { staleSeconds, staleWords } from "../shell/railProps";
 import { useNow } from "../shell/useNow";
@@ -38,6 +40,7 @@ export function Safety() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const tel = live.telemetry;
+  const config = useCabConfig();
   const stale = staleWords(t, staleSeconds(live, useNow()));
 
   const noSensing = !tel || tel.proximity_tier == null;
@@ -141,6 +144,8 @@ export function Safety() {
           <p className="text-cab-meta text-ink-2">{t("ui.safety.risk_none")}</p>
         )}
       </section>
+
+      <CameraPanel config={config.data} />
 
       <section className="flex flex-col gap-2">
         <h2 className="text-cab-label">{t("ui.safety.recent")}</h2>

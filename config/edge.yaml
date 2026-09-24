@@ -7,6 +7,11 @@ camera:
   fresh_s: 1.0                 # camera overrides the sensor while this fresh (TRD §9.1)
   active_s: 5.0                # a camera that reported this recently counts as a proximity source
   wait_s: 30                   # worker_near beat waits this long for camera readings (TRD §8)
+  # in-browser person detection on the cab tablet (TRD §11.2 Camera proximity)
+  detect: {fps: 10, score_min: 0.5, person_height_m: 1.7, calibration_m: 3.0, ema_alpha: 0.4,
+           post_hz: 5, fov_deg: 60, facing_deg: 180}
+  protocol_distances_m: [2, 3, 4, 5, 6]   # TRD §12 camera protocol: 20 readings at each distance
+  protocol_readings: 20
 sync:
   interval_s: 5                # post a batch every 5 s when online (TRD §9.3)
   batch_size: 500              # ≤ 500 records per request (TRD §9.2)

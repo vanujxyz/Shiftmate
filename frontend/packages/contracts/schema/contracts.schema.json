@@ -493,6 +493,22 @@
           "title": "Checklist",
           "type": "array"
         },
+        "checklist_voice": {
+          "additionalProperties": {
+            "additionalProperties": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "type": "object"
+          },
+          "title": "Checklist Voice",
+          "type": "object"
+        },
+        "camera": {
+          "$ref": "#/$defs/CameraSettings"
+        },
         "languages": {
           "items": {
             "$ref": "#/$defs/Language"
@@ -504,6 +520,8 @@
       "required": [
         "alerts",
         "checklist",
+        "checklist_voice",
+        "camera",
         "languages"
       ],
       "title": "CabConfig",
@@ -657,6 +675,49 @@
       "title": "CabSnapshot",
       "type": "object"
     },
+    "CameraProtocolReading": {
+      "properties": {
+        "true_m": {
+          "exclusiveMinimum": 0,
+          "title": "True M",
+          "type": "number"
+        },
+        "estimate_m": {
+          "exclusiveMinimum": 0,
+          "title": "Estimate M",
+          "type": "number"
+        }
+      },
+      "required": [
+        "true_m",
+        "estimate_m"
+      ],
+      "title": "CameraProtocolReading",
+      "type": "object"
+    },
+    "CameraProtocolRun": {
+      "description": "POST /eval/camera-protocol: one session of the TRD §12 camera protocol from the cab.",
+      "properties": {
+        "calibrated": {
+          "title": "Calibrated",
+          "type": "boolean"
+        },
+        "readings": {
+          "items": {
+            "$ref": "#/$defs/CameraProtocolReading"
+          },
+          "minItems": 1,
+          "title": "Readings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "calibrated",
+        "readings"
+      ],
+      "title": "CameraProtocolRun",
+      "type": "object"
+    },
     "CameraReading": {
       "properties": {
         "machine_id": {
@@ -706,6 +767,68 @@
         "confidence"
       ],
       "title": "CameraReading",
+      "type": "object"
+    },
+    "CameraSettings": {
+      "description": "What the cab's in-browser person detector needs (config/edge.yaml camera.detect).",
+      "properties": {
+        "fps": {
+          "title": "Fps",
+          "type": "number"
+        },
+        "score_min": {
+          "title": "Score Min",
+          "type": "number"
+        },
+        "person_height_m": {
+          "title": "Person Height M",
+          "type": "number"
+        },
+        "calibration_m": {
+          "title": "Calibration M",
+          "type": "number"
+        },
+        "ema_alpha": {
+          "title": "Ema Alpha",
+          "type": "number"
+        },
+        "post_hz": {
+          "title": "Post Hz",
+          "type": "number"
+        },
+        "fov_deg": {
+          "title": "Fov Deg",
+          "type": "number"
+        },
+        "facing_deg": {
+          "title": "Facing Deg",
+          "type": "number"
+        },
+        "protocol_distances_m": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Protocol Distances M",
+          "type": "array"
+        },
+        "protocol_readings": {
+          "title": "Protocol Readings",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "fps",
+        "score_min",
+        "person_height_m",
+        "calibration_m",
+        "ema_alpha",
+        "post_hz",
+        "fov_deg",
+        "facing_deg",
+        "protocol_distances_m",
+        "protocol_readings"
+      ],
+      "title": "CameraSettings",
       "type": "object"
     },
     "Capability": {

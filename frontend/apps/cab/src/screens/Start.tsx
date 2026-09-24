@@ -19,8 +19,11 @@ import { useNavigate } from "react-router";
 
 import { api, EdgeError } from "../api";
 import { useLive } from "../live/store";
+import { speak } from "../live/audio";
 import { useCabConfig } from "../queries";
 import { useSession } from "../session";
+import { checklistAnswer } from "../voice/commands";
+import { listen, speechSupport } from "../voice/recognizer";
 import { BadgeScanner, cameraAvailable, operatorFromBadge } from "./BadgeScanner";
 
 type Step = "language" | "badge" | "pin" | "checklist" | "problems";
@@ -100,6 +103,46 @@ export function Start() {
 
   const items = config.data?.checklist ?? [];
   const left = items.filter((i) => !answers[i.id]).length;
+  const itemText = (i: (typeof items)[number]) => i.text[session.language] ?? i.text.en ?? i.id;
+
+  // answering by voice (F-START-04): the item is read out, then "OK", "Problem" or "All OK"
+  const [voiceState, setVoiceState] = useState<"off" | "listening">("off");
+  const voiceAnswer = () => {
+    const Ctor = speechSupport();
+    const next = items.find((i) => !answers[i.id]);
+    if (!next) return;
+    if (!Ctor) {
+      setError(t("ui.voice.not_supported"));
+      return;
+    }
+    setError(null);
+    speak(itemText(next), i18n.language, session.language === "en" ? itemText(next) : "");
+    setVoiceState("listening");
+    listen(
+      Ctor,
+      session.language,
+      () => undefined,
+      (heard) => {
+        setVoiceState("off");
+        const a = checklistAnswer(heard, config.data?.checklist_voice);
+        if (a === "all_ok") {
+          const rest = items.filter((i) => !answers[i.id]);
+          // read the remaining items back, then answer them all OK (DESIGN ChecklistItem)
+          const list = rest.map(itemText).join(". ");
+          speak(list, i18n.language, session.language === "en" ? list : "");
+          setAnswers((s) => Object.fromEntries(items.map((i) => [i.id, s[i.id] ?? "ok"])));
+        } else if (a) {
+          setAnswers((s) => ({ ...s, [next.id]: a }));
+        } else {
+          setError(t("ui.ptt.error"));
+        }
+      },
+      () => {
+        setVoiceState("off");
+        setError(t("ui.ptt.error"));
+      },
+    );
+  };
   const submitChecklist = async () => {
     const signedIn = useSession.getState().signedIn;
     if (!signedIn) return;
@@ -210,11 +253,12 @@ export function Start() {
         <h2 className="text-cab-heading">{t("ui.start.welcome", { name: session.signedIn?.name ?? "" })}</h2>
         <p className="text-cab-label">{t("ui.start.checklist_title")}</p>
         <p className="text-cab-meta text-ink-2">{t("ui.start.checklist_hint")}</p>
+        <p className="text-cab-meta text-ink-2">{t("ui.voice.checklist_hint")}</p>
         <div className="flex flex-col">
           {items.map((i) => (
             <ChecklistItem
               key={i.id}
-              text={i.text[session.language] ?? i.text.en ?? i.id}
+              text={itemText(i)}
               answer={answers[i.id] ?? null}
               onAnswer={(a) => setAnswers((s) => ({ ...s, [i.id]: a }))}
               okLabel={t("ui.btn.ok")}
@@ -224,6 +268,9 @@ export function Start() {
         </div>
         {error && <p className="text-cab-body">{error}</p>}
         <div className="flex flex-wrap items-center gap-6 pb-8">
+          <Button variant="secondary" disabled={left === 0 || voiceState === "listening"} onClick={voiceAnswer}>
+            {voiceState === "listening" ? t("ui.ptt.listening") : t("ui.voice.checklist_button")}
+          </Button>
           <Button
             variant="secondary"
             disabled={left === 0}

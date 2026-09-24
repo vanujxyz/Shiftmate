@@ -17,9 +17,10 @@ export default defineConfig({
       injectRegister: "auto",
       manifest: false,
       workbox: {
-        globPatterns: ["**/*.{js,css,html,svg,woff2,webmanifest}"],
+        // the person detector (WASM and model, ~17 MB) is cached too, so the camera works offline
+        globPatterns: ["**/*.{js,css,html,svg,woff2,webmanifest,wasm,tflite}"],
         navigateFallback: "/index.html",
-        maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
+        maximumFileSizeToCacheInBytes: 16 * 1024 * 1024,
         cleanupOutdatedCaches: true,
       },
     }),
