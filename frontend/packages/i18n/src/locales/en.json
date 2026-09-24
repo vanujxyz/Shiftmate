@@ -634,7 +634,10 @@
       "offline": "Offline",
       "captions": "Captions on the cab",
       "signed_in": "Signed in on the cab: {{who}}",
-      "nobody": "nobody"
+      "nobody": "nobody",
+      "reset": "Reset demo",
+      "scale_note": "The 10,000-machine run was measured with shiftmate sim scale. Its numbers are on the Fleet page.",
+      "scale_open": "Open the scale results"
     },
     "ev": {
       "title": "Evaluation",

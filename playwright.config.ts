@@ -7,6 +7,13 @@ export default defineConfig({
   use: { baseURL: "http://localhost:5173", channel: "chrome", viewport: { width: 1280, height: 800 } },
   webServer: [
     {
+      // the edge gateway, for the ravi_shift end-to-end test
+      command: "uv run --directory backend shiftmate edge",
+      url: "http://127.0.0.1:8100/health",
+      reuseExistingServer: true,
+      timeout: 120_000,
+    },
+    {
       command: "pnpm --filter cab dev",
       url: "http://localhost:5173",
       reuseExistingServer: true,

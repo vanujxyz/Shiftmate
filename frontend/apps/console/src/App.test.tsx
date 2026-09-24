@@ -259,6 +259,20 @@ describe("demo control", () => {
     await waitFor(() => expect(calls.find((c) => c.url === "/demo/scenario/load")?.body).toEqual({ name: "fleet_tour" }));
     fireEvent.click(screen.getByRole("button", { name: "60×" }));
     await waitFor(() => expect(calls.find((c) => c.url === "/demo/speed")?.body).toEqual({ x: 60 }));
+    fireEvent.click(screen.getByRole("button", { name: "டெமோவை மீட்டமை" }));
+    await waitFor(() => expect(calls.some((c) => c.url === "/demo/reset")).toBe(true));
+  });
+
+  it("the fleet tour's scale beat points to the measured run on the Fleet page", async () => {
+    const tour = {
+      ...DEMO,
+      scenario: "fleet_tour",
+      beats: [{ id: "scale", at: "07:45", action: "scale_demo", caption: { en: "10,000 machines", hi: "10,000", ta: "10,000" }, done: true }],
+    };
+    fakeServices({ "/demo/state": tour, "/demo/scenarios": [] });
+    renderAt(<App />, "/demo");
+    fireEvent.click(await screen.findByRole("button", { name: "Open the scale results" }));
+    expect(await screen.findByRole("heading", { name: /Fleet/ })).toBeInTheDocument();
   });
 });
 

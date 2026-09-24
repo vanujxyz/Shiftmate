@@ -318,6 +318,20 @@ def test_alert_ack(client, app) -> None:
     assert client.post("/alerts/nope/ack", json={"action": "ack"}).status_code == 404
 
 
+def test_beat_speed(client, app) -> None:
+    """A beat with `speed` slows the story so a live P1 can be seen (the presenter speeds up)."""
+    sign_in(client)
+    player = ctx(app).player
+    client.post("/demo/speed", json={"x": 30})
+    client.post("/demo/seek", json={"beat_id": "worker_near"})
+    player.advance(2)
+    assert player.speed == 1
+    client.post("/demo/seek", json={"beat_id": "truck_delay"})
+    client.post("/demo/speed", json={"x": 30})
+    player.advance(2, auto=True)  # headless runs never change speed
+    assert player.speed == 30
+
+
 def test_demo_controls(client) -> None:
     assert client.post("/demo/speed", json={"x": 30}).json()["speed"] == 30
     assert client.post("/demo/speed", json={"x": 0}).status_code == 422
@@ -339,6 +353,14 @@ def test_demo_controls(client) -> None:
     whl = client.get("/machines/WHL014").json()
     assert whl["machine"]["sensor_tier"] == "basic" and whl["low_confidence"]
     client.post("/demo/scenario/load", json={"name": "ravi_shift"})
+    # reset: back to the start of the loaded story, paused at 1x, captions off, online
+    sign_in(client)
+    client.post("/demo/speed", json={"x": 30})
+    client.post("/demo/captions", json={"on": True})
+    client.post("/demo/network", json={"online": False})
+    r = client.post("/demo/reset").json()
+    assert r["scenario"] == "ravi_shift" and r["speed"] == 1 and not r["playing"]
+    assert not r["captions"] and r["online"] and r["signed_in"] is None
 
 
 def test_cab_config(client) -> None:

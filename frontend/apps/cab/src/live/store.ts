@@ -60,6 +60,10 @@ export type LiveState = {
   lessonOffer: LessonOffer | null;
   notes: InsightNote[];
   waitingFor: string | null;
+  /** Demo only: the story beat's caption, when the console turns captions on (TRD §8). */
+  caption: { beat: string; text: Record<string, string>; at: number } | null;
+  /** Demo only: when the scenario ended the shift (the cab then opens My Day). */
+  endShiftAt: number | null;
 };
 
 export const emptyAlerts = (): AlertsState => ({
@@ -92,6 +96,8 @@ export const initialLive = (): LiveState => ({
   lessonOffer: null,
   notes: [],
   waitingFor: null,
+  caption: null,
+  endShiftAt: null,
 });
 
 function without<T>(record: Record<string, T>, key: string): Record<string, T> {
@@ -161,6 +167,7 @@ function fromSnapshot(snap: CabSnapshot, prev: LiveState): LiveState {
     online: snap.online ?? prev.online,
     sync: snap.sync ?? prev.sync,
     waitingFor: snap.waiting_for ?? null,
+    caption: snap.captions ? prev.caption : null,
     risk: snap.risk ?? null,
     alerts: al
       ? {
@@ -226,9 +233,12 @@ export function reduce(state: LiveState, env: WsEnvelope, now: number): LiveStat
       return { ...s, notes: [...s.notes, p as unknown as InsightNote].slice(-NOTES_LIMIT) };
     case "demo":
       if (p.event === "waiting") return { ...s, waitingFor: (p.beat as string | null) ?? null };
+      if (p.event === "end_shift") return { ...s, endShiftAt: now };
       return s;
+    case "scenario_caption":
+      return { ...s, caption: { beat: String(p.beat), text: p.caption as Record<string, string>, at: now } };
     default:
-      return s; // idle_segment, scenario_caption, … are used by later screens
+      return s; // idle_segment, … are used by other screens
   }
 }
 

@@ -50,6 +50,7 @@ const TAB_GLYPH = {
   "/learn": <SensorGlyph tier="standard" size={44} />,
 };
 const LOST_AFTER_MS = 3000;
+const CAPTION_MS = 10_000; // a demo caption stays up this long
 
 /**
  * The mode on screen. Going to Working is immediate (safety beats continuity), except that a
@@ -76,7 +77,7 @@ export function useDisplayedMode(mode: LiveState["mode"]): LiveState["mode"] {
 }
 
 export function CabShell() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const signedIn = useSession((s) => s.signedIn);
   const signOut = useSession((s) => s.signOut);
   const live = useLive();
@@ -99,6 +100,12 @@ export function CabShell() {
     });
   }, [live.connected, queryClient]);
 
+  // the scenario's end of shift opens the operator's private My Day (PRD §9 last beat)
+  const endShiftAt = live.endShiftAt;
+  useEffect(() => {
+    if (endShiftAt != null) void navigate("/insights");
+  }, [endShiftAt, navigate]);
+
   const replaced = live.seq !== null && live.loaded && live.operatorId !== signedIn?.operatorId;
   const unloaded = live.seq !== null && !live.loaded;
   useEffect(() => {
@@ -114,12 +121,25 @@ export function CabShell() {
   const current =
     TABS.find((tab) => tab === location.pathname || (tab !== "/" && location.pathname.startsWith(`${tab}/`))) ?? "";
   const working = mode === "working";
+  // a report or question spoken while working opens its screen anyway: the operator asked for it
+  // (voice stays available in Working mode, TRD §11.1); the nav stays hidden
+  const byVoice = (location.pathname === "/report" || location.pathname === "/ask") && location.state != null;
+  const caption = live.caption && now - live.caption.at < CAPTION_MS ? live.caption : null;
 
   return (
     <div data-mode={mode} className="flex h-screen flex-col overflow-hidden bg-ground text-ink">
       <StatusRail {...rail} />
       <div className="relative min-h-0 flex-1">
         <AlertTop timings={config.data?.alerts} />
+        {caption && (
+          <p
+            role="status"
+            data-testid="demo-caption"
+            className="pointer-events-none absolute inset-x-0 bottom-4 z-(--sm-layer-p4) mx-auto w-fit max-w-[80%] rounded-control bg-selected px-6 py-3 text-center text-cab-label text-on-selected"
+          >
+            {caption.text[i18n.language] ?? caption.text.en}
+          </p>
+        )}
         <main className="h-full overflow-y-auto">
           {lost && (
             <div className="p-6 pb-0">
@@ -131,7 +151,7 @@ export function CabShell() {
               />
             </div>
           )}
-          {working ? (
+          {working && !byVoice ? (
             <WorkingLine />
           ) : (
             <div className="sm-rise-in">

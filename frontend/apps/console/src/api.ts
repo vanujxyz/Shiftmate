@@ -62,6 +62,7 @@ export const edge = {
   seek: (beatId: string) => edgePost<DemoState>("/demo/seek", { beat_id: beatId }),
   network: (online: boolean) => edgePost<DemoState>("/demo/network", { online }),
   captions: (on: boolean) => edgePost<DemoState>("/demo/captions", { on }),
+  reset: () => edgePost<DemoState>("/demo/reset"),
 };
 
 export const fleet = {

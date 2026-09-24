@@ -170,6 +170,8 @@ def create_app(
         tasks = []
         if autorun:
             tasks = [asyncio.create_task(_clock(ctx)), asyncio.create_task(ctx.sync.run())]
+            # load Ask Cat (index + embedder) now, so the first spoken command is not slow
+            tasks.append(asyncio.create_task(_warm_assistant(ctx)))
         yield
         for task in tasks:
             task.cancel()
@@ -179,6 +181,13 @@ def create_app(
     install_common(app)
     _routes(app, ctx)
     return app
+
+
+async def _warm_assistant(ctx: EdgeContext) -> None:
+    try:
+        await asyncio.to_thread(ctx.extra["get_assistant"])
+    except Exception:  # the assistant says so itself when asked; startup must not fail
+        log.exception("assistant warm-up failed")
 
 
 async def _clock(ctx: EdgeContext) -> None:
@@ -784,6 +793,18 @@ def _routes(app: FastAPI, ctx: EdgeContext) -> None:
     @app.post("/demo/captions", response_model=DemoState)
     async def demo_captions(body: CaptionsRequest) -> DemoState:
         ctx.player.captions = body.on
+        return demo_state()
+
+    @app.post("/demo/reset", response_model=DemoState)
+    async def demo_reset() -> DemoState:
+        """Back to the start of the story: the current scenario (or Ravi's shift) reloaded with
+        its records cleared, paused at 1×, captions off and the internet on."""
+        name = ctx.player.scenario.name if ctx.player.scenario else "ravi_shift"
+        ctx.player.load(name)
+        ctx.player.speed = 1.0
+        ctx.player.captions = False
+        ctx.sync.publish_status(force=True)
+        ctx.feeds.pump(ctx.wall())
         return demo_state()
 
 
