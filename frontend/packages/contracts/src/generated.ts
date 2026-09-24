@@ -267,6 +267,18 @@ export interface BookingRequest {
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "BookingView".
+ */
+export interface BookingView {
+  booking_id: string;
+  slot_id: string;
+  dealer_centre?: string | null;
+  start?: string | null;
+  topic?: string | null;
+  status: string;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "BreakWindow".
  */
 export interface BreakWindow {
@@ -531,6 +543,16 @@ export interface SeasonSpan {
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "CompletionView".
+ */
+export interface CompletionView {
+  lesson_id: string;
+  ts: string;
+  score: number;
+  duration_s: number;
+}
+/**
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
  * via the `definition` "Conditions".
  */
 export interface Conditions {
@@ -616,6 +638,19 @@ export interface HazardAnswer {
   hazard_id: string;
   reaction_ms?: number | null;
   correct: boolean;
+}
+/**
+ * A drill result as facts ("5 of 7", "0.8 s"), never a single score (D-013).
+ *
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "DrillView".
+ */
+export interface DrillView {
+  drill_id: string;
+  ts: string;
+  correct: number;
+  total: number;
+  mean_reaction_ms?: number | null;
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
@@ -778,6 +813,18 @@ export interface FuelRates {
 export interface Gps {
   x_m: number;
   y_m: number;
+}
+/**
+ * How often a finished lesson's habits were seen: the week before this one, and this week.
+ *
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "HabitTrend".
+ */
+export interface HabitTrend {
+  lesson_id: string;
+  codes: string[];
+  previous_week: number;
+  this_week: number;
 }
 /**
  * Answer of `GET /health` on the edge gateway and the fleet service.
@@ -1064,6 +1111,7 @@ export interface Lesson {
   cards?: LessonCard[];
   quiz?: QuizQuestion[];
   hazards?: DrillHazard[];
+  art?: string | null;
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
@@ -1134,6 +1182,7 @@ export interface LessonSummary {
   duration_s: number;
   triggers: string[];
   completed?: boolean;
+  art?: string | null;
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
@@ -1853,6 +1902,22 @@ export interface TaskProgress {
   done_qty: number;
   planned_qty: number;
   unit: string;
+}
+/**
+ * GET /training/progress (PRD F-LRN-06): private to the signed-in operator.
+ *
+ * This interface was referenced by `ShiftMateContracts`'s JSON-Schema
+ * via the `definition` "TrainingProgress".
+ */
+export interface TrainingProgress {
+  operator_id: string;
+  lessons_done: number;
+  lessons_total: number;
+  streak_days: number;
+  completed: CompletionView[];
+  drills: DrillView[];
+  bookings: BookingView[];
+  habits: HabitTrend[];
 }
 /**
  * This interface was referenced by `ShiftMateContracts`'s JSON-Schema

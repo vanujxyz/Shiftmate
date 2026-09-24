@@ -1,6 +1,6 @@
 # ShiftMate — Build progress
 
-**Next step:** Milestone 16 (Training hub) in progress.
+**Next step:** Milestone 17 (Demo polish and end-to-end) in progress.
 
 **Autonomy note (2026-09-23):** the user authorised continuing through all milestones without waiting for approval, and approved all needed downloads. Each milestone is still tested, committed, and reported in `docs/reports/milestone-N.md`.
 
@@ -185,11 +185,11 @@ Goal: push-to-talk in three languages, spoken alerts, and live webcam proximity.
 Requirements: F-SAFE-03, 09, F-ASK-01, 04, F-REP-01, F-START-04 (voice).
 Downloads: MediaPipe `efficientdet_lite0` model (~7 MB, vendored). You will need: a webcam and a helper to walk towards it.
 
-### Milestone 16 — Training hub (Phase 12) · Status: not started
+### Milestone 16 — Training hub (Phase 12) · Status: done
 Goal: lessons, hazard drill, recommendations during pauses, instructor booking and progress.
-- [ ] 1. Lesson player (narrated cards + quiz), 12 lessons with illustrations
-- [ ] 2. Hazard drill canvas (5 hazards, tap or voice "stop", reaction time)
-- [ ] 3. Pause-only lesson offers; instructor booking; progress view
+- [x] 1. Lesson player (narrated cards + quiz), 12 lessons with illustrations
+- [x] 2. Hazard drill canvas (5 hazards, tap or voice "stop", reaction time)
+- [x] 3. Pause-only lesson offers; instructor booking; progress view
 Requirements: F-LRN-01…06.
 
 ### Milestone 17 — Demo polish and end-to-end (Phase 13) · Status: not started

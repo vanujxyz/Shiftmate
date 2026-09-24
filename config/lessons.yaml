@@ -101,6 +101,7 @@ lessons:
 
   - id: L-SPOTTER-SIGNALS
     title: {en: "Hand signals with your spotter", hi: "स्पॉटर के हाथ के इशारे", ta: "சைகை காட்டுபவரின் கைச் சைகைகள்"}
+    art: spotter-meet
     format: quiz
     duration_s: 120
     triggers: [PROXIMITY_CAUTION, PROXIMITY_DANGER]
@@ -226,6 +227,7 @@ lessons:
 
   - id: L-WALKAROUND
     title: {en: "The two-minute walkaround", hi: "दो मिनट की चक्कर जाँच", ta: "இரண்டு நிமிடச் சுற்றுப் பார்வை"}
+    art: walkaround
     format: quiz
     duration_s: 90
     triggers: []                  # offered from the catalogue and after a checklist problem
@@ -280,6 +282,7 @@ lessons:
 
   - id: D-HAZARD-DRILL-1
     title: {en: "Hazard drill: spot and stop", hi: "ख़तरा अभ्यास: देखें और रोकें", ta: "ஆபத்துப் பயிற்சி: கண்டு நிறுத்துங்கள்"}
+    art: drill-intro
     format: drill
     duration_s: 120
     triggers: [PROXIMITY_CRITICAL, PROXIMITY_DANGER, SPEED_NEAR_PERSON]

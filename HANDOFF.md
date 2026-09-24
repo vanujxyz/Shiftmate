@@ -5,7 +5,7 @@ Last updated: 2026-09-23 (after milestone 8).
 ## Read first
 1. `CLAUDE.md` (process rules, golden rules). The repo uses **milestones** (see `docs/PROGRESS.md`), not the "phases" named in CLAUDE.md; PROGRESS.md maps each milestone to its phase.
 2. `docs/PROGRESS.md` — milestone list with checkboxes and status.
-3. `docs/DECISIONS.md` — D-001…D-093. Log new decisions in the same format (next number: **D-094**).
+3. `docs/DECISIONS.md` — D-001…D-098. Log new decisions in the same format (next number: **D-099**).
 4. `docs/reports/milestone-N.md` — one report per finished milestone (same format for new ones).
 5. `docs/TRD.md` §8 (scenarios), §9 (APIs, sync) for the current milestone.
 
@@ -27,8 +27,8 @@ Last updated: 2026-09-23 (after milestone 8).
 - New UI strings: add a YAML batch to `scripts/i18n/` (en/hi/ta; `null` removes a key), then run `uv run --directory backend python ../scripts/i18n_merge.py ../scripts/i18n/<file>.yaml` and `pnpm i18n:review`.
 
 ## Status
-- Milestones 1–15: **done and committed** (the last is `milestone 15: voice and camera …`). Reports: `docs/reports/milestone-N.md`.
-- Next: **milestone 16 (training hub)**. Decisions continue at **D-094**.
+- Milestones 1–16: **done and committed** (the last is `milestone 16: training hub …`). Reports: `docs/reports/milestone-N.md`.
+- Next: **milestone 17 (demo polish and end-to-end)**. Decisions continue at **D-099**.
 - Design system: every component is in `frontend/packages/ui` and on http://localhost:5174/_kitchen-sink. Components take all words through props; the vocabulary is under `ui.*` in the i18n files. `pnpm e2e` checks the kitchen sink for overflow in 3 themes × 3 languages. In Tamil the rail hides the machine segment, so the cab must show the machine ID in the Paused content header (D-068).
 - `shiftmate edge headless` plays Ravi's shift at 60× and prints it beat by beat; `tests/test_headless.py` asserts every beat and determinism, and `tests/test_fleet_scale.py` uploads the same shift into a real Fleet Service. Keep both green.
 - Fleet Service: `shiftmate fleet` (:8200). Its DuckDB file `data/fleet/fleet.duckdb` is seeded from history on first start (delete `data/fleet/` to reset). Only one process can open it at a time.

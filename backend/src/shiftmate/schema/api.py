@@ -236,6 +236,7 @@ class LessonSummary(BaseModel):
     duration_s: int
     triggers: list[str]
     completed: bool = False
+    art: str | None = None  # illustration name for the catalogue card
 
 
 class Recommendation(BaseModel):
@@ -266,6 +267,54 @@ class DrillResultRequest(BaseModel):
 class BookingRequest(BaseModel):
     operator_id: str
     slot_id: str
+
+
+class CompletionView(BaseModel):
+    lesson_id: str
+    ts: AwareDatetime
+    score: float
+    duration_s: float
+
+
+class DrillView(BaseModel):
+    """A drill result as facts ("5 of 7", "0.8 s"), never a single score (D-013)."""
+
+    drill_id: str
+    ts: AwareDatetime
+    correct: int
+    total: int
+    mean_reaction_ms: int | None = None
+
+
+class BookingView(BaseModel):
+    booking_id: str
+    slot_id: str
+    dealer_centre: str | None = None
+    start: AwareDatetime | None = None
+    topic: str | None = None
+    status: str
+
+
+class HabitTrend(BaseModel):
+    """How often a finished lesson's habits were seen: the week before this one, and this week."""
+
+    lesson_id: str
+    codes: list[str]
+    previous_week: int
+    this_week: int
+
+
+class TrainingProgress(BaseModel):
+    """GET /training/progress (PRD F-LRN-06): private to the signed-in operator."""
+
+    operator_id: str
+    lessons_done: int
+    lessons_total: int
+    streak_days: int
+    completed: list[CompletionView]
+    drills: list[DrillView]
+    bookings: list[BookingView]
+    habits: list[HabitTrend]
 
 
 # --- assistant (milestone 14 fills the online path) --------------------------------------------

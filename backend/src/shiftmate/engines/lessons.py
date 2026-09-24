@@ -17,7 +17,7 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 
 from shiftmate.engines.risk import banded_points
 from shiftmate.schema.config import LessonsConfig, RiskModelConfig
@@ -127,3 +127,39 @@ class LessonOfferer:
         self.last_offer = ts
         self.offered_this_pause = True
         return recommendations[0]
+
+
+# --- progress (PRD F-LRN-06) ---------------------------------------------------------------
+def streak_days(days: Iterable[date], today: date) -> int:
+    """Days in a row, ending today (or yesterday, so the streak is not lost before today's lesson),
+    on which the operator finished a lesson or a drill."""
+    seen = set(days)
+    day = today if today in seen else today - timedelta(days=1)
+    n = 0
+    while day in seen:
+        n += 1
+        day -= timedelta(days=1)
+    return n
+
+
+def habit_codes(lessons: LessonsConfig, lesson_id: str) -> list[str]:
+    """The behaviour triggers of a lesson: conditions (HEAT, RAIN, …) are not habits."""
+    flags = {f.value for f in ConditionFlag}
+    return [t for t in lessons.lesson(lesson_id).triggers if t not in flags]
+
+
+def habit_counts(
+    events: Iterable[TriggerEvent], codes: list[str], now: datetime
+) -> tuple[int, int]:
+    """How often the lesson's habits were seen in the 7 days before this week, and this week."""
+    wanted = set(codes)
+    week = timedelta(days=7)
+    previous = this = 0
+    for e in events:
+        if e.code not in wanted or e.ts > now:
+            continue
+        if now - e.ts <= week:
+            this += 1
+        elif now - e.ts <= 2 * week:
+            previous += 1
+    return previous, this

@@ -13,12 +13,17 @@ import type {
   InsightsResponse,
   IntentResponse,
   Language,
+  Lesson,
+  LessonSummary,
   MachineInfo,
+  Recommendation,
   ReportParseResponse,
   ReportSaveRequest,
   SavedReport,
   SessionResponse,
   ShiftResponse,
+  TrainingProgress,
+  TrainingSlot,
 } from "@shiftmate/contracts";
 
 export const EDGE_URL: string = import.meta.env.VITE_EDGE_URL ?? "http://localhost:8100";
@@ -82,6 +87,19 @@ export const api = {
     post<AskResponse>("/assistant/ask", { question, language }),
   insights: (operatorId: string, range: "shift" | "week") =>
     call<InsightsResponse>(`/insights/${encodeURIComponent(operatorId)}?range=${range}`),
+  lessons: (operatorId: string) => call<LessonSummary[]>(`/lessons?operator_id=${encodeURIComponent(operatorId)}`),
+  recommended: (operatorId: string) =>
+    call<Recommendation[]>(`/lessons/recommended?operator_id=${encodeURIComponent(operatorId)}`),
+  lesson: (lessonId: string) => call<Lesson>(`/lessons/${encodeURIComponent(lessonId)}`),
+  completeLesson: (lessonId: string, body: { operator_id: string; score: number; duration_s: number; language: Language }) =>
+    post<{ ok: boolean }>(`/lessons/${encodeURIComponent(lessonId)}/complete`, body),
+  drillResult: (body: { operator_id: string; drill_id: string; hazards: { hazard_id: string; reaction_ms: number | null; correct: boolean }[] }) =>
+    post<{ ok: boolean; correct: number; total: number; mean_reaction_ms: number | null }>("/drills/results", body),
+  slots: () => call<TrainingSlot[]>("/training/slots"),
+  book: (operatorId: string, slotId: string) =>
+    post<{ ok: boolean; booking_id: string }>("/training/bookings", { operator_id: operatorId, slot_id: slotId }),
+  progress: (operatorId: string) =>
+    call<TrainingProgress>(`/training/progress?operator_id=${encodeURIComponent(operatorId)}`),
 };
 
 /** ws://…/ws/cab/{machine} on the same host as the REST API. */

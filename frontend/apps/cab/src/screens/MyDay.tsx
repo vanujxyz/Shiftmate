@@ -7,6 +7,7 @@
  */
 import type { IdleReason, InsightsResponse, TimeSplitSegment } from "@shiftmate/contracts";
 import {
+  Button,
   CoachingNote,
   formatDuration,
   IdleSegmentRow,
@@ -18,6 +19,7 @@ import {
 import type { TFunction } from "i18next";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 
 import { useInsights } from "../queries";
 import { addClock, clockOf, formatQty, noteText } from "../text";
@@ -85,6 +87,7 @@ function evidenceText(t: TFunction, codes: string[]): string {
 
 function Today({ data }: { data: InsightsResponse }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const totals = data.totals_min;
   const sum = (keys: string[]) => keys.reduce((s, k) => s + (totals[k] ?? 0), 0);
   const working = sum(["working", "travel"]);
@@ -180,7 +183,21 @@ function Today({ data }: { data: InsightsResponse }) {
           <CoachingNote key={n.key} kind="went-well" heading={t("ui.coach.went_well")} text={noteText(t, n)} />
         ))}
         {data.coaching.slice(0, 2).map((n) => (
-          <CoachingNote key={n.key} kind="idea" heading={t("ui.coach.idea")} text={noteText(t, n)} />
+          <CoachingNote
+            key={n.key}
+            kind="idea"
+            heading={t("ui.coach.idea")}
+            text={noteText(t, n)}
+            action={
+              n.lesson_id ? (
+                <div>
+                  <Button variant="secondary" onClick={() => void navigate(`/learn/${n.lesson_id}`)}>
+                    {t("ui.learn.open_lesson")}
+                  </Button>
+                </div>
+              ) : undefined
+            }
+          />
         ))}
       </aside>
     </div>
