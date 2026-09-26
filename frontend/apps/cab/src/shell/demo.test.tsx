@@ -45,4 +45,13 @@ describe("demo polish in the cab", () => {
     act(() => useLive.getState().apply(envelope("demo", { event: "end_shift", operator_id: "OP1001" })));
     expect(await screen.findByRole("button", { name: "My day" })).toHaveAttribute("aria-current", "page");
   });
+
+  it("the end of the shift shows My Day even if the machine was still working", async () => {
+    fakeEdge({ "/cab/config": CONFIG, "/operators/OP1001/shift": shift(), "/insights/OP1001": insights() });
+    useSession.setState({ signedIn: { operatorId: "OP1001", machineId: "EXC001", name: "Ravi" }, language: "en" });
+    act(() => useLive.getState().apply(envelope("snapshot", snapshot({ mode: "working" }))));
+    renderAt(<App />, "/");
+    act(() => useLive.getState().apply(envelope("demo", { event: "end_shift", operator_id: "OP1001" })));
+    expect(await screen.findByRole("heading", { name: "My day" })).toBeVisible();
+  });
 });
