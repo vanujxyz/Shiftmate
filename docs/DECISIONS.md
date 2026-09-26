@@ -718,3 +718,33 @@ Date: 2026-09-24 · Phase: 12 · Requirement(s): DESIGN §6, D-014
 Decision: `packages/ui/src/illustrations.tsx` draws all 53 lesson, checklist and drill pictures on a 160 × 100 grid. They are composed from about 20 parts (machine, truck, person, swing ring, clock, water, sun, moon, lamp, trench edge, power line…) in the glyph style (`currentColor`, square caps). A person in danger is the only filled shape. A test checks that every `illustration`, `scene` and `art` name in config has a drawing.
 Why: Consistent, light, themeable art with no copyrighted material.
 Alternatives: Hand-drawn SVG files per picture (53 files to keep consistent).
+
+## D-099 — Safety beats always play at real time
+Date: 2026-09-24 · Phase: 13 · Requirement(s): F-SAFE-02, F-SAFE-01, PRD §9
+Decision: A scenario beat may carry `speed: 1`. When the player reaches it, the world clock drops to 1× for that beat and then returns to the chosen speed. `worker_near` and `seatbelt` use it. The live loop also caps catch-up at `MAX_CATCH_UP_S = 1.0` of wall time per tick and ends a batch of ticks when a beat changes speed. Headless runs (tests, eval) ignore beat speeds so their event logs stay the same.
+Why: At 30× the caution → danger → critical escalation and the P1 takeover were over in under a second, so judges could not see them.
+Alternatives: Asking the presenter to change speed by hand before each beat (easy to forget live).
+
+## D-100 — Voice screens open in Working mode
+Date: 2026-09-24 · Phase: 13 · Requirement(s): F-CAB-01, F-REP-01, F-ASK-04
+Decision: Report and Ask open over the working strip when they were started by voice (`byVoice`), and Report returns to the strip 3 s after a spoken report is sent. Tapping into them still needs Paused mode.
+Why: A spoken report is the hands-free path; hiding it until the machine stops made the near-miss beat fail at speed.
+Alternatives: Waiting for Paused mode (the beat stalls while the machine works).
+
+## D-101 — Captions, end of shift and reset
+Date: 2026-09-24 · Phase: 13 · Requirement(s): PRD §9
+Decision: Each beat's caption (en/hi/ta, from the scenario file) shows for 10 s in a strip in the cab when captions are on in Demo control. The `end_shift` beat opens My Day. `POST /demo/reset` reloads the scenario at 1×, captions off and online, and the console has a Reset demo button. The Ask Cat index and model load when the gateway starts.
+Why: The presenter needs to narrate, restart quickly between runs, and not wait 30 s for the first voice answer.
+Alternatives: Restarting the gateway between runs (slow, loses the console connection).
+
+## D-102 — End-to-end demo test drives the real stack
+Date: 2026-09-24 · Phase: 13 · Requirement(s): PRD §9, NFR reliability
+Decision: `e2e/ravi-shift.spec.ts` starts the real gateway (Playwright `webServer`), signs Ravi in in Tamil, runs at 30× and walks every beat with pause, speed, seek and play. Speech recognition is replaced by a fake that is set on both `SpeechRecognition` and `webkitSpeechRecognition`. It must pass twice in a row.
+Why: The demo story is the product's main claim; only a full-stack test proves it keeps working.
+Alternatives: Checking beats only in the headless Python run (misses the cab and console).
+
+## D-103 — History is the same in every process
+Date: 2026-09-26 · Phase: 14 · Requirement(s): TRD §7 (determinism), PRD §10
+Decision: The truck dispatcher now opens newly active loading zones in sorted order. Before, it looped over a Python set of zone names and drew a random dispatch time for each, and a set of strings iterates in a different order in every process (hash randomisation). So the same seed gave slightly different histories on each run for sites with more than one loading zone (7,040 / 7,042 / 7,043 finished tasks across three runs). A new test generates four Chennai days in two processes with different `PYTHONHASHSEED` values and requires identical hashes. The data was rebuilt and `EVAL.md` regenerated.
+Why: The evaluation must be reproducible from a clean clone; the old tests ran both copies in one process, so they could not see it.
+Alternatives: Fixing `PYTHONHASHSEED` in the CLI (hides the problem instead of removing it).

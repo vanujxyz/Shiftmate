@@ -247,6 +247,32 @@ def test_generator_is_deterministic_and_writes_outputs(tmp_path) -> None:
     assert "label" not in " ".join(ticks.columns)  # ground truth lives only under truth/
 
 
+def test_history_is_the_same_in_any_process(tmp_path) -> None:
+    # string sets iterate in a different order in each process (hash randomisation), so any
+    # random draw made while looping over one would change the world between runs
+    import os
+    import subprocess
+    import sys
+
+    code = (
+        "import sys; from pathlib import Path; from shiftmate.sim.history import generate_history; "
+        "m = generate_history(days=4, seed=7, out_dir=Path(sys.argv[1]), sites=['CHN-HWY-01'], "
+        "workers=1); print(m['site_hashes']['CHN-HWY-01'])"
+    )
+    hashes = []
+    for hash_seed in ("1", "2"):
+        env = {**os.environ, "PYTHONHASHSEED": hash_seed}
+        out = subprocess.run(
+            [sys.executable, "-c", code, str(tmp_path / hash_seed)],
+            env=env,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        hashes.append(out.stdout.strip().splitlines()[-1])
+    assert hashes[0] == hashes[1]
+
+
 def test_warm_up_only_when_the_engine_is_cold(cfg, chennai) -> None:
     # D-050: a true warm-up always starts below the coolant ready temperature
     _, ticks, truth, _ = chennai

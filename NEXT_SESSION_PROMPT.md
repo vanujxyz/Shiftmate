@@ -4,13 +4,13 @@ Paste everything below the line into Claude Code, opened in the cloned repo fold
 
 ---
 
-You are continuing to build **ShiftMate**, an operator-first in-cab companion for Caterpillar machines (a hackathon project). An earlier Claude Code session built milestones 1–7 and half of milestone 8, then ran out of usage. Your job is to pick up exactly where it stopped and continue milestone by milestone to milestone 18.
+You are continuing to build **ShiftMate**, an operator-first in-cab companion for Caterpillar machines (a hackathon project). Earlier Claude Code sessions built all 18 milestones. Your job is to keep the project healthy and handle the owner's follow-up requests.
 
 ## 1. Read these first, in this order (do not skip)
 1. `HANDOFF.md` (repo root): the exact state, what milestone 8 already contains, and what remains.
 2. `CLAUDE.md`: process rules, golden rules and things you must never do. Its "phases" map to the milestones in PROGRESS.md.
 3. `docs/PROGRESS.md`: all 18 milestones with checkboxes, goals and requirement IDs.
-4. `docs/DECISIONS.md`: decisions D-001…D-098. Entries marked **(user)** are the owner's decisions; never reverse them. Add new entries in the same format, starting at **D-099**.
+4. `docs/DECISIONS.md`: decisions D-001…D-103. Entries marked **(user)** are the owner's decisions; never reverse them. Add new entries in the same format, starting at **D-104**.
 5. `docs/TRD.md`: implementation spec. Read §8 (scenarios) and §9 (APIs, WebSockets, sync) now; read other sections as each milestone needs them.
 6. `docs/PRD.md`: behaviour and requirement IDs (F-…); §9 is the demo story (Ravi's shift).
 7. `docs/DESIGN.md` and `frontend/packages/ui/src/tokens.css`: the visual system (from milestone 10 on).
@@ -95,9 +95,10 @@ pnpm i18n:review
 ```
 
 ## 5. Current state and your first tasks
-- Milestones 1–16 are done. The last commit is `milestone 16: …`. Learn works (lessons, quiz, hazard drill, booking, progress, pause-only offers). Voice (push-to-talk, checklist by voice) and the rear camera panel work; the camera accuracy protocol still needs a webcam and a helper (EVAL.md).
+- **All 18 milestones are done** (last commit `milestone 18: …`). `docs/TRACEABILITY.md` maps every requirement; `docs/reports/milestone-18.md` has the final evaluation and the demo readiness checklist. Remaining owner items: the camera accuracy protocol, the D-051 target misses and the deck numbers.
+- Earlier state, kept for context: Learn works (lessons, quiz, hazard drill, booking, progress, pause-only offers). Voice (push-to-talk, checklist by voice) and the rear camera panel work; the camera accuracy protocol still needs a webcam and a helper (EVAL.md).
 - **Step 1:** run the full backend suite, `pnpm test:all` and `pnpm lint:all`, and check they are green before changing anything (the backend suite takes about 3 minutes).
-- **Step 2:** carry on with milestones 17 → 18 from `docs/PROGRESS.md`. Ask Cat works (`shiftmate assistant index`, `/assistant/ask`, cab `/ask`); tests never call Gemini (tests/conftest.py blanks GEMINI_API_KEY). The console (`frontend/apps/console`) has the live map, day summary, fleet, demo and evaluation pages. The cab app (`frontend/apps/cab`) has its frame, alert layer, Start, My Shift, Safety, Report, My Day (`/insights`) and offline PWA, and Learn (`screens/learn/`). `pnpm e2e` also builds the cab PWA on :4173 for the offline test; stop any `shiftmate fleet` process before the backend suite (test_smoke opens its DuckDB file). Build screens from the components in `frontend/packages/ui` (see `/_kitchen-sink` in the console); never style app code with raw values (a test enforces this).
+- **Step 2:** there are no milestones left; take requests from the owner (polish, the open items above). Ask Cat works (`shiftmate assistant index`, `/assistant/ask`, cab `/ask`); tests never call Gemini (tests/conftest.py blanks GEMINI_API_KEY). The console (`frontend/apps/console`) has the live map, day summary, fleet, demo and evaluation pages. The cab app (`frontend/apps/cab`) has its frame, alert layer, Start, My Shift, Safety, Report, My Day (`/insights`) and offline PWA, and Learn (`screens/learn/`). `pnpm e2e` also builds the cab PWA on :4173 for the offline test; stop any `shiftmate fleet` process before the backend suite (test_smoke opens its DuckDB file). Build screens from the components in `frontend/packages/ui` (see `/_kitchen-sink` in the console); never style app code with raw values (a test enforces this).
 - `uv run --directory backend shiftmate edge headless` prints Ravi's shift beat by beat; the Fleet Service runs with `shiftmate fleet` on :8200.
 
 ## 6. Golden rules to remember (full list in CLAUDE.md)
