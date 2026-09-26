@@ -8,6 +8,19 @@ An operator-first, in-cab companion for Caterpillar machines, built for a Caterp
 
 > Sample manual content written for this prototype. A production system would use official Cat Operation & Maintenance Manuals. "Cat" is used only descriptively (for example "Cat 320"); no logos or trade dress.
 
+## Screenshots
+
+Cab app at 1280 × 800 and the supervisor console, during Ravi's shift (captured with `node scripts/screenshots.mjs` while `pnpm dev:all` runs).
+
+| | |
+|---|---|
+| ![My Shift: today's tasks with time ranges and reasons](docs/screenshots/cab-my-shift.png) | ![P1 takeover: person inside the swing zone](docs/screenshots/cab-p1-alert.png) |
+| My Shift: task ranges and plain reasons | Worker in the swing zone: P1 takeover |
+| ![My Day at the end of the shift](docs/screenshots/cab-my-day.png) | ![Live site map](docs/screenshots/console-site-map.png) |
+| End of shift: Ravi's private My Day | Console: live site map |
+| ![Day summary for the supervisor](docs/screenshots/console-supervisor.png) | ![Fleet overview and scale run](docs/screenshots/console-fleet.png) |
+| Console: day summary for the supervisor | Console: fleet overview and scale |
+
 ## What is in the repository
 
 | Folder | What it holds |

@@ -103,7 +103,7 @@ export function CabShell() {
   // the scenario's end of shift opens the operator's private My Day (PRD §9 last beat)
   const endShiftAt = live.endShiftAt;
   useEffect(() => {
-    if (endShiftAt != null) void navigate("/insights");
+    if (endShiftAt != null) void navigate("/insights", { state: { endShift: true } });
   }, [endShiftAt, navigate]);
 
   const replaced = live.seq !== null && live.loaded && live.operatorId !== signedIn?.operatorId;
@@ -124,6 +124,8 @@ export function CabShell() {
   // a report or question spoken while working opens its screen anyway: the operator asked for it
   // (voice stays available in Working mode, TRD §11.1); the nav stays hidden
   const byVoice = (location.pathname === "/report" || location.pathname === "/ask") && location.state != null;
+  // the end of the shift opens My Day even if the machine was still working when the story paused
+  const endOfShift = location.pathname === "/insights" && location.state != null;
   const caption = live.caption && now - live.caption.at < CAPTION_MS ? live.caption : null;
 
   return (
@@ -151,7 +153,7 @@ export function CabShell() {
               />
             </div>
           )}
-          {working && !byVoice ? (
+          {working && !byVoice && !endOfShift ? (
             <WorkingLine />
           ) : (
             <div className="sm-rise-in">
