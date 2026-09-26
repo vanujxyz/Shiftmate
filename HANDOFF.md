@@ -1,11 +1,11 @@
 # HANDOFF — pick up here (for the next Claude Code session)
 
-Last updated: 2026-09-23 (after milestone 8).
+Last updated: 2026-09-26 (after milestone 18: all milestones done).
 
 ## Read first
 1. `CLAUDE.md` (process rules, golden rules). The repo uses **milestones** (see `docs/PROGRESS.md`), not the "phases" named in CLAUDE.md; PROGRESS.md maps each milestone to its phase.
 2. `docs/PROGRESS.md` — milestone list with checkboxes and status.
-3. `docs/DECISIONS.md` — D-001…D-098. Log new decisions in the same format (next number: **D-099**).
+3. `docs/DECISIONS.md` — D-001…D-103. Log new decisions in the same format (next number: **D-104**).
 4. `docs/reports/milestone-N.md` — one report per finished milestone (same format for new ones).
 5. `docs/TRD.md` §8 (scenarios), §9 (APIs, sync) for the current milestone.
 
@@ -27,8 +27,11 @@ Last updated: 2026-09-23 (after milestone 8).
 - New UI strings: add a YAML batch to `scripts/i18n/` (en/hi/ta; `null` removes a key), then run `uv run --directory backend python ../scripts/i18n_merge.py ../scripts/i18n/<file>.yaml` and `pnpm i18n:review`.
 
 ## Status
-- Milestones 1–16: **done and committed** (the last is `milestone 16: training hub …`). Reports: `docs/reports/milestone-N.md`.
-- Next: **milestone 17 (demo polish and end-to-end)**. Decisions continue at **D-099**.
+- Milestones 1–18: **all done and committed** (the last is `milestone 18: final evaluation …`). Reports: `docs/reports/milestone-N.md`.
+- Every PRD requirement is traced to code, tests and a demo beat in `docs/TRACEABILITY.md`. The demo readiness checklist result is in `docs/reports/milestone-18.md`.
+- Demo: `pnpm dev:all`, then the cab on http://localhost:5173 (1280 × 800) and the console Demo page on http://localhost:5174/demo (Reset demo, captions, speed, seek). `node scripts/screenshots.mjs` walks the story and reports console errors.
+- Stop *all* child processes after `pnpm dev:all` (free ports 8100, 8200, 5173 and 5174); stopping only the parent can leave vite and uvicorn running.
+- What remains is for the owner, not the build: the camera accuracy protocol (the one session on disk is probably not a real run), the D-051 target misses, and updating the deck's numbers to the current EVAL.md.
 - Design system: every component is in `frontend/packages/ui` and on http://localhost:5174/_kitchen-sink. Components take all words through props; the vocabulary is under `ui.*` in the i18n files. `pnpm e2e` checks the kitchen sink for overflow in 3 themes × 3 languages. In Tamil the rail hides the machine segment, so the cab must show the machine ID in the Paused content header (D-068).
 - `shiftmate edge headless` plays Ravi's shift at 60× and prints it beat by beat; `tests/test_headless.py` asserts every beat and determinism, and `tests/test_fleet_scale.py` uploads the same shift into a real Fleet Service. Keep both green.
 - Fleet Service: `shiftmate fleet` (:8200). Its DuckDB file `data/fleet/fleet.duckdb` is seeded from history on first start (delete `data/fleet/` to reset). Only one process can open it at a time.

@@ -162,7 +162,7 @@ class Dispatcher:
         self.shortages = windows
 
     def set_active_zones(self, zones: set[str], now: datetime) -> None:
-        for zone_id in zones - self.active_zones:
+        for zone_id in sorted(zones - self.active_zones):  # sorted: set order changes per process
             self.next_dispatch[zone_id] = now + timedelta(seconds=self._draw_interval_s(now))
         self.active_zones = set(zones)
 

@@ -1,6 +1,6 @@
 # ShiftMate — Build progress
 
-**Next step:** Milestone 17 (Demo polish and end-to-end) in progress.
+**Next step:** All 18 milestones done. Open for the owner: camera accuracy protocol, D-051 target misses, update deck numbers to EVAL.md.
 
 **Autonomy note (2026-09-23):** the user authorised continuing through all milestones without waiting for approval, and approved all needed downloads. Each milestone is still tested, committed, and reported in `docs/reports/milestone-N.md`.
 
@@ -192,20 +192,20 @@ Goal: lessons, hazard drill, recommendations during pauses, instructor booking a
 - [x] 3. Pause-only lesson offers; instructor booking; progress view
 Requirements: F-LRN-01…06.
 
-### Milestone 17 — Demo polish and end-to-end (Phase 13) · Status: not started
+### Milestone 17 — Demo polish and end-to-end (Phase 13) · Status: done
 Goal: a reliable, repeatable demo anyone can start from the README.
-- [ ] 1. Playwright e2e of `ravi_shift` at 30×; passes twice in a row
-- [ ] 2. `fleet_tour` in the console; captions toggle; reset-demo button
-- [ ] 3. README setup/run/demo; screenshots; architecture SVG
-- [ ] 4. Clean-clone test: `pnpm setup:data` + `pnpm dev:all`
+- [x] 1. Playwright e2e of `ravi_shift` at 30×; passes twice in a row
+- [x] 2. `fleet_tour` in the console; captions toggle; reset-demo button
+- [x] 3. README setup/run/demo; screenshots; architecture SVG
+- [x] 4. Clean-clone test: `pnpm setup:data` + `pnpm dev:all`
 Requirements: PRD §9 demo story (all beats).
 
-### Milestone 18 — Final evaluation and review (Phase 14) · Status: not started
+### Milestone 18 — Final evaluation and review (Phase 14) · Status: done
 Goal: prove everything is done and traceable.
-- [ ] 1. `shiftmate eval all`; review EVAL.md
-- [ ] 2. Full tests + lint
-- [ ] 3. `docs/TRACEABILITY.md`: every F-… ID → files → tests → demo beat
-- [ ] 4. CLAUDE.md §8 demo readiness checklist
+- [x] 1. `shiftmate eval all`; review EVAL.md
+- [x] 2. Full tests + lint
+- [x] 3. `docs/TRACEABILITY.md`: every F-… ID → files → tests → demo beat
+- [x] 4. CLAUDE.md §8 demo readiness checklist
 Requirements: all Must requirements traced.
 
 ---
